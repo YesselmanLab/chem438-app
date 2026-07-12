@@ -290,10 +290,16 @@ async function runCode(q,code,out){
   out.classList.add("show"); out.textContent="running…";
   if(pyFailed){ out.textContent="Python isn't available on this device."; return; }
   await loadPy();
-  let buf="";
-  pyodide.setStdout({batched:s=>buf+=s+"\n"}); pyodide.setStderr({batched:s=>buf+=s+"\n"});
-  try{ pyodide.runPython(code); out.textContent = buf || "(ran with no output — define the variable/function the question asks for)"; }
-  catch(e){ out.textContent = buf + "\n" + trimErr(e); }
+  try{
+    const inputs = pyodide.toPy(q.inputs || []);
+    const rp = pyodide.globals.get("preview")(code, q.kind, q.entry, inputs);
+    const r = (rp && rp.toJs) ? rp.toJs({dict_converter:Object.fromEntries}) : rp;
+    if(rp && rp.destroy) rp.destroy();
+    let text = (r.out || "");
+    if(r.err) text += (text?"\n":"") + r.err;
+    else if(r.msg) text += (text?"\n":"") + r.msg;
+    out.textContent = text || "(no output)";
+  }catch(e){ out.textContent = trimErr(e); }
 }
 function trimErr(e){ const m=String(e.message||e).trim().split("\n"); return m[m.length-1]; }
 
