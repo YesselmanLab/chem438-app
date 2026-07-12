@@ -140,7 +140,18 @@ let lesson = null, pyodide = null, pyFailed = false;
 let student = null;                 // {id, name}
 const state = {};                   // qid -> {choice} or {code} or {text}
 let saved = {}, PROGRESS_KEY = null;   // per (student, lesson) autosave
-function save(){ if(PROGRESS_KEY) localStorage.setItem(PROGRESS_KEY, JSON.stringify(state)); }
+function save(){
+  if(!PROGRESS_KEY) return;
+  // save ONLY the answer fields — never editor objects (which aren't JSON-serializable)
+  const clean = {};
+  for(const k in state){
+    const s = state[k]; clean[k] = {};
+    if(s.code != null)   clean[k].code = s.code;
+    if(s.choice != null) clean[k].choice = s.choice;
+    if(s.text != null)   clean[k].text = s.text;
+  }
+  try{ localStorage.setItem(PROGRESS_KEY, JSON.stringify(clean)); }catch(e){}
+}
 
 // ---------- Python harness injected into Pyodide (mirrors authoring/norm.py) ----------
 const PYHARNESS = `
@@ -300,7 +311,6 @@ function upgradeCM(q, ta){
   });
   cm.setSize(null, "auto");
   cm.on("change", ()=>{ state[q.id].code = cm.getValue(); save(); });
-  state[q.id].cm = cm;
   requestAnimationFrame(()=>cm.refresh());     // re-measure once laid out (fixes blank/broken render)
 }
 
