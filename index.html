@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CHEM 438 · Homework</title>
+<!-- Pyodide: runs real Python in the browser. This is why the app must be
+     self-hosted (GitHub Pages), not a sandboxed preview. -->
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+<style>
+  :root{
+    --bg:#f4f5fa;--card:#fff;--ink:#1b1d2b;--soft:#565a72;--faint:#8a8ea6;
+    --line:#e4e5f0;--line2:#d3d5e6;--accent:#5457d6;--accent-ink:#3f42b8;--accent-soft:#ececfb;
+    --good:#12805c;--good-soft:#e2f3ec;--bad:#c53b52;--bad-soft:#fbe6ea;
+    --code-bg:#1c1f2e;--code-ink:#e6e8f4;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Arial,sans-serif;
+    --mono:"SF Mono","JetBrains Mono",ui-monospace,Menlo,monospace;
+    --shadow:0 1px 2px rgba(20,22,40,.04),0 10px 30px rgba(20,22,40,.07);
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --bg:#14151e;--card:#1c1e2a;--ink:#e9eaf4;--soft:#a9adc6;--faint:#767a95;
+    --line:#2a2d3d;--line2:#3a3e52;--accent:#888cf5;--accent-ink:#a7abff;--accent-soft:#23253a;
+    --good:#4ecb96;--good-soft:#172a24;--bad:#f0849a;--bad-soft:#2c1a20;--code-bg:#10121c;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 34px rgba(0,0,0,.4);}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:720px;margin:0 auto;padding:22px 16px 80px}
+  .top{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+  .logo{width:30px;height:30px;border-radius:8px;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:14px}
+  .top b{font-weight:650}.top small{display:block;color:var(--faint);font-size:12px}
+  .banner{font-size:13px;padding:10px 14px;border-radius:10px;margin-bottom:16px;display:none}
+  .banner.show{display:block}
+  .banner.warn{background:var(--bad-soft);color:var(--bad)}
+  .banner.info{background:var(--accent-soft);color:var(--accent-ink)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:24px;margin-bottom:16px}
+  h1{font-size:1.4rem;margin:0 0 6px;letter-spacing:-.02em}
+  .intro{color:var(--soft);margin:0 0 4px}
+  label.fld{display:block;font-size:13px;font-weight:600;color:var(--soft);margin:0 0 8px}
+  select,input,textarea{width:100%;font-family:var(--sans);font-size:16px;color:var(--ink);background:var(--bg);border:1.5px solid var(--line2);border-radius:10px;padding:11px 13px;outline:none}
+  select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  textarea.code{font-family:var(--mono);font-size:13.5px;line-height:1.5;min-height:96px;white-space:pre;overflow-wrap:normal;tab-size:4}
+  textarea.prose{min-height:96px;line-height:1.5}
+  .btn{font-family:var(--sans);font-size:15px;font-weight:600;border-radius:10px;padding:11px 18px;border:1.5px solid transparent;cursor:pointer}
+  .btn:active{transform:translateY(1px)}
+  .btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:var(--accent-ink)}
+  .btn-primary:disabled{background:var(--line2);color:var(--faint);cursor:not-allowed}
+  .btn-ghost{background:transparent;color:var(--soft);border:1.5px solid var(--line2)}
+  .btn-ghost:hover{color:var(--ink);border-color:var(--faint)}
+  .btn-sm{font-size:13px;padding:8px 14px}
+  .qtag{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);padding:3px 8px;border-radius:6px;margin-bottom:10px}
+  .qnum{color:var(--faint);font-weight:600;margin-right:6px}
+  .prompt{white-space:pre-wrap;margin:0 0 14px}
+  .prompt code,.prompt-inline{font-family:var(--mono);font-size:.9em;background:var(--bg);padding:1px 5px;border-radius:4px}
+  pre.out{background:var(--code-bg);color:var(--code-ink);font-family:var(--mono);font-size:13px;line-height:1.55;padding:12px 14px;border-radius:10px;margin:12px 0 0;overflow-x:auto;white-space:pre-wrap;display:none}
+  pre.out.show{display:block}
+  .runrow{display:flex;gap:10px;align-items:center;margin-top:12px}
+  .choices{display:flex;flex-direction:column;gap:9px}
+  .choice{display:flex;gap:11px;align-items:flex-start;text-align:left;width:100%;background:var(--card);border:1.5px solid var(--line2);border-radius:11px;padding:12px 14px;cursor:pointer;font-size:15px;color:var(--ink);font-family:var(--sans)}
+  .choice:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .choice.sel{border-color:var(--accent);background:var(--accent-soft)}
+  .choice .mk{flex:none;width:22px;height:22px;border-radius:6px;border:1.5px solid var(--line2);display:grid;place-items:center;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--faint)}
+  .choice.sel .mk{border-color:var(--accent);background:var(--accent);color:#fff}
+  .res{display:none;margin-top:10px;font-size:14px;font-weight:600}
+  .res.show{display:block}.res.ok{color:var(--good)}.res.no{color:var(--bad)}.res.pend{color:var(--faint)}
+  .summary{display:flex;flex-direction:column;gap:8px;margin:16px 0}
+  .srow{display:flex;align-items:center;gap:10px;font-size:14px;padding:8px 0;border-top:1px solid var(--line)}
+  .srow:first-child{border-top:none}
+  .dot{width:20px;height:20px;border-radius:6px;flex:none;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:700}
+  .dot.ok{background:var(--good)}.dot.no{background:var(--bad)}.dot.txt{background:var(--accent)}
+  .hidden{display:none!important}
+  .foot{color:var(--faint);font-size:12.5px;text-align:center;margin-top:20px}
+  @media (max-width:480px){.card{padding:18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="logo">438</div>
+    <div><b>CHEM 438 Homework</b><small id="lessonTitle">loading…</small></div>
+  </div>
+
+  <div class="banner info" id="pyBanner">Loading Python… the first time takes a few seconds.</div>
+  <div class="banner warn" id="errBanner"></div>
+
+  <!-- START -->
+  <div class="card" id="startCard">
+    <h1 id="startTitle">Lesson</h1>
+    <p class="intro" id="startIntro"></p>
+    <div style="height:16px"></div>
+    <label class="fld" for="rosterSel">Select your name</label>
+    <select id="rosterSel"><option value="">— choose —</option></select>
+    <div style="height:16px"></div>
+    <button class="btn btn-primary" id="startBtn" style="width:100%" disabled>Start →</button>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div id="qCards" class="hidden"></div>
+  <div class="card hidden" id="submitCard">
+    <button class="btn btn-primary" id="submitBtn" style="width:100%">Submit lesson for grading</button>
+    <p class="foot" id="submitNote"></p>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="card hidden" id="resultsCard">
+    <span class="qtag">Submitted</span>
+    <h1 id="resTitle">Results</h1>
+    <div class="summary" id="resSummary"></div>
+    <p class="foot" id="resFoot"></p>
+  </div>
+
+  <div class="foot">Your work runs in your own browser. Answers are graded privately.</div>
+</div>
+
+<script>
+"use strict";
+// ============================ CONFIG ============================
+// After you deploy the Apps Script (see README), paste its Web-App URL here.
+// Leave "" to run in PREVIEW mode: code runs, but submissions aren't graded yet.
+const GRADER_URL = "";
+// ================================================================
+
+const $ = s => document.querySelector(s);
+const params = new URLSearchParams(location.search);
+const LESSON_ID = params.get("lesson") || "lesson_01";
+
+let lesson = null, roster = [], pyodide = null, pyFailed = false;
+let student = null;                 // {id, name}
+const state = {};                   // qid -> {choice} or {code} or {text}
+
+// ---------- Python harness injected into Pyodide (mirrors authoring/norm.py) ----------
+const PYHARNESS = `
+def _normalize(v):
+    if isinstance(v, bool): return v
+    if v is None or isinstance(v, (int, str)): return v
+    if isinstance(v, float): return 0.0 if v == 0 else float(v)
+    if isinstance(v, (list, tuple)): return [_normalize(x) for x in v]
+    raise TypeError("unsupported output type: " + type(v).__name__)
+
+def run_var(code, entry):
+    ns = {}
+    exec(code, ns)
+    if entry not in ns: raise NameError("you didn't define '" + entry + "'")
+    return _normalize(ns[entry])
+
+def run_fn(code, entry, inputs):
+    ns = {}
+    exec(code, ns)
+    if entry not in ns: raise NameError("you didn't define a function '" + entry + "'")
+    fn = ns[entry]
+    return [_normalize(fn(*list(a))) for a in inputs]
+`;
+
+// ---------------- boot ----------------
+async function boot(){
+  try{
+    const [lz, rz] = await Promise.all([
+      fetch(`lessons/${LESSON_ID}.json`).then(r=>r.json()),
+      fetch(`roster.json`).then(r=>r.json()).catch(()=>({students:[]})),
+    ]);
+    lesson = lz; roster = rz.students || [];
+  }catch(e){ return showErr("Couldn't load this lesson. Check the link and your connection."); }
+
+  $("#lessonTitle").textContent = lesson.title;
+  $("#startTitle").textContent = lesson.title;
+  $("#startIntro").textContent = lesson.intro || "";
+  const sel = $("#rosterSel");
+  roster.forEach(s => { const o=document.createElement("option"); o.value=s.id; o.textContent=s.name; sel.appendChild(o); });
+  if(!roster.length){ // allow typing a name if no roster yet
+    const o=document.createElement("option"); o.value="__self__"; o.textContent="(no roster — type name after Start)"; sel.appendChild(o);
+  }
+  sel.onchange = () => { $("#startBtn").disabled = !sel.value; };
+  $("#startBtn").onclick = start;
+
+  loadPy();                 // warm Pyodide in the background
+  flushQueue();             // resend any previously-queued submissions
+}
+
+function showErr(msg){ const b=$("#errBanner"); b.textContent=msg; b.classList.add("show"); }
+
+// ---------------- Pyodide ----------------
+async function loadPy(){
+  if(pyodide || pyFailed) return;
+  try{
+    pyodide = await loadPyodide();
+    pyodide.runPython(PYHARNESS);
+    $("#pyBanner").classList.remove("show");
+  }catch(e){
+    pyFailed = true;
+    $("#pyBanner").classList.remove("show");
+    showErr("Python couldn't load on this device. You can still answer the multiple-choice and written questions and submit — your code will be saved for manual grading.");
+  }
+}
+
+// ---------------- start / render ----------------
+function start(){
+  const sel = $("#rosterSel");
+  if(sel.value==="__self__"){
+    const nm = prompt("Type your full name:");
+    if(!nm) return;
+    student = {id:"self:"+nm.trim().toLowerCase(), name:nm.trim()};
+  } else {
+    const s = roster.find(r=>r.id===sel.value);
+    student = {id:s.id, name:s.name};
+  }
+  $("#startCard").classList.add("hidden");
+  renderQuestions();
+  $("#qCards").classList.remove("hidden");
+  $("#submitCard").classList.remove("hidden");
+  $("#submitNote").textContent = GRADER_URL ? "" : "Preview mode: grading backend not connected yet.";
+}
+
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function promptHtml(t){ return esc(t).replace(/`([^`]+)`/g,'<span class="prompt-inline">$1</span>'); }
+
+function renderQuestions(){
+  const wrap = $("#qCards"); wrap.innerHTML="";
+  lesson.questions.forEach((q,i)=>{
+    state[q.id] = {};
+    const card = document.createElement("div"); card.className="card";
+    const tag = {code_var:"Write code",code_fn:"Write code",mcq:"Multiple choice",written:"Short answer"}[q.kind];
+    card.innerHTML = `<span class="qtag">${tag}</span><div class="prompt"><span class="qnum">Q${i+1}.</span>${promptHtml(q.prompt)}</div>`;
+
+    if(q.kind==="code_var" || q.kind==="code_fn"){
+      const ta=document.createElement("textarea"); ta.className="code"; ta.value=q.starter||""; ta.spellcheck=false;
+      ta.addEventListener("keydown",tabKey);
+      ta.addEventListener("input",()=>{ state[q.id].code=ta.value; });
+      state[q.id].code=ta.value;
+      const out=document.createElement("pre"); out.className="out";
+      const run=document.createElement("button"); run.className="btn btn-ghost btn-sm"; run.textContent="▶ Run";
+      run.onclick=()=>runCode(q,ta.value,out);
+      const row=document.createElement("div"); row.className="runrow"; row.appendChild(run);
+      card.appendChild(ta); card.appendChild(row); card.appendChild(out);
+    } else if(q.kind==="mcq"){
+      const box=document.createElement("div"); box.className="choices";
+      const L=["A","B","C","D","E"];
+      q.choices.forEach((c,ci)=>{
+        const b=document.createElement("button"); b.className="choice";
+        b.innerHTML=`<span class="mk">${L[ci]}</span><span>${esc(c)}</span>`;
+        b.onclick=()=>{ box.querySelectorAll(".choice").forEach(x=>x.classList.remove("sel")); b.classList.add("sel"); state[q.id].choice=ci; };
+        box.appendChild(b);
+      });
+      card.appendChild(box);
+    } else if(q.kind==="written"){
+      const ta=document.createElement("textarea"); ta.className="prose"; ta.placeholder="Type your answer…";
+      ta.addEventListener("input",()=>{ state[q.id].text=ta.value; });
+      card.appendChild(ta);
+    }
+    const res=document.createElement("div"); res.className="res"; res.id="res-"+q.id; card.appendChild(res);
+    wrap.appendChild(card);
+  });
+}
+
+function tabKey(e){
+  if(e.key==="Tab"){ e.preventDefault(); const t=e.target,s=t.selectionStart;
+    t.value=t.value.slice(0,s)+"    "+t.value.slice(t.selectionEnd); t.selectionStart=t.selectionEnd=s+4; }
+}
+
+// ---------------- run (interactive, client-side only) ----------------
+async function runCode(q,code,out){
+  out.classList.add("show"); out.textContent="running…";
+  if(pyFailed){ out.textContent="Python isn't available on this device."; return; }
+  await loadPy();
+  let buf="";
+  pyodide.setStdout({batched:s=>buf+=s+"\n"}); pyodide.setStderr({batched:s=>buf+=s+"\n"});
+  try{ pyodide.runPython(code); out.textContent = buf || "(ran with no output — define the variable/function the question asks for)"; }
+  catch(e){ out.textContent = buf + "\n" + trimErr(e); }
+}
+function trimErr(e){ const m=String(e.message||e).trim().split("\n"); return m[m.length-1]; }
+
+// ---------------- submit ----------------
+async function submit(){
+  $("#submitBtn").disabled=true; $("#submitBtn").textContent="Grading…";
+  const answers=[];
+  for(const q of lesson.questions){
+    if(q.kind==="mcq"){ answers.push({id:q.id,kind:q.kind,choice:state[q.id].choice ?? null}); }
+    else if(q.kind==="written"){ answers.push({id:q.id,kind:q.kind,text:state[q.id].text||""}); }
+    else { // code: run it in Pyodide to produce normalized outputs
+      const code=state[q.id].code||"";
+      let a={id:q.id,kind:q.kind,code:code};
+      if(!pyFailed){
+        try{ await loadPy();
+          if(q.kind==="code_var"){ a.outputs=[pyodide.globals.get("run_var")(code,q.entry)]; a.outputs=[jsify(a.outputs[0])]; }
+          else{ const r=pyodide.globals.get("run_fn")(code,q.entry,pyodide.toPy(q.inputs)); a.outputs=jsify(r); }
+        }catch(e){ a.error=trimErr(e); }
+      } else { a.error="python-unavailable"; }
+      answers.push(a);
+    }
+  }
+  const payload={lesson:lesson.id,rosterId:student.id,name:student.name,attemptId:uuid(),ts:new Date().toISOString(),answers};
+  const res=await send(payload);
+  showResults(payload,res);
+}
+
+function jsify(pyproxy){ try{ const v=pyproxy.toJs?pyproxy.toJs():pyproxy; if(pyproxy.destroy)pyproxy.destroy(); return v; }catch(_){ return pyproxy; } }
+
+async function send(payload){
+  if(!GRADER_URL) return {ok:false,preview:true};
+  try{
+    const r=await fetch(GRADER_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+    const txt=await r.text();
+    let data; try{ data=JSON.parse(txt); }catch(_){ throw new Error("bad response"); }
+    if(!data||data.ok!==true) throw new Error("not ok");
+    return data;
+  }catch(e){ queue(payload); return {ok:false,queued:true}; }
+}
+
+// ---------------- offline queue ----------------
+function queue(p){ const q=JSON.parse(localStorage.getItem("c438q")||"[]"); q.push(p); localStorage.setItem("c438q",JSON.stringify(q)); }
+async function flushQueue(){
+  if(!GRADER_URL) return;
+  let q=JSON.parse(localStorage.getItem("c438q")||"[]"); if(!q.length) return;
+  const keep=[];
+  for(const p of q){ try{ const r=await fetch(GRADER_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)}); const d=JSON.parse(await r.text()); if(!d||d.ok!==true)keep.push(p); }catch(_){ keep.push(p); } }
+  localStorage.setItem("c438q",JSON.stringify(keep));
+}
+window.addEventListener("online",flushQueue);
+
+// ---------------- results ----------------
+function showResults(payload,res){
+  $("#qCards").classList.add("hidden"); $("#submitCard").classList.add("hidden");
+  const card=$("#resultsCard"); card.classList.remove("hidden");
+  const sum=$("#resSummary"); sum.innerHTML="";
+  const results = res.ok ? res.results : null;
+  let auto=0,got=0;
+  lesson.questions.forEach((q,i)=>{
+    let dot,label;
+    if(q.kind==="written"){ dot='<span class="dot txt">✎</span>'; label="answer saved"; }
+    else{ auto++;
+      if(results && results[q.id]===true){ dot='<span class="dot ok">✓</span>'; label="correct"; got++; }
+      else if(results && results[q.id]===false){ dot='<span class="dot no">✗</span>'; label="not correct"; }
+      else{ dot='<span class="dot txt">•</span>'; label = res.preview?"ran (preview — not graded)":"saved — will grade when reconnected"; }
+    }
+    sum.innerHTML+=`<div class="srow">${dot}<span>Q${i+1} — ${label}</span></div>`;
+  });
+  if(res.ok){ $("#resTitle").textContent=`${got} / ${auto} correct`; $("#resFoot").textContent="Your written answers go to your instructor."; }
+  else if(res.preview){ $("#resTitle").textContent="Preview complete"; $("#resFoot").textContent="Grading backend isn't connected yet — your instructor will enable it."; }
+  else{ $("#resTitle").textContent="Saved on your device"; $("#resFoot").textContent="Couldn't reach the grader; your submission is queued and will send automatically when you're back online."; }
+}
+
+function uuid(){ return "a"+Math.abs(Date.now()^(performance.now()*1e6|0)).toString(36)+Math.floor(1e6*(1+((Date.now()%97)/97))).toString(36); }
+$("#submitBtn") && ($("#submitBtn").onclick=submit);
+
+boot();
+</script>
+</body>
+</html>

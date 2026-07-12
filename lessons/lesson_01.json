@@ -1,0 +1,128 @@
+{
+  "id": "lesson_01",
+  "title": "Lesson 1 \u2014 the basics",
+  "intro": "Type your answer in each box. Run coding cells to test them, then submit the whole lesson for instant feedback.",
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "code_var",
+      "prompt": "Create a variable `a` equal to 7 and `b` equal to 5, then store their sum in a variable `total`.",
+      "starter": "a = \nb = \ntotal = ",
+      "entry": "total"
+    },
+    {
+      "id": "q2",
+      "kind": "code_var",
+      "prompt": "Store the remainder of 17 divided by 5 in a variable `rem` (use the % operator).",
+      "starter": "rem = ",
+      "entry": "rem"
+    },
+    {
+      "id": "q3",
+      "kind": "code_fn",
+      "prompt": "Fix the bug: `double` should return its input doubled.",
+      "starter": "def double(x):\n    return x + 2      # <-- wrong, fix it",
+      "entry": "double",
+      "inputs": [
+        [
+          4
+        ],
+        [
+          10
+        ],
+        [
+          0
+        ],
+        [
+          7
+        ],
+        [
+          25
+        ]
+      ]
+    },
+    {
+      "id": "q4",
+      "kind": "code_fn",
+      "prompt": "Write a function `area(length, width)` that returns the area of a rectangle.",
+      "starter": "def area(length, width):\n    ",
+      "entry": "area",
+      "inputs": [
+        [
+          3,
+          4
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          2,
+          10
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          1,
+          9
+        ]
+      ]
+    },
+    {
+      "id": "q5",
+      "kind": "code_fn",
+      "prompt": "Write a function `is_even(n)` that returns True if n is even, False otherwise.",
+      "starter": "def is_even(n):\n    ",
+      "entry": "is_even",
+      "inputs": [
+        [
+          4
+        ],
+        [
+          7
+        ],
+        [
+          0
+        ],
+        [
+          3
+        ],
+        [
+          10
+        ],
+        [
+          1
+        ]
+      ]
+    },
+    {
+      "id": "q6",
+      "kind": "mcq",
+      "prompt": "What is wrong with this code?\n\n    print(\"Total: \" + 5)",
+      "choices": [
+        "Nothing \u2014 it prints  Total: 5",
+        "You can't join text and a number with + \u2014 the 5 must be str(5)",
+        "print is spelled wrong",
+        "It needs another set of parentheses"
+      ]
+    },
+    {
+      "id": "q7",
+      "kind": "mcq",
+      "prompt": "What does this print?\n\n    print(7 // 2)",
+      "choices": [
+        "3.5",
+        "3",
+        "3.0",
+        "1"
+      ]
+    },
+    {
+      "id": "q8",
+      "kind": "written",
+      "prompt": "Why does  \"hello\" + 2  cause an error, but  \"hello\" * 2  works fine? (One or two sentences.)"
+    }
+  ]
+}
