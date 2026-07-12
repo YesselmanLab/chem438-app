@@ -241,9 +241,9 @@ function start(){
   PROGRESS_KEY = "c438:" + student.id + ":" + lesson.id;
   saved = JSON.parse(localStorage.getItem(PROGRESS_KEY) || "{}");
   $("#startCard").classList.add("hidden");
-  renderQuestions();
-  $("#qCards").classList.remove("hidden");
+  $("#qCards").classList.remove("hidden");     // show BEFORE building so CodeMirror measures real width
   $("#submitCard").classList.remove("hidden");
+  renderQuestions();
   $("#submitNote").textContent = GRADER_URL ? "" : "Preview mode: grading backend not connected yet.";
 }
 
@@ -304,6 +304,7 @@ function upgradeCM(q, ta){
   cm.setSize(null, "auto");
   cm.on("change", ()=>{ state[q.id].code = cm.getValue(); save(); });
   state[q.id].cm = cm;
+  requestAnimationFrame(()=>cm.refresh());     // re-measure once laid out (fixes blank/broken render)
 }
 
 function tabKey(e){
