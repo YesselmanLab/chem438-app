@@ -19,30 +19,36 @@ function doPost(e) {
   catch (err) { return json({ ok: false, error: "bad json" }); }
 
   if (body.action === "set_keys") return setKeys(body);
-  return gradeSubmission(body);         // default action
+  if (body.action === "check")            // grade WITHOUT writing a row (per-question Run check)
+    return json({ ok: true, results: gradeAnswers(body.lesson, body.answers) });
+  return gradeSubmission(body);         // default action = grade + write
 }
 
 function doGet() { return json({ ok: true, service: "chem438-grader" }); }
 
 // ---------------- grading ----------------
-function gradeSubmission(sub) {
-  if (!sub || !sub.lesson || !sub.rosterId) return json({ ok: false, error: "missing fields" });
-  var keys = loadKeys(sub.lesson);
-  if (!keys) return json({ ok: false, error: "no keys for " + sub.lesson });
-
+function gradeAnswers(lessonId, answers) {
+  var keys = loadKeys(lessonId);
   var results = {};
-  (sub.answers || []).forEach(function (a) {
+  if (!keys) return results;
+  (answers || []).forEach(function (a) {
     var k = keys[a.id];
     if (!k) return;                                   // written / unknown: skip
     if (k.kind === "mcq") {
       results[a.id] = (a.choice === k.answer);
     } else if (k.kind === "code_var") {
-      results[a.id] = (!a.error && a.outputs && compare(k.expected, a.outputs[0], k.tol || 1e-6));
+      results[a.id] = !!(!a.error && a.outputs && compare(k.expected, a.outputs[0], k.tol || 1e-6));
     } else if (k.kind === "code_fn") {
-      results[a.id] = (!a.error && a.outputs && compare(k.expected, a.outputs, k.tol || 1e-6));
+      results[a.id] = !!(!a.error && a.outputs && compare(k.expected, a.outputs, k.tol || 1e-6));
     }
   });
+  return results;
+}
 
+function gradeSubmission(sub) {
+  if (!sub || !sub.lesson || !sub.rosterId) return json({ ok: false, error: "missing fields" });
+  if (!loadKeys(sub.lesson)) return json({ ok: false, error: "no keys for " + sub.lesson });
+  var results = gradeAnswers(sub.lesson, sub.answers);
   writeRow(sub, results);
   return json({ ok: true, results: results });
 }

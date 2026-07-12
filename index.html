@@ -7,6 +7,12 @@
 <!-- Pyodide: runs real Python in the browser. This is why the app must be
      self-hosted (GitHub Pages), not a sandboxed preview. -->
 <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+<!-- CodeMirror: Python syntax highlighting in the code boxes (degrades to a
+     plain textarea if the CDN is blocked). -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
 <style>
   :root{
     --bg:#f4f5fa;--card:#fff;--ink:#1b1d2b;--soft:#565a72;--faint:#8a8ea6;
@@ -69,6 +75,11 @@
   .dot.ok{background:var(--good)}.dot.no{background:var(--bad)}.dot.txt{background:var(--accent)}
   .hidden{display:none!important}
   .foot{color:var(--faint);font-size:12.5px;text-align:center;margin-top:20px}
+  /* CodeMirror sizing to match the plain box */
+  .CodeMirror{border:1.5px solid var(--line2);border-radius:10px;height:auto;min-height:96px;font-family:var(--mono);font-size:13.5px;line-height:1.5;padding:4px 2px}
+  .CodeMirror-focused{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .cm-s-default.CodeMirror{background:var(--bg);color:var(--ink)}
+  .cm-s-default .CodeMirror-gutters{background:var(--bg);border:none}
   @media (max-width:480px){.card{padding:18px}}
 </style>
 </head>
@@ -241,6 +252,7 @@ function promptHtml(t){ return esc(t).replace(/`([^`]+)`/g,'<span class="prompt-
 
 function renderQuestions(){
   const wrap = $("#qCards"); wrap.innerHTML="";
+  const cmInits = [];
   lesson.questions.forEach((q,i)=>{
     state[q.id] = saved[q.id] ? Object.assign({}, saved[q.id]) : {};
     const card = document.createElement("div"); card.className="card";
@@ -255,9 +267,10 @@ function renderQuestions(){
       ta.addEventListener("input",()=>{ state[q.id].code=ta.value; save(); });
       const out=document.createElement("pre"); out.className="out";
       const run=document.createElement("button"); run.className="btn btn-ghost btn-sm"; run.textContent="▶ Run";
-      run.onclick=()=>runCode(q,ta.value,out);
+      run.onclick=()=>runCode(q, state[q.id].code, out);
       const row=document.createElement("div"); row.className="runrow"; row.appendChild(run);
       card.appendChild(ta); card.appendChild(row); card.appendChild(out);
+      cmInits.push(()=>upgradeCM(q, ta));   // syntax highlighting after cards are in the DOM
     } else if(q.kind==="mcq"){
       const box=document.createElement("div"); box.className="choices";
       const L=["A","B","C","D","E"];
@@ -278,6 +291,19 @@ function renderQuestions(){
     const res=document.createElement("div"); res.className="res"; res.id="res-"+q.id; card.appendChild(res);
     wrap.appendChild(card);
   });
+  if(window.CodeMirror) cmInits.forEach(f=>f());   // upgrade textareas -> editors
+}
+
+function upgradeCM(q, ta){
+  const dark = (document.documentElement.getAttribute("data-theme")
+      || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")) === "dark";
+  const cm = CodeMirror.fromTextArea(ta, {
+    mode:"python", theme: dark ? "material-darker" : "default",
+    lineNumbers:false, indentUnit:4, tabSize:4, viewportMargin:Infinity,
+  });
+  cm.setSize(null, "auto");
+  cm.on("change", ()=>{ state[q.id].code = cm.getValue(); save(); });
+  state[q.id].cm = cm;
 }
 
 function tabKey(e){
@@ -290,16 +316,52 @@ async function runCode(q,code,out){
   out.classList.add("show"); out.textContent="running…";
   if(pyFailed){ out.textContent="Python isn't available on this device."; return; }
   await loadPy();
+  let text="";
   try{
     const inputs = pyodide.toPy(q.inputs || []);
     const rp = pyodide.globals.get("preview")(code, q.kind, q.entry, inputs);
     const r = (rp && rp.toJs) ? rp.toJs({dict_converter:Object.fromEntries}) : rp;
     if(rp && rp.destroy) rp.destroy();
-    let text = (r.out || "");
+    text = (r.out || "");
     if(r.err) text += (text?"\n":"") + r.err;
     else if(r.msg) text += (text?"\n":"") + r.msg;
-    out.textContent = text || "(no output)";
-  }catch(e){ out.textContent = trimErr(e); }
+  }catch(e){ text = trimErr(e); }
+  out.textContent = text || "(no output)";
+  // Correctness needs the hidden answer key, so we ask the server (only when connected).
+  if(GRADER_URL){
+    out.textContent = (text || "(no output)") + "\n\nchecking…";
+    const verdict = await checkOne(q, await codeAnswer(q, code));
+    out.textContent = (text || "(no output)") + "\n\n" + (
+      verdict===true ? "✓ correct!" :
+      verdict===false ? "✗ not correct yet — keep trying" :
+      "(couldn't reach the grader)");
+  }
+}
+
+async function codeAnswer(q, code){
+  await loadPy();
+  const a = {id:q.id, kind:q.kind, code:code};
+  try{
+    if(q.kind==="code_var"){
+      const v = pyodide.globals.get("run_var")(code, q.entry);
+      a.outputs = [(v && v.toJs) ? v.toJs() : v]; if(v && v.destroy) v.destroy();
+    } else {
+      const r = pyodide.globals.get("run_fn")(code, q.entry, pyodide.toPy(q.inputs));
+      a.outputs = (r && r.toJs) ? r.toJs() : r; if(r && r.destroy) r.destroy();
+    }
+  }catch(e){ a.error = trimErr(e); }
+  return a;
+}
+
+async function checkOne(q, a){
+  try{
+    const r = await fetch(GRADER_URL, {method:"POST",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({action:"check", lesson:lesson.id, answers:[a]})});
+    const d = JSON.parse(await r.text());
+    if(d && d.ok && d.results) return d.results[q.id];
+  }catch(_){}
+  return null;
 }
 function trimErr(e){ const m=String(e.message||e).trim().split("\n"); return m[m.length-1]; }
 
@@ -310,16 +372,10 @@ async function submit(){
   for(const q of lesson.questions){
     if(q.kind==="mcq"){ answers.push({id:q.id,kind:q.kind,choice:state[q.id].choice ?? null}); }
     else if(q.kind==="written"){ answers.push({id:q.id,kind:q.kind,text:state[q.id].text||""}); }
-    else { // code: run it in Pyodide to produce normalized outputs
-      const code=state[q.id].code||"";
-      let a={id:q.id,kind:q.kind,code:code};
-      if(!pyFailed){
-        try{ await loadPy();
-          if(q.kind==="code_var"){ a.outputs=[pyodide.globals.get("run_var")(code,q.entry)]; a.outputs=[jsify(a.outputs[0])]; }
-          else{ const r=pyodide.globals.get("run_fn")(code,q.entry,pyodide.toPy(q.inputs)); a.outputs=jsify(r); }
-        }catch(e){ a.error=trimErr(e); }
-      } else { a.error="python-unavailable"; }
-      answers.push(a);
+    else { // code question
+      answers.push(pyFailed
+        ? {id:q.id, kind:q.kind, code:state[q.id].code||"", error:"python-unavailable"}
+        : await codeAnswer(q, state[q.id].code||""));
     }
   }
   const payload={lesson:lesson.id,rosterId:student.id,name:student.name,attemptId:uuid(),ts:new Date().toISOString(),answers};
