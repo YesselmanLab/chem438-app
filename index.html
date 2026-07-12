@@ -126,6 +126,8 @@ const LESSON_ID = params.get("lesson") || "lesson_01";
 let lesson = null, roster = [], pyodide = null, pyFailed = false;
 let student = null;                 // {id, name}
 const state = {};                   // qid -> {choice} or {code} or {text}
+let saved = {}, PROGRESS_KEY = null;   // per (student, lesson) autosave
+function save(){ if(PROGRESS_KEY) localStorage.setItem(PROGRESS_KEY, JSON.stringify(state)); }
 
 // ---------- Python harness injected into Pyodide (mirrors authoring/norm.py) ----------
 const PYHARNESS = `
@@ -148,6 +150,29 @@ def run_fn(code, entry, inputs):
     if entry not in ns: raise NameError("you didn't define a function '" + entry + "'")
     fn = ns[entry]
     return [_normalize(fn(*list(a))) for a in inputs]
+
+import io, contextlib
+def preview(code, kind, entry, inputs):
+    ns = {}; buf = io.StringIO()
+    try:
+        with contextlib.redirect_stdout(buf):
+            exec(code, ns)
+    except Exception as e:
+        return {"out": buf.getvalue(), "err": type(e).__name__ + ": " + str(e)}
+    out = buf.getvalue()
+    if kind == "code_var":
+        if entry not in ns:
+            return {"out": out, "msg": "You haven't defined \`" + entry + "\` yet."}
+        return {"out": out, "msg": entry + " = " + repr(ns[entry])}
+    # code_fn: call the function on the example inputs so the student sees results
+    if entry not in ns or not callable(ns[entry]):
+        return {"out": out, "msg": "Define a function called \`" + entry + "\`."}
+    lines = []
+    for a in list(inputs)[:4]:
+        args = ", ".join(repr(x) for x in a)
+        try: lines.append(entry + "(" + args + ") → " + repr(ns[entry](*list(a))))
+        except Exception as e: lines.append(entry + "(" + args + ") → ERROR: " + str(e))
+    return {"out": out, "msg": "\\n".join(lines)}
 `;
 
 // ---------------- boot ----------------
@@ -202,6 +227,8 @@ function start(){
     const s = roster.find(r=>r.id===sel.value);
     student = {id:s.id, name:s.name};
   }
+  PROGRESS_KEY = "c438:" + student.id + ":" + lesson.id;
+  saved = JSON.parse(localStorage.getItem(PROGRESS_KEY) || "{}");
   $("#startCard").classList.add("hidden");
   renderQuestions();
   $("#qCards").classList.remove("hidden");
@@ -215,16 +242,17 @@ function promptHtml(t){ return esc(t).replace(/`([^`]+)`/g,'<span class="prompt-
 function renderQuestions(){
   const wrap = $("#qCards"); wrap.innerHTML="";
   lesson.questions.forEach((q,i)=>{
-    state[q.id] = {};
+    state[q.id] = saved[q.id] ? Object.assign({}, saved[q.id]) : {};
     const card = document.createElement("div"); card.className="card";
     const tag = {code_var:"Write code",code_fn:"Write code",mcq:"Multiple choice",written:"Short answer"}[q.kind];
     card.innerHTML = `<span class="qtag">${tag}</span><div class="prompt"><span class="qnum">Q${i+1}.</span>${promptHtml(q.prompt)}</div>`;
 
     if(q.kind==="code_var" || q.kind==="code_fn"){
-      const ta=document.createElement("textarea"); ta.className="code"; ta.value=q.starter||""; ta.spellcheck=false;
-      ta.addEventListener("keydown",tabKey);
-      ta.addEventListener("input",()=>{ state[q.id].code=ta.value; });
+      const ta=document.createElement("textarea"); ta.className="code"; ta.spellcheck=false;
+      ta.value = (state[q.id].code != null ? state[q.id].code : (q.starter||""));
       state[q.id].code=ta.value;
+      ta.addEventListener("keydown",tabKey);
+      ta.addEventListener("input",()=>{ state[q.id].code=ta.value; save(); });
       const out=document.createElement("pre"); out.className="out";
       const run=document.createElement("button"); run.className="btn btn-ghost btn-sm"; run.textContent="▶ Run";
       run.onclick=()=>runCode(q,ta.value,out);
@@ -236,13 +264,15 @@ function renderQuestions(){
       q.choices.forEach((c,ci)=>{
         const b=document.createElement("button"); b.className="choice";
         b.innerHTML=`<span class="mk">${L[ci]}</span><span>${esc(c)}</span>`;
-        b.onclick=()=>{ box.querySelectorAll(".choice").forEach(x=>x.classList.remove("sel")); b.classList.add("sel"); state[q.id].choice=ci; };
+        if(state[q.id].choice===ci) b.classList.add("sel");
+        b.onclick=()=>{ box.querySelectorAll(".choice").forEach(x=>x.classList.remove("sel")); b.classList.add("sel"); state[q.id].choice=ci; save(); };
         box.appendChild(b);
       });
       card.appendChild(box);
     } else if(q.kind==="written"){
       const ta=document.createElement("textarea"); ta.className="prose"; ta.placeholder="Type your answer…";
-      ta.addEventListener("input",()=>{ state[q.id].text=ta.value; });
+      ta.value = state[q.id].text || "";
+      ta.addEventListener("input",()=>{ state[q.id].text=ta.value; save(); });
       card.appendChild(ta);
     }
     const res=document.createElement("div"); res.className="res"; res.id="res-"+q.id; card.appendChild(res);
