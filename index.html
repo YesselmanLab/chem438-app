@@ -98,8 +98,9 @@
     <h1 id="startTitle">Lesson</h1>
     <p class="intro" id="startIntro"></p>
     <div style="height:16px"></div>
-    <label class="fld" for="rosterSel">Select your name</label>
-    <select id="rosterSel"><option value="">— choose —</option></select>
+    <label class="fld" for="nameInput">Your full name</label>
+    <input type="text" id="nameInput" placeholder="e.g. Danushi Pathirage" autocomplete="name">
+    <p class="foot" style="text-align:left;margin:6px 0 0">Use the same name each time so your work is saved to you.</p>
     <div style="height:16px"></div>
     <button class="btn btn-primary" id="startBtn" style="width:100%" disabled>Start →</button>
   </div>
@@ -134,7 +135,7 @@ const $ = s => document.querySelector(s);
 const params = new URLSearchParams(location.search);
 const LESSON_ID = params.get("lesson") || "lesson_01";
 
-let lesson = null, roster = [], pyodide = null, pyFailed = false;
+let lesson = null, pyodide = null, pyFailed = false;
 let student = null;                 // {id, name}
 const state = {};                   // qid -> {choice} or {code} or {text}
 let saved = {}, PROGRESS_KEY = null;   // per (student, lesson) autosave
@@ -189,22 +190,15 @@ def preview(code, kind, entry, inputs):
 // ---------------- boot ----------------
 async function boot(){
   try{
-    const [lz, rz] = await Promise.all([
-      fetch(`lessons/${LESSON_ID}.json`).then(r=>r.json()),
-      fetch(`roster.json`).then(r=>r.json()).catch(()=>({students:[]})),
-    ]);
-    lesson = lz; roster = rz.students || [];
+    lesson = await fetch(`lessons/${LESSON_ID}.json`).then(r=>r.json());
   }catch(e){ return showErr("Couldn't load this lesson. Check the link and your connection."); }
 
   $("#lessonTitle").textContent = lesson.title;
   $("#startTitle").textContent = lesson.title;
   $("#startIntro").textContent = lesson.intro || "";
-  const sel = $("#rosterSel");
-  roster.forEach(s => { const o=document.createElement("option"); o.value=s.id; o.textContent=s.name; sel.appendChild(o); });
-  if(!roster.length){ // allow typing a name if no roster yet
-    const o=document.createElement("option"); o.value="__self__"; o.textContent="(no roster — type name after Start)"; sel.appendChild(o);
-  }
-  sel.onchange = () => { $("#startBtn").disabled = !sel.value; };
+  const nameInput = $("#nameInput");
+  nameInput.addEventListener("input", ()=>{ $("#startBtn").disabled = nameInput.value.trim().length < 2; });
+  nameInput.addEventListener("keydown", e=>{ if(e.key==="Enter" && !$("#startBtn").disabled) start(); });
   $("#startBtn").onclick = start;
 
   loadPy();                 // warm Pyodide in the background
@@ -229,15 +223,11 @@ async function loadPy(){
 
 // ---------------- start / render ----------------
 function start(){
-  const sel = $("#rosterSel");
-  if(sel.value==="__self__"){
-    const nm = prompt("Type your full name:");
-    if(!nm) return;
-    student = {id:"self:"+nm.trim().toLowerCase(), name:nm.trim()};
-  } else {
-    const s = roster.find(r=>r.id===sel.value);
-    student = {id:s.id, name:s.name};
-  }
+  const nm = $("#nameInput").value.trim();
+  if(nm.length < 2) return;
+  // normalize the name into a stable id (case + extra spaces won't split a student)
+  const normId = "name:" + nm.toLowerCase().replace(/\s+/g, " ").trim();
+  student = {id: normId, name: nm};
   PROGRESS_KEY = "c438:" + student.id + ":" + lesson.id;
   saved = JSON.parse(localStorage.getItem(PROGRESS_KEY) || "{}");
   $("#startCard").classList.add("hidden");
