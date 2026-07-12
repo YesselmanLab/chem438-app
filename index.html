@@ -75,6 +75,10 @@
   .dot.ok{background:var(--good)}.dot.no{background:var(--bad)}.dot.txt{background:var(--accent)}
   .hidden{display:none!important}
   .foot{color:var(--faint);font-size:12.5px;text-align:center;margin-top:20px}
+  .lessonlist{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+  .lessonlink{display:flex;align-items:center;gap:12px;text-align:left;width:100%;background:var(--card);border:1.5px solid var(--line2);border-radius:12px;padding:16px 18px;cursor:pointer;font-size:16px;font-weight:600;color:var(--ink);font-family:var(--sans)}
+  .lessonlink:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .lessonlink .go{margin-left:auto;color:var(--faint);font-weight:500;font-size:13px;white-space:nowrap}
   /* CodeMirror sizing to match the plain box */
   .CodeMirror{border:1.5px solid var(--line2);border-radius:10px;height:auto;min-height:96px;font-family:var(--mono);font-size:13.5px;line-height:1.5;padding:4px 2px}
   .CodeMirror-focused{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
@@ -88,7 +92,10 @@
   <div class="top">
     <div class="logo">438</div>
     <div><b>CHEM 438 Homework</b><small id="lessonTitle">loading…</small></div>
-    <button id="switchBtn" class="btn btn-ghost btn-sm hidden" style="margin-left:auto">Switch</button>
+    <div style="margin-left:auto;display:flex;gap:8px">
+      <button id="homeBtn" class="btn btn-ghost btn-sm hidden">← Lessons</button>
+      <button id="switchBtn" class="btn btn-ghost btn-sm hidden">Switch</button>
+    </div>
   </div>
 
   <div class="banner info" id="pyBanner">Loading Python… the first time takes a few seconds.</div>
@@ -104,6 +111,13 @@
     <p class="foot" style="text-align:left;margin:6px 0 0">Use the same name each time so your work is saved to you.</p>
     <div style="height:16px"></div>
     <button class="btn btn-primary" id="startBtn" style="width:100%" disabled>Start →</button>
+  </div>
+
+  <!-- HOME (lesson picker) -->
+  <div class="card hidden" id="homeCard">
+    <h1>Your assignments</h1>
+    <p class="intro" id="homeHi"></p>
+    <div id="lessonList" class="lessonlist"></div>
   </div>
 
   <!-- QUESTIONS -->
@@ -136,7 +150,7 @@ const $ = s => document.querySelector(s);
 const params = new URLSearchParams(location.search);
 const LESSON_ID = params.get("lesson") || "lesson_01";
 
-let lesson = null, pyodide = null, pyFailed = false;
+let lesson = null, manifest = [], pyodide = null, pyFailed = false;
 let student = null;                 // {id, name}
 const state = {};                   // qid -> {choice} or {code} or {text}
 let saved = {}, PROGRESS_KEY = null;   // per (student, lesson) autosave
@@ -202,17 +216,17 @@ def preview(code, kind, entry, inputs):
 // ---------------- boot ----------------
 async function boot(){
   try{
-    lesson = await fetch(`lessons/${LESSON_ID}.json`).then(r=>r.json());
-  }catch(e){ return showErr("Couldn't load this lesson. Check the link and your connection."); }
+    manifest = ((await fetch(`lessons/index.json`).then(r=>r.json())).lessons) || [];
+  }catch(e){ return showErr("Couldn't load the assignment list. Check your connection."); }
 
-  $("#lessonTitle").textContent = lesson.title;
-  $("#startTitle").textContent = lesson.title;
-  $("#startIntro").textContent = lesson.intro || "";
+  $("#startTitle").textContent = "CHEM 438 Homework";
+  $("#startIntro").textContent = "Enter your name to see your assignments.";
   const nameInput = $("#nameInput");
   nameInput.addEventListener("input", ()=>{ $("#startBtn").disabled = nameInput.value.trim().length < 2; });
   nameInput.addEventListener("keydown", e=>{ if(e.key==="Enter" && !$("#startBtn").disabled) start(); });
   $("#startBtn").onclick = start;
   $("#switchBtn").onclick = ()=>{ localStorage.removeItem("c438:name"); location.reload(); };
+  $("#homeBtn").onclick = ()=>{ history.replaceState(null,"",location.pathname); showHome(); };
   // remember the last student on this device and auto-resume on refresh
   const last = localStorage.getItem("c438:name");
   if(last){ nameInput.value = last; $("#startBtn").disabled = false; start(); }
@@ -246,13 +260,47 @@ function start(){
   student = {id: normId, name: nm};
   localStorage.setItem("c438:name", nm);                 // remember for auto-resume
   const sb = $("#switchBtn"); sb.textContent = "Not " + nm.split(" ")[0] + "?"; sb.classList.remove("hidden");
+  gotoAfterName();
+}
+
+function gotoAfterName(){
+  const dl = params.get("lesson");
+  if(dl && manifest.some(l=>l.id===dl)) openLesson(dl);
+  else showHome();
+}
+
+function showHome(){
+  ["#startCard","#qCards","#submitCard","#resultsCard"].forEach(s=>$(s).classList.add("hidden"));
+  $("#homeCard").classList.remove("hidden");
+  $("#homeBtn").classList.add("hidden");
+  $("#lessonTitle").textContent = "Assignments";
+  $("#homeHi").textContent = "Hi " + student.name.split(" ")[0] + " — pick an assignment.";
+  const list = $("#lessonList"); list.innerHTML = "";
+  manifest.forEach(l=>{
+    const inProg = !!localStorage.getItem("c438:" + student.id + ":" + l.id);
+    const b = document.createElement("button"); b.className = "lessonlink";
+    b.innerHTML = "<span>" + esc(l.title) + "</span><span class='go'>" + (inProg ? "resume " : "start ") + "→</span>";
+    b.onclick = ()=>openLesson(l.id);
+    list.appendChild(b);
+  });
+}
+
+async function openLesson(id){
+  $("#homeCard").classList.add("hidden");
+  $("#errBanner").classList.remove("show");
+  try{ lesson = await fetch(`lessons/${id}.json`).then(r=>r.json()); }
+  catch(e){ return showErr("Couldn't load " + id + "."); }
+  $("#lessonTitle").textContent = lesson.title;
+  history.replaceState(null, "", "?lesson=" + id);
   PROGRESS_KEY = "c438:" + student.id + ":" + lesson.id;
   saved = JSON.parse(localStorage.getItem(PROGRESS_KEY) || "{}");
-  $("#startCard").classList.add("hidden");
+  $("#resultsCard").classList.add("hidden");
   $("#qCards").classList.remove("hidden");     // show BEFORE building so CodeMirror measures real width
   $("#submitCard").classList.remove("hidden");
-  renderQuestions();
+  $("#homeBtn").classList.remove("hidden");
+  const btn = $("#submitBtn"); btn.disabled = false; btn.textContent = "Submit lesson for grading";
   $("#submitNote").textContent = GRADER_URL ? "" : "Preview mode: grading backend not connected yet.";
+  renderQuestions();
 }
 
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }

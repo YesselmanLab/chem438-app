@@ -89,11 +89,27 @@ def build(lesson_module_name):
     pub_path.write_text(json.dumps(public, indent=2))
     key_path.write_text(json.dumps({"lesson": lesson["id"], "keys": keys}, indent=2))
 
+    update_manifest(lesson["id"], lesson["title"])
+
     n_auto = sum(1 for q in lesson["questions"] if q["kind"].startswith("code") or q["kind"] == "mcq")
     print(f"built {lesson['id']}: {len(public_qs)} questions ({n_auto} auto-graded)")
     print(f"  PUBLIC -> {pub_path}")
     print(f"  SECRET -> {key_path}  (do not commit)")
+    print(f"  MANIFEST updated -> {PUBLIC_DIR / 'index.json'}")
     return lesson["id"], keys
+
+
+def update_manifest(lesson_id, title):
+    """Keep lessons/index.json in sync so the app's lesson picker sees this lesson."""
+    idx = PUBLIC_DIR / "index.json"
+    data = {"lessons": []}
+    if idx.exists():
+        try: data = json.loads(idx.read_text())
+        except Exception: pass
+    lessons = [l for l in data.get("lessons", []) if l.get("id") != lesson_id]
+    lessons.append({"id": lesson_id, "title": title})
+    lessons.sort(key=lambda l: l["id"])
+    idx.write_text(json.dumps({"lessons": lessons}, indent=2))
 
 
 def push_keys(lesson_id, keys, url, token):

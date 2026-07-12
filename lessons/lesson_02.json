@@ -1,0 +1,93 @@
+{
+  "id": "lesson_02",
+  "title": "Lesson 2 \u2014 strings & functions",
+  "intro": "More practice with text and writing your own functions.",
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "code_var",
+      "prompt": "Store the word \"python\" in ALL CAPS in a variable `caps`.",
+      "starter": "caps = ",
+      "entry": "caps"
+    },
+    {
+      "id": "q2",
+      "kind": "code_var",
+      "prompt": "Store the number of letters in \"chemistry\" in a variable `n` (use the len() function).",
+      "starter": "n = ",
+      "entry": "n"
+    },
+    {
+      "id": "q3",
+      "kind": "code_fn",
+      "prompt": "Write a function `shout(word)` that returns the word in uppercase with an exclamation mark, e.g. shout(\"hi\") -> \"HI!\".",
+      "starter": "def shout(word):\n    ",
+      "entry": "shout",
+      "inputs": [
+        [
+          "hi"
+        ],
+        [
+          "mole"
+        ],
+        [
+          "acid"
+        ],
+        [
+          "yes"
+        ],
+        [
+          "bond"
+        ]
+      ]
+    },
+    {
+      "id": "q4",
+      "kind": "code_fn",
+      "prompt": "Write a function `first_letter(word)` that returns the first letter of a word. (Hint: word[0].)",
+      "starter": "def first_letter(word):\n    ",
+      "entry": "first_letter",
+      "inputs": [
+        [
+          "cat"
+        ],
+        [
+          "atom"
+        ],
+        [
+          "python"
+        ],
+        [
+          "salt"
+        ]
+      ]
+    },
+    {
+      "id": "q5",
+      "kind": "mcq",
+      "prompt": "What does this print?\n\n    print(len(\"cat\"))",
+      "choices": [
+        "2",
+        "3",
+        "4",
+        "an error"
+      ]
+    },
+    {
+      "id": "q6",
+      "kind": "mcq",
+      "prompt": "What does this print?\n\n    print(\"ab\" + \"cd\")",
+      "choices": [
+        "abcd",
+        "ab cd",
+        "cdab",
+        "an error"
+      ]
+    },
+    {
+      "id": "q7",
+      "kind": "written",
+      "prompt": "With strings, what does  +  do, and what does  *  do? Give a short example of each."
+    }
+  ]
+}
