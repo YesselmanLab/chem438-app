@@ -88,6 +88,7 @@
   <div class="top">
     <div class="logo">438</div>
     <div><b>CHEM 438 Homework</b><small id="lessonTitle">loading…</small></div>
+    <button id="switchBtn" class="btn btn-ghost btn-sm hidden" style="margin-left:auto">Switch</button>
   </div>
 
   <div class="banner info" id="pyBanner">Loading Python… the first time takes a few seconds.</div>
@@ -200,6 +201,10 @@ async function boot(){
   nameInput.addEventListener("input", ()=>{ $("#startBtn").disabled = nameInput.value.trim().length < 2; });
   nameInput.addEventListener("keydown", e=>{ if(e.key==="Enter" && !$("#startBtn").disabled) start(); });
   $("#startBtn").onclick = start;
+  $("#switchBtn").onclick = ()=>{ localStorage.removeItem("c438:name"); location.reload(); };
+  // remember the last student on this device and auto-resume on refresh
+  const last = localStorage.getItem("c438:name");
+  if(last){ nameInput.value = last; $("#startBtn").disabled = false; start(); }
 
   loadPy();                 // warm Pyodide in the background
   flushQueue();             // resend any previously-queued submissions
@@ -228,6 +233,8 @@ function start(){
   // normalize the name into a stable id (case + extra spaces won't split a student)
   const normId = "name:" + nm.toLowerCase().replace(/\s+/g, " ").trim();
   student = {id: normId, name: nm};
+  localStorage.setItem("c438:name", nm);                 // remember for auto-resume
+  const sb = $("#switchBtn"); sb.textContent = "Not " + nm.split(" ")[0] + "?"; sb.classList.remove("hidden");
   PROGRESS_KEY = "c438:" + student.id + ":" + lesson.id;
   saved = JSON.parse(localStorage.getItem(PROGRESS_KEY) || "{}");
   $("#startCard").classList.add("hidden");
