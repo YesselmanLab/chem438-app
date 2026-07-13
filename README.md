@@ -51,23 +51,44 @@ holds the hidden answers.
 
 ---
 
-## Authoring a new lesson (each week, <15 min)
+## Problem bank + assignments (the authoring model)
 
-1. Copy `authoring/lesson_01.py` to `authoring/lesson_02.py`, edit the questions.
-   Each coding question needs a **reference solution** — you never type expected
-   answers; `build.py` runs your reference to generate them.
-2. Build + push keys:
-   ```bash
-   python build.py lesson_02 --push "https://…/exec" --token "YOUR_ADMIN_TOKEN"
-   ```
-3. `git add lessons/ && git commit && git push` (publishes the public file).
-   Students use `…github.io/<repo>/?lesson=lesson_02`.
+Problems live **once** in a reusable bank; an assignment is just a **selection**
+of problems from it. Write a problem one time, drop it into any assignment.
 
-**Question kinds:** `code_var` (define a variable), `code_fn` (write a function,
-graded on several inputs), `mcq`, `written`. Use **several varied inputs** on
-`code_fn` — that's what stops hard-coding. Autograded outputs must be
-int/float/str/bool/list; route dict/set/random-output questions to `mcq` or
-`written` (build.py will error if you forget).
+```
+authoring/
+  bank.py          the problem bank — every problem, keyed by a short id, with tags
+  assignments.py   each assignment = { title, intro, problems: [bank ids...] }
+  build.py         resolves an assignment's ids → public lesson JSON + secret keys
+  builder.html     a visual tool: browse the bank, pick problems, save an assignment
+```
+
+### Add a problem to the bank
+Add one entry to `bank.py` (a `code_var`, `code_fn`, `mcq`, or `written`). For
+code you write a **reference solution** — you never type expected answers;
+`build.py` runs your reference to generate them. Use **several varied inputs** on
+`code_fn` (that's what stops hard-coding). Autograded outputs must be
+int/float/str/bool/list; route dict/set/random-output problems to `mcq`/`written`.
+
+### Build an assignment two ways
+
+**Visually (easiest):** run `python build.py --bank`, then open
+`authoring/builder.html` in a browser. Search/filter the bank by tag, click the
+problems you want, order them, name the assignment, and **Copy** the entry — paste
+it into `assignments.py`.
+
+**By hand:** add an entry to `assignments.py` listing the problem ids you want.
+
+### Publish it
+```bash
+python build.py lesson_03 --push "https://…/exec" --token "YOUR_ADMIN_TOKEN"
+git add lessons/ && git commit -m "add lesson 3" && git push
+```
+It appears on the students' assignment list automatically (`build.py` updates the
+manifest). Build everything at once with `python build.py --all --push … --token …`.
+
+*Verify the bank grades correctly anytime:* `python build.py lesson_01 && python test_pipeline.py`.
 
 ---
 
