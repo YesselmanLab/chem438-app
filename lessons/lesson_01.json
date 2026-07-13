@@ -124,5 +124,59 @@
       "kind": "written",
       "prompt": "Why does  \"hello\" + 2  cause an error, but  \"hello\" * 2  works fine? (One or two sentences.)"
     }
-  ]
+  ],
+  "grade": {
+    "q1": {
+      "kind": "code_var",
+      "expected": 12,
+      "tol": 1e-06
+    },
+    "q2": {
+      "kind": "code_var",
+      "expected": 2,
+      "tol": 1e-06
+    },
+    "q3": {
+      "kind": "code_fn",
+      "expected": [
+        8,
+        20,
+        0,
+        14,
+        50
+      ],
+      "tol": 1e-06
+    },
+    "q4": {
+      "kind": "code_fn",
+      "expected": [
+        12,
+        25,
+        20,
+        21,
+        9
+      ],
+      "tol": 1e-06
+    },
+    "q5": {
+      "kind": "code_fn",
+      "expected": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        false
+      ],
+      "tol": 1e-06
+    },
+    "q6": {
+      "kind": "mcq",
+      "answer": 1
+    },
+    "q7": {
+      "kind": "mcq",
+      "answer": 1
+    }
+  }
 }

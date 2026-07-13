@@ -506,7 +506,7 @@ async function openLesson(id){
   $("#submitCard").classList.remove("hidden");
   $("#homeBtn").classList.remove("hidden");
   const btn = $("#submitBtn"); btn.disabled = false; btn.textContent = "Submit lesson for grading";
-  $("#submitNote").textContent = GRADER_URL ? "" : "Preview mode: grading backend not connected yet.";
+  $("#submitNote").textContent = (GRADER_URL || (lesson && lesson.grade)) ? "" : "Preview mode: grading backend not connected yet.";
   renderQuestions();
 }
 
@@ -590,14 +590,14 @@ async function runCode(q,code,out){
     else if(r.msg) text += (text?"\n":"") + r.msg;
   }catch(e){ text = trimErr(e); }
   out.textContent = text || "(no output)";
-  // Correctness needs the hidden answer key, so we ask the server (only when connected).
-  if(GRADER_URL){
-    out.textContent = (text || "(no output)") + "\n\nchecking…";
+  // Correctness: check against the answer key (client-side, or the server if configured).
+  if(GRADER_URL || (lesson.grade && lesson.grade[q.id])){
+    if(GRADER_URL) out.textContent = (text || "(no output)") + "\n\nchecking…";
     const verdict = await checkOne(q, await codeAnswer(q, code));
     out.textContent = (text || "(no output)") + "\n\n" + (
       verdict===true ? "✓ correct!" :
       verdict===false ? "✗ not correct yet — keep trying" :
-      "(couldn't reach the grader)");
+      "(couldn't check this one)");
   }
 }
 
@@ -617,6 +617,7 @@ async function codeAnswer(q, code){
 }
 
 async function checkOne(q, a){
+  if(!GRADER_URL) return gradeAnswerLocal(a);   // client-side grading
   try{
     const r = await fetch(GRADER_URL, {method:"POST",
       headers:{"Content-Type":"text/plain;charset=utf-8"},
@@ -627,6 +628,28 @@ async function checkOne(q, a){
   return null;
 }
 function trimErr(e){ const m=String(e.message||e).trim().split("\n"); return m[m.length-1]; }
+
+// ---------------- client-side grading (mirror of norm.compare) ----------------
+function cmp(e,a,tol){
+  tol=tol||1e-6;
+  if(Array.isArray(e)) return Array.isArray(a)&&e.length===a.length&&e.every((x,i)=>cmp(x,a[i],tol));
+  if(typeof e==="boolean"||typeof a==="boolean") return e===a;
+  if(typeof e==="number"&&typeof a==="number") return Math.abs(e-a)<=tol+tol*Math.max(Math.abs(e),Math.abs(a));
+  return e===a;
+}
+function gradeAnswerLocal(a){
+  const k = lesson.grade && lesson.grade[a.id]; if(!k) return null;
+  if(k.kind==="mcq") return a.choice===k.answer;
+  if(a.error || !a.outputs) return false;
+  if(k.kind==="code_var") return !!cmp(k.expected, a.outputs[0], k.tol);
+  if(k.kind==="code_fn") return !!cmp(k.expected, a.outputs, k.tol);
+  return null;
+}
+function gradeLocally(answers){
+  const results={};
+  answers.forEach(a=>{ const r=gradeAnswerLocal(a); if(r!==null) results[a.id]=r; });
+  return {ok:true, results, local:true};
+}
 
 // ---------------- submit ----------------
 async function submit(){
@@ -642,7 +665,7 @@ async function submit(){
     }
   }
   const payload={lesson:lesson.id,rosterId:student.id,name:student.name,attemptId:uuid(),ts:new Date().toISOString(),answers};
-  const res=await send(payload);
+  const res = GRADER_URL ? await send(payload) : gradeLocally(answers);
   await recordSubmission(res);
   showResults(payload,res);
 }

@@ -72,6 +72,9 @@ def build(assignment_id):
             raise SystemExit(f"[{qid}] unknown kind {kind!r}")
 
     public = {"id": assignment_id, "title": a["title"], "intro": a.get("intro", ""), "questions": public_qs}
+    # VIABILITY MODE: ship the answer keys so the browser can grade (soft-hidden).
+    # To re-hide, drop this line and grade server-side via GRADER_URL instead.
+    public["grade"] = keys
 
     PUBLIC_DIR.mkdir(exist_ok=True); KEYS_DIR.mkdir(exist_ok=True)
     (PUBLIC_DIR / f"{assignment_id}.json").write_text(json.dumps(public, indent=2))

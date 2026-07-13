@@ -89,5 +89,46 @@
       "kind": "written",
       "prompt": "With strings, what does  +  do, and what does  *  do? Give a short example of each."
     }
-  ]
+  ],
+  "grade": {
+    "q1": {
+      "kind": "code_var",
+      "expected": "PYTHON",
+      "tol": 1e-06
+    },
+    "q2": {
+      "kind": "code_var",
+      "expected": 9,
+      "tol": 1e-06
+    },
+    "q3": {
+      "kind": "code_fn",
+      "expected": [
+        "HI!",
+        "MOLE!",
+        "ACID!",
+        "YES!",
+        "BOND!"
+      ],
+      "tol": 1e-06
+    },
+    "q4": {
+      "kind": "code_fn",
+      "expected": [
+        "c",
+        "a",
+        "p",
+        "s"
+      ],
+      "tol": 1e-06
+    },
+    "q5": {
+      "kind": "mcq",
+      "answer": 1
+    },
+    "q6": {
+      "kind": "mcq",
+      "answer": 0
+    }
+  }
 }
