@@ -61,6 +61,45 @@
       "prompt": "Write a function `is_even(n)` that returns True if n is even, False otherwise."
     },
     {
+      "id": "mcq_str_plus_int",
+      "title": "What's wrong \u2014 text + number",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "debug",
+        "types",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "prompt": "What is wrong with this code?\n\n    print(\"Total: \" + 5)"
+    },
+    {
+      "id": "mcq_floor_div",
+      "title": "Predict \u2014 7 // 2",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "predict",
+        "operators",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(7 // 2)"
+    },
+    {
+      "id": "written_plus_vs_star_hello",
+      "title": "Explain \u2014 hello + 2 vs hello * 2",
+      "kind": "written",
+      "tags": [
+        "concept",
+        "written",
+        "types",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "prompt": "Why does  \"hello\" + 2  cause an error, but  \"hello\" * 2  works fine? (One or two sentences.)"
+    },
+    {
       "id": "shout",
       "title": "shout(word)",
       "kind": "code_fn",
@@ -109,34 +148,8 @@
       "prompt": "Store the number of letters in \"chemistry\" in a variable `n` (use the len() function)."
     },
     {
-      "id": "mcq_str_plus_int",
-      "title": "What's wrong: text + number",
-      "kind": "mcq",
-      "tags": [
-        "concept",
-        "debug",
-        "types",
-        "week1"
-      ],
-      "difficulty": "easy",
-      "prompt": "What is wrong with this code?\n\n    print(\"Total: \" + 5)"
-    },
-    {
-      "id": "mcq_floor_div",
-      "title": "Predict: 7 // 2",
-      "kind": "mcq",
-      "tags": [
-        "concept",
-        "predict",
-        "operators",
-        "week1"
-      ],
-      "difficulty": "easy",
-      "prompt": "What does this print?\n\n    print(7 // 2)"
-    },
-    {
       "id": "mcq_len_cat",
-      "title": "Predict: len('cat')",
+      "title": "Predict \u2014 len('cat')",
       "kind": "mcq",
       "tags": [
         "concept",
@@ -149,7 +162,7 @@
     },
     {
       "id": "mcq_concat_abcd",
-      "title": "Predict: 'ab' + 'cd'",
+      "title": "Predict \u2014 'ab' + 'cd'",
       "kind": "mcq",
       "tags": [
         "concept",
@@ -161,21 +174,8 @@
       "prompt": "What does this print?\n\n    print(\"ab\" + \"cd\")"
     },
     {
-      "id": "written_plus_vs_star_hello",
-      "title": "Explain: hello + 2 vs hello * 2",
-      "kind": "written",
-      "tags": [
-        "concept",
-        "written",
-        "types",
-        "week1"
-      ],
-      "difficulty": "easy",
-      "prompt": "Why does  \"hello\" + 2  cause an error, but  \"hello\" * 2  works fine? (One or two sentences.)"
-    },
-    {
       "id": "written_plus_vs_star",
-      "title": "Explain: + vs * on strings",
+      "title": "Explain \u2014 + vs * on strings",
       "kind": "written",
       "tags": [
         "concept",

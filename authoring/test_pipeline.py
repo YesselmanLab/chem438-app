@@ -15,7 +15,7 @@ import json
 from pathlib import Path
 
 import norm
-from bank import BANK
+from bankmd import BANK
 from assignments import ASSIGNMENTS
 
 KEYS = json.loads((Path(__file__).resolve().parent.parent / "keys" / "keys_lesson_01.json").read_text())["keys"]

@@ -19,7 +19,7 @@ import urllib.request
 from pathlib import Path
 
 import norm
-from bank import BANK
+from bankmd import BANK
 from assignments import ASSIGNMENTS
 
 HERE = Path(__file__).resolve().parent

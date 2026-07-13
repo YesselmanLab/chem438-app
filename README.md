@@ -58,18 +58,55 @@ of problems from it. Write a problem one time, drop it into any assignment.
 
 ```
 authoring/
-  bank.py          the problem bank — every problem, keyed by a short id, with tags
+  bank/*.md        the problem bank — markdown files of problems, split by topic/week
+  bankmd.py        parses bank/*.md and verifies every solution passes its own checks
   assignments.py   each assignment = { title, intro, problems: [bank ids...] }
   build.py         resolves an assignment's ids → public lesson JSON + secret keys
   builder.html     a visual tool: browse the bank, pick problems, save an assignment
 ```
 
-### Add a problem to the bank
-Add one entry to `bank.py` (a `code_var`, `code_fn`, `mcq`, or `written`). For
-code you write a **reference solution** — you never type expected answers;
-`build.py` runs your reference to generate them. Use **several varied inputs** on
-`code_fn` (that's what stops hard-coding). Autograded outputs must be
-int/float/str/bool/list; route dict/set/random-output problems to `mcq`/`written`.
+### Add a problem to the bank (markdown)
+Drop a problem into any file under `bank/` (or make a new topic file). Format:
+
+````markdown
+## double_fix
+kind: code_fn
+title: Fix the double function
+tags: functions, debug, week1
+entry: double
+
+### prompt
+Fix the bug: `double` should return its input doubled.
+
+### starter
+```python
+def double(x):
+    return x + 2      # <-- wrong, fix it
+```
+
+### solution
+```python
+def double(x):
+    return x * 2
+```
+
+### check
+double(4) == 8
+double(10) == 20
+double(0) == 0
+````
+
+The **`### check` lines must pass against the `### solution`** — if they don't,
+the build stops with an error, so a broken problem never ships. The checks also
+*define the grading*: write them as `entry(args) == expected` (or `is True/False`),
+several varied ones so hard-coding fails. `code_var` uses `variable == expected`;
+`mcq` uses an `answer:` line (1-based) + `### choices`; `written` needs only a
+prompt. Autograded outputs must be int/float/str/bool/list.
+
+### Hotfix a problem
+Edit the line in the relevant `bank/*.md`, then one command republishes it:
+`python build.py <lesson> --push "<url>" --token "<token>" && git push`. The
+self-check re-runs, so you can't accidentally push a broken fix.
 
 ### Build an assignment two ways
 
