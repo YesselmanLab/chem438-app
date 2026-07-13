@@ -140,6 +140,25 @@
     </div>
   </div>
 
+  <!-- INSTRUCTOR (gradebook) -->
+  <div class="card hidden" id="instructorCard">
+    <div style="font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink);font-weight:600">Instructor</div>
+    <h1 style="margin:6px 0 2px">Gradebook</h1>
+    <p class="intro">Signed in as <b id="instrEmail"></b>. Scores update as students submit.</p>
+    <div style="overflow-x:auto;border:1px solid var(--line);border-radius:10px;margin-top:10px">
+      <table style="width:100%;border-collapse:collapse;font-size:14px;min-width:460px">
+        <thead><tr>
+          <th style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--faint)">Student</th>
+          <th style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--faint)">Assignment</th>
+          <th style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--faint)">Score</th>
+          <th style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--faint)">Updated</th>
+        </tr></thead>
+        <tbody id="gbBody"></tbody>
+      </table>
+    </div>
+    <p class="foot" style="text-align:left;margin-top:12px">Author assignments from the problem bank with <code>authoring/builder.html</code>.</p>
+  </div>
+
   <!-- HOME (lesson picker) -->
   <div class="card hidden" id="homeCard">
     <h1>Your assignments</h1>
@@ -176,6 +195,8 @@ const GRADER_URL = "";
 // anon key is designed for browsers. See README "Email login".
 const SUPABASE_URL = "";
 const SUPABASE_ANON = "";
+// Instructor accounts: these emails see the gradebook instead of the student view.
+const ADMIN_EMAILS = ["jyesselm@unl.edu"];
 // ================================================================
 
 const $ = s => document.querySelector(s);
@@ -356,7 +377,40 @@ function onSignedIn(user){
   const email = (user && user.email) ? user.email.toLowerCase() : "unknown";
   student = { id: "email:" + email, name: email.split("@")[0] };   // email = stable identity
   const sw = $("#switchBtn"); sw.textContent = "Sign out"; sw.classList.remove("hidden");
-  gotoAfterName();
+  if(ADMIN_EMAILS.map(e=>e.toLowerCase()).includes(email)) showInstructor(email);
+  else gotoAfterName();
+}
+
+async function showInstructor(email){
+  ["#startCard","#homeCard","#qCards","#submitCard","#resultsCard"].forEach(s=>$(s).classList.add("hidden"));
+  $("#homeBtn").classList.add("hidden");
+  $("#lessonTitle").textContent = "Instructor";
+  $("#instructorCard").classList.remove("hidden");
+  $("#instrEmail").textContent = email;
+  const body = $("#gbBody");
+  body.innerHTML = '<tr><td colspan="4" style="padding:12px;color:var(--faint)">Loading…</td></tr>';
+  try{
+    const { data, error } = await SUPA.from("submissions")
+      .select("email,lesson,score,out_of,updated_at").order("email").order("lesson");
+    if(error) throw error;
+    if(!data || !data.length){
+      body.innerHTML = '<tr><td colspan="4" style="padding:12px;color:var(--faint)">No submissions yet — scores appear here as students submit.</td></tr>';
+      return;
+    }
+    body.innerHTML = "";
+    data.forEach(r=>{
+      const tr = document.createElement("tr");
+      const cell = "padding:10px 12px;border-bottom:1px solid var(--line)";
+      tr.innerHTML =
+        '<td style="'+cell+'">'+esc(r.email)+'</td>'+
+        '<td style="'+cell+'">'+esc(r.lesson)+'</td>'+
+        '<td style="'+cell+';font-weight:600">'+(r.score)+' / '+(r.out_of)+'</td>'+
+        '<td style="'+cell+';color:var(--faint)">'+esc((r.updated_at||"").slice(0,10))+'</td>';
+      body.appendChild(tr);
+    });
+  }catch(e){
+    body.innerHTML = '<tr><td colspan="4" style="padding:12px;color:var(--bad)">Couldn\'t load the gradebook — make sure the submissions table + policies exist (see README "Instructor login").</td></tr>';
+  }
 }
 
 function showHome(){
@@ -526,7 +580,21 @@ async function submit(){
   }
   const payload={lesson:lesson.id,rosterId:student.id,name:student.name,attemptId:uuid(),ts:new Date().toISOString(),answers};
   const res=await send(payload);
+  await recordSubmission(res);
   showResults(payload,res);
+}
+
+// record the graded submission to Supabase so the instructor gradebook has data
+async function recordSubmission(res){
+  if(!SUPA || !student.id.startsWith("email:")) return;
+  const results = (res && res.ok) ? (res.results||{}) : {};
+  let auto=0, got=0;
+  for(const q of lesson.questions){ if(q.kind!=="written"){ auto++; if(results[q.id]===true) got++; } }
+  try{
+    await SUPA.from("submissions").upsert(
+      { email: student.id.slice(6), lesson: lesson.id, score: got, out_of: auto, results },
+      { onConflict: "email,lesson" });
+  }catch(e){ /* non-fatal: gradebook write is best-effort */ }
 }
 
 function jsify(pyproxy){ try{ const v=pyproxy.toJs?pyproxy.toJs():pyproxy; if(pyproxy.destroy)pyproxy.destroy(); return v; }catch(_){ return pyproxy; } }

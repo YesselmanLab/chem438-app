@@ -140,3 +140,40 @@ enough for you to test, not a whole class. For real use, set
 **Authentication → Emails → SMTP** to your university mail server or a free tier
 (Resend / SendGrid / Amazon SES) so codes arrive reliably. You can also restrict
 sign-ups to your `@huskers.unl.edu` domain in the Auth settings.
+
+## Instructor login (admin gradebook)
+
+Once Supabase email login is on, you get an **instructor view** automatically:
+list your email in `ADMIN_EMAILS` (near the top of `index.html`) and, when you
+sign in with it, you see the **gradebook** instead of the student assignment list.
+
+For the gradebook to have data, create the `submissions` table once. In Supabase
+open **SQL Editor → New query**, paste this, and Run (change the admin email):
+
+```sql
+create table submissions (
+  email      text not null,
+  lesson     text not null,
+  score      int  default 0,
+  out_of     int  default 0,
+  results    jsonb,
+  updated_at timestamptz default now(),
+  primary key (email, lesson)
+);
+alter table submissions enable row level security;
+
+-- students can read/write ONLY their own rows
+create policy "own rows" on submissions
+  for all
+  using  (auth.jwt()->>'email' = email)
+  with check (auth.jwt()->>'email' = email);
+
+-- instructor(s) can read everything (add each admin email)
+create policy "admin read all" on submissions
+  for select
+  using (auth.jwt()->>'email' = any (array['jyesselm@unl.edu']));
+```
+
+Now each student submit records a row (their email, assignment, score), and your
+admin login shows the live gradebook. Row-Level Security guarantees a student can
+only ever see their own row — never the keys or another student's work.
