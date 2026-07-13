@@ -13,6 +13,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+<!-- Supabase JS: email-code login + accounts. Only used if you set the keys below. -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root{
     --bg:#f4f5fa;--card:#fff;--ink:#1b1d2b;--soft:#565a72;--faint:#8a8ea6;
@@ -106,11 +108,36 @@
     <h1 id="startTitle">Lesson</h1>
     <p class="intro" id="startIntro"></p>
     <div style="height:16px"></div>
-    <label class="fld" for="nameInput">Your full name</label>
-    <input type="text" id="nameInput" placeholder="e.g. Danushi Pathirage" autocomplete="name">
-    <p class="foot" style="text-align:left;margin:6px 0 0">Use the same name each time so your work is saved to you.</p>
-    <div style="height:16px"></div>
-    <button class="btn btn-primary" id="startBtn" style="width:100%" disabled>Start →</button>
+
+    <!-- NAME MODE (fallback when Supabase isn't configured) -->
+    <div id="nameMode">
+      <label class="fld" for="nameInput">Your full name</label>
+      <input type="text" id="nameInput" placeholder="e.g. Danushi Pathirage" autocomplete="name">
+      <p class="foot" style="text-align:left;margin:6px 0 0">Use the same name each time so your work is saved to you.</p>
+      <div style="height:16px"></div>
+      <button class="btn btn-primary" id="startBtn" style="width:100%" disabled>Start →</button>
+    </div>
+
+    <!-- EMAIL MODE (Supabase passwordless login) -->
+    <div id="emailMode" class="hidden">
+      <div id="emailStep">
+        <label class="fld" for="emailInput">Your email</label>
+        <input type="email" id="emailInput" placeholder="you@huskers.unl.edu" autocomplete="email">
+        <div style="height:16px"></div>
+        <button class="btn btn-primary" id="sendCodeBtn" style="width:100%" disabled>Email me a code →</button>
+      </div>
+      <div id="codeStep" class="hidden">
+        <label class="fld" for="codeInput">Enter the 6-digit code sent to <b id="emailEcho"></b></label>
+        <input type="text" id="codeInput" inputmode="numeric" maxlength="6" placeholder="123456" autocomplete="one-time-code">
+        <div style="height:16px"></div>
+        <button class="btn btn-primary" id="verifyBtn" style="width:100%" disabled>Verify &amp; sign in</button>
+        <p class="foot" style="text-align:left;margin-top:10px">
+          <a href="#" id="resendLink" style="color:var(--accent)">Resend code</a> ·
+          <a href="#" id="changeEmailLink" style="color:var(--accent)">change email</a>
+        </p>
+      </div>
+      <p class="foot" id="authMsg" style="text-align:left;color:var(--bad);margin-top:8px"></p>
+    </div>
   </div>
 
   <!-- HOME (lesson picker) -->
@@ -144,9 +171,16 @@
 // After you deploy the Apps Script (see README), paste its Web-App URL here.
 // Leave "" to run in PREVIEW mode: code runs, but submissions aren't graded yet.
 const GRADER_URL = "";
+// --- Accounts (optional): paste your Supabase project URL + anon (public) key.
+// Leave "" and the app uses simple name entry. Both are safe to commit — the
+// anon key is designed for browsers. See README "Email login".
+const SUPABASE_URL = "";
+const SUPABASE_ANON = "";
 // ================================================================
 
 const $ = s => document.querySelector(s);
+const SUPA = (SUPABASE_URL && SUPABASE_ANON && window.supabase)
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON) : null;
 const params = new URLSearchParams(location.search);
 const LESSON_ID = params.get("lesson") || "lesson_01";
 
@@ -220,16 +254,28 @@ async function boot(){
   }catch(e){ return showErr("Couldn't load the assignment list. Check your connection."); }
 
   $("#startTitle").textContent = "CHEM 438 Homework";
-  $("#startIntro").textContent = "Enter your name to see your assignments.";
-  const nameInput = $("#nameInput");
-  nameInput.addEventListener("input", ()=>{ $("#startBtn").disabled = nameInput.value.trim().length < 2; });
-  nameInput.addEventListener("keydown", e=>{ if(e.key==="Enter" && !$("#startBtn").disabled) start(); });
-  $("#startBtn").onclick = start;
-  $("#switchBtn").onclick = ()=>{ localStorage.removeItem("c438:name"); location.reload(); };
   $("#homeBtn").onclick = ()=>{ history.replaceState(null,"",location.pathname); showHome(); };
-  // remember the last student on this device and auto-resume on refresh
-  const last = localStorage.getItem("c438:name");
-  if(last){ nameInput.value = last; $("#startBtn").disabled = false; start(); }
+
+  if(SUPA){
+    // ---- email-code login (accounts) ----
+    $("#nameMode").classList.add("hidden");
+    $("#emailMode").classList.remove("hidden");
+    $("#startIntro").textContent = "Sign in with your email to see your assignments.";
+    $("#switchBtn").onclick = async ()=>{ await SUPA.auth.signOut(); location.reload(); };
+    wireEmailAuth();
+    const { data } = await SUPA.auth.getSession();
+    if(data && data.session){ onSignedIn(data.session.user); }   // already logged in → resume
+  } else {
+    // ---- name entry (no backend) ----
+    $("#startIntro").textContent = "Enter your name to see your assignments.";
+    const nameInput = $("#nameInput");
+    nameInput.addEventListener("input", ()=>{ $("#startBtn").disabled = nameInput.value.trim().length < 2; });
+    nameInput.addEventListener("keydown", e=>{ if(e.key==="Enter" && !$("#startBtn").disabled) start(); });
+    $("#startBtn").onclick = start;
+    $("#switchBtn").onclick = ()=>{ localStorage.removeItem("c438:name"); location.reload(); };
+    const last = localStorage.getItem("c438:name");
+    if(last){ nameInput.value = last; $("#startBtn").disabled = false; start(); }
+  }
 
   loadPy();                 // warm Pyodide in the background
   flushQueue();             // resend any previously-queued submissions
@@ -267,6 +313,50 @@ function gotoAfterName(){
   const dl = params.get("lesson");
   if(dl && manifest.some(l=>l.id===dl)) openLesson(dl);
   else showHome();
+}
+
+// ---------------- email-code login (Supabase) ----------------
+function authMsg(m){ $("#authMsg").textContent = m || ""; }
+
+function wireEmailAuth(){
+  const email = $("#emailInput"), code = $("#codeInput");
+  email.addEventListener("input", ()=>{ $("#sendCodeBtn").disabled = !/.+@.+\..+/.test(email.value.trim()); });
+  email.addEventListener("keydown", e=>{ if(e.key==="Enter" && !$("#sendCodeBtn").disabled) sendCode(); });
+  code.addEventListener("input", ()=>{ $("#verifyBtn").disabled = code.value.trim().length < 6; });
+  code.addEventListener("keydown", e=>{ if(e.key==="Enter" && !$("#verifyBtn").disabled) verifyCode(); });
+  $("#sendCodeBtn").onclick = sendCode;
+  $("#verifyBtn").onclick = verifyCode;
+  $("#resendLink").onclick = e=>{ e.preventDefault(); sendCode(); };
+  $("#changeEmailLink").onclick = e=>{ e.preventDefault(); $("#codeStep").classList.add("hidden"); $("#emailStep").classList.remove("hidden"); authMsg(""); };
+}
+
+async function sendCode(){
+  const e = $("#emailInput").value.trim().toLowerCase();
+  authMsg(""); const btn = $("#sendCodeBtn"); btn.disabled = true; btn.textContent = "Sending…";
+  const { error } = await SUPA.auth.signInWithOtp({ email: e, options: { shouldCreateUser: true } });
+  btn.textContent = "Email me a code →";
+  if(error){ authMsg(error.message || "Couldn't send the code."); btn.disabled = false; return; }
+  $("#emailEcho").textContent = e;
+  $("#emailStep").classList.add("hidden");
+  $("#codeStep").classList.remove("hidden");
+  $("#codeInput").focus();
+}
+
+async function verifyCode(){
+  const e = $("#emailInput").value.trim().toLowerCase();
+  const token = $("#codeInput").value.trim();
+  authMsg(""); const btn = $("#verifyBtn"); btn.disabled = true; btn.textContent = "Verifying…";
+  const { data, error } = await SUPA.auth.verifyOtp({ email: e, token, type: "email" });
+  btn.textContent = "Verify & sign in";
+  if(error){ authMsg("That code didn't work — check it and try again."); btn.disabled = false; return; }
+  onSignedIn(data.user);
+}
+
+function onSignedIn(user){
+  const email = (user && user.email) ? user.email.toLowerCase() : "unknown";
+  student = { id: "email:" + email, name: email.split("@")[0] };   // email = stable identity
+  const sw = $("#switchBtn"); sw.textContent = "Sign out"; sw.classList.remove("hidden");
+  gotoAfterName();
 }
 
 function showHome(){

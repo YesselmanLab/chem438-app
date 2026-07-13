@@ -96,3 +96,26 @@ This is the survivor of a 4-strategy bake-off + 2 rounds of adversarial review.
   proctoring. If you ever need fabrication-proof grading, the upgrade is to
   re-run submitted code server-side (a small executor), reusing this same roster,
   Sheet, and authoring — only the grade endpoint changes.
+
+## Email login (optional accounts)
+
+By default the app uses simple name entry. To turn on real accounts with verified
+identity (students sign in with a code emailed to them — no passwords, no Google),
+do this once:
+
+1. Create a free project at **supabase.com**. Open **Project Settings → API** and
+   copy the **Project URL** and the **anon public** key.
+2. Paste both into the CONFIG block near the top of `index.html`:
+   `const SUPABASE_URL = "...";` and `const SUPABASE_ANON = "...";`
+   (Both are safe to commit — the anon key is designed to live in browsers.)
+3. In Supabase **Authentication → Providers → Email**, confirm **Email OTP** is on
+   (it is by default).
+4. `git push`. The start screen now asks for an email, emails a 6-digit code, and
+   signs the student in. Their email becomes their identity, so grades attribute
+   cleanly across devices.
+
+**Sending the emails:** Supabase's built-in mailer sends only a few per hour —
+enough for you to test, not a whole class. For real use, set
+**Authentication → Emails → SMTP** to your university mail server or a free tier
+(Resend / SendGrid / Amazon SES) so codes arrive reliably. You can also restrict
+sign-ups to your `@huskers.unl.edu` domain in the Auth settings.
