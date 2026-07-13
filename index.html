@@ -137,6 +137,10 @@
         </p>
       </div>
       <p class="foot" id="authMsg" style="text-align:left;color:var(--bad);margin-top:8px"></p>
+      <p class="foot" style="text-align:left;margin-top:14px;border-top:1px solid var(--line);padding-top:12px">
+        Just testing? <a href="#" id="previewStudent" style="color:var(--accent)">Preview as student</a>
+        · <a href="#" id="previewInstructor" style="color:var(--accent)">as instructor</a>
+      </p>
     </div>
   </div>
 
@@ -284,6 +288,8 @@ async function boot(){
     $("#startIntro").textContent = "Sign in with your email to see your assignments.";
     $("#switchBtn").onclick = async ()=>{ await SUPA.auth.signOut(); location.reload(); };
     wireEmailAuth();
+    $("#previewStudent").onclick = e=>{ e.preventDefault(); student={id:"preview:student",name:"Preview"}; $("#switchBtn").textContent="Exit preview"; $("#switchBtn").classList.remove("hidden"); gotoAfterName(); };
+    $("#previewInstructor").onclick = e=>{ e.preventDefault(); previewInstructor(); };
     const { data } = await SUPA.auth.getSession();
     if(data && data.session){ onSignedIn(data.session.user); }   // already logged in → resume
   } else {
@@ -379,6 +385,31 @@ function onSignedIn(user){
   const sw = $("#switchBtn"); sw.textContent = "Sign out"; sw.classList.remove("hidden");
   if(ADMIN_EMAILS.map(e=>e.toLowerCase()).includes(email)) showInstructor(email);
   else gotoAfterName();
+}
+
+function previewInstructor(){
+  ["#startCard","#homeCard","#qCards","#submitCard","#resultsCard"].forEach(s=>$(s).classList.add("hidden"));
+  $("#homeBtn").classList.add("hidden");
+  $("#lessonTitle").textContent = "Instructor (preview)";
+  $("#instructorCard").classList.remove("hidden");
+  $("#instrEmail").textContent = "preview mode — not signed in (sample data below)";
+  const sw = $("#switchBtn"); sw.textContent = "Exit preview"; sw.classList.remove("hidden");
+  const demo = [
+    {email:"student1@example.edu", lesson:"lesson_01", score:8, out_of:8, updated_at:"2026-07-13"},
+    {email:"student1@example.edu", lesson:"lesson_02", score:6, out_of:7, updated_at:"2026-07-13"},
+    {email:"student2@example.edu", lesson:"lesson_01", score:5, out_of:8, updated_at:"2026-07-12"},
+    {email:"student3@example.edu",  lesson:"lesson_01", score:8, out_of:8, updated_at:"2026-07-13"},
+  ];
+  const body = $("#gbBody"); body.innerHTML = "";
+  const cell = "padding:10px 12px;border-bottom:1px solid var(--line)";
+  demo.forEach(r=>{
+    const tr = document.createElement("tr");
+    tr.innerHTML =
+      '<td style="'+cell+'">'+esc(r.email)+'</td><td style="'+cell+'">'+esc(r.lesson)+'</td>'+
+      '<td style="'+cell+';font-weight:600">'+r.score+' / '+r.out_of+'</td>'+
+      '<td style="'+cell+';color:var(--faint)">'+esc(r.updated_at)+'</td>';
+    body.appendChild(tr);
+  });
 }
 
 async function showInstructor(email){
