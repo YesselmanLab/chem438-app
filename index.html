@@ -123,8 +123,14 @@
       <div id="emailStep">
         <label class="fld" for="emailInput">Your email</label>
         <input type="email" id="emailInput" placeholder="you@huskers.unl.edu" autocomplete="email">
+        <div id="pwWrap" class="hidden">
+          <label class="fld" for="pwInput" style="margin-top:12px">Password</label>
+          <input type="password" id="pwInput" placeholder="••••••••" autocomplete="current-password">
+        </div>
         <div style="height:16px"></div>
         <button class="btn btn-primary" id="sendCodeBtn" style="width:100%" disabled>Email me a code →</button>
+        <button class="btn btn-primary hidden" id="pwSignInBtn" style="width:100%" disabled>Sign in →</button>
+        <p class="foot" style="text-align:left;margin-top:10px"><a href="#" id="togglePw" style="color:var(--accent)">Use a password instead</a></p>
       </div>
       <div id="codeStep" class="hidden">
         <label class="fld" for="codeInput">Enter the 6-digit code sent to <b id="emailEcho"></b></label>
@@ -345,16 +351,42 @@ function gotoAfterName(){
 // ---------------- email-code login (Supabase) ----------------
 function authMsg(m){ $("#authMsg").textContent = m || ""; }
 
+let pwMode = false;
 function wireEmailAuth(){
-  const email = $("#emailInput"), code = $("#codeInput");
-  email.addEventListener("input", ()=>{ $("#sendCodeBtn").disabled = !/.+@.+\..+/.test(email.value.trim()); });
-  email.addEventListener("keydown", e=>{ if(e.key==="Enter" && !$("#sendCodeBtn").disabled) sendCode(); });
+  const email = $("#emailInput"), code = $("#codeInput"), pw = $("#pwInput");
+  function refresh(){
+    const emOk = /.+@.+\..+/.test(email.value.trim());
+    $("#sendCodeBtn").disabled = !emOk;
+    $("#pwSignInBtn").disabled = !(emOk && pw.value.length >= 1);
+  }
+  email.addEventListener("input", refresh);
+  pw.addEventListener("input", refresh);
+  email.addEventListener("keydown", e=>{ if(e.key!=="Enter") return;
+    if(pwMode){ if(!$("#pwSignInBtn").disabled) pwSignIn(); } else if(!$("#sendCodeBtn").disabled) sendCode(); });
+  pw.addEventListener("keydown", e=>{ if(e.key==="Enter" && !$("#pwSignInBtn").disabled) pwSignIn(); });
   code.addEventListener("input", ()=>{ $("#verifyBtn").disabled = code.value.trim().length < 6; });
   code.addEventListener("keydown", e=>{ if(e.key==="Enter" && !$("#verifyBtn").disabled) verifyCode(); });
   $("#sendCodeBtn").onclick = sendCode;
+  $("#pwSignInBtn").onclick = pwSignIn;
   $("#verifyBtn").onclick = verifyCode;
   $("#resendLink").onclick = e=>{ e.preventDefault(); sendCode(); };
   $("#changeEmailLink").onclick = e=>{ e.preventDefault(); $("#codeStep").classList.add("hidden"); $("#emailStep").classList.remove("hidden"); authMsg(""); };
+  $("#togglePw").onclick = e=>{ e.preventDefault(); pwMode = !pwMode;
+    $("#pwWrap").classList.toggle("hidden", !pwMode);
+    $("#sendCodeBtn").classList.toggle("hidden", pwMode);
+    $("#pwSignInBtn").classList.toggle("hidden", !pwMode);
+    $("#togglePw").textContent = pwMode ? "Use an email code instead" : "Use a password instead";
+    authMsg("");
+  };
+}
+
+async function pwSignIn(){
+  const e = $("#emailInput").value.trim().toLowerCase(), p = $("#pwInput").value;
+  authMsg(""); const btn = $("#pwSignInBtn"); btn.disabled = true; btn.textContent = "Signing in…";
+  const { data, error } = await SUPA.auth.signInWithPassword({ email: e, password: p });
+  btn.textContent = "Sign in →";
+  if(error){ authMsg(error.message || "Sign-in failed — check the email and password."); btn.disabled = false; return; }
+  onSignedIn(data.user);
 }
 
 async function sendCode(){
