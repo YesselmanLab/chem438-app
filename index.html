@@ -77,6 +77,69 @@
   .dot.ok{background:var(--good)}.dot.no{background:var(--bad)}.dot.txt{background:var(--accent)}
   .hidden{display:none!important}
   .foot{color:var(--faint);font-size:12.5px;text-align:center;margin-top:20px}
+  /* ===== student nav ===== */
+  .snav{display:flex;gap:3px;margin-left:14px}
+  .snav button{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--soft);background:none;border:none;padding:7px 11px;border-radius:8px;cursor:pointer}
+  .snav button:hover{background:var(--accent-soft);color:var(--ink)}
+  .snav button.on{background:var(--accent-soft);color:var(--accent-ink)}
+  .xpchip{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:12.5px;font-weight:700;color:#b9791a;background:#f8efd9;padding:4px 10px;border-radius:20px}
+  .strk{font-weight:700;font-size:13px;color:#e2673a}
+  @media (prefers-color-scheme:dark){.xpchip{color:#e0b155;background:#2a2415}.strk{color:#ef8055}}
+  /* ===== dashboard ===== */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:18px}
+  .st{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 17px;box-shadow:var(--shadow)}
+  .st .n{font-size:1.65rem;font-weight:760;letter-spacing:-.03em}
+  .st .l{font-size:12.5px;color:var(--faint);margin-top:2px}
+  .st .n.a{color:var(--accent-ink)}.st .n.g{color:var(--good)}.st .n.o{color:#b9791a}.st .n.f{color:#e2673a}
+  .resume{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,var(--accent),#7d5cf0);color:#fff;border-radius:15px;padding:18px 20px;margin-bottom:6px;box-shadow:var(--shadow)}
+  .resume .t{font-weight:700;font-size:1.02rem}.resume .d{opacity:.87;font-size:13px;margin-top:2px}
+  .resume button{margin-left:auto;background:#fff;color:var(--accent-ink);border:none;font-weight:700;padding:9px 16px;border-radius:9px;cursor:pointer;font-family:var(--sans);white-space:nowrap}
+  .sechd{display:flex;align-items:center;margin:22px 0 11px;font-size:1.05rem;font-weight:660}
+  .sechd .more{margin-left:auto;font-size:13px;font-weight:600;color:var(--accent);cursor:pointer}
+  .hwgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:13px}
+  .hwc{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px;box-shadow:var(--shadow);cursor:pointer;display:flex;flex-direction:column;gap:8px}
+  .hwc:hover{border-color:var(--accent)}
+  .hwc h4{margin:0;font-size:1rem}
+  .hwc .meta{font-size:12.5px;color:var(--faint)}
+  .trk{height:6px;background:var(--bg);border-radius:9px;overflow:hidden;margin-top:auto}
+  .trk>span{display:block;height:100%;background:var(--accent);border-radius:9px}
+  .hwc .ft{display:flex;justify-content:space-between;font-size:12.5px}
+  .scored{color:var(--good);font-weight:700}
+  .skill{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+  .skill .k{width:100px;font-size:13.5px;font-weight:600}
+  .skill .t{flex:1;height:8px;background:var(--bg);border-radius:9px;overflow:hidden}
+  .skill .t>span{display:block;height:100%;background:var(--accent);border-radius:9px}
+  .skill .v{width:44px;text-align:right;font-family:var(--mono);font-size:12px;color:var(--soft)}
+  /* ===== challenges ===== */
+  .filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+  .fchip{font-family:var(--mono);font-size:11.5px;padding:5px 11px;border-radius:20px;border:1px solid var(--line2);color:var(--soft);background:var(--card);cursor:pointer}
+  .fchip.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
+  .chgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:13px}
+  .chc{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px;box-shadow:var(--shadow);cursor:pointer;display:flex;flex-direction:column;gap:7px;position:relative}
+  .chc:hover{border-color:var(--accent)}
+  .chc.solved{border-color:color-mix(in srgb,var(--good) 45%,var(--line))}
+  .chc .tick{position:absolute;top:13px;right:13px;width:19px;height:19px;border-radius:50%;background:var(--good);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700}
+  .chc h4{margin:0;font-size:.98rem;padding-right:22px}
+  .chc .tg{font-family:var(--mono);font-size:11px;color:var(--faint)}
+  .chc .row{display:flex;align-items:center;gap:8px;margin-top:auto}
+  .diff{font-family:var(--mono);font-size:10px;text-transform:uppercase;font-weight:700;padding:2px 7px;border-radius:5px;color:var(--good);background:var(--good-soft)}
+  .xpv{margin-left:auto;font-family:var(--mono);font-size:12px;font-weight:700;color:#b9791a}
+  @media (prefers-color-scheme:dark){.xpv{color:#e0b155}}
+  /* ===== instructor console ===== */
+  .itabs{display:flex;gap:3px;border-bottom:1px solid var(--line);margin-bottom:18px}
+  .itabs button{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--soft);background:none;border:none;padding:9px 12px;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px}
+  .itabs button.on{color:var(--accent-ink);border-bottom-color:var(--accent)}
+  .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:18px}
+  .bar{display:flex;align-items:center;gap:11px;margin-bottom:11px}
+  .bar .k{width:130px;font-size:13.5px;font-weight:600}
+  .bar .t{flex:1;height:8px;background:var(--bg);border-radius:9px;overflow:hidden}
+  .bar .t>span{display:block;height:100%;background:var(--accent);border-radius:9px}
+  .bar .v{width:52px;text-align:right;font-family:var(--mono);font-size:12px;color:var(--soft)}
+  .feed .fi{display:flex;align-items:center;gap:9px;padding:8px 0;border-top:1px solid var(--line);font-size:13.5px}
+  .feed .fi:first-child{border-top:none}
+  .feed .fi .m{margin-left:auto;color:var(--faint);font-family:var(--mono);font-size:12px}
+  .sub-panel{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+  .sub-panel h3{margin:0 0 14px;font-size:1.02rem}
   .lessonlist{display:flex;flex-direction:column;gap:10px;margin-top:14px}
   .lessonlink{display:flex;align-items:center;gap:12px;text-align:left;width:100%;background:var(--card);border:1.5px solid var(--line2);border-radius:12px;padding:16px 18px;cursor:pointer;font-size:16px;font-weight:600;color:var(--ink);font-family:var(--sans)}
   .lessonlink:hover{border-color:var(--accent);background:var(--accent-soft)}
@@ -93,9 +156,16 @@
 <div class="wrap">
   <div class="top">
     <div class="logo">438</div>
-    <div><b>CHEM 438 Homework</b><small id="lessonTitle">loading…</small></div>
-    <div style="margin-left:auto;display:flex;gap:8px">
-      <button id="homeBtn" class="btn btn-ghost btn-sm hidden">← Lessons</button>
+    <div><b>CHEM 438</b><small id="lessonTitle">loading…</small></div>
+    <div class="snav hidden" id="snav">
+      <button data-nav="dash">Dashboard</button>
+      <button data-nav="hw">Homework</button>
+      <button data-nav="ch">Challenges</button>
+    </div>
+    <div style="margin-left:auto;display:flex;gap:10px;align-items:center">
+      <span class="strk hidden" id="streakChip"></span>
+      <span class="xpchip hidden" id="xpChip"></span>
+      <button id="homeBtn" class="btn btn-ghost btn-sm hidden">← Back</button>
       <button id="switchBtn" class="btn btn-ghost btn-sm hidden">Switch</button>
     </div>
   </div>
@@ -150,26 +220,98 @@
     </div>
   </div>
 
-  <!-- INSTRUCTOR (gradebook) -->
+  <!-- INSTRUCTOR CONSOLE -->
   <div class="card hidden" id="instructorCard">
-    <div style="font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink);font-weight:600">Instructor</div>
-    <h1 style="margin:6px 0 2px">Gradebook</h1>
-    <p class="intro">Signed in as <b id="instrEmail"></b>. Scores update as students submit.</p>
-    <div style="overflow-x:auto;border:1px solid var(--line);border-radius:10px;margin-top:10px">
-      <table style="width:100%;border-collapse:collapse;font-size:14px;min-width:460px">
-        <thead><tr>
-          <th style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--faint)">Student</th>
-          <th style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--faint)">Assignment</th>
-          <th style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--faint)">Score</th>
-          <th style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--faint)">Updated</th>
-        </tr></thead>
-        <tbody id="gbBody"></tbody>
-      </table>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <div>
+        <div style="font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink);font-weight:600">Instructor</div>
+        <h1 style="margin:4px 0 2px" id="instrTitle">Overview</h1>
+        <p class="intro" style="margin:0">Signed in as <b id="instrEmail"></b></p>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="viewAsStudent" style="margin-left:auto">View as student ↗</button>
     </div>
-    <p class="foot" style="text-align:left;margin-top:12px">Author assignments from the problem bank with <code>authoring/builder.html</code>.</p>
+    <div style="height:16px"></div>
+    <div class="itabs" id="itabs">
+      <button data-itab="overview" class="on">Overview</button>
+      <button data-itab="grades">Gradebook</button>
+      <button data-itab="assigns">Assignments</button>
+    </div>
+
+    <div id="itab-overview">
+      <div class="metrics" id="ovMetrics"></div>
+      <div class="sub-panel"><h3>Completion by assignment</h3><div id="ovBars"></div></div>
+      <div class="sub-panel"><h3>Recent submissions</h3><div class="feed" id="ovFeed"></div></div>
+    </div>
+
+    <div id="itab-grades" class="hidden">
+      <div style="overflow-x:auto;border:1px solid var(--line);border-radius:10px">
+        <table style="width:100%;border-collapse:collapse;font-size:14px;min-width:460px">
+          <thead><tr>
+            <th style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:11px;text-transform:uppercase;color:var(--faint)">Student</th>
+            <th style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:11px;text-transform:uppercase;color:var(--faint)">Assignment</th>
+            <th style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:11px;text-transform:uppercase;color:var(--faint)">Score</th>
+            <th style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:11px;text-transform:uppercase;color:var(--faint)">Updated</th>
+          </tr></thead>
+          <tbody id="gbBody"></tbody>
+        </table>
+      </div>
+      <p class="foot" style="text-align:left;margin-top:10px">Challenge solves are excluded here — they're practice, not graded.</p>
+    </div>
+
+    <div id="itab-assigns" class="hidden">
+      <div class="lessonlist" id="asList"></div>
+      <p class="foot" style="text-align:left;margin-top:12px">Build new assignments from the problem bank with <code>authoring/builder.html</code>.</p>
+    </div>
   </div>
 
-  <!-- HOME (lesson picker) -->
+  <!-- DASHBOARD -->
+  <div class="hidden" id="dashCard">
+    <div class="card">
+      <h1 id="dashHi" style="margin:0 0 2px">Hi</h1>
+      <p class="intro" id="dashSub"></p>
+      <div style="height:14px"></div>
+      <div class="stats" id="dashStats"></div>
+      <div id="resumeWrap"></div>
+      <div class="sechd">Your homework <span class="more" data-nav="hw">See all →</span></div>
+      <div class="hwgrid" id="dashHw"></div>
+      <div class="sechd">Recommended challenges <span class="more" data-nav="ch">Browse all →</span></div>
+      <div class="chgrid" id="dashRec"></div>
+      <div class="sechd">Your skills</div>
+      <div id="dashSkills"></div>
+    </div>
+  </div>
+
+  <!-- CHALLENGES -->
+  <div class="hidden" id="chCard">
+    <div class="card">
+      <h1 style="margin:0 0 2px">Challenges</h1>
+      <p class="intro">Bite-size practice. Not graded — solve them for XP whenever you like.</p>
+      <div style="height:14px"></div>
+      <div class="filters" id="chFilters"></div>
+      <div class="chgrid" id="chList"></div>
+    </div>
+  </div>
+
+  <!-- CHALLENGE WORKSPACE -->
+  <div class="hidden" id="chalCard">
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span class="diff" id="chalDiff">easy</span>
+        <span class="xpv" id="chalXp"></span>
+      </div>
+      <h1 id="chalTitle" style="margin:8px 0 6px"></h1>
+      <div class="prompt" id="chalPrompt" style="white-space:pre-wrap;color:var(--soft)"></div>
+      <div id="chalBody" style="margin-top:14px"></div>
+      <div class="runrow" style="margin-top:12px">
+        <button class="btn btn-ghost btn-sm" id="chalRun">▸ Run</button>
+        <button class="btn btn-primary btn-sm" id="chalSubmit">✓ Submit</button>
+      </div>
+      <pre class="out" id="chalOut"></pre>
+      <div class="res" id="chalRes"></div>
+    </div>
+  </div>
+
+  <!-- HOME (homework list) -->
   <div class="card hidden" id="homeCard">
     <h1>Your assignments</h1>
     <p class="intro" id="homeHi"></p>
@@ -215,7 +357,13 @@ const SUPA = (SUPABASE_URL && SUPABASE_ANON && window.supabase)
 const params = new URLSearchParams(location.search);
 const LESSON_ID = params.get("lesson") || "lesson_01";
 
+const $$ = s => document.querySelectorAll(s);
 let lesson = null, manifest = [], pyodide = null, pyFailed = false;
+let challenges = [], mySubs = [], allSubs = [];      // practice challenges + submission rows
+let lastList = "dash", chFilter = null, curChal = null, chalState = {};
+let adminEmail = null, viewingAsStudent = false;
+const VIEWS = ["#startCard","#dashCard","#homeCard","#chCard","#chalCard","#qCards","#submitCard","#resultsCard","#instructorCard"];
+function hideAll(){ VIEWS.forEach(s=>{ const e=$(s); if(e) e.classList.add("hidden"); }); }
 let student = null;                 // {id, name}
 const state = {};                   // qid -> {choice} or {code} or {text}
 let saved = {}, PROGRESS_KEY = null;   // per (student, lesson) autosave
@@ -283,9 +431,13 @@ async function boot(){
   try{
     manifest = ((await fetch(`lessons/index.json`).then(r=>r.json())).lessons) || [];
   }catch(e){ return showErr("Couldn't load the assignment list. Check your connection."); }
+  try{
+    challenges = ((await fetch(`lessons/challenges.json`).then(r=>r.json())).challenges) || [];
+  }catch(e){ challenges = []; }
 
   $("#startTitle").textContent = "CHEM 438 Homework";
-  $("#homeBtn").onclick = ()=>{ history.replaceState(null,"",location.pathname); showHome(); };
+  $$("#snav button").forEach(b=>b.onclick=()=>navTo(b.dataset.nav));
+  $$(".sechd .more").forEach(el=>el.onclick=()=>navTo(el.dataset.nav));
 
   if(SUPA){
     // ---- email-code login (accounts) ----
@@ -342,10 +494,290 @@ function start(){
   gotoAfterName();
 }
 
-function gotoAfterName(){
+async function gotoAfterName(){
+  await loadMySubs();
   const dl = params.get("lesson");
   if(dl && manifest.some(l=>l.id===dl)) openLesson(dl);
-  else showHome();
+  else showDashboard();
+}
+
+// ---------------- student data ----------------
+async function loadMySubs(){
+  mySubs = [];
+  if(!SUPA || !student || !student.id.startsWith("email:")) return;
+  try{
+    const { data, error } = await SUPA.from("submissions").select("lesson,score,out_of,updated_at");
+    if(!error && data) mySubs = data;
+  }catch(e){}
+}
+function solvedIds(){ return new Set(mySubs.filter(r=>r.lesson.startsWith("ch:") && r.score>0).map(r=>r.lesson.slice(3))); }
+function hwSubs(){ return mySubs.filter(r=>!r.lesson.startsWith("ch:")); }
+function totalXp(){ const s=solvedIds(); return challenges.filter(c=>s.has(c.id)).reduce((a,c)=>a+(c.xp||10),0); }
+function streakDays(){
+  const days=[...new Set(mySubs.map(r=>(r.updated_at||"").slice(0,10)).filter(Boolean))].sort().reverse();
+  if(!days.length) return 0;
+  let n=1, prev=new Date(days[0]);
+  for(let i=1;i<days.length;i++){
+    const cur=new Date(days[i]), diff=Math.round((prev-cur)/86400000);
+    if(diff===1){ n++; prev=cur; } else if(diff===0){ continue; } else break;
+  }
+  return n;
+}
+function skills(){
+  const s=solvedIds(), m={};
+  challenges.forEach(c=>(c.tags||[]).forEach(t=>{
+    if(/^week/.test(t)) return;
+    m[t]=m[t]||{n:0,d:0}; m[t].d++; if(s.has(c.id)) m[t].n++;
+  }));
+  return Object.entries(m).map(([k,v])=>({k,pct:Math.round(100*v.n/v.d)}))
+    .sort((a,b)=>b.pct-a.pct).slice(0,6);
+}
+function updateChips(){
+  const xp=totalXp(), st=streakDays();
+  const x=$("#xpChip"), s=$("#streakChip");
+  if(xp>0){ x.textContent="◆ "+xp+" XP"; x.classList.remove("hidden"); } else x.classList.add("hidden");
+  if(st>0){ s.textContent="🔥 "+st; s.classList.remove("hidden"); } else s.classList.add("hidden");
+}
+
+// ---------------- nav ----------------
+function setNav(v){
+  $("#snav").classList.remove("hidden");
+  $$("#snav button").forEach(b=>b.classList.toggle("on", b.dataset.nav===v));
+}
+function navTo(v){ if(v==="dash") showDashboard(); else if(v==="hw") showHomework(); else showChallenges(); }
+function backForList(){
+  const h=$("#homeBtn");
+  if(viewingAsStudent){ h.textContent="← Instructor"; h.classList.remove("hidden");
+    h.onclick=()=>{ viewingAsStudent=false; renderInstructor(adminEmail); }; }
+  else h.classList.add("hidden");
+}
+function backTo(list){
+  const h=$("#homeBtn"); h.textContent="← Back"; h.classList.remove("hidden");
+  h.onclick=()=>navTo(list);
+}
+
+// ---------------- dashboard ----------------
+function stat(n,l,c){ return '<div class="st"><div class="n '+c+'">'+n+'</div><div class="l">'+l+'</div></div>'; }
+function hwCardHtml(l,hw){
+  const sub=hw.find(r=>r.lesson===l.id);
+  const started=!!localStorage.getItem("c438:"+student.id+":"+l.id);
+  const prog=sub?100:(started?40:0);
+  const ft=sub ? '<span>submitted</span><span class="scored">'+sub.score+'/'+sub.out_of+' ✓</span>'
+                : (started?'<span>in progress</span><span>—</span>':'<span>not started</span><span>—</span>');
+  return '<div class="hwc" data-open="'+l.id+'"><h4>'+esc(l.title)+'</h4>'+
+    '<div class="trk"><span style="width:'+prog+'%"></span></div><div class="ft">'+ft+'</div></div>';
+}
+function chCardHtml(c,s){
+  const done=s.has(c.id);
+  return '<div class="chc'+(done?" solved":"")+'" data-ch="'+c.id+'">'+(done?'<div class="tick">✓</div>':'')+
+    '<h4>'+esc(c.title)+'</h4><div class="tg">'+(c.tags||[]).filter(t=>!/^week/.test(t)).join(" · ")+'</div>'+
+    '<div class="row"><span class="diff">'+esc(c.difficulty)+'</span><span class="xpv">◆ '+c.xp+' XP</span></div></div>';
+}
+function wireCards(){
+  $$(".hwc").forEach(el=>el.onclick=()=>openLesson(el.dataset.open));
+  $$(".chc").forEach(el=>el.onclick=()=>openChallenge(el.dataset.ch));
+}
+
+function showDashboard(){
+  hideAll(); $("#dashCard").classList.remove("hidden");
+  setNav("dash"); lastList="dash"; backForList();
+  $("#lessonTitle").textContent="Dashboard";
+  updateChips();
+  const s=solvedIds(), hw=hwSubs();
+  $("#dashHi").textContent="Hi "+student.name.split(" ")[0]+" 👋";
+  $("#dashSub").textContent = s.size
+    ? "You've solved "+s.size+" challenge"+(s.size===1?"":"s")+" and earned "+totalXp()+" XP."
+    : "Start with a homework, or warm up with a practice challenge.";
+  $("#dashStats").innerHTML = stat(totalXp(),"XP earned","o")+stat(s.size,"challenges solved","a")+
+    stat(hw.length+"/"+manifest.length,"homework submitted","g")+stat(streakDays(),"day streak","f");
+  const next = manifest.find(l=>!hw.some(r=>r.lesson===l.id));
+  $("#resumeWrap").innerHTML = next
+    ? '<div class="resume"><div><div class="t">Pick up where you left off</div><div class="d">'+esc(next.title)+'</div></div><button id="resumeBtn">Continue →</button></div>'
+    : '';
+  if(next) $("#resumeBtn").onclick=()=>openLesson(next.id);
+  $("#dashHw").innerHTML = manifest.map(l=>hwCardHtml(l,hw)).join("");
+  const rec = challenges.filter(c=>!s.has(c.id)).slice(0,3);
+  $("#dashRec").innerHTML = rec.length ? rec.map(c=>chCardHtml(c,s)).join("")
+    : '<p class="foot" style="text-align:left">You\'ve solved them all. 🎉</p>';
+  const sk=skills();
+  $("#dashSkills").innerHTML = sk.length
+    ? sk.map(k=>'<div class="skill"><span class="k">'+esc(k.k)+'</span><span class="t"><span style="width:'+k.pct+'%"></span></span><span class="v">'+k.pct+'%</span></div>').join("")
+    : '<p class="foot" style="text-align:left">Solve challenges to build your skill profile.</p>';
+  wireCards();
+}
+
+function showHomework(){
+  hideAll(); $("#homeCard").classList.remove("hidden");
+  setNav("hw"); lastList="hw"; backForList();
+  $("#lessonTitle").textContent="Homework";
+  $("#homeHi").textContent="Graded assignments. Submit when you're done.";
+  $("#lessonList").innerHTML = '<div class="hwgrid">'+manifest.map(l=>hwCardHtml(l,hwSubs())).join("")+'</div>';
+  wireCards();
+}
+
+function showChallenges(){
+  hideAll(); $("#chCard").classList.remove("hidden");
+  setNav("ch"); lastList="ch"; backForList();
+  $("#lessonTitle").textContent="Challenges";
+  const s=solvedIds();
+  $("#chFilters").innerHTML=["all","unsolved","solved"].map(o=>
+    '<button class="fchip'+((chFilter||"all")===o?" on":"")+'" data-f="'+o+'">'+o+'</button>').join("");
+  $$("#chFilters .fchip").forEach(b=>b.onclick=()=>{ chFilter = b.dataset.f==="all"?null:b.dataset.f; showChallenges(); });
+  let list=challenges;
+  if(chFilter==="unsolved") list=challenges.filter(c=>!s.has(c.id));
+  if(chFilter==="solved") list=challenges.filter(c=>s.has(c.id));
+  $("#chList").innerHTML = list.length ? list.map(c=>chCardHtml(c,s)).join("")
+    : '<p class="foot" style="text-align:left">Nothing here yet.</p>';
+  wireCards();
+}
+
+// ---------------- challenge workspace ----------------
+async function openChallenge(id){
+  const c=challenges.find(x=>x.id===id); if(!c) return;
+  curChal=c; chalState={};
+  hideAll(); $("#chalCard").classList.remove("hidden");
+  setNav("ch"); backTo("ch");
+  $("#lessonTitle").textContent=c.title;
+  $("#chalTitle").textContent=c.title;
+  $("#chalDiff").textContent=c.difficulty;
+  $("#chalXp").textContent="◆ "+c.xp+" XP";
+  $("#chalPrompt").textContent=c.prompt;
+  const out=$("#chalOut"); out.classList.remove("show"); out.textContent="";
+  $("#chalRes").innerHTML="";
+  const body=$("#chalBody"); body.innerHTML="";
+  if(c.kind==="mcq"){
+    $("#chalRun").classList.add("hidden");
+    const box=document.createElement("div"); box.className="choices";
+    const L=["A","B","C","D","E"];
+    c.choices.forEach((ch,i)=>{
+      const b=document.createElement("button"); b.className="choice";
+      b.innerHTML='<span class="mk">'+L[i]+'</span><span>'+esc(ch)+'</span>';
+      b.onclick=()=>{ box.querySelectorAll(".choice").forEach(x=>x.classList.remove("sel")); b.classList.add("sel"); chalState.choice=i; };
+      box.appendChild(b);
+    });
+    body.appendChild(box);
+  } else {
+    $("#chalRun").classList.remove("hidden");
+    const ta=document.createElement("textarea"); ta.className="code"; ta.spellcheck=false;
+    ta.value=c.starter||""; chalState.code=ta.value;
+    ta.addEventListener("keydown",tabKey);
+    ta.addEventListener("input",()=>{ chalState.code=ta.value; });
+    body.appendChild(ta);
+    if(window.CodeMirror){
+      const dark=(document.documentElement.getAttribute("data-theme")
+        || (matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"))==="dark";
+      const cm=CodeMirror.fromTextArea(ta,{mode:"python",theme:dark?"material-darker":"default",
+        lineNumbers:false,indentUnit:4,tabSize:4,viewportMargin:Infinity});
+      cm.setSize(null,"auto");
+      cm.on("change",()=>{ chalState.code=cm.getValue(); });
+      requestAnimationFrame(()=>cm.refresh());
+    }
+  }
+}
+
+function gradeWithKey(a,k){
+  if(!k) return null;
+  if(k.kind==="mcq") return a.choice===k.answer;
+  if(a.error || !a.outputs) return false;
+  if(k.kind==="code_var") return !!cmp(k.expected, a.outputs[0], k.tol);
+  if(k.kind==="code_fn") return !!cmp(k.expected, a.outputs, k.tol);
+  return null;
+}
+async function recordSolve(c){
+  if(!SUPA || !student.id.startsWith("email:")) return;
+  try{
+    await SUPA.from("submissions").upsert(
+      {email:student.id.slice(6), lesson:"ch:"+c.id, score:1, out_of:1, results:{solved:true}},
+      {onConflict:"email,lesson"});
+    await loadMySubs();
+  }catch(e){}
+}
+
+// ---------------- instructor console ----------------
+const DEMO_SUBS=[
+  {email:"student1@example.edu",lesson:"homework_01",score:8,out_of:8,updated_at:"2026-07-13"},
+  {email:"student1@example.edu",lesson:"lesson_02",score:6,out_of:7,updated_at:"2026-07-13"},
+  {email:"student2@example.edu",lesson:"homework_01",score:5,out_of:8,updated_at:"2026-07-12"},
+  {email:"student3@example.edu",lesson:"homework_01",score:8,out_of:8,updated_at:"2026-07-13"},
+];
+function previewInstructor(){ renderInstructor(null,{preview:true}); }
+
+async function renderInstructor(email, opts){
+  opts = opts || {};
+  adminEmail = email || adminEmail;
+  hideAll();
+  $("#snav").classList.add("hidden");
+  $("#xpChip").classList.add("hidden"); $("#streakChip").classList.add("hidden");
+  $("#homeBtn").classList.add("hidden");
+  $("#instructorCard").classList.remove("hidden");
+  $("#lessonTitle").textContent = opts.preview ? "Instructor (preview)" : "Instructor";
+  $("#instrEmail").textContent  = opts.preview ? "preview mode — sample data" : (adminEmail||"");
+  const sw=$("#switchBtn"); sw.textContent = opts.preview ? "Exit preview" : "Sign out"; sw.classList.remove("hidden");
+  $$("#itabs button").forEach(b=>b.onclick=()=>selectITab(b.dataset.itab));
+  $("#viewAsStudent").onclick=()=>{
+    viewingAsStudent=true;
+    if(!student) student={id:"instructor", name:"Instructor"};
+    showDashboard();
+  };
+  selectITab("overview");
+  allSubs = opts.preview ? DEMO_SUBS : await loadAllSubs();
+  renderOverview(); renderGradebook(); renderAssignments();
+}
+function selectITab(t){
+  $$("#itabs button").forEach(b=>b.classList.toggle("on", b.dataset.itab===t));
+  ["overview","grades","assigns"].forEach(x=>$("#itab-"+x).classList.toggle("hidden", x!==t));
+  $("#instrTitle").textContent = {overview:"Overview",grades:"Gradebook",assigns:"Assignments"}[t];
+}
+async function loadAllSubs(){
+  try{
+    const { data, error } = await SUPA.from("submissions")
+      .select("email,lesson,score,out_of,updated_at").order("updated_at",{ascending:false});
+    if(error) throw error;
+    return data || [];
+  }catch(e){ return null; }
+}
+function renderOverview(){
+  const rows = allSubs || [];
+  const subs = rows.filter(r=>!r.lesson.startsWith("ch:"));
+  const students = new Set(rows.map(r=>r.email));
+  const pts = subs.reduce((a,r)=>a+(r.out_of||0),0), got = subs.reduce((a,r)=>a+(r.score||0),0);
+  const avg = pts ? Math.round(100*got/pts) : 0;
+  $("#ovMetrics").innerHTML = stat(students.size,"students","a")+stat(manifest.length,"assignments","a")+
+    stat(subs.length,"submissions","a")+stat(avg+"%","average score","g");
+  $("#ovBars").innerHTML = manifest.map(l=>{
+    const n = subs.filter(r=>r.lesson===l.id).length;
+    const pct = students.size ? Math.round(100*n/students.size) : 0;
+    return '<div class="bar"><span class="k">'+esc(l.title.split("—")[0].trim())+'</span>'+
+      '<span class="t"><span style="width:'+pct+'%"></span></span><span class="v">'+n+'/'+students.size+'</span></div>';
+  }).join("") || '<p class="foot">No assignments yet.</p>';
+  $("#ovFeed").innerHTML = rows.slice(0,6).map(r=>{
+    const isCh = r.lesson.startsWith("ch:");
+    const label = isCh ? "solved “"+r.lesson.slice(3)+"”" : r.lesson+" · "+r.score+"/"+r.out_of;
+    return '<div class="fi"><b>'+esc(r.email.split("@")[0])+'</b><span style="color:var(--soft)"> '+esc(label)+'</span>'+
+      '<span class="m">'+esc((r.updated_at||"").slice(0,10))+'</span></div>';
+  }).join("") || '<p class="foot">No submissions yet — they appear here as students work.</p>';
+}
+function renderGradebook(){
+  const body=$("#gbBody");
+  if(allSubs===null){ body.innerHTML='<tr><td colspan="4" style="padding:12px;color:var(--bad)">Couldn\'t load the gradebook — check the submissions table + policies.</td></tr>'; return; }
+  const subs = allSubs.filter(r=>!r.lesson.startsWith("ch:"));
+  if(!subs.length){ body.innerHTML='<tr><td colspan="4" style="padding:12px;color:var(--faint)">No submissions yet.</td></tr>'; return; }
+  const cell="padding:10px 12px;border-bottom:1px solid var(--line)";
+  body.innerHTML = subs.map(r=>'<tr><td style="'+cell+'">'+esc(r.email)+'</td><td style="'+cell+'">'+esc(r.lesson)+'</td>'+
+    '<td style="'+cell+';font-weight:600">'+r.score+' / '+r.out_of+'</td>'+
+    '<td style="'+cell+';color:var(--faint)">'+esc((r.updated_at||"").slice(0,10))+'</td></tr>').join("");
+}
+function renderAssignments(){
+  const rows = allSubs || [];
+  const subs = rows.filter(r=>!r.lesson.startsWith("ch:"));
+  const students = new Set(rows.map(r=>r.email));
+  $("#asList").innerHTML = manifest.map(l=>{
+    const rs = subs.filter(r=>r.lesson===l.id);
+    const pts = rs.reduce((a,r)=>a+(r.out_of||0),0), got = rs.reduce((a,r)=>a+(r.score||0),0);
+    const avg = pts ? Math.round(100*got/pts) : 0;
+    return '<div class="lessonlink" style="cursor:default"><span>'+esc(l.title)+'</span>'+
+      '<span class="go">'+rs.length+'/'+students.size+' submitted'+(rs.length?' · '+avg+'% avg':'')+'</span></div>';
+  }).join("") || '<p class="foot">No assignments.</p>';
 }
 
 // ---------------- email-code login (Supabase) ----------------
@@ -415,85 +847,13 @@ function onSignedIn(user){
   const email = (user && user.email) ? user.email.toLowerCase() : "unknown";
   student = { id: "email:" + email, name: email.split("@")[0] };   // email = stable identity
   const sw = $("#switchBtn"); sw.textContent = "Sign out"; sw.classList.remove("hidden");
-  if(ADMIN_EMAILS.map(e=>e.toLowerCase()).includes(email)) showInstructor(email);
+  if(ADMIN_EMAILS.map(e=>e.toLowerCase()).includes(email)) renderInstructor(email);
   else gotoAfterName();
 }
 
-function previewInstructor(){
-  ["#startCard","#homeCard","#qCards","#submitCard","#resultsCard"].forEach(s=>$(s).classList.add("hidden"));
-  $("#homeBtn").classList.add("hidden");
-  $("#lessonTitle").textContent = "Instructor (preview)";
-  $("#instructorCard").classList.remove("hidden");
-  $("#instrEmail").textContent = "preview mode — not signed in (sample data below)";
-  const sw = $("#switchBtn"); sw.textContent = "Exit preview"; sw.classList.remove("hidden");
-  const demo = [
-    {email:"student1@example.edu", lesson:"lesson_01", score:8, out_of:8, updated_at:"2026-07-13"},
-    {email:"student1@example.edu", lesson:"lesson_02", score:6, out_of:7, updated_at:"2026-07-13"},
-    {email:"student2@example.edu", lesson:"lesson_01", score:5, out_of:8, updated_at:"2026-07-12"},
-    {email:"student3@example.edu",  lesson:"lesson_01", score:8, out_of:8, updated_at:"2026-07-13"},
-  ];
-  const body = $("#gbBody"); body.innerHTML = "";
-  const cell = "padding:10px 12px;border-bottom:1px solid var(--line)";
-  demo.forEach(r=>{
-    const tr = document.createElement("tr");
-    tr.innerHTML =
-      '<td style="'+cell+'">'+esc(r.email)+'</td><td style="'+cell+'">'+esc(r.lesson)+'</td>'+
-      '<td style="'+cell+';font-weight:600">'+r.score+' / '+r.out_of+'</td>'+
-      '<td style="'+cell+';color:var(--faint)">'+esc(r.updated_at)+'</td>';
-    body.appendChild(tr);
-  });
-}
-
-async function showInstructor(email){
-  ["#startCard","#homeCard","#qCards","#submitCard","#resultsCard"].forEach(s=>$(s).classList.add("hidden"));
-  $("#homeBtn").classList.add("hidden");
-  $("#lessonTitle").textContent = "Instructor";
-  $("#instructorCard").classList.remove("hidden");
-  $("#instrEmail").textContent = email;
-  const body = $("#gbBody");
-  body.innerHTML = '<tr><td colspan="4" style="padding:12px;color:var(--faint)">Loading…</td></tr>';
-  try{
-    const { data, error } = await SUPA.from("submissions")
-      .select("email,lesson,score,out_of,updated_at").order("email").order("lesson");
-    if(error) throw error;
-    if(!data || !data.length){
-      body.innerHTML = '<tr><td colspan="4" style="padding:12px;color:var(--faint)">No submissions yet — scores appear here as students submit.</td></tr>';
-      return;
-    }
-    body.innerHTML = "";
-    data.forEach(r=>{
-      const tr = document.createElement("tr");
-      const cell = "padding:10px 12px;border-bottom:1px solid var(--line)";
-      tr.innerHTML =
-        '<td style="'+cell+'">'+esc(r.email)+'</td>'+
-        '<td style="'+cell+'">'+esc(r.lesson)+'</td>'+
-        '<td style="'+cell+';font-weight:600">'+(r.score)+' / '+(r.out_of)+'</td>'+
-        '<td style="'+cell+';color:var(--faint)">'+esc((r.updated_at||"").slice(0,10))+'</td>';
-      body.appendChild(tr);
-    });
-  }catch(e){
-    body.innerHTML = '<tr><td colspan="4" style="padding:12px;color:var(--bad)">Couldn\'t load the gradebook — make sure the submissions table + policies exist (see README "Instructor login").</td></tr>';
-  }
-}
-
-function showHome(){
-  ["#startCard","#qCards","#submitCard","#resultsCard"].forEach(s=>$(s).classList.add("hidden"));
-  $("#homeCard").classList.remove("hidden");
-  $("#homeBtn").classList.add("hidden");
-  $("#lessonTitle").textContent = "Assignments";
-  $("#homeHi").textContent = "Hi " + student.name.split(" ")[0] + " — pick an assignment.";
-  const list = $("#lessonList"); list.innerHTML = "";
-  manifest.forEach(l=>{
-    const inProg = !!localStorage.getItem("c438:" + student.id + ":" + l.id);
-    const b = document.createElement("button"); b.className = "lessonlink";
-    b.innerHTML = "<span>" + esc(l.title) + "</span><span class='go'>" + (inProg ? "resume " : "start ") + "→</span>";
-    b.onclick = ()=>openLesson(l.id);
-    list.appendChild(b);
-  });
-}
 
 async function openLesson(id){
-  $("#homeCard").classList.add("hidden");
+  hideAll();
   $("#errBanner").classList.remove("show");
   try{ lesson = await fetch(`lessons/${id}.json`).then(r=>r.json()); }
   catch(e){ return showErr("Couldn't load " + id + "."); }
@@ -501,10 +861,9 @@ async function openLesson(id){
   history.replaceState(null, "", "?lesson=" + id);
   PROGRESS_KEY = "c438:" + student.id + ":" + lesson.id;
   saved = JSON.parse(localStorage.getItem(PROGRESS_KEY) || "{}");
-  $("#resultsCard").classList.add("hidden");
+  setNav("hw"); backTo(lastList==="dash"?"dash":"hw");
   $("#qCards").classList.remove("hidden");     // show BEFORE building so CodeMirror measures real width
   $("#submitCard").classList.remove("hidden");
-  $("#homeBtn").classList.remove("hidden");
   const btn = $("#submitBtn"); btn.disabled = false; btn.textContent = "Submit lesson for grading";
   $("#submitNote").textContent = (GRADER_URL || (lesson && lesson.grade)) ? "" : "Preview mode: grading backend not connected yet.";
   renderQuestions();
@@ -680,8 +1039,52 @@ async function recordSubmission(res){
     await SUPA.from("submissions").upsert(
       { email: student.id.slice(6), lesson: lesson.id, score: got, out_of: auto, results },
       { onConflict: "email,lesson" });
+    await loadMySubs();          // keep the dashboard/XP in sync
+    updateChips();
   }catch(e){ /* non-fatal: gradebook write is best-effort */ }
 }
+
+// ---------------- challenge run / submit ----------------
+$("#chalRun").onclick = async ()=>{
+  const c = curChal; if(!c || c.kind==="mcq") return;
+  const out=$("#chalOut"); out.classList.add("show"); out.textContent="running…";
+  if(pyFailed){ out.textContent="Python isn't available on this device."; return; }
+  await loadPy();
+  try{
+    const inputs = pyodide.toPy(c.inputs || []);
+    const rp = pyodide.globals.get("preview")(chalState.code||"", c.kind, c.entry, inputs);
+    const r = (rp && rp.toJs) ? rp.toJs({dict_converter:Object.fromEntries}) : rp;
+    if(rp && rp.destroy) rp.destroy();
+    let t = (r.out||"");
+    if(r.err) t += (t?"\n":"") + r.err; else if(r.msg) t += (t?"\n":"") + r.msg;
+    out.textContent = t || "(no output)";
+  }catch(e){ out.textContent = trimErr(e); }
+};
+
+$("#chalSubmit").onclick = async ()=>{
+  const c = curChal; if(!c) return;
+  const res = $("#chalRes");
+  res.innerHTML = '<div style="color:var(--faint);padding:8px 0">checking…</div>';
+  let a = {id:c.id, kind:c.kind};
+  if(c.kind === "mcq"){
+    if(chalState.choice == null){ res.innerHTML='<div style="color:var(--faint);padding:8px 0">Pick an answer first.</div>'; return; }
+    a.choice = chalState.choice;
+  } else {
+    if(pyFailed){ res.innerHTML='<div style="color:var(--bad);padding:8px 0">Python unavailable on this device.</div>'; return; }
+    await loadPy();
+    a = await codeAnswer(c, chalState.code||"");
+  }
+  const ok = gradeWithKey(a, c.grade);
+  if(ok === true){
+    const already = solvedIds().has(c.id);
+    res.innerHTML = '<div style="margin-top:10px;padding:12px 14px;border-radius:10px;background:var(--good-soft);color:var(--good);font-weight:700">🎉 Solved!'
+      + (already ? " (already earned)" : " +" + c.xp + " XP") + '</div>';
+    await recordSolve(c);
+    updateChips();
+  } else {
+    res.innerHTML = '<div style="margin-top:10px;padding:12px 14px;border-radius:10px;background:var(--bad-soft);color:var(--bad);font-weight:600">✗ Not correct yet — keep trying.</div>';
+  }
+};
 
 function jsify(pyproxy){ try{ const v=pyproxy.toJs?pyproxy.toJs():pyproxy; if(pyproxy.destroy)pyproxy.destroy(); return v; }catch(_){ return pyproxy; } }
 

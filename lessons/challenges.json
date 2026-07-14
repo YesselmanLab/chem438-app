@@ -1,0 +1,400 @@
+{
+  "challenges": [
+    {
+      "id": "sum_total",
+      "title": "Sum two variables",
+      "kind": "code_var",
+      "tags": [
+        "arithmetic",
+        "variables",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Create a variable `a` equal to 7 and `b` equal to 5, then store their sum in a variable `total`.",
+      "starter": "a = \nb = \ntotal = ",
+      "entry": "total",
+      "grade": {
+        "kind": "code_var",
+        "expected": 12,
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "remainder_mod",
+      "title": "Remainder with %",
+      "kind": "code_var",
+      "tags": [
+        "arithmetic",
+        "operators",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Store the remainder of 17 divided by 5 in a variable `rem` (use the % operator).",
+      "starter": "rem = ",
+      "entry": "rem",
+      "grade": {
+        "kind": "code_var",
+        "expected": 2,
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "double_fix",
+      "title": "Fix the double function",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "debug",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Fix the bug: `double` should return its input doubled.",
+      "starter": "def double(x):\n    return x + 2      # <-- wrong, fix it",
+      "entry": "double",
+      "inputs": [
+        [
+          4
+        ],
+        [
+          10
+        ],
+        [
+          0
+        ],
+        [
+          7
+        ],
+        [
+          25
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          8,
+          20,
+          0,
+          14,
+          50
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "area_rect",
+      "title": "Rectangle area",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "arithmetic",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Write a function `area(length, width)` that returns the area of a rectangle.",
+      "starter": "def area(length, width):\n    ",
+      "entry": "area",
+      "inputs": [
+        [
+          3,
+          4
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          2,
+          10
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          1,
+          9
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          12,
+          25,
+          20,
+          21,
+          9
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "is_even",
+      "title": "is_even",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "logic",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Write a function `is_even(n)` that returns True if n is even, False otherwise.",
+      "starter": "def is_even(n):\n    ",
+      "entry": "is_even",
+      "inputs": [
+        [
+          4
+        ],
+        [
+          7
+        ],
+        [
+          0
+        ],
+        [
+          3
+        ],
+        [
+          10
+        ],
+        [
+          1
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          true,
+          false,
+          true,
+          false,
+          true,
+          false
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "mcq_str_plus_int",
+      "title": "What's wrong \u2014 text + number",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "debug",
+        "types",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "What is wrong with this code?\n\n    print(\"Total: \" + 5)",
+      "choices": [
+        "Nothing \u2014 it prints  Total: 5",
+        "You can't join text and a number with + \u2014 the 5 must be str(5)",
+        "print is spelled wrong",
+        "It needs another set of parentheses"
+      ],
+      "grade": {
+        "kind": "mcq",
+        "answer": 1
+      }
+    },
+    {
+      "id": "mcq_floor_div",
+      "title": "Predict \u2014 7 // 2",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "predict",
+        "operators",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "What does this print?\n\n    print(7 // 2)",
+      "choices": [
+        "3.5",
+        "3",
+        "3.0",
+        "1"
+      ],
+      "grade": {
+        "kind": "mcq",
+        "answer": 1
+      }
+    },
+    {
+      "id": "shout",
+      "title": "shout(word)",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "functions",
+        "week2"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Write a function `shout(word)` that returns the word in uppercase with an exclamation mark, e.g. shout(\"hi\") -> \"HI!\".",
+      "starter": "def shout(word):\n    ",
+      "entry": "shout",
+      "inputs": [
+        [
+          "hi"
+        ],
+        [
+          "mole"
+        ],
+        [
+          "acid"
+        ],
+        [
+          "yes"
+        ],
+        [
+          "bond"
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          "HI!",
+          "MOLE!",
+          "ACID!",
+          "YES!",
+          "BOND!"
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "first_letter",
+      "title": "first_letter(word)",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "functions",
+        "indexing",
+        "week2"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Write a function `first_letter(word)` that returns the first letter of a word. (Hint: word[0].)",
+      "starter": "def first_letter(word):\n    ",
+      "entry": "first_letter",
+      "inputs": [
+        [
+          "cat"
+        ],
+        [
+          "atom"
+        ],
+        [
+          "python"
+        ],
+        [
+          "salt"
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          "c",
+          "a",
+          "p",
+          "s"
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "str_upper",
+      "title": "Uppercase a string",
+      "kind": "code_var",
+      "tags": [
+        "strings",
+        "methods",
+        "week2"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Store the word \"python\" in ALL CAPS in a variable `caps`.",
+      "starter": "caps = ",
+      "entry": "caps",
+      "grade": {
+        "kind": "code_var",
+        "expected": "PYTHON",
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "str_len",
+      "title": "Length of a string",
+      "kind": "code_var",
+      "tags": [
+        "strings",
+        "week2"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Store the number of letters in \"chemistry\" in a variable `n` (use the len() function).",
+      "starter": "n = ",
+      "entry": "n",
+      "grade": {
+        "kind": "code_var",
+        "expected": 9,
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "mcq_len_cat",
+      "title": "Predict \u2014 len('cat')",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "predict",
+        "strings",
+        "week2"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "What does this print?\n\n    print(len(\"cat\"))",
+      "choices": [
+        "2",
+        "3",
+        "4",
+        "an error"
+      ],
+      "grade": {
+        "kind": "mcq",
+        "answer": 1
+      }
+    },
+    {
+      "id": "mcq_concat_abcd",
+      "title": "Predict \u2014 'ab' + 'cd'",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "predict",
+        "strings",
+        "week2"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "What does this print?\n\n    print(\"ab\" + \"cd\")",
+      "choices": [
+        "abcd",
+        "ab cd",
+        "cdab",
+        "an error"
+      ],
+      "grade": {
+        "kind": "mcq",
+        "answer": 0
+      }
+    }
+  ]
+}

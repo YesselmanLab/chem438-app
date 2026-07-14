@@ -98,6 +98,36 @@ def update_manifest(assignment_id, title):
     idx.write_text(json.dumps({"lessons": lessons}, indent=2))
 
 
+XP_BY_DIFF = {"easy": 10, "medium": 20, "hard": 35}
+
+
+def emit_challenges():
+    """Publish every gradeable bank problem as a standalone practice challenge."""
+    items = []
+    for pid, p in BANK.items():
+        if p["kind"] == "written":
+            continue                                  # not auto-gradeable → not a challenge
+        diff = p.get("difficulty", "easy")
+        item = {"id": pid, "title": p.get("title", pid), "kind": p["kind"],
+                "tags": p.get("tags", []), "difficulty": diff,
+                "xp": p.get("xp", XP_BY_DIFF.get(diff, 10)), "prompt": p["prompt"]}
+        if p["kind"] == "code_var":
+            item["starter"] = p["starter"]; item["entry"] = p["entry"]
+            item["grade"] = {"kind": "code_var", "expected": expected_for_code_var(p, pid),
+                             "tol": p.get("tol", 1e-6)}
+        elif p["kind"] == "code_fn":
+            item["starter"] = p["starter"]; item["entry"] = p["entry"]; item["inputs"] = p["inputs"]
+            item["grade"] = {"kind": "code_fn", "expected": expected_for_code_fn(p, pid),
+                             "tol": p.get("tol", 1e-6)}
+        elif p["kind"] == "mcq":
+            item["choices"] = p["choices"]
+            item["grade"] = {"kind": "mcq", "answer": p["answer"]}
+        items.append(item)
+    PUBLIC_DIR.mkdir(exist_ok=True)
+    (PUBLIC_DIR / "challenges.json").write_text(json.dumps({"challenges": items}, indent=2))
+    print(f"wrote lessons/challenges.json  ({len(items)} practice challenges)")
+
+
 def emit_bank_json():
     """Public metadata for every bank problem, for the visual builder (no answers)."""
     items = []
@@ -133,6 +163,7 @@ if __name__ == "__main__":
 
     if args.bank:
         emit_bank_json()
+    emit_challenges()          # practice challenges are always kept in sync with the bank
     targets = list(ASSIGNMENTS) if args.all else ([args.assignment] if args.assignment else [])
     if not targets and not args.bank:
         ap.error("give an assignment id, --all, or --bank")
