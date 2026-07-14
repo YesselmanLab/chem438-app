@@ -32,7 +32,10 @@
     --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 34px rgba(0,0,0,.4);}}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:720px;margin:0 auto;padding:22px 16px 80px}
+  /* size-adaptive: reading views stay narrow; dashboards/console use the screen */
+  .wrap{max-width:760px;margin:0 auto;padding:22px 16px 80px;transition:max-width .18s ease}
+  .wrap.wide{max-width:1160px}
+  @media (min-width:1500px){ .wrap.wide{max-width:1320px} }
   .top{display:flex;align-items:center;gap:10px;margin-bottom:18px}
   .logo{width:30px;height:30px;border-radius:8px;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:14px}
   .top b{font-weight:650}.top small{display:block;color:var(--faint);font-size:12px}
@@ -364,6 +367,8 @@ let lastList = "dash", chFilter = null, curChal = null, chalState = {};
 let adminEmail = null, viewingAsStudent = false;
 const VIEWS = ["#startCard","#dashCard","#homeCard","#chCard","#chalCard","#qCards","#submitCard","#resultsCard","#instructorCard"];
 function hideAll(){ VIEWS.forEach(s=>{ const e=$(s); if(e) e.classList.add("hidden"); }); }
+// wide = dashboards/console (use the screen); narrow = reading/coding views
+function setWidth(wide){ document.querySelector(".wrap").classList.toggle("wide", !!wide); }
 let student = null;                 // {id, name}
 const state = {};                   // qid -> {choice} or {code} or {text}
 let saved = {}, PROGRESS_KEY = null;   // per (student, lesson) autosave
@@ -579,7 +584,7 @@ function wireCards(){
 }
 
 function showDashboard(){
-  hideAll(); $("#dashCard").classList.remove("hidden");
+  hideAll(); setWidth(true); $("#dashCard").classList.remove("hidden");
   setNav("dash"); lastList="dash"; backForList();
   $("#lessonTitle").textContent="Dashboard";
   updateChips();
@@ -607,7 +612,7 @@ function showDashboard(){
 }
 
 function showHomework(){
-  hideAll(); $("#homeCard").classList.remove("hidden");
+  hideAll(); setWidth(true); $("#homeCard").classList.remove("hidden");
   setNav("hw"); lastList="hw"; backForList();
   $("#lessonTitle").textContent="Homework";
   $("#homeHi").textContent="Graded assignments. Submit when you're done.";
@@ -616,7 +621,7 @@ function showHomework(){
 }
 
 function showChallenges(){
-  hideAll(); $("#chCard").classList.remove("hidden");
+  hideAll(); setWidth(true); $("#chCard").classList.remove("hidden");
   setNav("ch"); lastList="ch"; backForList();
   $("#lessonTitle").textContent="Challenges";
   const s=solvedIds();
@@ -635,7 +640,7 @@ function showChallenges(){
 async function openChallenge(id){
   const c=challenges.find(x=>x.id===id); if(!c) return;
   curChal=c; chalState={};
-  hideAll(); $("#chalCard").classList.remove("hidden");
+  hideAll(); setWidth(false); $("#chalCard").classList.remove("hidden");
   setNav("ch"); backTo("ch");
   $("#lessonTitle").textContent=c.title;
   $("#chalTitle").textContent=c.title;
@@ -705,7 +710,7 @@ function previewInstructor(){ renderInstructor(null,{preview:true}); }
 async function renderInstructor(email, opts){
   opts = opts || {};
   adminEmail = email || adminEmail;
-  hideAll();
+  hideAll(); setWidth(true);
   $("#snav").classList.add("hidden");
   $("#xpChip").classList.add("hidden"); $("#streakChip").classList.add("hidden");
   $("#homeBtn").classList.add("hidden");
@@ -783,7 +788,13 @@ function renderAssignments(){
 // ---------------- email-code login (Supabase) ----------------
 function authMsg(m){ $("#authMsg").textContent = m || ""; }
 
-let pwMode = false;
+let pwMode = true;                       // email + password is the default sign-in
+function applyPwMode(){
+  $("#pwWrap").classList.toggle("hidden", !pwMode);
+  $("#sendCodeBtn").classList.toggle("hidden", pwMode);
+  $("#pwSignInBtn").classList.toggle("hidden", !pwMode);
+  $("#togglePw").textContent = pwMode ? "Email me a sign-in code instead" : "Use a password instead";
+}
 function wireEmailAuth(){
   const email = $("#emailInput"), code = $("#codeInput"), pw = $("#pwInput");
   function refresh(){
@@ -803,13 +814,9 @@ function wireEmailAuth(){
   $("#verifyBtn").onclick = verifyCode;
   $("#resendLink").onclick = e=>{ e.preventDefault(); sendCode(); };
   $("#changeEmailLink").onclick = e=>{ e.preventDefault(); $("#codeStep").classList.add("hidden"); $("#emailStep").classList.remove("hidden"); authMsg(""); };
-  $("#togglePw").onclick = e=>{ e.preventDefault(); pwMode = !pwMode;
-    $("#pwWrap").classList.toggle("hidden", !pwMode);
-    $("#sendCodeBtn").classList.toggle("hidden", pwMode);
-    $("#pwSignInBtn").classList.toggle("hidden", !pwMode);
-    $("#togglePw").textContent = pwMode ? "Use an email code instead" : "Use a password instead";
-    authMsg("");
-  };
+  $("#togglePw").onclick = e=>{ e.preventDefault(); pwMode = !pwMode; applyPwMode(); authMsg(""); };
+  applyPwMode();                          // start in password mode
+  refresh();
 }
 
 async function pwSignIn(){
@@ -853,7 +860,7 @@ function onSignedIn(user){
 
 
 async function openLesson(id){
-  hideAll();
+  hideAll(); setWidth(false);
   $("#errBanner").classList.remove("show");
   try{ lesson = await fetch(`lessons/${id}.json`).then(r=>r.json()); }
   catch(e){ return showErr("Couldn't load " + id + "."); }
