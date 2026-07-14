@@ -1,6 +1,10 @@
 {
   "lessons": [
     {
+      "id": "homework_01",
+      "title": "Homework 1 \u2014 Python basics"
+    },
+    {
       "id": "lesson_01",
       "title": "Lesson 1 \u2014 the basics"
     },
