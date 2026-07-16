@@ -51,7 +51,9 @@ def md_to_html(md):
         if nums:
             out.append("<ol>" + "".join(f"<li>{_inline(b)}</li>" for b in nums) + "</ol>"); nums.clear()
         if quote:
-            out.append('<blockquote>' + "".join(f"<p>{_inline(q)}</p>" for q in quote) + "</blockquote>"); quote.clear()
+            paras = [q for q in quote if q]
+            out.append("<blockquote>" + "".join(f"<p>{_inline(q)}</p>" for q in paras) + "</blockquote>")
+            quote.clear()
 
     while i < len(lines):
         ln = lines[i]
@@ -68,9 +70,17 @@ def md_to_html(md):
             flush(); out.append("<h3>" + _inline(ln[4:].strip()) + "</h3>")
         elif ln.startswith("## "):
             flush(); out.append("<h2>" + _inline(ln[3:].strip()) + "</h2>")
-        elif ln.startswith("> "):
+        elif ln.startswith(">"):
             if para or bullets or nums: flush()
-            quote.append(ln[2:].strip())
+            body = ln[1:].strip()
+            # A wrapped callout is ONE paragraph — join continuation lines rather than
+            # breaking the sentence. A bare '>' starts a new paragraph inside the quote.
+            if not body:
+                quote.append("")
+            elif quote and quote[-1]:
+                quote[-1] += " " + body
+            else:
+                quote.append(body)
         elif re.match(r"^\s*- ", ln):
             if para or nums or quote: flush()
             bullets.append(ln.strip()[2:])
