@@ -33,9 +33,12 @@
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
   /* size-adaptive: reading views stay narrow; dashboards/console use the screen */
+  /* three widths: narrow for the login form, mid for reading+coding (a code
+     editor needs more room than prose), wide for dashboards and the console */
   .wrap{max-width:760px;margin:0 auto;padding:22px 16px 80px;transition:max-width .18s ease}
+  .wrap.mid{max-width:1020px}
   .wrap.wide{max-width:1160px}
-  @media (min-width:1500px){ .wrap.wide{max-width:1320px} }
+  @media (min-width:1500px){ .wrap.wide{max-width:1320px} .wrap.mid{max-width:1100px} }
   .top{display:flex;align-items:center;gap:10px;margin-bottom:18px}
   .logo{width:30px;height:30px;border-radius:8px;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:14px}
   .top b{font-weight:650}.top small{display:block;color:var(--faint);font-size:12px}
@@ -198,6 +201,21 @@
   .CodeMirror-focused{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
   .cm-s-default.CodeMirror{background:var(--bg);color:var(--ink)}
   .cm-s-default .CodeMirror-gutters{background:var(--bg);border:none}
+  /* codemirror.css hard-codes `background-color: white` on these two fillers and
+     draws scrollbar divs at the edges — in dark mode that's a white strip along
+     the bottom of every editor. Kill them; lineWrapping means we never need to
+     scroll an editor horizontally anyway. */
+  /* CodeMirror keeps a hidden <textarea> inside the editor to capture typing. Our
+     blanket `select,input,textarea` rule above was painting it: full width, our
+     page background, a border and padding — i.e. a strip across every editor.
+     Put it back to the 1px invisible input CodeMirror expects. */
+  .CodeMirror textarea{width:1px !important;height:1em !important;background:transparent !important;
+                       border:none !important;border-radius:0 !important;padding:0 !important;
+                       box-shadow:none !important;resize:none !important}
+  .CodeMirror-scrollbar-filler,.CodeMirror-gutter-filler{background-color:transparent !important}
+  .CodeMirror-hscrollbar,.CodeMirror-vscrollbar{display:none !important}
+  .CodeMirror-scroll{overflow:hidden !important;margin-bottom:0 !important;padding-bottom:0 !important;margin-right:0 !important}
+  .CodeMirror-lines{padding:6px 0}
   @media (max-width:480px){.card{padding:18px}}
 </style>
 </head>
@@ -434,8 +452,13 @@ let lastList = "dash", chFilter = null, tagFilter = null, chScope = null, curSet
 let adminEmail = null, viewingAsStudent = false;
 const VIEWS = ["#startCard","#dashCard","#homeCard","#chCard","#setCard","#chalCard","#qCards","#submitCard","#resultsCard","#instructorCard"];
 function hideAll(){ VIEWS.forEach(s=>{ const e=$(s); if(e) e.classList.add("hidden"); }); }
-// wide = dashboards/console (use the screen); narrow = reading/coding views
-function setWidth(wide){ document.querySelector(".wrap").classList.toggle("wide", !!wide); }
+// "wide" (or true) = dashboards/console; "mid" = lesson + challenge workspaces;
+// false = the narrow default, which only the sign-in screen wants.
+function setWidth(mode){
+  const w = document.querySelector(".wrap");
+  w.classList.toggle("wide", mode === true || mode === "wide");
+  w.classList.toggle("mid", mode === "mid");
+}
 let student = null;                 // {id, name}
 const state = {};                   // qid -> {choice} or {code} or {text}
 let saved = {}, PROGRESS_KEY = null;   // per (student, lesson) autosave
@@ -859,7 +882,7 @@ async function openChallenge(id){
     return toast(w ? "Unlocks with "+w : "Your instructor hasn't released this material yet.");
   }
   curChal=c; chalState={};
-  hideAll(); setWidth(false); $("#chalCard").classList.remove("hidden");
+  hideAll(); setWidth("mid"); $("#chalCard").classList.remove("hidden");
   if(curSet){ setNav("hw"); backToFn("← "+curSet.title.split("—")[0].trim(), ()=>showChallengeSet(curSet)); }
   else { setNav("ch"); backTo("ch"); }
   $("#lessonTitle").textContent=c.title;
@@ -899,7 +922,7 @@ async function openChallenge(id){
       const dark=(document.documentElement.getAttribute("data-theme")
         || (matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"))==="dark";
       const cm=CodeMirror.fromTextArea(ta,{mode:"python",theme:dark?"material-darker":"default",
-        lineNumbers:false,indentUnit:4,tabSize:4,viewportMargin:Infinity});
+        lineNumbers:false,indentUnit:4,tabSize:4,viewportMargin:Infinity,lineWrapping:true});
       cm.setSize(null,"auto");
       cm.on("change",()=>{ chalState.code=cm.getValue(); });
       requestAnimationFrame(()=>cm.refresh());
@@ -1132,7 +1155,7 @@ async function openLesson(id){
     toast("That assignment hasn't been released yet."); return showHomework();
   }
   if(meta && meta.mode === "challenges") return showChallengeSet(meta);
-  hideAll(); setWidth(false);
+  hideAll(); setWidth("mid");
   $("#errBanner").classList.remove("show");
   try{ lesson = await fetch(`lessons/${id}.json`).then(r=>r.json()); }
   catch(e){ return showErr("Couldn't load " + id + "."); }
@@ -1200,7 +1223,7 @@ function upgradeCM(q, ta){
       || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")) === "dark";
   const cm = CodeMirror.fromTextArea(ta, {
     mode:"python", theme: dark ? "material-darker" : "default",
-    lineNumbers:false, indentUnit:4, tabSize:4, viewportMargin:Infinity,
+    lineNumbers:false, indentUnit:4, tabSize:4, viewportMargin:Infinity, lineWrapping:true,
   });
   cm.setSize(null, "auto");
   cm.on("change", ()=>{ state[q.id].code = cm.getValue(); save(); });
