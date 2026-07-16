@@ -7,6 +7,135 @@ solution (build fails otherwise) and also define the grading tests. MCQ
 
 ---
 
+## hello_438
+kind: code_fn
+title: How challenges work
+tags: language_fundamentals, strings, functions, week1
+difficulty: easy
+entry: hello
+
+### prompt
+Start here — this is how every challenge in this course works.
+
+In the editor below you'll see a starter function:
+
+    def hello():
+
+All you have to do is type  return "hello chem 438"  on the second line, indented
+four spaces, then hit Run to test it. When it passes, hit Submit.
+
+Examples
+
+    hello() → "hello chem 438"
+
+Notes
+
+- The returned string must be all lowercase.
+- Run tests your code as many times as you like, and costs you nothing. Use it constantly.
+- Every challenge names the function you must write and shows examples of what it
+  should give back. Match those examples exactly and you pass.
+- A function that computes the right answer but never says `return` gives back nothing.
+
+### starter
+```python
+def hello():
+    
+```
+
+### solution
+```python
+def hello():
+    return "hello chem 438"
+```
+
+### check
+hello() == "hello chem 438"
+
+---
+
+## addition
+kind: code_fn
+title: Return the sum of two numbers
+tags: math, numbers, algebra, functions, week1
+difficulty: easy
+entry: addition
+
+### prompt
+Create a function that takes two numbers as arguments and returns their sum.
+
+Examples
+
+    addition(3, 2) → 5
+    addition(-3, -6) → -9
+    addition(7, 3) → 10
+
+Notes
+
+- Don't forget to `return` the result.
+
+### starter
+```python
+def addition(a, b):
+    
+```
+
+### solution
+```python
+def addition(a, b):
+    return a + b
+```
+
+### check
+addition(3, 2) == 5
+addition(-3, -6) == -9
+addition(7, 3) == 10
+addition(0, 0) == 0
+addition(100, -1) == 99
+
+---
+
+## next_num
+kind: code_fn
+title: Return the next number from the integer passed
+tags: math, numbers, algebra, functions, week1
+difficulty: easy
+entry: next_num
+
+### prompt
+Create a function that takes a number as an argument, increments the number by +1
+and returns the result.
+
+Examples
+
+    next_num(0) → 1
+    next_num(9) → 10
+    next_num(-3) → -2
+
+Notes
+
+- Don't forget to `return` the result.
+
+### starter
+```python
+def next_num(num):
+    
+```
+
+### solution
+```python
+def next_num(num):
+    return num + 1
+```
+
+### check
+next_num(0) == 1
+next_num(9) == 10
+next_num(-3) == -2
+next_num(100) == 101
+next_num(-1) == 0
+
+---
+
 ## sum_total
 kind: code_var
 title: Sum two variables

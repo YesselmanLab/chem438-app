@@ -1,6 +1,127 @@
 {
   "challenges": [
     {
+      "id": "hello_438",
+      "title": "How challenges work",
+      "kind": "code_fn",
+      "tags": [
+        "language_fundamentals",
+        "strings",
+        "functions",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Start here \u2014 this is how every challenge in this course works.\n\nIn the editor below you'll see a starter function:\n\n    def hello():\n\nAll you have to do is type  return \"hello chem 438\"  on the second line, indented\nfour spaces, then hit Run to test it. When it passes, hit Submit.\n\nExamples\n\n    hello() \u2192 \"hello chem 438\"\n\nNotes\n\n- The returned string must be all lowercase.\n- Run tests your code as many times as you like, and costs you nothing. Use it constantly.\n- Every challenge names the function you must write and shows examples of what it\n  should give back. Match those examples exactly and you pass.\n- A function that computes the right answer but never says `return` gives back nothing.",
+      "starter": "def hello():\n    ",
+      "entry": "hello",
+      "inputs": [
+        []
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          "hello chem 438"
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "addition",
+      "title": "Return the sum of two numbers",
+      "kind": "code_fn",
+      "tags": [
+        "math",
+        "numbers",
+        "algebra",
+        "functions",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Create a function that takes two numbers as arguments and returns their sum.\n\nExamples\n\n    addition(3, 2) \u2192 5\n    addition(-3, -6) \u2192 -9\n    addition(7, 3) \u2192 10\n\nNotes\n\n- Don't forget to `return` the result.",
+      "starter": "def addition(a, b):\n    ",
+      "entry": "addition",
+      "inputs": [
+        [
+          3,
+          2
+        ],
+        [
+          -3,
+          -6
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          100,
+          -1
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          5,
+          -9,
+          10,
+          0,
+          99
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "next_num",
+      "title": "Return the next number from the integer passed",
+      "kind": "code_fn",
+      "tags": [
+        "math",
+        "numbers",
+        "algebra",
+        "functions",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Create a function that takes a number as an argument, increments the number by +1\nand returns the result.\n\nExamples\n\n    next_num(0) \u2192 1\n    next_num(9) \u2192 10\n    next_num(-3) \u2192 -2\n\nNotes\n\n- Don't forget to `return` the result.",
+      "starter": "def next_num(num):\n    ",
+      "entry": "next_num",
+      "inputs": [
+        [
+          0
+        ],
+        [
+          9
+        ],
+        [
+          -3
+        ],
+        [
+          100
+        ],
+        [
+          -1
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          1,
+          10,
+          -2,
+          101,
+          0
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
       "id": "sum_total",
       "title": "Sum two variables",
       "kind": "code_var",

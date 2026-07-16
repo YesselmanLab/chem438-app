@@ -123,7 +123,12 @@
   .chc.solved{border-color:color-mix(in srgb,var(--good) 45%,var(--line))}
   .chc .tick{position:absolute;top:13px;right:13px;width:19px;height:19px;border-radius:50%;background:var(--good);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700}
   .chc h4{margin:0;font-size:.98rem;padding-right:22px}
-  .chc .tg{font-family:var(--mono);font-size:11px;color:var(--faint)}
+  .chc .tg{display:flex;gap:4px;flex-wrap:wrap}
+  .tag{font-family:var(--mono);font-size:10.5px;padding:2px 7px;border-radius:5px;
+       background:var(--bg);border:1px solid var(--line2);color:var(--faint);white-space:nowrap}
+  button.tag{cursor:pointer}
+  button.tag:hover{border-color:var(--accent);color:var(--accent-ink)}
+  button.tag.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
   .chc .row{display:flex;align-items:center;gap:8px;margin-top:auto}
   .diff{font-family:var(--mono);font-size:10px;text-transform:uppercase;font-weight:700;padding:2px 7px;border-radius:5px;color:var(--good);background:var(--good-soft)}
   .xpv{margin-left:auto;font-family:var(--mono);font-size:12px;font-weight:700;color:#b9791a}
@@ -291,6 +296,7 @@
       <p class="intro">Bite-size practice. Not graded — solve them for XP whenever you like.</p>
       <div style="height:14px"></div>
       <div class="filters" id="chFilters"></div>
+      <div class="filters" id="chTags" style="margin-top:-6px"></div>
       <div class="chgrid" id="chList"></div>
     </div>
   </div>
@@ -301,6 +307,7 @@
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
         <span class="diff" id="chalDiff">easy</span>
         <span class="xpv" id="chalXp"></span>
+        <span id="chalTags" style="display:flex;gap:4px;flex-wrap:wrap"></span>
       </div>
       <h1 id="chalTitle" style="margin:8px 0 6px"></h1>
       <div class="prompt" id="chalPrompt" style="white-space:pre-wrap;color:var(--soft)"></div>
@@ -363,7 +370,7 @@ const LESSON_ID = params.get("lesson") || "lesson_01";
 const $$ = s => document.querySelectorAll(s);
 let lesson = null, manifest = [], pyodide = null, pyFailed = false;
 let challenges = [], mySubs = [], allSubs = [];      // practice challenges + submission rows
-let lastList = "dash", chFilter = null, curChal = null, chalState = {};
+let lastList = "dash", chFilter = null, tagFilter = null, curChal = null, chalState = {};
 let adminEmail = null, viewingAsStudent = false;
 const VIEWS = ["#startCard","#dashCard","#homeCard","#chCard","#chalCard","#qCards","#submitCard","#resultsCard","#instructorCard"];
 function hideAll(){ VIEWS.forEach(s=>{ const e=$(s); if(e) e.classList.add("hidden"); }); }
@@ -530,8 +537,7 @@ function streakDays(){
 }
 function skills(){
   const s=solvedIds(), m={};
-  challenges.forEach(c=>(c.tags||[]).forEach(t=>{
-    if(/^week/.test(t)) return;
+  challenges.forEach(c=>tagsOf(c).forEach(t=>{
     m[t]=m[t]||{n:0,d:0}; m[t].d++; if(s.has(c.id)) m[t].n++;
   }));
   return Object.entries(m).map(([k,v])=>({k,pct:Math.round(100*v.n/v.d)}))
@@ -572,10 +578,16 @@ function hwCardHtml(l,hw){
   return '<div class="hwc" data-open="'+l.id+'"><h4>'+esc(l.title)+'</h4>'+
     '<div class="trk"><span style="width:'+prog+'%"></span></div><div class="ft">'+ft+'</div></div>';
 }
+// topic tags, minus the bookkeeping "weekN" ones students don't care about
+function tagsOf(c){ return (c.tags||[]).filter(t=>!/^week/.test(t)); }
+function allTags(){
+  const m={}; challenges.forEach(c=>tagsOf(c).forEach(t=>m[t]=(m[t]||0)+1));
+  return Object.entries(m).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]));
+}
 function chCardHtml(c,s){
   const done=s.has(c.id);
   return '<div class="chc'+(done?" solved":"")+'" data-ch="'+c.id+'">'+(done?'<div class="tick">✓</div>':'')+
-    '<h4>'+esc(c.title)+'</h4><div class="tg">'+(c.tags||[]).filter(t=>!/^week/.test(t)).join(" · ")+'</div>'+
+    '<h4>'+esc(c.title)+'</h4><div class="tg">'+tagsOf(c).map(t=>'<span class="tag">'+esc(t)+'</span>').join("")+'</div>'+
     '<div class="row"><span class="diff">'+esc(c.difficulty)+'</span><span class="xpv">◆ '+c.xp+' XP</span></div></div>';
 }
 function wireCards(){
@@ -628,11 +640,17 @@ function showChallenges(){
   $("#chFilters").innerHTML=["all","unsolved","solved"].map(o=>
     '<button class="fchip'+((chFilter||"all")===o?" on":"")+'" data-f="'+o+'">'+o+'</button>').join("");
   $$("#chFilters .fchip").forEach(b=>b.onclick=()=>{ chFilter = b.dataset.f==="all"?null:b.dataset.f; showChallenges(); });
+  // topic tags — click one to narrow the list, click it again to clear
+  $("#chTags").innerHTML = allTags().map(([t,n])=>
+    '<button class="tag'+(tagFilter===t?" on":"")+'" data-t="'+esc(t)+'">'+esc(t)+' '+n+'</button>').join("");
+  $$("#chTags .tag").forEach(b=>b.onclick=()=>{
+    tagFilter = (tagFilter===b.dataset.t) ? null : b.dataset.t; showChallenges(); });
   let list=challenges;
   if(chFilter==="unsolved") list=challenges.filter(c=>!s.has(c.id));
   if(chFilter==="solved") list=challenges.filter(c=>s.has(c.id));
+  if(tagFilter) list=list.filter(c=>tagsOf(c).includes(tagFilter));
   $("#chList").innerHTML = list.length ? list.map(c=>chCardHtml(c,s)).join("")
-    : '<p class="foot" style="text-align:left">Nothing here yet.</p>';
+    : '<p class="foot" style="text-align:left">No challenges match that filter.</p>';
   wireCards();
 }
 
@@ -646,6 +664,9 @@ async function openChallenge(id){
   $("#chalTitle").textContent=c.title;
   $("#chalDiff").textContent=c.difficulty;
   $("#chalXp").textContent="◆ "+c.xp+" XP";
+  // tags double as navigation: click one to see every other challenge that shares it
+  $("#chalTags").innerHTML = tagsOf(c).map(t=>'<button class="tag" data-t="'+esc(t)+'">'+esc(t)+'</button>').join("");
+  $$("#chalTags .tag").forEach(b=>b.onclick=()=>{ tagFilter=b.dataset.t; chFilter=null; showChallenges(); });
   $("#chalPrompt").textContent=c.prompt;
   const out=$("#chalOut"); out.classList.remove("show"); out.textContent="";
   $("#chalRes").innerHTML="";
