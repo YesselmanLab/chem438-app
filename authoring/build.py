@@ -98,7 +98,7 @@ def update_manifest(assignment_id, title):
     idx.write_text(json.dumps({"lessons": lessons}, indent=2))
 
 
-XP_BY_DIFF = {"easy": 10, "medium": 20, "hard": 35}
+XP_BY_DIFF = {"starter": 5, "easy": 10, "medium": 20, "hard": 35}
 
 
 def emit_challenges():
