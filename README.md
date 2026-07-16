@@ -9,7 +9,7 @@ GitHub Pages (static)        Student's browser              Google (your account
 ──────────────────────       ──────────────────             ──────────────────────
 index.html                   Pyodide runs the student's     Apps Script (grader.gs):
 lessons/lesson_01.json  ──▶  Python locally; on Submit,  ──▶   • holds hidden answer keys
-roster.json                  sends only its OUTPUTS            • grades, writes a row
+                             sends only its OUTPUTS            • grades, writes a row
                              + MCQ choices + text             • Sheet = live gradebook
 ```
 
@@ -39,8 +39,6 @@ python build.py lesson_01 --push "https://…/exec" --token "YOUR_ADMIN_TOKEN"
 ```
 This rebuilds the public lesson file *and* writes the answers into a "Keys" tab of
 your Sheet via the grader.
-
-**4. Set your class list.** Edit `roster.json` (name + a short unique id each).
 
 **5. Publish the front end.** Commit and push this folder to a GitHub repo, then
 **Settings → Pages → Source: deploy from branch `main`, folder `/`**. Your
@@ -161,8 +159,8 @@ This is the survivor of a 4-strategy bake-off + 2 rounds of adversarial review.
 - **Honest limitation:** grading checks *outputs*, so it verifies the answer is
   right, not that this code produced it — fine for formative homework, not exam
   proctoring. If you ever need fabrication-proof grading, the upgrade is to
-  re-run submitted code server-side (a small executor), reusing this same roster,
-  Sheet, and authoring — only the grade endpoint changes.
+  re-run submitted code server-side (a small executor), reusing this same auth,
+  table, and authoring — only the grade endpoint changes.
 
 ## Email login (optional accounts)
 

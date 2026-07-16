@@ -1104,6 +1104,9 @@ async function recordSolve(c){
 }
 
 // ---------------- instructor console ----------------
+// Fake rows for the no-login instructor preview. NEVER put a real student here:
+// this renders on a public URL behind no auth, and a real address joined to an
+// invented grade is indistinguishable from a real grade.
 const DEMO_SUBS=[
   {email:"student1@example.edu",lesson:"homework_01",score:8,out_of:8,updated_at:"2026-07-13"},
   {email:"student1@example.edu",lesson:"lesson_02",score:6,out_of:7,updated_at:"2026-07-13"},
