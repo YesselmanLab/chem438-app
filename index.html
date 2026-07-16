@@ -25,11 +25,18 @@
     --mono:"SF Mono","JetBrains Mono",ui-monospace,Menlo,monospace;
     --shadow:0 1px 2px rgba(20,22,40,.04),0 10px 30px rgba(20,22,40,.07);
   }
-  @media (prefers-color-scheme:dark){:root{
+  /* Dark palette, defined once and applied two ways: follow the OS when the user
+     hasn't chosen, and honour data-theme when they have (the toggle sets it). */
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
     --bg:#14151e;--card:#1c1e2a;--ink:#e9eaf4;--soft:#a9adc6;--faint:#767a95;
     --line:#2a2d3d;--line2:#3a3e52;--accent:#888cf5;--accent-ink:#a7abff;--accent-soft:#23253a;
     --good:#4ecb96;--good-soft:#172a24;--bad:#f0849a;--bad-soft:#2c1a20;--code-bg:#10121c;
     --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 34px rgba(0,0,0,.4);}}
+  :root[data-theme="dark"]{
+    --bg:#14151e;--card:#1c1e2a;--ink:#e9eaf4;--soft:#a9adc6;--faint:#767a95;
+    --line:#2a2d3d;--line2:#3a3e52;--accent:#888cf5;--accent-ink:#a7abff;--accent-soft:#23253a;
+    --good:#4ecb96;--good-soft:#172a24;--bad:#f0849a;--bad-soft:#2c1a20;--code-bg:#10121c;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 34px rgba(0,0,0,.4);}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
   /* size-adaptive: reading views stay narrow; dashboards/console use the screen */
@@ -90,7 +97,10 @@
   .snav button.on{background:var(--accent-soft);color:var(--accent-ink)}
   .xpchip{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:12.5px;font-weight:700;color:#b9791a;background:#f8efd9;padding:4px 10px;border-radius:20px}
   .strk{font-weight:700;font-size:13px;color:#e2673a}
-  @media (prefers-color-scheme:dark){.xpchip{color:#e0b155;background:#2a2415}.strk{color:#ef8055}}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .xpchip{color:#e0b155;background:#2a2415}
+                                   :root:not([data-theme="light"]) .strk{color:#ef8055}}
+  :root[data-theme="dark"] .xpchip{color:#e0b155;background:#2a2415}
+  :root[data-theme="dark"] .strk{color:#ef8055}
   /* ===== dashboard ===== */
   .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:18px}
   .st{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 17px;box-shadow:var(--shadow)}
@@ -176,7 +186,8 @@
   .chc .row{display:flex;align-items:center;gap:8px;margin-top:auto}
   .diff{font-family:var(--mono);font-size:10px;text-transform:uppercase;font-weight:700;padding:2px 7px;border-radius:5px;color:var(--good);background:var(--good-soft)}
   .xpv{margin-left:auto;font-family:var(--mono);font-size:12px;font-weight:700;color:#b9791a}
-  @media (prefers-color-scheme:dark){.xpv{color:#e0b155}}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .xpv{color:#e0b155}}
+  :root[data-theme="dark"] .xpv{color:#e0b155}
   /* ===== instructor console ===== */
   .itabs{display:flex;gap:3px;border-bottom:1px solid var(--line);margin-bottom:18px}
   .itabs button{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--soft);background:none;border:none;padding:9px 12px;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px}
@@ -205,17 +216,18 @@
      draws scrollbar divs at the edges — in dark mode that's a white strip along
      the bottom of every editor. Kill them; lineWrapping means we never need to
      scroll an editor horizontally anyway. */
-  /* CodeMirror keeps a hidden <textarea> inside the editor to capture typing. Our
-     blanket `select,input,textarea` rule above was painting it: full width, our
-     page background, a border and padding — i.e. a strip across every editor.
-     Put it back to the 1px invisible input CodeMirror expects. */
-  .CodeMirror textarea{width:1px !important;height:1em !important;background:transparent !important;
+  /* CodeMirror keeps a hidden <textarea> inside the editor to capture typing, and
+     moves it to wherever the cursor is. Our blanket `select,input,textarea` rule
+     above was painting it — full width, opaque page background, border, padding —
+     so it showed as a strip across the editor, and landed ON TOP OF the code line
+     as soon as you clicked in. Exclude it; this is the whole bug.
+     Everything else CodeMirror ships is left alone on purpose: its scroll element's
+     overflow and negative margins are load-bearing (they hide native scrollbars AND
+     scroll the cursor into view), so overriding them breaks editing. */
+  .CodeMirror textarea{width:1px !important;background:transparent !important;
                        border:none !important;border-radius:0 !important;padding:0 !important;
                        box-shadow:none !important;resize:none !important}
   .CodeMirror-scrollbar-filler,.CodeMirror-gutter-filler{background-color:transparent !important}
-  .CodeMirror-hscrollbar,.CodeMirror-vscrollbar{display:none !important}
-  .CodeMirror-scroll{overflow:hidden !important;margin-bottom:0 !important;padding-bottom:0 !important;margin-right:0 !important}
-  .CodeMirror-lines{padding:6px 0}
   @media (max-width:480px){.card{padding:18px}}
 </style>
 </head>
@@ -232,6 +244,7 @@
     <div style="margin-left:auto;display:flex;gap:10px;align-items:center">
       <span class="strk hidden" id="streakChip"></span>
       <span class="xpchip hidden" id="xpChip"></span>
+      <button id="themeBtn" class="btn btn-ghost btn-sm" title="Light / dark" aria-label="Toggle light or dark mode">🌙</button>
       <button id="homeBtn" class="btn btn-ghost btn-sm hidden">← Back</button>
       <button id="switchBtn" class="btn btn-ghost btn-sm hidden">Switch</button>
     </div>
@@ -452,6 +465,36 @@ let lastList = "dash", chFilter = null, tagFilter = null, chScope = null, curSet
 let adminEmail = null, viewingAsStudent = false;
 const VIEWS = ["#startCard","#dashCard","#homeCard","#chCard","#setCard","#chalCard","#qCards","#submitCard","#resultsCard","#instructorCard"];
 function hideAll(){ VIEWS.forEach(s=>{ const e=$(s); if(e) e.classList.add("hidden"); }); }
+// ---------------- light / dark ----------------
+// No stored choice = follow the OS. Once the user picks, data-theme wins and sticks.
+const THEME_KEY = "c438:theme";
+const cmEditors = new Set();          // live editors, so a toggle can re-theme them
+function isDark(){
+  const t = document.documentElement.getAttribute("data-theme");
+  return t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+}
+function applyTheme(t){
+  if(t) document.documentElement.setAttribute("data-theme", t);
+  else document.documentElement.removeAttribute("data-theme");
+  const dark = isDark();
+  const b = $("#themeBtn");
+  if(b){ b.textContent = dark ? "☀️" : "🌙"; b.title = dark ? "Switch to light" : "Switch to dark"; }
+  // CodeMirror themes are baked in at construction — repaint any open editor.
+  cmEditors.forEach(cm=>{ try{ cm.setOption("theme", dark ? "material-darker" : "default"); }catch(e){} });
+}
+function initTheme(){
+  applyTheme(localStorage.getItem(THEME_KEY) || null);
+  $("#themeBtn").onclick = ()=>{
+    const next = isDark() ? "light" : "dark";
+    localStorage.setItem(THEME_KEY, next);
+    applyTheme(next);
+  };
+  // With no explicit choice, keep following the OS if it changes mid-session.
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ()=>{
+    if(!localStorage.getItem(THEME_KEY)) applyTheme(null);
+  });
+}
+
 // "wide" (or true) = dashboards/console; "mid" = lesson + challenge workspaces;
 // false = the narrow default, which only the sign-in screen wants.
 function setWidth(mode){
@@ -533,6 +576,7 @@ async function boot(){
     challenges = ((await fetch(`lessons/challenges.json`).then(r=>r.json())).challenges) || [];
   }catch(e){ challenges = []; }
 
+  initTheme();
   $("#startTitle").textContent = "CHEM 438 Homework";
   $$("#snav button").forEach(b=>b.onclick=()=>navTo(b.dataset.nav));
   $$(".sechd .more").forEach(el=>el.onclick=()=>navTo(el.dataset.nav));
@@ -899,7 +943,7 @@ async function openChallenge(id){
   if(c.walkthrough) $("#chalHowBody").textContent=c.walkthrough;
   const out=$("#chalOut"); out.classList.remove("show"); out.textContent="";
   $("#chalRes").innerHTML="";
-  const body=$("#chalBody"); body.innerHTML="";
+  const body=$("#chalBody"); body.innerHTML=""; cmEditors.clear();
   if(c.kind==="mcq"){
     $("#chalRun").classList.add("hidden");
     const box=document.createElement("div"); box.className="choices";
@@ -919,10 +963,9 @@ async function openChallenge(id){
     ta.addEventListener("input",()=>{ chalState.code=ta.value; });
     body.appendChild(ta);
     if(window.CodeMirror){
-      const dark=(document.documentElement.getAttribute("data-theme")
-        || (matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"))==="dark";
-      const cm=CodeMirror.fromTextArea(ta,{mode:"python",theme:dark?"material-darker":"default",
+      const cm=CodeMirror.fromTextArea(ta,{mode:"python",theme:isDark()?"material-darker":"default",
         lineNumbers:false,indentUnit:4,tabSize:4,viewportMargin:Infinity,lineWrapping:true});
+      cmEditors.add(cm);
       cm.setSize(null,"auto");
       cm.on("change",()=>{ chalState.code=cm.getValue(); });
       requestAnimationFrame(()=>cm.refresh());
@@ -1164,6 +1207,7 @@ async function openLesson(id){
   PROGRESS_KEY = "c438:" + student.id + ":" + lesson.id;
   saved = JSON.parse(localStorage.getItem(PROGRESS_KEY) || "{}");
   setNav("hw"); backTo(lastList==="dash"?"dash":"hw");
+  cmEditors.clear();
   $("#qCards").classList.remove("hidden");     // show BEFORE building so CodeMirror measures real width
   $("#submitCard").classList.remove("hidden");
   const btn = $("#submitBtn"); btn.disabled = false; btn.textContent = "Submit lesson for grading";
@@ -1219,12 +1263,11 @@ function renderQuestions(){
 }
 
 function upgradeCM(q, ta){
-  const dark = (document.documentElement.getAttribute("data-theme")
-      || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")) === "dark";
   const cm = CodeMirror.fromTextArea(ta, {
-    mode:"python", theme: dark ? "material-darker" : "default",
+    mode:"python", theme: isDark() ? "material-darker" : "default",
     lineNumbers:false, indentUnit:4, tabSize:4, viewportMargin:Infinity, lineWrapping:true,
   });
+  cmEditors.add(cm);
   cm.setSize(null, "auto");
   cm.on("change", ()=>{ state[q.id].code = cm.getValue(); save(); });
   requestAnimationFrame(()=>cm.refresh());     // re-measure once laid out (fixes blank/broken render)
