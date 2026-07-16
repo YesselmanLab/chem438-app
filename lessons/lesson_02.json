@@ -2,6 +2,7 @@
   "id": "lesson_02",
   "title": "Lesson 2 \u2014 strings & functions",
   "intro": "More practice with text and writing your own functions.",
+  "unit": 2,
   "questions": [
     {
       "id": "q1",

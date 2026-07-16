@@ -124,6 +124,23 @@
   .chc .tick{position:absolute;top:13px;right:13px;width:19px;height:19px;border-radius:50%;background:var(--good);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700}
   .chc h4{margin:0;font-size:.98rem;padding-right:22px}
   .chc .tg{display:flex;gap:4px;flex-wrap:wrap}
+  /* course units: the challenge list doubles as the syllabus */
+  .unithd{display:flex;align-items:baseline;gap:10px;margin:22px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--line2)}
+  .unithd:first-child{margin-top:4px}
+  .unithd h3{margin:0;font-size:14.5px;letter-spacing:-.01em}
+  .unithd .uc{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--faint);white-space:nowrap}
+  .unithd .uc.lk{color:var(--accent-ink)}
+  .chc.locked{opacity:.5;cursor:default}
+  .chc.locked:hover{transform:none;border-color:var(--line2)}
+  .chc.locked .tick{background:none;font-size:13px}
+  .hwc .prac{margin-top:10px;width:100%;background:var(--bg);border:1px solid var(--line2);color:var(--soft);
+             font-family:var(--sans);font-size:11.5px;padding:6px 8px;border-radius:8px;cursor:pointer}
+  .hwc .prac:hover{border-color:var(--accent);color:var(--accent-ink)}
+  .linkish{background:none;border:none;padding:0;font:inherit;color:var(--accent-ink);cursor:pointer;text-decoration:underline}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(14px);z-index:50;
+         background:var(--ink);color:var(--card);font-size:13px;padding:10px 16px;border-radius:9px;
+         opacity:0;pointer-events:none;transition:opacity .16s,transform .16s;max-width:88vw;text-align:center}
+  .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
   .howto{border:1px solid var(--line2);border-radius:10px;background:var(--bg);margin:0 0 14px}
   .howto summary{cursor:pointer;padding:9px 13px;font-size:13px;font-weight:600;color:var(--accent-ink);list-style:none}
   .howto summary::-webkit-details-marker{display:none}
@@ -274,6 +291,8 @@
 
     <div id="itab-assigns" class="hidden">
       <div class="lessonlist" id="asList"></div>
+      <div class="sechd" style="margin-top:22px"><h2>Course units &amp; release</h2></div>
+      <div id="asUnits"></div>
       <p class="foot" style="text-align:left;margin-top:12px">Build new assignments from the problem bank with <code>authoring/builder.html</code>.</p>
     </div>
   </div>
@@ -298,12 +317,12 @@
   <!-- CHALLENGES -->
   <div class="hidden" id="chCard">
     <div class="card">
-      <h1 style="margin:0 0 2px">Challenges</h1>
-      <p class="intro">Bite-size practice. Not graded — solve them for XP whenever you like.</p>
+      <h1 style="margin:0 0 2px" id="chTitle">Challenges</h1>
+      <p class="intro" id="chIntro"></p>
       <div style="height:14px"></div>
       <div class="filters" id="chFilters"></div>
       <div class="filters" id="chTags" style="margin-top:-6px"></div>
-      <div class="chgrid" id="chList"></div>
+      <div id="chList"></div>
     </div>
   </div>
 
@@ -378,9 +397,12 @@ const params = new URLSearchParams(location.search);
 const LESSON_ID = params.get("lesson") || "lesson_01";
 
 const $$ = s => document.querySelectorAll(s);
-let lesson = null, manifest = [], pyodide = null, pyFailed = false;
+let lesson = null, manifest = [], units = [], maxOpenUnit = 0, pyodide = null, pyFailed = false;
+// instructor-only: preview the student view as if only units 1..N were open.
+// null = use the real gate from the manifest.
+let previewUnit = null;
 let challenges = [], mySubs = [], allSubs = [];      // practice challenges + submission rows
-let lastList = "dash", chFilter = null, tagFilter = null, curChal = null, chalState = {};
+let lastList = "dash", chFilter = null, tagFilter = null, chScope = null, curChal = null, chalState = {};
 let adminEmail = null, viewingAsStudent = false;
 const VIEWS = ["#startCard","#dashCard","#homeCard","#chCard","#chalCard","#qCards","#submitCard","#resultsCard","#instructorCard"];
 function hideAll(){ VIEWS.forEach(s=>{ const e=$(s); if(e) e.classList.add("hidden"); }); }
@@ -451,7 +473,10 @@ def preview(code, kind, entry, inputs):
 // ---------------- boot ----------------
 async function boot(){
   try{
-    manifest = ((await fetch(`lessons/index.json`).then(r=>r.json())).lessons) || [];
+    const idx = await fetch(`lessons/index.json`).then(r=>r.json());
+    manifest = idx.lessons || [];
+    units = idx.units || [];
+    maxOpenUnit = idx.max_open_unit || 0;
   }catch(e){ return showErr("Couldn't load the assignment list. Check your connection."); }
   try{
     challenges = ((await fetch(`lessons/challenges.json`).then(r=>r.json())).challenges) || [];
@@ -519,7 +544,7 @@ function start(){
 async function gotoAfterName(){
   await loadMySubs();
   const dl = params.get("lesson");
-  if(dl && manifest.some(l=>l.id===dl)) openLesson(dl);
+  if(dl && manifest.some(l=>l.id===dl && l.open)) openLesson(dl);
   else showDashboard();
 }
 
@@ -547,7 +572,7 @@ function streakDays(){
 }
 function skills(){
   const s=solvedIds(), m={};
-  challenges.forEach(c=>tagsOf(c).forEach(t=>{
+  openChallenges().forEach(c=>tagsOf(c).forEach(t=>{
     m[t]=m[t]||{n:0,d:0}; m[t].d++; if(s.has(c.id)) m[t].n++;
   }));
   return Object.entries(m).map(([k,v])=>({k,pct:Math.round(100*v.n/v.d)}))
@@ -565,7 +590,7 @@ function setNav(v){
   $("#snav").classList.remove("hidden");
   $$("#snav button").forEach(b=>b.classList.toggle("on", b.dataset.nav===v));
 }
-function navTo(v){ if(v==="dash") showDashboard(); else if(v==="hw") showHomework(); else showChallenges(); }
+function navTo(v){ if(v==="dash") showDashboard(); else if(v==="hw") showHomework(); else showChallenges(null); }
 function backForList(){
   const h=$("#homeBtn");
   if(viewingAsStudent){ h.textContent="← Instructor"; h.classList.remove("hidden");
@@ -585,24 +610,65 @@ function hwCardHtml(l,hw){
   const prog=sub?100:(started?40:0);
   const ft=sub ? '<span>submitted</span><span class="scored">'+sub.score+'/'+sub.out_of+' ✓</span>'
                 : (started?'<span>in progress</span><span>—</span>':'<span>not started</span><span>—</span>');
+  const np = practiceFor(l).length;
   return '<div class="hwc" data-open="'+l.id+'"><h4>'+esc(l.title)+'</h4>'+
-    '<div class="trk"><span style="width:'+prog+'%"></span></div><div class="ft">'+ft+'</div></div>';
+    '<div class="trk"><span style="width:'+prog+'%"></span></div><div class="ft">'+ft+'</div>'+
+    '<button class="prac" data-practice="'+l.id+'">▤ '+np+' practice challenges on this material</button></div>';
 }
+// ---------------- curriculum gate ----------------
+// Practice unlocks with the material: when an assignment covering unit N is open,
+// every challenge in units 1..N is available. previewUnit lets an instructor see
+// what a student saw (or will see) at any point in the term.
+function gateUnit(){ return previewUnit === null ? maxOpenUnit : previewUnit; }
+function unlocked(c){ return (c.unit || 1) <= gateUnit(); }
+function unitInfo(n){ return units.find(u=>u.n===n) || {n, name:"Unit "+n}; }
+function openChallenges(){ return challenges.filter(unlocked); }
+// the assignment(s) that teach a unit — used to explain a lock
+function opensWith(n){
+  const u = unitInfo(n);
+  if(u.opens_with) return u.opens_with;
+  const l = manifest.filter(x=>x.unit>=n).sort((a,b)=>a.unit-b.unit)[0];
+  return l ? l.title : null;
+}
+// challenges practising exactly what a given assignment covers
+function practiceFor(l){ return challenges.filter(c=>(c.unit||1) <= (l.unit||1)); }
+// A student only sees assignments their instructor has released.
+function visibleLessons(){
+  return manifest.filter(l => l.open && (previewUnit===null || (l.unit||1) <= previewUnit));
+}
+
 // topic tags, minus the bookkeeping "weekN" ones students don't care about
 function tagsOf(c){ return (c.tags||[]).filter(t=>!/^week/.test(t)); }
-function allTags(){
-  const m={}; challenges.forEach(c=>tagsOf(c).forEach(t=>m[t]=(m[t]||0)+1));
+function allTags(pool){
+  const m={}; (pool||challenges).forEach(c=>tagsOf(c).forEach(t=>m[t]=(m[t]||0)+1));
   return Object.entries(m).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]));
 }
 function chCardHtml(c,s){
-  const done=s.has(c.id);
+  const done=s.has(c.id), lock=!unlocked(c);
+  // Locked challenges stay VISIBLE but greyed: seeing what's coming is motivating,
+  // and it tells a student the practice exists rather than hiding it.
+  if(lock) return '<div class="chc locked" data-lock="'+c.unit+'"><div class="tick">🔒</div>'+
+    '<h4>'+esc(c.title)+'</h4><div class="tg">'+tagsOf(c).map(t=>'<span class="tag">'+esc(t)+'</span>').join("")+'</div>'+
+    '<div class="row"><span class="diff">'+esc(c.difficulty)+'</span><span class="xpv">◆ '+c.xp+' XP</span></div></div>';
   return '<div class="chc'+(done?" solved":"")+'" data-ch="'+c.id+'">'+(done?'<div class="tick">✓</div>':'')+
     '<h4>'+esc(c.title)+'</h4><div class="tg">'+tagsOf(c).map(t=>'<span class="tag">'+esc(t)+'</span>').join("")+'</div>'+
     '<div class="row"><span class="diff">'+esc(c.difficulty)+'</span><span class="xpv">◆ '+c.xp+' XP</span></div></div>';
 }
 function wireCards(){
   $$(".hwc").forEach(el=>el.onclick=()=>openLesson(el.dataset.open));
-  $$(".chc").forEach(el=>el.onclick=()=>openChallenge(el.dataset.ch));
+  $$(".chc[data-ch]").forEach(el=>el.onclick=()=>openChallenge(el.dataset.ch));
+  $$(".chc.locked").forEach(el=>el.onclick=()=>{
+    const n=+el.dataset.lock, w=opensWith(n);
+    toast(w ? "Unlocks with " + w : "Your instructor hasn't released this material yet.");
+  });
+  $$("[data-practice]").forEach(el=>el.onclick=(e)=>{
+    e.stopPropagation(); showChallenges(el.dataset.practice); });
+}
+function toast(msg){
+  let t=$("#toast");
+  if(!t){ t=document.createElement("div"); t.id="toast"; t.className="toast"; document.body.appendChild(t); }
+  t.textContent=msg; t.classList.add("on");
+  clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("on"), 2600);
 }
 
 function showDashboard(){
@@ -616,14 +682,14 @@ function showDashboard(){
     ? "You've solved "+s.size+" challenge"+(s.size===1?"":"s")+" and earned "+totalXp()+" XP."
     : "Start with a homework, or warm up with a practice challenge.";
   $("#dashStats").innerHTML = stat(totalXp(),"XP earned","o")+stat(s.size,"challenges solved","a")+
-    stat(hw.length+"/"+manifest.length,"homework submitted","g")+stat(streakDays(),"day streak","f");
-  const next = manifest.find(l=>!hw.some(r=>r.lesson===l.id));
+    stat(hw.length+"/"+visibleLessons().length,"homework submitted","g")+stat(streakDays(),"day streak","f");
+  const next = visibleLessons().find(l=>!hw.some(r=>r.lesson===l.id));
   $("#resumeWrap").innerHTML = next
     ? '<div class="resume"><div><div class="t">Pick up where you left off</div><div class="d">'+esc(next.title)+'</div></div><button id="resumeBtn">Continue →</button></div>'
     : '';
   if(next) $("#resumeBtn").onclick=()=>openLesson(next.id);
-  $("#dashHw").innerHTML = manifest.map(l=>hwCardHtml(l,hw)).join("");
-  const rec = challenges.filter(c=>!s.has(c.id)).slice(0,3);
+  $("#dashHw").innerHTML = visibleLessons().map(l=>hwCardHtml(l,hw)).join("");
+  const rec = openChallenges().filter(c=>!s.has(c.id)).slice(0,3);
   $("#dashRec").innerHTML = rec.length ? rec.map(c=>chCardHtml(c,s)).join("")
     : '<p class="foot" style="text-align:left">You\'ve solved them all. 🎉</p>';
   const sk=skills();
@@ -638,35 +704,62 @@ function showHomework(){
   setNav("hw"); lastList="hw"; backForList();
   $("#lessonTitle").textContent="Homework";
   $("#homeHi").textContent="Graded assignments. Submit when you're done.";
-  $("#lessonList").innerHTML = '<div class="hwgrid">'+manifest.map(l=>hwCardHtml(l,hwSubs())).join("")+'</div>';
+  $("#lessonList").innerHTML = '<div class="hwgrid">'+visibleLessons().map(l=>hwCardHtml(l,hwSubs())).join("")+'</div>';
   wireCards();
 }
 
-function showChallenges(){
+// scopeId: an assignment id to show practice for, or null for the whole course.
+function showChallenges(scopeId){
   hideAll(); setWidth(true); $("#chCard").classList.remove("hidden");
   setNav("ch"); lastList="ch"; backForList();
-  $("#lessonTitle").textContent="Challenges";
+  chScope = (scopeId === undefined) ? chScope : scopeId;
+  const scope = chScope ? manifest.find(l=>l.id===chScope) : null;
+  if(chScope && !scope) chScope = null;
+  $("#lessonTitle").textContent = scope ? "Practice — "+scope.title : "Challenges";
   const s=solvedIds();
+
+  // Header: either the whole course, or the practice set for one assignment.
+  $("#chTitle").textContent = scope ? "Practice for "+scope.title : "Challenges";
+  $("#chIntro").innerHTML = scope
+    ? esc("Every challenge covering what "+scope.title+" tests, and everything before it.")+
+      ' <button class="linkish" id="chAll">Show the whole course →</button>'
+    : "Bite-size practice. Not graded — solve them for XP whenever you like. New units unlock as your instructor releases the homework that covers them.";
+
   $("#chFilters").innerHTML=["all","unsolved","solved"].map(o=>
     '<button class="fchip'+((chFilter||"all")===o?" on":"")+'" data-f="'+o+'">'+o+'</button>').join("");
   $$("#chFilters .fchip").forEach(b=>b.onclick=()=>{ chFilter = b.dataset.f==="all"?null:b.dataset.f; showChallenges(); });
-  // topic tags — click one to narrow the list, click it again to clear
-  $("#chTags").innerHTML = allTags().map(([t,n])=>
+  const pool = scope ? practiceFor(scope) : challenges;
+  $("#chTags").innerHTML = allTags(pool).map(([t,n])=>
     '<button class="tag'+(tagFilter===t?" on":"")+'" data-t="'+esc(t)+'">'+esc(t)+' '+n+'</button>').join("");
   $$("#chTags .tag").forEach(b=>b.onclick=()=>{
     tagFilter = (tagFilter===b.dataset.t) ? null : b.dataset.t; showChallenges(); });
-  let list=challenges;
-  if(chFilter==="unsolved") list=challenges.filter(c=>!s.has(c.id));
-  if(chFilter==="solved") list=challenges.filter(c=>s.has(c.id));
+  if($("#chAll")) $("#chAll").onclick=()=>showChallenges(null);
+
+  let list=pool;
+  if(chFilter==="unsolved") list=list.filter(c=>!s.has(c.id));
+  if(chFilter==="solved") list=list.filter(c=>s.has(c.id));
   if(tagFilter) list=list.filter(c=>tagsOf(c).includes(tagFilter));
-  $("#chList").innerHTML = list.length ? list.map(c=>chCardHtml(c,s)).join("")
-    : '<p class="foot" style="text-align:left">No challenges match that filter.</p>';
+
+  // Grouped by unit, in course order — the list IS the syllabus.
+  const groups = units.map(u=>({u, items:list.filter(c=>(c.unit||1)===u.n)})).filter(g=>g.items.length);
+  $("#chList").innerHTML = groups.length ? groups.map(g=>{
+    const open = g.u.n <= gateUnit(), nSolved = g.items.filter(c=>s.has(c.id)).length;
+    const right = open
+      ? '<span class="uc">'+nSolved+'/'+g.items.length+' solved</span>'
+      : '<span class="uc lk">🔒 '+(opensWith(g.u.n) ? "unlocks with "+esc(opensWith(g.u.n)) : "not released yet")+'</span>';
+    return '<div class="unithd"><h3>'+g.u.n+'. '+esc(g.u.name)+'</h3>'+right+'</div>'+
+           '<div class="chgrid">'+g.items.map(c=>chCardHtml(c,s)).join("")+'</div>';
+  }).join("") : '<p class="foot" style="text-align:left">No challenges match that filter.</p>';
   wireCards();
 }
 
 // ---------------- challenge workspace ----------------
 async function openChallenge(id){
   const c=challenges.find(x=>x.id===id); if(!c) return;
+  if(!unlocked(c)){
+    const w=opensWith(c.unit);
+    return toast(w ? "Unlocks with "+w : "Your instructor hasn't released this material yet.");
+  }
   curChal=c; chalState={};
   hideAll(); setWidth(false); $("#chalCard").classList.remove("hidden");
   setNav("ch"); backTo("ch");
@@ -815,9 +908,37 @@ function renderAssignments(){
     const rs = subs.filter(r=>r.lesson===l.id);
     const pts = rs.reduce((a,r)=>a+(r.out_of||0),0), got = rs.reduce((a,r)=>a+(r.score||0),0);
     const avg = pts ? Math.round(100*got/pts) : 0;
-    return '<div class="lessonlink" style="cursor:default"><span>'+esc(l.title)+'</span>'+
-      '<span class="go">'+rs.length+'/'+students.size+' submitted'+(rs.length?' · '+avg+'% avg':'')+'</span></div>';
+    const state = l.open ? '<span class="diff">released</span>'
+                         : '<span class="diff" style="background:var(--bg);color:var(--faint)">🔒 draft</span>';
+    return '<div class="lessonlink" style="cursor:default">'+state+'<span style="margin-left:8px">'+esc(l.title)+'</span>'+
+      '<span class="go">unit '+(l.unit||1)+' · '+practiceFor(l).length+' practice · '+
+      rs.length+'/'+students.size+' submitted'+(rs.length?' · '+avg+'% avg':'')+'</span></div>';
   }).join("") || '<p class="foot">No assignments.</p>';
+
+  // What students can practise right now, and a way to see any other week's view.
+  const g = gateUnit();
+  $("#asUnits").innerHTML =
+    '<p class="foot" style="text-align:left;margin:0 0 8px">Practice unlocks with the material. '+
+    'Releasing an assignment opens every challenge in its unit and earlier. '+
+    'Set <code>open=True</code> in <code>authoring/assignments.py</code>, rebuild, push.</p>'+
+    units.map(u=>{
+      const n = challenges.filter(c=>(c.unit||1)===u.n).length;
+      const on = u.n <= g;
+      return '<div class="bar"><span class="k">'+u.n+'. '+esc(u.name)+'</span>'+
+        '<span class="t"><span style="width:'+(on?100:0)+'%"></span></span>'+
+        '<span class="v">'+(on ? n+" open" : "🔒 "+n)+'</span></div>';
+    }).join("")+
+    '<div class="filters" style="margin-top:12px">'+
+    '<span class="foot" style="margin-right:4px">Preview student view as of:</span>'+
+    '<button class="fchip'+(previewUnit===null?" on":"")+'" data-pv="live">live ('+maxOpenUnit+')</button>'+
+    units.map(u=>'<button class="fchip'+(previewUnit===u.n?" on":"")+'" data-pv="'+u.n+'">unit '+u.n+'</button>').join("")+
+    '</div>';
+  $$("#asUnits [data-pv]").forEach(b=>b.onclick=()=>{
+    previewUnit = b.dataset.pv==="live" ? null : +b.dataset.pv;
+    renderAssignments();
+    toast(previewUnit===null ? "Previewing the live gate (unit "+maxOpenUnit+")"
+                             : "Previewing as a student with units 1–"+previewUnit+" open. Hit “View as student”.");
+  });
 }
 
 // ---------------- email-code login (Supabase) ----------------
@@ -895,6 +1016,10 @@ function onSignedIn(user){
 
 
 async function openLesson(id){
+  const meta = manifest.find(l=>l.id===id);
+  if(meta && !meta.open && !viewingAsStudent && !adminEmail){
+    toast("That assignment hasn't been released yet."); return showHomework();
+  }
   hideAll(); setWidth(false);
   $("#errBanner").classList.remove("show");
   try{ lesson = await fetch(`lessons/${id}.json`).then(r=>r.json()); }

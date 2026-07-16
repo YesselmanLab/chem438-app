@@ -1,16 +1,67 @@
 {
   "lessons": [
     {
+      "id": "lesson_02",
+      "title": "Lesson 2 \u2014 strings & functions",
+      "unit": 2,
+      "open": false
+    },
+    {
       "id": "homework_01",
-      "title": "Homework 1 \u2014 Python basics"
+      "title": "Homework 1 \u2014 Python basics",
+      "unit": 3,
+      "open": true
     },
     {
       "id": "lesson_01",
-      "title": "Lesson 1 \u2014 the basics"
+      "title": "Lesson 1 \u2014 the basics",
+      "unit": 3,
+      "open": true
+    }
+  ],
+  "units": [
+    {
+      "n": 1,
+      "name": "Basics \u2014 numbers, variables & functions",
+      "open": true,
+      "opens_with": null
     },
     {
-      "id": "lesson_02",
-      "title": "Lesson 2 \u2014 strings & functions"
+      "n": 2,
+      "name": "Strings",
+      "open": true,
+      "opens_with": null
+    },
+    {
+      "n": 3,
+      "name": "Booleans & comparisons",
+      "open": true,
+      "opens_with": null
+    },
+    {
+      "n": 4,
+      "name": "Conditionals",
+      "open": false,
+      "opens_with": null
+    },
+    {
+      "n": 5,
+      "name": "Lists",
+      "open": false,
+      "opens_with": null
+    },
+    {
+      "n": 6,
+      "name": "Loops",
+      "open": false,
+      "opens_with": null
+    },
+    {
+      "n": 7,
+      "name": "Dictionaries",
+      "open": false,
+      "opens_with": null
     }
-  ]
+  ],
+  "max_open_unit": 3
 }

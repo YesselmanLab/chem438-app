@@ -2,6 +2,7 @@
   "id": "homework_01",
   "title": "Homework 1 \u2014 Python basics",
   "intro": "Nine questions on variables, arithmetic, strings, and functions. Write your answer, hit Run to test it, then Submit the whole assignment for a score. The written question is read by your instructor.",
+  "unit": 3,
   "questions": [
     {
       "id": "q1",

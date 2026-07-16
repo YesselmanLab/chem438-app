@@ -137,6 +137,9 @@ def _problem(pid, meta, sec, where):
         "prompt": sec.get("prompt", "").strip("\n"),
         # optional worked example — shown behind a "Show me how" toggle
         "walkthrough": sec.get("walkthrough", "").strip("\n"),
+        # optional: pin this problem to a curriculum unit, overriding the unit
+        # its tags imply (build.py derives one when this is absent)
+        "unit": int(meta["unit"]) if meta.get("unit") else None,
     }
     if kind in ("code_var", "code_fn"):
         prob["entry"] = meta["entry"]

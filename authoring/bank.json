@@ -1491,11 +1491,10 @@
       "kind": "code_fn",
       "tags": [
         "language_fundamentals",
-        "strings",
         "functions",
         "week1"
       ],
-      "difficulty": "easy",
+      "difficulty": "starter",
       "prompt": "Start here \u2014 this is how every challenge in this course works.\n\nIn the editor below you'll see a starter function:\n\n    def hello():\n\nAll you have to do is type  return \"hello chem 438\"  on the second line, indented\nfour spaces, then hit Run to test it. When it passes, hit Submit.\n\nExamples\n\n    hello() \u2192 \"hello chem 438\"\n\nNotes\n\n- The returned string must be all lowercase.\n- Run tests your code as many times as you like, and costs you nothing. Use it constantly.\n- Every challenge names the function you must write and shows examples of what it\n  should give back. Match those examples exactly and you pass.\n- A function that computes the right answer but never says `return` gives back nothing.\n\nStuck on any challenge? Hit \"Show me how\" under the prompt for a worked example."
     },
     {

@@ -10,8 +10,9 @@ solution (build fails otherwise) and also define the grading tests. MCQ
 ## hello_438
 kind: code_fn
 title: How challenges work
-tags: language_fundamentals, strings, functions, week1
-difficulty: easy
+tags: language_fundamentals, functions, week1
+difficulty: starter
+unit: 1
 entry: hello
 
 ### prompt

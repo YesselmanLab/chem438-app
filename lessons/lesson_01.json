@@ -2,6 +2,7 @@
   "id": "lesson_01",
   "title": "Lesson 1 \u2014 the basics",
   "intro": "Type your answer in each box. Run coding cells to test them, then submit the whole lesson for instant feedback.",
+  "unit": 3,
   "questions": [
     {
       "id": "q1",

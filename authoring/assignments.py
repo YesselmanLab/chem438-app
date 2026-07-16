@@ -7,6 +7,18 @@ builder.html, which writes the line for you to paste), then run:
     python build.py <assignment_id> --push "<grader-url>" --token "<token>"
 
 Reuse is free: list the same problem id in as many assignments as you like.
+
+Two fields control the course schedule:
+
+    unit  — the material this assignment covers (see UNITS in build.py)
+    open  — whether students can see it yet
+
+Opening an assignment also unlocks every PRACTICE CHALLENGE covering its unit and
+every earlier unit. So releasing Homework 2 (unit 2, strings) gives students all
+the unit-1 and unit-2 challenges to practise on, and keeps units 3+ locked.
+
+To release the next assignment: flip `open` to True here, then
+    python build.py --all && git add -A && git commit -m "open hw2" && git push
 """
 
 ASSIGNMENTS = {
@@ -15,6 +27,8 @@ ASSIGNMENTS = {
     # multiple choice, and one written answer.
     "homework_01": dict(
         title="Homework 1 — Python basics",
+        unit=3,          # spans basics, strings and booleans (is_even)
+        open=True,
         intro="Nine questions on variables, arithmetic, strings, and functions. "
               "Write your answer, hit Run to test it, then Submit the whole "
               "assignment for a score. The written question is read by your instructor.",
@@ -36,6 +50,8 @@ ASSIGNMENTS = {
     ),
     "lesson_01": dict(
         title="Lesson 1 — the basics",
+        unit=3,          # is_even needs comparisons
+        open=True,
         intro="Type your answer in each box. Run coding cells to test them, then "
               "submit the whole lesson for instant feedback.",
         problems=[
@@ -45,6 +61,8 @@ ASSIGNMENTS = {
     ),
     "lesson_02": dict(
         title="Lesson 2 — strings & functions",
+        unit=2,
+        open=False,     # <-- closed, so you can see the locking work
         intro="More practice with text and writing your own functions.",
         problems=[
             "str_upper", "str_len", "shout", "first_letter",

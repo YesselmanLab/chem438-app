@@ -71,7 +71,18 @@ def build(assignment_id):
         else:
             raise SystemExit(f"[{qid}] unknown kind {kind!r}")
 
-    public = {"id": assignment_id, "title": a["title"], "intro": a.get("intro", ""), "questions": public_qs}
+    # An assignment cannot cover less material than its own problems need — that
+    # would unlock practice for a unit whose homework hasn't been released.
+    needed = max((unit_of(BANK[pid]) for pid in a["problems"]), default=1)
+    if a.get("unit", 1) < needed:
+        worst = [pid for pid in a["problems"] if unit_of(BANK[pid]) == needed]
+        raise SystemExit(
+            f"[{assignment_id}] says unit={a.get('unit', 1)} but contains {worst[0]!r}, "
+            f"which needs unit {needed} ({UNIT_NAMES[needed]}). Either raise the "
+            f"assignment's unit to {needed} or drop that problem.")
+
+    public = {"id": assignment_id, "title": a["title"], "intro": a.get("intro", ""),
+              "unit": a.get("unit", 1), "questions": public_qs}
     # VIABILITY MODE: ship the answer keys so the browser can grade (soft-hidden).
     # To re-hide, drop this line and grade server-side via GRADER_URL instead.
     public["grade"] = keys
@@ -92,13 +103,64 @@ def update_manifest(assignment_id, title):
     if idx.exists():
         try: data = json.loads(idx.read_text())
         except Exception: pass
+    a = ASSIGNMENTS[assignment_id]
     lessons = [l for l in data.get("lessons", []) if l.get("id") != assignment_id]
-    lessons.append({"id": assignment_id, "title": title})
-    lessons.sort(key=lambda l: l["id"])
-    idx.write_text(json.dumps({"lessons": lessons}, indent=2))
+    lessons.append({"id": assignment_id, "title": title,
+                    "unit": a.get("unit", 1), "open": bool(a.get("open", False))})
+    lessons.sort(key=lambda l: (l.get("unit", 1), l["id"]))
+    # The gate: the furthest unit any OPEN assignment reaches. Everything up to
+    # there is unlocked — an assignment covering unit 3 has necessarily taught
+    # units 1-2, whether or not their own assignments are open yet.
+    reached = [l["unit"] for l in lessons if l.get("open")]
+    max_open = max(reached) if reached else 0
+    by_unit = sorted(lessons, key=lambda l: l["unit"])
+    units = []
+    for n, name, _ in UNITS:
+        # for a locked unit, name the assignment that will unlock it, so the app
+        # can tell a student WHY something is locked instead of just hiding it
+        nxt = next((l for l in by_unit if l["unit"] >= n), None)
+        units.append({"n": n, "name": name, "open": n <= max_open,
+                      "opens_with": None if n <= max_open or not nxt else nxt["title"]})
+    idx.write_text(json.dumps({"lessons": lessons, "units": units,
+                               "max_open_unit": max_open}, indent=2))
 
 
 XP_BY_DIFF = {"starter": 5, "easy": 10, "medium": 20, "hard": 35}
+
+# ---------------------------------------------------------------- curriculum
+# The course in order. A unit is a body of material; an assignment declares the
+# unit it covers and whether it is open yet (see assignments.py). Practice
+# challenges unlock with the material: when the assignment covering unit N is
+# open, students get every challenge in units 1..N.
+UNITS = [
+    (1, "Basics — numbers, variables & functions",
+     {"language_fundamentals", "math", "numbers", "algebra", "geometry", "types", "functions"}),
+    (2, "Strings", {"strings", "formatting", "indexing"}),
+    # booleans are separate from if/elif/else on purpose: returning a comparison
+    # (is_even) is week-1 work, and shouldn't unlock branching practice
+    (3, "Booleans & comparisons", {"logic", "validation"}),
+    (4, "Conditionals", {"conditions"}),
+    (5, "Lists", {"arrays", "sorting"}),
+    (6, "Loops", {"loops"}),
+    (7, "Dictionaries", {"dicts"}),
+]
+UNIT_NAMES = {n: name for n, name, _ in UNITS}
+# These describe a problem's SHAPE, not the skill it needs, so they say nothing
+# about when it unlocks.
+META_TAGS = {"bugs", "concept", "predict", "written", "algorithms"}
+
+
+def unit_of(p):
+    """Which unit a problem belongs to: the LATEST skill it needs.
+
+    A problem can't be attempted until everything it uses has been taught, so the
+    most advanced tag wins. An explicit `unit:` in the bank overrides this.
+    """
+    if p.get("unit"):
+        return p["unit"]
+    tags = {t for t in p.get("tags", []) if t not in META_TAGS}
+    hits = [n for n, _, unit_tags in UNITS if tags & unit_tags]
+    return max(hits) if hits else 1
 
 
 def emit_challenges():
@@ -109,7 +171,7 @@ def emit_challenges():
             continue                                  # not auto-gradeable → not a challenge
         diff = p.get("difficulty", "easy")
         item = {"id": pid, "title": p.get("title", pid), "kind": p["kind"],
-                "tags": p.get("tags", []), "difficulty": diff,
+                "tags": p.get("tags", []), "difficulty": diff, "unit": unit_of(p),
                 "xp": p.get("xp", XP_BY_DIFF.get(diff, 10)), "prompt": p["prompt"]}
         if p.get("walkthrough"):
             item["walkthrough"] = p["walkthrough"]
