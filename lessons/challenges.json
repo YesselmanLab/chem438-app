@@ -1,6 +1,504 @@
 {
   "challenges": [
     {
+      "id": "get_first_value",
+      "title": "Return the first element in a list",
+      "kind": "code_fn",
+      "tags": [
+        "arrays",
+        "language_fundamentals",
+        "week2"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Create a function that takes a list containing only numbers and returns the first\nelement.\n\nExamples\n\n    get_first_value([1, 2, 3]) \u2192 1\n    get_first_value([80, 5, 100]) \u2192 80\n    get_first_value([-500, 0, 50]) \u2192 -500\n\nNotes\n\n- The first element in a list always has an index of 0.",
+      "walkthrough": "Pull an item out of a list by putting its position in square brackets after the\nlist. Positions start at 0, not 1 \u2014 so the first item is at index 0:\n\n    def get_first_value(lst):\n        return lst[0]\n\nCounting from zero feels wrong for about a week and then never bothers you again.\nIt's worth saying the indexes out loud once: in [80, 5, 100], the 80 is at index\n0, the 5 at index 1, the 100 at index 2.",
+      "starter": "def get_first_value(lst):\n    ",
+      "entry": "get_first_value",
+      "inputs": [
+        [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        [
+          [
+            80,
+            5,
+            100
+          ]
+        ],
+        [
+          [
+            -500,
+            0,
+            50
+          ]
+        ],
+        [
+          [
+            42
+          ]
+        ],
+        [
+          [
+            7,
+            7,
+            7
+          ]
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          1,
+          80,
+          -500,
+          42,
+          7
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "find_largest_num",
+      "title": "Find the largest number in a list",
+      "kind": "code_fn",
+      "tags": [
+        "arrays",
+        "numbers",
+        "sorting",
+        "week2"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Create a function that takes a list of numbers. Return the largest number in the list.\n\nExamples\n\n    find_largest_num([4, 5, 1, 3]) \u2192 5\n    find_largest_num([300, 200, 600, 150]) \u2192 600\n    find_largest_num([1000, 1001, 857, 1]) \u2192 1001\n\nNotes\n\n- Expect either positive numbers or zero (there are no negative numbers).",
+      "walkthrough": "You could loop over the list comparing as you go \u2014 and later in the course you\nwill, because it's worth knowing how. But Python already ships with a built-in\nthat does exactly this:\n\n    def find_largest_num(nums):\n        return max(nums)\n\n`max()` takes the list and hands back the biggest item. Its twin `min()` gives you\nthe smallest. Reaching for a built-in instead of writing the loop yourself is\nnormal, good Python \u2014 not cheating.",
+      "starter": "def find_largest_num(nums):\n    ",
+      "entry": "find_largest_num",
+      "inputs": [
+        [
+          [
+            4,
+            5,
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            300,
+            200,
+            600,
+            150
+          ]
+        ],
+        [
+          [
+            1000,
+            1001,
+            857,
+            1
+          ]
+        ],
+        [
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        [
+          [
+            9
+          ]
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          5,
+          600,
+          1001,
+          0,
+          9
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "find_smallest_num",
+      "title": "Find the smallest number in a list",
+      "kind": "code_fn",
+      "tags": [
+        "arrays",
+        "numbers",
+        "sorting",
+        "week2"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Create a function that takes a list of numbers and returns the smallest number in\nthe list.\n\nExamples\n\n    find_smallest_num([34, 15, 88, 2]) \u2192 2\n    find_smallest_num([34, -345, -1, 100]) \u2192 -345\n    find_smallest_num([-76, 1.345, 1, 0]) \u2192 -76\n    find_smallest_num([0.4356, 0.8795, 0.5435, -0.9999]) \u2192 -0.9999\n    find_smallest_num([7, 7, 7]) \u2192 7\n\nNotes\n\n- Test cases contain decimals, and negative numbers.",
+      "starter": "def find_smallest_num(nums):\n    ",
+      "entry": "find_smallest_num",
+      "inputs": [
+        [
+          [
+            34,
+            15,
+            88,
+            2
+          ]
+        ],
+        [
+          [
+            34,
+            -345,
+            -1,
+            100
+          ]
+        ],
+        [
+          [
+            -76,
+            1.345,
+            1,
+            0
+          ]
+        ],
+        [
+          [
+            0.4356,
+            0.8795,
+            0.5435,
+            -0.9999
+          ]
+        ],
+        [
+          [
+            7,
+            7,
+            7
+          ]
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          2,
+          -345,
+          -76,
+          -0.9999,
+          7
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "divisible_by_five",
+      "title": "Check if an integer is divisible by five",
+      "kind": "code_fn",
+      "tags": [
+        "math",
+        "numbers",
+        "validation",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Create a function that returns True if an integer is evenly divisible by 5, and\nFalse otherwise.\n\nExamples\n\n    divisible_by_five(5) \u2192 True\n    divisible_by_five(-55) \u2192 True\n    divisible_by_five(37) \u2192 False\n\nNotes\n\n- Don't forget to `return` the result.",
+      "walkthrough": "\"Evenly divisible by 5\" means dividing by 5 leaves no remainder. The `%` operator\ngives you the remainder, so the question is whether `n % 5` is 0:\n\n    def divisible_by_five(num):\n        return num % 5 == 0\n\nNote what you *don't* need. This works, but it's clumsy:\n\n    if num % 5 == 0:\n        return True\n    else:\n        return False\n\n`num % 5 == 0` is already True or False on its own \u2014 the if/else just takes that\nanswer and laboriously restates it. Return the comparison directly. You'll use\nthis move on every problem in this file.",
+      "starter": "def divisible_by_five(num):\n    ",
+      "entry": "divisible_by_five",
+      "inputs": [
+        [
+          5
+        ],
+        [
+          -55
+        ],
+        [
+          37
+        ],
+        [
+          0
+        ],
+        [
+          1
+        ],
+        [
+          100
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          true,
+          true,
+          false,
+          true,
+          false,
+          true
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "less_than_or_equal_to_zero",
+      "title": "Is the number less than or equal to zero?",
+      "kind": "code_fn",
+      "tags": [
+        "conditions",
+        "language_fundamentals",
+        "validation",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Create a function that takes a number as its only argument and returns True if\nit's less than or equal to zero, otherwise return False.\n\nExamples\n\n    less_than_or_equal_to_zero(5) \u2192 False\n    less_than_or_equal_to_zero(0) \u2192 True\n    less_than_or_equal_to_zero(-2) \u2192 True\n\nNotes\n\n- Don't forget to `return` the result.",
+      "starter": "def less_than_or_equal_to_zero(num):\n    ",
+      "entry": "less_than_or_equal_to_zero",
+      "inputs": [
+        [
+          5
+        ],
+        [
+          0
+        ],
+        [
+          -2
+        ],
+        [
+          1
+        ],
+        [
+          -100
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          false,
+          true,
+          true,
+          false,
+          true
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "is_same_num",
+      "title": "Are the numbers equal?",
+      "kind": "code_fn",
+      "tags": [
+        "conditions",
+        "language_fundamentals",
+        "numbers",
+        "validation",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Create a function that returns True when `num1` is equal to `num2`; otherwise\nreturn False.\n\nExamples\n\n    is_same_num(4, 8) \u2192 False\n    is_same_num(2, 2) \u2192 True\n    is_same_num(2, \"2\") \u2192 False\n\nNotes\n\n- Look closely at that third example.\n- Don't forget to `return` the result.",
+      "walkthrough": "The answer is short:\n\n    def is_same_num(num1, num2):\n        return num1 == num2\n\nThe interesting part is the third example. Why is 2 == \"2\" False? Because the\nnumber 2 and the text \"2\" are different types of thing, and Python never quietly\nconverts one into the other to make a comparison succeed. They look alike printed\non screen; they are not alike.\n\nAlso mind the difference between `=` and `==`. A single `=` assigns a value; a\ndouble `==` asks a question. Writing `num1 = num2` here would be a bug.",
+      "starter": "def is_same_num(num1, num2):\n    ",
+      "entry": "is_same_num",
+      "inputs": [
+        [
+          4,
+          8
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          "2"
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          -5,
+          5
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          false,
+          true,
+          false,
+          true,
+          false
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "less_than_100",
+      "title": "Less than 100?",
+      "kind": "code_fn",
+      "tags": [
+        "language_fundamentals",
+        "math",
+        "validation",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Given two numbers, return True if the sum of both numbers is less than 100.\nOtherwise return False.\n\nExamples\n\n    less_than_100(22, 15) \u2192 True     # 22 + 15 = 37\n    less_than_100(83, 34) \u2192 False    # 83 + 34 = 117\n    less_than_100(3, 77) \u2192 True\n\nNotes\n\n- Don't forget to `return` the result.",
+      "starter": "def less_than_100(a, b):\n    ",
+      "entry": "less_than_100",
+      "inputs": [
+        [
+          22,
+          15
+        ],
+        [
+          83,
+          34
+        ],
+        [
+          3,
+          77
+        ],
+        [
+          50,
+          50
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          true,
+          false,
+          true,
+          false,
+          true
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "makes10",
+      "title": "Two makes ten",
+      "kind": "code_fn",
+      "tags": [
+        "algorithms",
+        "conditions",
+        "validation",
+        "week1"
+      ],
+      "difficulty": "medium",
+      "xp": 20,
+      "prompt": "Create a function that takes two arguments. Both arguments are integers, `a` and\n`b`. Return True if one of them is 10 or if their sum is 10.\n\nExamples\n\n    makes10(9, 10) \u2192 True\n    makes10(9, 9) \u2192 False\n    makes10(1, 9) \u2192 True\n\nNotes\n\n- Don't forget to `return` the result.",
+      "walkthrough": "Three separate ways to win, and any one of them is enough. That's what `or` means:\n\n    def makes10(a, b):\n        return a == 10 or b == 10 or a + b == 10\n\n`or` is True when at least one side is True. (Its counterpart `and` needs every\nside to be True.)\n\nOne trap: you must write out `a == 10 or b == 10`. The English sentence \"if a or b\nis 10\" shortens nicely, but `a or b == 10` is not the same thing to Python and\nwill give wrong answers. Each comparison needs its own complete statement.",
+      "starter": "def makes10(a, b):\n    ",
+      "entry": "makes10",
+      "inputs": [
+        [
+          9,
+          10
+        ],
+        [
+          9,
+          9
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          10,
+          0
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          5,
+          5
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          true,
+          false,
+          true,
+          true,
+          false,
+          true
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "profitable_gamble",
+      "title": "Profitable gamble",
+      "kind": "code_fn",
+      "tags": [
+        "conditions",
+        "math",
+        "validation",
+        "week1"
+      ],
+      "difficulty": "medium",
+      "xp": 20,
+      "prompt": "Create a function that takes three arguments `prob`, `prize`, `pay` and returns\nTrue if prob * prize > pay; otherwise return False.\n\nTo illustrate:\n\n    profitable_gamble(0.2, 50, 9)\n\n... should yield True, since the net profit is 1 (0.2 * 50 - 9), and 1 > 0.\n\nExamples\n\n    profitable_gamble(0.2, 50, 9) \u2192 True\n    profitable_gamble(0.9, 1, 2) \u2192 False\n    profitable_gamble(0.9, 3, 2) \u2192 True\n\nNotes\n\n- Don't forget to `return` the result.",
+      "starter": "def profitable_gamble(prob, prize, pay):\n    ",
+      "entry": "profitable_gamble",
+      "inputs": [
+        [
+          0.2,
+          50,
+          9
+        ],
+        [
+          0.9,
+          1,
+          2
+        ],
+        [
+          0.9,
+          3,
+          2
+        ],
+        [
+          0.5,
+          10,
+          5
+        ],
+        [
+          1.0,
+          10,
+          9
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          true,
+          false,
+          true,
+          false,
+          true
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
       "id": "convert_minutes",
       "title": "Convert minutes into seconds",
       "kind": "code_fn",
@@ -370,6 +868,164 @@
           720,
           540,
           1440
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "calculate_exponent",
+      "title": "To the power of ____",
+      "kind": "code_fn",
+      "tags": [
+        "logic",
+        "math",
+        "numbers",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Create a function that takes a base number and an exponent number and returns the\ncalculation.\n\nExamples\n\n    calculate_exponent(5, 5) \u2192 3125\n    calculate_exponent(10, 10) \u2192 10000000000\n    calculate_exponent(3, 3) \u2192 27\n\nNotes\n\n- All test inputs will be positive integers.\n- Don't forget to `return` the result.",
+      "walkthrough": "Python has an operator for raising to a power: `**`. It is not `^` \u2014 that's a\ndifferent operation entirely (bitwise XOR), and using it gives you a wrong answer\nrather than an error, which is the worst kind of bug.\n\n    def calculate_exponent(base, exponent):\n        return base ** exponent\n\nSanity check: 5 ** 5 is 5*5*5*5*5 = 3125, matching the first example. If you'd\nwritten 5 ^ 5 you'd have silently gotten 0.",
+      "starter": "def calculate_exponent(base, exponent):\n    ",
+      "entry": "calculate_exponent",
+      "inputs": [
+        [
+          5,
+          5
+        ],
+        [
+          10,
+          10
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          7,
+          1
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          3125,
+          10000000000,
+          27,
+          256,
+          7
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "football_points",
+      "title": "Football points",
+      "kind": "code_fn",
+      "tags": [
+        "algebra",
+        "math",
+        "numbers",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Create a function that takes the number of `wins`, `draws` and `losses` and\ncalculates the number of points a football team has obtained so far.\n\n    wins get 3 points\n    draws get 1 point\n    losses get 0 points\n\nExamples\n\n    football_points(3, 4, 2) \u2192 13\n    football_points(5, 0, 2) \u2192 15\n    football_points(0, 0, 1) \u2192 0\n\nNotes\n\n- Inputs will be numbers greater than or equal to 0.",
+      "starter": "def football_points(wins, draws, losses):\n    ",
+      "entry": "football_points",
+      "inputs": [
+        [
+          3,
+          4,
+          2
+        ],
+        [
+          5,
+          0,
+          2
+        ],
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          10,
+          10,
+          10
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          13,
+          15,
+          0,
+          0,
+          40
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "animals",
+      "title": "The farm problem",
+      "kind": "code_fn",
+      "tags": [
+        "algorithms",
+        "language_fundamentals",
+        "math",
+        "week1"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "In this challenge, a farmer is asking you to tell him how many legs can be counted\namong all his animals. The farmer breeds three species:\n\n    chickens = 2 legs\n    cows = 4 legs\n    pigs = 4 legs\n\nThe farmer has counted his animals and gives you a subtotal for each species. You\nhave to implement a function that returns the total number of legs of all the animals.\n\nExamples\n\n    animals(2, 3, 5) \u2192 36\n    animals(1, 2, 3) \u2192 22\n    animals(5, 2, 8) \u2192 50\n\nNotes\n\n- Don't forget to `return` the result.\n- The order of animals passed is animals(chickens, cows, pigs).\n- Remember that the farmer wants to know the total number of legs and not the\n  total number of animals.",
+      "starter": "def animals(chickens, cows, pigs):\n    ",
+      "entry": "animals",
+      "inputs": [
+        [
+          2,
+          3,
+          5
+        ],
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          5,
+          2,
+          8
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          36,
+          22,
+          50,
+          0,
+          2
         ],
         "tol": 1e-06
       }
@@ -769,6 +1425,198 @@
       "grade": {
         "kind": "mcq",
         "answer": 1
+      }
+    },
+    {
+      "id": "hello_name",
+      "title": "Name greeting",
+      "kind": "code_fn",
+      "tags": [
+        "formatting",
+        "language_fundamentals",
+        "strings",
+        "week2"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Create a function that takes a name and returns a greeting in the form of a string.\n\nExamples\n\n    hello_name(\"Gerald\") \u2192 \"Hello Gerald!\"\n    hello_name(\"Tiffany\") \u2192 \"Hello Tiffany!\"\n    hello_name(\"Ed\") \u2192 \"Hello Ed!\"\n\nNotes\n\n- The input is always a name (as a string).\n- Don't forget the exclamation mark!",
+      "walkthrough": "You're building one string out of three pieces: the word \"Hello \", the name you\nwere handed, and \"!\". The `+` operator glues strings together:\n\n    def hello_name(name):\n        return \"Hello \" + name + \"!\"\n\nWatch the spaces \u2014 they only exist if you type them. \"Hello\" + \"Ed\" gives\n\"HelloEd\", so the space has to live inside the quotes: \"Hello \" with a trailing\nspace. This is the single most common way this problem goes wrong.",
+      "starter": "def hello_name(name):\n    ",
+      "entry": "hello_name",
+      "inputs": [
+        [
+          "Gerald"
+        ],
+        [
+          "Tiffany"
+        ],
+        [
+          "Ed"
+        ],
+        [
+          "Ana"
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          "Hello Gerald!",
+          "Hello Tiffany!",
+          "Hello Ed!",
+          "Hello Ana!"
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "give_me_something",
+      "title": "Return something to me!",
+      "kind": "code_fn",
+      "tags": [
+        "language_fundamentals",
+        "strings",
+        "week2"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Write a function that returns the string \"something\" joined with a space \" \" and\nthe given argument `a`.\n\nExamples\n\n    give_me_something(\"is better than nothing\") \u2192 \"something is better than nothing\"\n    give_me_something(\"Bob Jane\") \u2192 \"something Bob Jane\"\n    give_me_something(\"something\") \u2192 \"something something\"\n\nNotes\n\n- Assume an input is given.",
+      "starter": "def give_me_something(a):\n    ",
+      "entry": "give_me_something",
+      "inputs": [
+        [
+          "is better than nothing"
+        ],
+        [
+          "Bob Jane"
+        ],
+        [
+          "something"
+        ],
+        [
+          "else"
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          "something is better than nothing",
+          "something Bob Jane",
+          "something something",
+          "something else"
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "name_string",
+      "title": "Basic variable assignment (fix the code)",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "language_fundamentals",
+        "strings",
+        "week2"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "A student learning Python was trying to write a function. Their code should join\na passed string `name` with the string \"Chem438\" and store it in a variable\ncalled `result`. They need your help to fix this code.\n\nExamples\n\n    name_string(\"Mubashir\") \u2192 \"MubashirChem438\"\n    name_string(\"Matt\") \u2192 \"MattChem438\"\n    name_string(\"python\") \u2192 \"pythonChem438\"\n\nNotes\n\n- Don't forget to return the result.",
+      "walkthrough": "Run the broken code first and read the error \u2014 that's a skill worth building, not\na step to skip. Python says `NameError: name 'Chem438' is not defined`.\n\nThat message is the whole clue. Without quotes, Python reads `Chem438` as the\nname of a variable, goes looking for one, and finds nothing. Text needs quotes:\n\n    def name_string(name):\n        result = name + \"Chem438\"\n        return result\n\nThe bug is one pair of quotes. Getting comfortable reading an error and letting\nit point you at the line will save you more time this semester than anything else.",
+      "starter": "def name_string(name):\n    result = name + Chem438\n    return result",
+      "entry": "name_string",
+      "inputs": [
+        [
+          "Mubashir"
+        ],
+        [
+          "Matt"
+        ],
+        [
+          "python"
+        ],
+        [
+          ""
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          "MubashirChem438",
+          "MattChem438",
+          "pythonChem438",
+          "Chem438"
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "to_str",
+      "title": "Return an integer as a string",
+      "kind": "code_fn",
+      "tags": [
+        "language_fundamentals",
+        "strings",
+        "week2"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Create a function that takes an integer and returns it as a string.\n\nExamples\n\n    to_str(77) \u2192 \"77\"\n    to_str(532) \u2192 \"532\"\n    to_str(0) \u2192 \"0\"\n\nNotes\n\n- This is the mirror image of the `string_int` challenge, which goes the other\n  way. Python keeps text and numbers strictly apart, and these two built-ins are\n  how you cross between them.\n- Don't forget to `return` the result.",
+      "starter": "def to_str(num):\n    ",
+      "entry": "to_str",
+      "inputs": [
+        [
+          77
+        ],
+        [
+          532
+        ],
+        [
+          0
+        ],
+        [
+          12
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          "77",
+          "532",
+          "0",
+          "12"
+        ],
+        "tol": 1e-06
+      }
+    },
+    {
+      "id": "bool_to_string",
+      "title": "Boolean to string conversion",
+      "kind": "code_fn",
+      "tags": [
+        "conditions",
+        "logic",
+        "strings",
+        "week2"
+      ],
+      "difficulty": "easy",
+      "xp": 10,
+      "prompt": "Create a function that takes a boolean variable `flag` and returns it as a string.\n\nExamples\n\n    bool_to_string(True) \u2192 \"True\"\n    bool_to_string(False) \u2192 \"False\"\n\nNotes\n\n- The same `str()` that turns a number into text turns a boolean into text too.",
+      "starter": "def bool_to_string(flag):\n    ",
+      "entry": "bool_to_string",
+      "inputs": [
+        [
+          true
+        ],
+        [
+          false
+        ]
+      ],
+      "grade": {
+        "kind": "code_fn",
+        "expected": [
+          "True",
+          "False"
+        ],
+        "tol": 1e-06
       }
     },
     {

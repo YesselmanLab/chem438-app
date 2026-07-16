@@ -386,6 +386,158 @@ sum_polygon(10) == 1440
 
 ---
 
+## calculate_exponent
+kind: code_fn
+title: To the power of ____
+tags: logic, math, numbers, week1
+difficulty: easy
+entry: calculate_exponent
+
+### prompt
+Create a function that takes a base number and an exponent number and returns the
+calculation.
+
+Examples
+
+    calculate_exponent(5, 5) → 3125
+    calculate_exponent(10, 10) → 10000000000
+    calculate_exponent(3, 3) → 27
+
+Notes
+
+- All test inputs will be positive integers.
+- Don't forget to `return` the result.
+
+### walkthrough
+Python has an operator for raising to a power: `**`. It is not `^` — that's a
+different operation entirely (bitwise XOR), and using it gives you a wrong answer
+rather than an error, which is the worst kind of bug.
+
+    def calculate_exponent(base, exponent):
+        return base ** exponent
+
+Sanity check: 5 ** 5 is 5*5*5*5*5 = 3125, matching the first example. If you'd
+written 5 ^ 5 you'd have silently gotten 0.
+
+### starter
+```python
+def calculate_exponent(base, exponent):
+    
+```
+
+### solution
+```python
+def calculate_exponent(base, exponent):
+    return base ** exponent
+```
+
+### check
+calculate_exponent(5, 5) == 3125
+calculate_exponent(10, 10) == 10000000000
+calculate_exponent(3, 3) == 27
+calculate_exponent(2, 8) == 256
+calculate_exponent(7, 1) == 7
+
+---
+
+## football_points
+kind: code_fn
+title: Football points
+tags: algebra, math, numbers, week1
+difficulty: easy
+entry: football_points
+
+### prompt
+Create a function that takes the number of `wins`, `draws` and `losses` and
+calculates the number of points a football team has obtained so far.
+
+    wins get 3 points
+    draws get 1 point
+    losses get 0 points
+
+Examples
+
+    football_points(3, 4, 2) → 13
+    football_points(5, 0, 2) → 15
+    football_points(0, 0, 1) → 0
+
+Notes
+
+- Inputs will be numbers greater than or equal to 0.
+
+### starter
+```python
+def football_points(wins, draws, losses):
+    
+```
+
+### solution
+```python
+def football_points(wins, draws, losses):
+    return wins * 3 + draws * 1
+```
+
+### check
+football_points(3, 4, 2) == 13
+football_points(5, 0, 2) == 15
+football_points(0, 0, 1) == 0
+football_points(0, 0, 0) == 0
+football_points(10, 10, 10) == 40
+
+---
+
+## animals
+kind: code_fn
+title: The farm problem
+tags: algorithms, language_fundamentals, math, week1
+difficulty: easy
+entry: animals
+
+### prompt
+In this challenge, a farmer is asking you to tell him how many legs can be counted
+among all his animals. The farmer breeds three species:
+
+    chickens = 2 legs
+    cows = 4 legs
+    pigs = 4 legs
+
+The farmer has counted his animals and gives you a subtotal for each species. You
+have to implement a function that returns the total number of legs of all the animals.
+
+Examples
+
+    animals(2, 3, 5) → 36
+    animals(1, 2, 3) → 22
+    animals(5, 2, 8) → 50
+
+Notes
+
+- Don't forget to `return` the result.
+- The order of animals passed is animals(chickens, cows, pigs).
+- Remember that the farmer wants to know the total number of legs and not the
+  total number of animals.
+
+### starter
+```python
+def animals(chickens, cows, pigs):
+    
+```
+
+### solution
+```python
+def animals(chickens, cows, pigs):
+    return chickens * 2 + cows * 4 + pigs * 4
+```
+
+### check
+animals(2, 3, 5) == 36
+animals(1, 2, 3) == 22
+animals(5, 2, 8) == 50
+animals(0, 0, 0) == 0
+animals(1, 0, 0) == 2
+
+---
+
 ## next_edge
 kind: code_fn
 title: Maximum edge of a triangle
