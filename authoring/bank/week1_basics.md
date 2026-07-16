@@ -36,6 +36,37 @@ Notes
   should give back. Match those examples exactly and you pass.
 - A function that computes the right answer but never says `return` gives back nothing.
 
+Stuck on any challenge? Hit "Show me how" under the prompt for a worked example.
+
+### walkthrough
+Here's the whole process on a different problem, start to finish. Say a challenge asks:
+
+    Write a function that takes an integer minutes and converts it to seconds.
+
+    convert(5) → 300
+    convert(3) → 180
+
+Step 1 — read the examples, find the pattern. 5 becomes 300, and 3 becomes 180.
+Both are the input times 60. That makes sense: 60 seconds in a minute.
+
+Step 2 — write the def line. The challenge gives you the name and what goes in.
+It's called convert and takes one thing, so:
+
+    def convert(minutes):
+
+Step 3 — return the answer. The body is indented four spaces, and it must say
+`return`, or the function hands back nothing at all:
+
+    def convert(minutes):
+        return minutes * 60
+
+Step 4 — check one example by hand. convert(5) is 5 * 60, which is 300. That
+matches the first example, so hit Run.
+
+That's every challenge: read the examples, spot the pattern, write the def line,
+return the answer, test it. Now go do this one — type
+return "hello chem 438" into the editor and hit Run.
+
 ### starter
 ```python
 def hello():

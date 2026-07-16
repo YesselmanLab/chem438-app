@@ -96,6 +96,10 @@ double(10) == 20
 double(0) == 0
 ````
 
+Optional sections: **`### walkthrough`** is a worked example, shown on the challenge
+behind a collapsed "Show me how" toggle, so it helps a stuck student without
+spoiling the answer. `difficulty: easy|medium|hard` sets the XP (10/20/35).
+
 The **`### check` lines must pass against the `### solution`** — if they don't,
 the build stops with an error, so a broken problem never ships. The checks also
 *define the grading*: write them as `entry(args) == expected` (or `is True/False`),

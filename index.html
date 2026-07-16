@@ -124,6 +124,12 @@
   .chc .tick{position:absolute;top:13px;right:13px;width:19px;height:19px;border-radius:50%;background:var(--good);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700}
   .chc h4{margin:0;font-size:.98rem;padding-right:22px}
   .chc .tg{display:flex;gap:4px;flex-wrap:wrap}
+  .howto{border:1px solid var(--line2);border-radius:10px;background:var(--bg);margin:0 0 14px}
+  .howto summary{cursor:pointer;padding:9px 13px;font-size:13px;font-weight:600;color:var(--accent-ink);list-style:none}
+  .howto summary::-webkit-details-marker{display:none}
+  .howto summary::before{content:"▸ ";display:inline-block;transition:transform .15s}
+  .howto[open] summary::before{content:"▾ "}
+  .howto .prompt{padding:0 13px 12px;margin:0;font-size:13.5px;color:var(--soft)}
   .tag{font-family:var(--mono);font-size:10.5px;padding:2px 7px;border-radius:5px;
        background:var(--bg);border:1px solid var(--line2);color:var(--faint);white-space:nowrap}
   button.tag{cursor:pointer}
@@ -311,6 +317,10 @@
       </div>
       <h1 id="chalTitle" style="margin:8px 0 6px"></h1>
       <div class="prompt" id="chalPrompt" style="white-space:pre-wrap;color:var(--soft)"></div>
+      <details class="howto hidden" id="chalHow">
+        <summary>Show me how</summary>
+        <div class="prompt" id="chalHowBody"></div>
+      </details>
       <div id="chalBody" style="margin-top:14px"></div>
       <div class="runrow" style="margin-top:12px">
         <button class="btn btn-ghost btn-sm" id="chalRun">▸ Run</button>
@@ -668,6 +678,10 @@ async function openChallenge(id){
   $("#chalTags").innerHTML = tagsOf(c).map(t=>'<button class="tag" data-t="'+esc(t)+'">'+esc(t)+'</button>').join("");
   $$("#chalTags .tag").forEach(b=>b.onclick=()=>{ tagFilter=b.dataset.t; chFilter=null; showChallenges(); });
   $("#chalPrompt").textContent=c.prompt;
+  // worked example, collapsed by default so it never spoils the problem unasked
+  const how=$("#chalHow"); how.open=false;
+  how.classList.toggle("hidden", !c.walkthrough);
+  if(c.walkthrough) $("#chalHowBody").textContent=c.walkthrough;
   const out=$("#chalOut"); out.classList.remove("show"); out.textContent="";
   $("#chalRes").innerHTML="";
   const body=$("#chalBody"); body.innerHTML="";

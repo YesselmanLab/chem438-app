@@ -104,6 +104,8 @@ def _build():
                 "tags": [t.strip() for t in meta.get("tags", "").split(",") if t.strip()],
                 "difficulty": meta.get("difficulty", "easy"),
                 "prompt": sec.get("prompt", "").strip("\n"),
+                # optional worked example — shown behind a "Show me how" toggle
+                "walkthrough": sec.get("walkthrough", "").strip("\n"),
             }
             if kind in ("code_var", "code_fn"):
                 prob["entry"] = meta["entry"]

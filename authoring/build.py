@@ -111,6 +111,8 @@ def emit_challenges():
         item = {"id": pid, "title": p.get("title", pid), "kind": p["kind"],
                 "tags": p.get("tags", []), "difficulty": diff,
                 "xp": p.get("xp", XP_BY_DIFF.get(diff, 10)), "prompt": p["prompt"]}
+        if p.get("walkthrough"):
+            item["walkthrough"] = p["walkthrough"]
         if p["kind"] == "code_var":
             item["starter"] = p["starter"]; item["entry"] = p["entry"]
             item["grade"] = {"kind": "code_var", "expected": expected_for_code_var(p, pid),
