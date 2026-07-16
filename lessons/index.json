@@ -1,9 +1,21 @@
 {
   "lessons": [
     {
+      "id": "lesson_02",
+      "title": "Lesson 2 \u2014 strings & functions",
+      "unit": 3,
+      "open": false
+    },
+    {
+      "id": "lesson_01",
+      "title": "Lesson 1 \u2014 the basics",
+      "unit": 4,
+      "open": true
+    },
+    {
       "id": "homework_01",
       "title": "Homework 1 \u2014 Python basics",
-      "unit": 1,
+      "unit": 5,
       "open": true,
       "mode": "challenges",
       "challenges": [
@@ -18,24 +30,12 @@
         "mcq_four_vs_string_four",
         "mcq_floor_div"
       ]
-    },
-    {
-      "id": "lesson_02",
-      "title": "Lesson 2 \u2014 strings & functions",
-      "unit": 2,
-      "open": false
-    },
-    {
-      "id": "lesson_01",
-      "title": "Lesson 1 \u2014 the basics",
-      "unit": 3,
-      "open": true
     }
   ],
   "units": [
     {
       "n": 1,
-      "name": "Basics \u2014 numbers, variables & functions",
+      "name": "Variables & math",
       "open": true,
       "opens_with": null
     },
@@ -47,34 +47,40 @@
     },
     {
       "n": 3,
-      "name": "Booleans & comparisons",
+      "name": "Functions",
       "open": true,
       "opens_with": null
     },
     {
       "n": 4,
-      "name": "Conditionals",
-      "open": false,
+      "name": "Booleans & comparisons",
+      "open": true,
       "opens_with": null
     },
     {
       "n": 5,
+      "name": "If / else",
+      "open": true,
+      "opens_with": null
+    },
+    {
+      "n": 6,
       "name": "Lists",
       "open": false,
       "opens_with": null
     },
     {
-      "n": 6,
+      "n": 7,
       "name": "Loops",
       "open": false,
       "opens_with": null
     },
     {
-      "n": 7,
+      "n": 8,
       "name": "Dictionaries",
       "open": false,
       "opens_with": null
     }
   ],
-  "max_open_unit": 3
+  "max_open_unit": 5
 }

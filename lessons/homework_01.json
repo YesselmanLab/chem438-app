@@ -2,7 +2,7 @@
   "id": "homework_01",
   "title": "Homework 1 \u2014 Python basics",
   "intro": "Ten challenges to get you going. Solve them in any order \u2014 each one checks itself the moment you hit Submit, and you can retry as many times as you like. No penalty for a wrong answer, so experiment.",
-  "unit": 1,
+  "unit": 5,
   "mode": "challenges",
   "challenges": [
     "hello_438",

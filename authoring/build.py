@@ -19,6 +19,7 @@ import urllib.request
 from pathlib import Path
 
 import norm
+import refmd
 from bankmd import BANK
 from assignments import ASSIGNMENTS
 
@@ -161,16 +162,16 @@ XP_BY_DIFF = {"starter": 5, "easy": 10, "medium": 20, "hard": 35}
 # challenges unlock with the material: when the assignment covering unit N is
 # open, students get every challenge in units 1..N.
 UNITS = [
-    (1, "Basics — numbers, variables & functions",
-     {"language_fundamentals", "math", "numbers", "algebra", "geometry", "types", "functions"}),
+    (1, "Variables & math", {"language_fundamentals", "math", "numbers", "algebra", "geometry", "types"}),
     (2, "Strings", {"strings", "formatting", "indexing"}),
+    (3, "Functions", {"functions"}),
     # booleans are separate from if/elif/else on purpose: returning a comparison
-    # (is_even) is week-1 work, and shouldn't unlock branching practice
-    (3, "Booleans & comparisons", {"logic", "validation"}),
-    (4, "Conditionals", {"conditions"}),
-    (5, "Lists", {"arrays", "sorting"}),
-    (6, "Loops", {"loops"}),
-    (7, "Dictionaries", {"dicts"}),
+    # (is_even) is not the same skill as branching
+    (4, "Booleans & comparisons", {"logic", "validation"}),
+    (5, "If / else", {"conditions"}),
+    (6, "Lists", {"arrays", "sorting"}),
+    (7, "Loops", {"loops"}),
+    (8, "Dictionaries", {"dicts"}),
 ]
 UNIT_NAMES = {n: name for n, name, _ in UNITS}
 # These describe a problem's SHAPE, not the skill it needs, so they say nothing
@@ -220,6 +221,20 @@ def emit_challenges():
     print(f"wrote lessons/challenges.json  ({len(items)} practice challenges)")
 
 
+def emit_reference():
+    """Publish the topic explainers. Each page names its unit, so it stays hidden
+    until the homework covering that section is released — same gate as practice."""
+    pages = refmd.load()
+    known = {n for n, _, _ in UNITS}
+    for p in pages:
+        if p["unit"] not in known:
+            raise SystemExit(f"[{p['id']}] unit {p['unit']} is not a course section {sorted(known)}")
+        p["unit_name"] = UNIT_NAMES[p["unit"]]
+    PUBLIC_DIR.mkdir(exist_ok=True)
+    (PUBLIC_DIR / "reference.json").write_text(json.dumps({"pages": pages}, indent=2))
+    print(f"wrote lessons/reference.json  ({len(pages)} topic pages)")
+
+
 def emit_bank_json():
     """Public metadata for every bank problem, for the visual builder (no answers)."""
     items = []
@@ -256,6 +271,7 @@ if __name__ == "__main__":
     if args.bank:
         emit_bank_json()
     emit_challenges()          # practice challenges are always kept in sync with the bank
+    emit_reference()           # ...and so are the topic explainers
     targets = list(ASSIGNMENTS) if args.all else ([args.assignment] if args.assignment else [])
     if not targets and not args.bank:
         ap.error("give an assignment id, --all, or --bank")

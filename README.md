@@ -223,3 +223,43 @@ create policy "admin read all" on submissions
 Now each student submit records a row (their email, assignment, score), and your
 admin login shows the live gradebook. Row-Level Security guarantees a student can
 only ever see their own row — never the keys or another student's work.
+
+## Course sections (what students can see)
+
+The bank is a curriculum, not a flat list. `UNITS` in `build.py` defines the course
+in order; each problem's section is the LATEST skill it needs (derived from tags,
+overridable with `unit:` in the bank). An assignment declares the section it covers
+and whether it's `open`.
+
+**Releasing an assignment reveals every challenge and topic page in its section and
+earlier. Nothing beyond is rendered at all** — a student cannot see a problem before
+its material is taught. The build refuses an assignment that declares a lower
+section than its own problems need.
+
+To release the next one: set `open=True` in `assignments.py`, then
+`python build.py --all && git add -A && git commit -m "open hw2" && git push`.
+The instructor console's Assignments tab has a "preview student view as of section N"
+control to see any week of the term without rebuilding.
+
+## Learn: topic reference pages
+
+`authoring/reference/*.md` are the explainers that sit alongside lecture — plain
+markdown, one per section, gated exactly like practice.
+
+```
+# Strings
+unit: 2
+
+## Making a string
+...
+```
+
+Supported: `##`/`###`, paragraphs, ```python fences, `-`/`1.` lists, `>` callouts,
+**bold**, `inline code`. Nothing else.
+
+**Every code example is executed and checked against its stated output:**
+```bash
+python check_reference.py          # runs every block, compares each # comment to real Python
+```
+A reference page is read by students who can't tell a typo from a rule, so a wrong
+output comment teaches a wrong fact. Run this before shipping an edit.

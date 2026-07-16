@@ -10,7 +10,7 @@
         "numbers"
       ],
       "difficulty": "starter",
-      "unit": 1,
+      "unit": 3,
       "xp": 5,
       "prompt": "Write a function that takes the current `room` temperature and the `dial` setting\nand returns how far apart they are. The answer must be a positive number, no\nmatter which one is bigger.\n\nExamples\n\n    gap(18, 23) \u2192 5\n    gap(23, 18) \u2192 5\n    gap(20, 20) \u2192 0\n\nNotes\n\n- `abs(x)` gives the size of a number, throwing away any minus sign.\n- Do the subtraction inside `abs(...)`.\n- Don't forget to `return` the result.",
       "walkthrough": "The trap here is the order of the subtraction. If you write `room - dial` you get\n`-5` for a room at 18 and a dial at 23, and a distance of \"negative five degrees\"\nis nonsense. Swapping to `dial - room` gives `5`, which looks right \u2014 but check it\nagainst the second example, where the room is 23 and the dial is 18. Now the same\ncode gives `-5` and you are back where you started. There is no fixed order that\nworks for both.\n\n`abs()` removes the guesswork. It takes whatever number you hand it and returns\nits size without the sign:\n\n    abs(-5)   is 5\n    abs(5)    is 5\n\nSo wrap the subtraction and stop worrying about the order:\n\n    return abs(room - dial)\n\nThat is the general habit: whenever you want \"how far apart are these two\nnumbers\", write `abs(a - b)` rather than trying to work out which one is larger\nfirst.",
@@ -81,7 +81,7 @@
         "numbers"
       ],
       "difficulty": "easy",
-      "unit": 1,
+      "unit": 3,
       "xp": 10,
       "prompt": "Three friends bowled a game each. Write a function that takes their three scores\nand returns the spread: the distance between the best score and the worst.\n\nExamples\n\n    score_range(120, 95, 100) \u2192 25\n    score_range(5, 5, 5) \u2192 0\n    score_range(0, 7, 3) \u2192 7\n\nNotes\n\n- `max(a, b, c)` hands back the largest of the three; `min(a, b, c)` the smallest.\n- The spread is one of those subtracted from the other.\n- Don't forget to `return` the result.",
       "walkthrough": "Read the words and turn each one into code. \"The best score\" is `max(a, b, c)`.\n\"The worst score\" is `min(a, b, c)`. \"The distance between them\" is a subtraction.\nPut those three pieces together in that order:\n\n    return max(a, b, c) - min(a, b, c)\n\nTry it on 120, 95, 100: the max is 120, the min is 95, and 120 - 95 is 25.\n\nThe slip to name is the order of the subtraction. If you write\n`min(a, b, c) - max(a, b, c)` you get `-25`, and a spread can never be negative \u2014\nthe biggest number minus the smallest is always zero or more. The check\n`score_range(5, 5, 5) == 0` will not catch that mistake for you, because when all\nthree are equal both orders give 0. That is exactly why the other checks are\nthere.\n\nNotice you do not need an `if` anywhere. Beginners often reach for a chain of\ncomparisons to find the biggest of three numbers; `max` and `min` already did that\nwork, and they take as many arguments as you like.",
@@ -160,7 +160,7 @@
         "numbers"
       ],
       "difficulty": "easy",
-      "unit": 1,
+      "unit": 3,
       "xp": 10,
       "prompt": "Write a function that takes how many questions a student got `correct` and how\nmany there were in `total`, and returns their score as a percentage rounded to\nthe nearest whole number.\n\nExamples\n\n    quiz_percent(9, 10) \u2192 90\n    quiz_percent(1, 3) \u2192 33\n    quiz_percent(7, 9) \u2192 78\n\nNotes\n\n- Divide, multiply by 100, then hand the result to `round()`.\n- `round()` with one argument gives you a whole number back.",
       "walkthrough": "Build this in the order the words describe it. \"How much of the quiz did they\nget\" is a fraction \u2014 `correct / total`. For 9 out of 10 that is `0.9`.\n\nA percent is just that fraction out of a hundred, so multiply by 100 and you get\n`90.0`. Nearly there, but the examples show `90`, not `90.0`, so pass it through\n`round()`:\n\n    return round(correct / total * 100)\n\nHere is the mistake waiting for you. It is tempting to round first and multiply\nafter \u2014 `round(correct / total) * 100`. Try it on 9 out of 10: `round(0.9)` is\n`1`, times 100 is `100`. You just told a student who missed a question that they\ngot a perfect score. Rounding collapses the number to a whole one, so any detail\nsmaller than 1 is gone for good. Do it last, once the number is already scaled to\nthe size you want.\n\nYou don't need parentheses around `correct / total * 100` inside the `round(...)`\ncall \u2014 `/` and `*` are the same precedence and run left to right, which is\nexactly the order you want.",
@@ -215,7 +215,7 @@
         "functions"
       ],
       "difficulty": "easy",
-      "unit": 1,
+      "unit": 3,
       "xp": 10,
       "prompt": "This function is supposed to return the average of three numbers, but the answers\ncome out far too large. Averaging 9, 9 and 9 should obviously give 9.0, yet it\nreports 21.0. Fix it.\n\nExamples\n\n    average(9, 9, 9) \u2192 9.0\n    average(1, 2, 3) \u2192 2.0\n    average(10, 20, 60) \u2192 30.0\n\nNotes\n\n- `/` happens before `+`, so only the last number is being divided.\n- One pair of parentheses is all you need.",
       "walkthrough": "Run the broken version by hand on `average(9, 9, 9)`. Python does not read the\nline left to right the way you do \u2014 it does division before addition. So\n\n    return a + b + c / 3\n\nreally means \"9 plus 9 plus (9 divided by 3)\", which is 9 + 9 + 3 = 21.0. Only\nthe third number ever got divided, which is why the answer is roughly three times\ntoo big.\n\nParentheses let you overrule the default order. Wrap the whole sum so it is\nfinished before the division starts:\n\n    return (a + b + c) / 3\n\nNow it is (9 + 9 + 9) / 3, which is 27 / 3, which is 9.0. This is the single most\ncommon arithmetic bug in beginner code: when you mean \"add these up, then divide\",\nyou must say so with parentheses, because Python will otherwise divide first.",
@@ -270,7 +270,7 @@
         "numbers"
       ],
       "difficulty": "medium",
-      "unit": 1,
+      "unit": 3,
       "xp": 20,
       "prompt": "You have a pile of loose change worth `cents` cents. Make it into as few coins as\npossible, biggest first: take out all the whole quarters (25 cents each) you can,\nthen all the whole dimes (10 cents each) you can from what remains. Write a\nfunction that returns a three-item list of the quarter count, the dime count, and\nthe cents still left over.\n\nExamples\n\n    split_change(80) \u2192 [3, 0, 5]\n    split_change(95) \u2192 [3, 2, 0]\n    split_change(12) \u2192 [0, 1, 2]\n\nNotes\n\n- `//` divides and throws away the remainder; `%` gives you that remainder back.\n- The dimes do not come out of `cents` \u2014 they come out of what the quarters left\n  behind.",
       "walkthrough": "`//` and `%` are two halves of the same division, and this problem is the clearest\nway to see it. Take 80 cents and pull out the quarters:\n\n    80 // 25   is 3     (three whole quarters fit)\n    80 % 25    is 5     (five cents don't fit into another quarter)\n\nSanity-check it: 3 quarters is 75 cents, plus the 5 left over, back to 80. The\ncount and the remainder always rebuild the original number.\n\nDo not reach for `/` here. `80 / 25` is `3.2`, and \"3.2 quarters\" is not a thing\nyou can hold in your hand. When you are counting how many whole things fit, `//`\nis the operator you want.\n\nNow the part that catches people. The dimes must come out of the *remainder*, not\nout of `cents`. Writing `cents // 10` for the dimes is the mistake: for 80 cents\nthat claims 8 dimes on top of the 3 quarters, which is 155 cents of coins out of a\npile worth 80. Once a quarter has claimed some money, that money is spent.\n\nSo give the remainder a name and keep whittling it down:\n\n    rest = cents % 25\n    return [cents // 25, rest // 10, rest % 10]\n\nWalk 95 through it: `95 // 25` is 3, `rest` is 20, `20 // 10` is 2, `20 % 10` is 0\n\u2014 `[3, 2, 0]`. Add it back up: 75 + 20 + 0 is 95. That \"add it back up\" check is\nworth doing on every case you're unsure of.",
@@ -343,7 +343,7 @@
         "numbers"
       ],
       "difficulty": "easy",
-      "unit": 1,
+      "unit": 3,
       "xp": 10,
       "prompt": "A speaker's volume dial only accepts numbers from 0 to 10. Write a function that\ntakes any number `v` and returns it pushed back into that range: anything below 0\nbecomes 0, anything above 10 becomes 10, and anything already in range comes back\nunchanged.\n\nExamples\n\n    clamp_volume(-3) \u2192 0\n    clamp_volume(47) \u2192 10\n    clamp_volume(6) \u2192 6\n\nNotes\n\n- `max()` and `min()` are both useful here \u2014 work out which one guards which end.\n- `v` may be a whole number or have a decimal part; an in-range number must come\n  back exactly as it went in.\n- No `if` needed: one of these can be nested inside the other on a single line.",
       "walkthrough": "Handle one end at a time. To stop the number going below 0, ask for the larger of\nthe number and 0:\n\n    max(0, -3)   is 0\n    max(0, 6)    is 6\n\nThat end is now safe \u2014 nothing can escape below zero. Now take that safe result\nand stop it going above 10 by asking for the smaller of it and 10:\n\n    min(10, 0)   is 0\n    min(10, 6)   is 6\n    min(10, 47)  is 10\n\nNest them and you have the whole thing:\n\n    return min(10, max(0, v))\n\nThe mistake to name here is getting the two backwards \u2014 writing `max(0, min(10, v))`\nhappens to work too, but writing `min(0, max(10, v))` does not, and it is an easy\nslip. Remember it as words: `max` is the floor (it raises numbers up), `min` is\nthe ceiling (it pushes numbers down). If the result of your version on `-3` isn't\n`0`, you have them swapped.",
@@ -396,7 +396,7 @@
         "functions"
       ],
       "difficulty": "starter",
-      "unit": 3,
+      "unit": 4,
       "xp": 5,
       "prompt": "A game keeps a flag telling it whether play has ended. Write `keep_playing(game_over)`\nthat returns the opposite of `game_over`.\n\nExamples\n\n    keep_playing(False) \u2192 True\n    keep_playing(True) \u2192 False\n\nNotes\n\n- `not` flips a boolean: `not True` is `False`, and `not False` is `True`.\n- The flipped value is already True or False \u2014 you can `return` it directly.",
       "starter": "def keep_playing(game_over):\n    ",
@@ -428,7 +428,7 @@
         "functions"
       ],
       "difficulty": "starter",
-      "unit": 3,
+      "unit": 4,
       "xp": 5,
       "prompt": "A store gives free shipping once your cart total reaches 35 dollars. Write\n`free_shipping(cart_total)` that returns True when the total is 35 or more, and\nFalse otherwise.\n\nExamples\n\n    free_shipping(40) \u2192 True\n    free_shipping(35) \u2192 True\n    free_shipping(12) \u2192 False\n\nNotes\n\n- A cart of exactly 35 dollars qualifies.\n- A comparison is already True or False \u2014 you can `return` it directly.",
       "walkthrough": "The trap here is writing four lines where one will do:\n\n    if cart_total >= 35:\n        return True\n    else:\n        return False\n\nThat works, but look closely at what it does. Python evaluates `cart_total >= 35`\nand gets back True or False. Then the if/else looks at that answer and... hands\nback the exact same answer. It's a middleman that adds nothing.\n\n    def free_shipping(cart_total):\n        return cart_total >= 35\n\nThe other mistake to name: `>` versus `>=`. A cart of exactly 35 dollars *does*\nqualify. With `>` you'd tell that shopper \"no\", and it's the one test case a\nbeginner never thinks to try. When a rule says \"or more\", \"at least\", or \"no less\nthan\", reach for `>=`.",
@@ -501,7 +501,7 @@
         "functions"
       ],
       "difficulty": "easy",
-      "unit": 4,
+      "unit": 5,
       "xp": 10,
       "prompt": "A roller coaster requires that you are taller than 120 cm **and** that you are\nholding a ticket. Write `can_ride(height_cm, has_ticket)` that returns True only\nwhen both are satisfied.\n\nExamples\n\n    can_ride(150, True) \u2192 True\n    can_ride(150, False) \u2192 False\n    can_ride(110, True) \u2192 False\n\nNotes\n\n- \"Taller than 120\" means strictly over 120 \u2014 exactly 120 is not tall enough.\n- `and` is True only when the expression on each side is True.",
       "starter": "def can_ride(height_cm, has_ticket):\n    ",
@@ -555,7 +555,7 @@
         "functions"
       ],
       "difficulty": "easy",
-      "unit": 4,
+      "unit": 5,
       "xp": 10,
       "prompt": "A staircase light is wired to two switches, one at the top and one at the bottom.\nThe light is on exactly when the two switches are in *different* positions. Write\n`light_on(top, bottom)`, where each argument is True or False, returning True when\nthe light is on.\n\nExamples\n\n    light_on(True, False) \u2192 True\n    light_on(False, True) \u2192 True\n    light_on(True, True) \u2192 False\n\nNotes\n\n- Each argument is already True or False.",
       "walkthrough": "Four cases, and it's tempting to spell out all of them:\n\n    if top == True and bottom == False:\n        return True\n    elif top == False and bottom == True:\n        return True\n    else:\n        return False\n\nCorrect, but it buries the idea. Step back and read the two True rows: in both,\n`top` and `bottom` *disagree*. And \"these two disagree\" has a name in Python \u2014 it's\n`!=`.\n\n    def light_on(top, bottom):\n        return top != bottom\n\nBooleans are ordinary values, so you can compare them to each other, not just test\nthem. That's the shift to make here: `top != bottom` asks \"are these two different?\"\nand True/False are perfectly good things to ask that about.\n\nOne more habit to break while you're here: never write `if top == True`. `top` is\nalready True or False, so just write `if top`. Comparing a boolean to True is the\nsame redundancy as the if/else that returns True and False.",
@@ -600,7 +600,7 @@
         "logic"
       ],
       "difficulty": "easy",
-      "unit": 4,
+      "unit": 5,
       "xp": 10,
       "prompt": "This function is supposed to unlock a door when the keypad code is 1234. Right now\nit doesn't even run \u2014 Python refuses the file. Fix it.\n\nExamples\n\n    door_unlocks(1234) \u2192 True\n    door_unlocks(1111) \u2192 False\n    door_unlocks(0) \u2192 False\n\nNotes\n\n- `=` puts a value into a variable. `==` asks whether two values are the same.\n- One character is enough to make it run. Once it runs, look again and ask whether\n  the `if` is still earning its keep.",
       "walkthrough": "Run the starter and Python won't even get as far as calling your function:\n\n    SyntaxError: invalid syntax\n\nThat is actually good news. `if code = 1234:` tries to *assign* 1234 to `code` in\na spot where Python demands a question, and Python catches it up front. In some\nother languages this same line compiles fine and silently sets the code to 1234\nevery time, so the door always opens \u2014 a real security bug that shipped in real\nsoftware. Python saves you from that by refusing outright.\n\nThe rule to memorize: one equals sign *stores*, two equals signs *ask*.\n\n    code = 1234       # store: code is now 1234\n    code == 1234      # ask: is code 1234? -> True or False\n\nAn `if` always wants the asking version:\n\n    def door_unlocks(code):\n        return code == 1234\n\nAnd once you've made it a comparison, notice it's already True or False \u2014 the\n`if`/`return True`/`return False` scaffolding can go entirely.",
@@ -645,7 +645,7 @@
         "logic"
       ],
       "difficulty": "medium",
-      "unit": 3,
+      "unit": 4,
       "xp": 20,
       "prompt": "A site accepts a username when its length is between 3 and 12 characters\n(inclusive) and the name is not \"admin\". Write `valid_username(name)` returning\nTrue when the name is allowed.\n\nExamples\n\n    valid_username(\"joe\") \u2192 True\n    valid_username(\"ab\") \u2192 False\n    valid_username(\"admin\") \u2192 False\n\nNotes\n\n- `len(name)` gives the number of characters in a string.\n- \"Between 3 and 12 (inclusive)\" means 3 and 12 are both allowed.",
       "walkthrough": "There are two independent rules, and the answer is True only when both hold \u2014 so\nthey're joined with `and`.\n\nThe length rule is a range. You could write it as two comparisons:\n\n    len(name) >= 3 and len(name) <= 12\n\nPython offers a shorter form that reads like math and means exactly the same thing:\n\n    3 <= len(name) <= 12\n\nThe mistake waiting for you is \"between 3 and 12\" \u2014 does that include 3 and 12? The\nprompt says *inclusive*, so yes, and that means `<=` on both ends, not `<`. Whenever\na spec says \"between\", find out about the endpoints before you write anything; they\nare where the bugs live.\n\nThen bolt on the second rule:\n\n    def valid_username(name):\n        return 3 <= len(name) <= 12 and name != \"admin\"\n\nNote that \"admin\" passes the length test with room to spare \u2014 5 characters. It has\nto be excluded by name, which is why the `!=` is doing real work here rather than\nbeing decoration.",
@@ -702,7 +702,7 @@
         "logic"
       ],
       "difficulty": "medium",
-      "unit": 5,
+      "unit": 6,
       "xp": 20,
       "prompt": "You have a list of play counts, one per song, in playlist order. Write\n`front_loaded(plays)` that returns True when the first song was played more times\nthan the last song.\n\nExamples\n\n    front_loaded([90, 40, 12]) \u2192 True\n    front_loaded([5, 40, 90]) \u2192 False\n    front_loaded([7, 7]) \u2192 False\n\nNotes\n\n- \"More than\" is strict, so equal counts are not front-loaded.\n- The list always has at least one song.",
       "walkthrough": "Two things to get right, and neither is the comparison itself.\n\nFirst, reaching the last item. Beginners write `plays[len(plays)]` and get an\nIndexError, because a list of 3 items has indexes 0, 1, 2 \u2014 there is no index 3.\nYou could write `plays[len(plays) - 1]`, but Python gives you a cleaner way:\nnegative indexes count from the end, so `plays[-1]` is the last item, `plays[-2]`\nthe one before it.\n\nSecond, the counts are just numbers, so compare them and return the comparison:\n\n    def front_loaded(plays):\n        return plays[0] > plays[-1]\n\nNow the edge case that surprises people: a one-song list like `[7]`. Then `plays[0]`\nand `plays[-1]` are the *same* item, so you're asking `7 > 7`, which is False. That\nfalls out correctly with no special handling \u2014 but you should be able to say why\nbefore you trust it.",
@@ -771,7 +771,7 @@
         "numbers"
       ],
       "difficulty": "easy",
-      "unit": 4,
+      "unit": 5,
       "xp": 10,
       "prompt": "An online store ships free once your cart reaches $50. Given the cart total,\nreturn the shipping cost: `0.0` when the total is 50 or more, otherwise `5.99`.\nFill in the three blanks so the whole thing is a single ternary (conditional)\nexpression.\n\nExamples\n\n    free_shipping_cost(80) \u2192 0.0\n    free_shipping_cost(12.5) \u2192 5.99\n    free_shipping_cost(50) \u2192 0.0\n\nNotes\n\n- A ternary reads left to right: `value_if_true if condition else value_if_false`.\n- \"50 or more\" includes exactly 50 \u2014 pick your comparison carefully.",
       "walkthrough": "A ternary is one expression that produces one of two values. The shape is:\n\n    result = a if condition else b\n\nThe tempting mistake is to read it like an English sentence starting with \"if\",\nso people write `if total >= 50 then 0.0` \u2014 that is not Python. The *value comes\nfirst*, then the condition, then the alternative:\n\n    def free_shipping_cost(total):\n        return 0.0 if total >= 50 else 5.99\n\nThe second trap is the boundary. \"Free once you reach $50\" means a $50 cart ships\nfree, so the test is `>= 50`, not `> 50`. Off-by-one at a boundary is the single\nmost common bug in conditional code, and it hides well: every check except the\nexact-50 one still passes. Always test the boundary itself.",
@@ -816,7 +816,7 @@
         "indexing"
       ],
       "difficulty": "easy",
-      "unit": 4,
+      "unit": 5,
       "xp": 10,
       "prompt": "A name tag only has room for short names. Given a name, return the first 3\nletters followed by a period if the name is longer than 6 characters. Otherwise\nreturn the name unchanged.\n\nExamples\n\n    nickname_or_name(\"Alexander\") \u2192 \"Ale.\"\n    nickname_or_name(\"Sam\") \u2192 \"Sam\"\n    nickname_or_name(\"Jasmine\") \u2192 \"Jas.\"\n\nNotes\n\n- `name[:3]` gives you the first three characters of a string.\n- \"Longer than 6\" means a 6-character name is left alone.",
       "starter": "def nickname_or_name(name):\n    ",
@@ -860,7 +860,7 @@
         "logic"
       ],
       "difficulty": "easy",
-      "unit": 4,
+      "unit": 5,
       "xp": 10,
       "prompt": "This function should return True for `\"Saturday\"` and `\"Sunday\"` and False for\nevery other day. Instead it says every day is the weekend. Find the bug and fix it.\n\nExamples\n\n    weekend_or_not(\"Saturday\") \u2192 True\n    weekend_or_not(\"Monday\") \u2192 False\n    weekend_or_not(\"Sunday\") \u2192 True\n\nNotes\n\n- `or` joins two complete conditions \u2014 it does not distribute across a comparison.\n- Ask yourself what `'Sunday'` on its own is worth to Python.",
       "walkthrough": "Read the broken line the way Python reads it, not the way English reads it:\n\n    if day == 'Saturday' or 'Sunday':\n\nEnglish hears \"if day equals Saturday or Sunday\". Python sees two separate\noperands joined by `or`. The left one is `day == 'Saturday'` (fine). The right\none is just the string `'Sunday'` \u2014 a bare, non-empty string, which Python\nconsiders truthy. So the whole condition becomes `something or True`, which is\nalways True, no matter what `day` is. That is why Monday is a weekend.\n\nThe fix is to make each side of `or` a full comparison:\n\n    def weekend_or_not(day):\n        return day == 'Saturday' or day == 'Sunday'\n\nRepeat the `day ==` part. It feels wordy, and that wordiness is exactly what\ntempts beginners into the bug. (Once you're comfortable, `day in ('Saturday',\n'Sunday')` says the same thing more compactly.)",
@@ -905,7 +905,7 @@
         "numbers"
       ],
       "difficulty": "easy",
-      "unit": 4,
+      "unit": 5,
       "xp": 10,
       "prompt": "An elevator is sitting on some floor when a passenger requests another floor.\nGiven the current floor and the requested floor, return `'up'`, `'down'`, or\n`'stay'`.\n\nExamples\n\n    elevator_direction(2, 7) \u2192 \"up\"\n    elevator_direction(9, 3) \u2192 \"down\"\n    elevator_direction(4, 4) \u2192 \"stay\"\n\nNotes\n\n- Three outcomes means three branches: `if` / `elif` / `else`.\n- Floors can be negative (a basement is fine).",
       "starter": "def elevator_direction(current, target):\n    ",
@@ -954,7 +954,7 @@
         "logic"
       ],
       "difficulty": "medium",
-      "unit": 4,
+      "unit": 5,
       "xp": 20,
       "prompt": "This function should turn a score into a letter grade: 90 and up is `'A'`, 80 and\nup `'B'`, 70 and up `'C'`, 60 and up `'D'`, and anything lower `'F'`. But a 95\ncomes back as `'D'`. Every comparison in it is correct on its own \u2014 the bug is in\nthe order they run in.\n\nExamples\n\n    grade_letter_order(95) \u2192 \"A\"\n    grade_letter_order(72) \u2192 \"C\"\n    grade_letter_order(41) \u2192 \"F\"\n\nNotes\n\n- An `if`/`elif` chain stops at the *first* test that is true.\n- Nothing is wrong with any single comparison. Look at their order.",
       "walkthrough": "Every comparison in the broken version is correct. A 95 really is `>= 60`. That\nis the whole problem.\n\nAn `if`/`elif` chain is not \"find the best match\" \u2014 it is \"take the first door\nthat opens, and never look at the rest\". With `score >= 60` written first, a 95\nopens that door immediately, returns `'D'`, and the `>= 70`, `>= 80`, and `>= 90`\ntests below it never run at all. In fact *every* passing score returns `'D'`.\n\nThe fix is to order the branches from strictest to loosest, so the first door\nthat opens is the right one:\n\n    def grade_letter_order(score):\n        if score >= 90:\n            return 'A'\n        elif score >= 80:\n            return 'B'\n        elif score >= 70:\n            return 'C'\n        elif score >= 60:\n            return 'D'\n        else:\n            return 'F'\n\nNow a 95 stops at the first test. An 85 fails `>= 90`, then stops at `>= 80` \u2014\nand because it got past the first test, you already know it's below 90. That is\nwhy you never need `if 80 <= score < 90`: the ordering carries the upper bound\nfor you. Whenever branches overlap, ask which one you want checked first.",
@@ -1003,7 +1003,7 @@
         "arrays"
       ],
       "difficulty": "medium",
-      "unit": 6,
+      "unit": 7,
       "xp": 20,
       "prompt": "You are scanning a receipt for the first thing that blew the budget. Given a list\nof prices and a limit, return the first price that is greater than the limit. If\nevery price is within budget, return `None`.\n\nExamples\n\n    first_over_budget([3, 8, 25, 4], 10) \u2192 25\n    first_over_budget([1, 2, 3], 10) \u2192 None\n    first_over_budget([12, 40], 10) \u2192 12\n\nNotes\n\n- Return as soon as you find it \u2014 don't keep looping.\n- The fallback `return None` goes *after* the loop, not inside it.",
       "walkthrough": "The pattern here is \"search and stop early\":\n\n    def first_over_budget(prices, limit):\n        for p in prices:\n            if p > limit:\n                return p\n        return None\n\n`return` inside a loop doesn't just end the loop \u2014 it ends the whole function on\nthe spot. So the first price over the limit is returned and nothing after it is\neven looked at. That's exactly what \"first\" means.\n\nThe mistake to name: putting `return None` inside the loop, like this \u2014\n\n    for p in prices:\n        if p > limit:\n            return p\n        return None          # WRONG \u2014 runs on the very first item\n\nIndented like that, the `return None` belongs to the loop body, so the function\nquits after examining item zero and can never find anything later in the list.\nThe fallback must sit at the *function's* indent level, so it only runs when the\nloop finished without ever returning. The empty list falls out for free: the loop\nbody never runs, and you land on `return None`.",
@@ -1069,7 +1069,7 @@
         "loops"
       ],
       "difficulty": "medium",
-      "unit": 6,
+      "unit": 7,
       "xp": 20,
       "prompt": "Given a list of words and a list of banned words, return a new list where every\nbanned word is replaced by `'***'` and every other word is kept as it is.\n\nExamples\n\n    censor_words([\"you\", \"are\", \"silly\"], [\"silly\"]) \u2192 [\"you\", \"are\", \"***\"]\n    censor_words([\"hi\", \"there\"], []) \u2192 [\"hi\", \"there\"]\n    censor_words([\"bad\", \"bad\"], [\"bad\"]) \u2192 [\"***\", \"***\"]\n\nNotes\n\n- The list you return must not shrink \u2014 same length, same order.\n- `w in banned` asks whether a word appears in the banned list.\n- Build a fresh list and append to it. Leave `words` itself alone.",
       "walkthrough": "Start an empty list, walk the words, and append exactly one thing per word:\n\n    def censor_words(words, banned):\n        out = []\n        for w in words:\n            if w in banned:\n                out.append('***')\n            else:\n                out.append(w)\n        return out\n\nThe mistake to name is the missing `else`. It is tempting to write only the half\nyou care about:\n\n    for w in words:\n        if w in banned:\n            out.append('***')     # and then... nothing\n\nNow clean words are silently dropped and the list comes back short \u2014\n`[\"you\", \"are\", \"silly\"]` returns `[\"***\"]` instead of three items. Every word\nmust put *something* into `out`: either the bleep or the original word. One word\nin, one word out.\n\nThe other trap is editing `words` in place instead of building `out`. The prompt\nasks for a *new* list, and a caller who handed you their list rarely expects it\nto come back censored. Appending to a fresh `out` keeps the original intact.\n\n(Once loops and comprehensions feel comfortable, this same logic fits on one\nline: `['***' if w in banned else w for w in words]`. Write the explicit version\nfirst \u2014 it is the one you can debug.)",
@@ -1156,7 +1156,7 @@
         "concept"
       ],
       "difficulty": "medium",
-      "unit": 4,
+      "unit": 5,
       "xp": 20,
       "prompt": "What does this code print?\n\n    n = 12\n    if n % 2 == 0:\n        print('even')\n    elif n % 3 == 0:\n        print('by three')\n    else:\n        print('neither')",
       "choices": [
@@ -1180,7 +1180,7 @@
         "types"
       ],
       "difficulty": "easy",
-      "unit": 7,
+      "unit": 8,
       "xp": 10,
       "prompt": "A vending machine has three slots. Slot \"A1\" holds chips, slot \"A2\" holds gum, and\nslot \"B1\" holds candy. You want a dict named `slots` that maps each slot code to\nthe snack in it, so that this prints `gum`:\n\n    print(slots[\"A2\"])\n\nWhich line creates `slots` correctly?",
       "choices": [
@@ -1204,7 +1204,7 @@
         "validation"
       ],
       "difficulty": "easy",
-      "unit": 7,
+      "unit": 8,
       "xp": 10,
       "prompt": "Create a function that takes a `menu` dict mapping item names to prices, plus an\n`item` name. Return that item's price, or 0 if the item is not on the menu.\n\nExamples\n\n    price({\"tea\": 2, \"coffee\": 3}, \"tea\") \u2192 2\n    price({\"tea\": 2, \"coffee\": 3}, \"juice\") \u2192 0\n    price({}, \"tea\") \u2192 0\n\nNotes\n\n- Reaching for a missing key with `menu[item]` crashes. There is a dict method\n  that lets you name a fallback value instead.\n- Don't forget to return the result.",
       "walkthrough": "The instinct here is to write `menu[item]`, and for \"tea\" it works fine. Then the\ncustomer asks for juice, `menu[\"juice\"]` finds nothing, and Python raises a\nKeyError \u2014 your program stops dead. Square brackets on a dict mean \"this key had\nbetter be there.\"\n\nThe fix is `.get()`, which takes the key and a fallback:\n\n    def price(menu, item):\n        return menu.get(item, 0)\n\n`menu.get(\"tea\", 0)` finds \"tea\" and hands back 2. `menu.get(\"juice\", 0)` looks,\nfinds nothing, and calmly hands back 0 instead of crashing.\n\nWatch that second argument. If you write `menu.get(item)` with no fallback, a\nmissing item gives you `None`, not 0 \u2014 and `None` is not a number, so the first\npiece of code that tries to add it to a total will break in a confusing place far\naway from the real mistake. Say what you want the default to be.",
@@ -1265,7 +1265,7 @@
         "validation"
       ],
       "difficulty": "easy",
-      "unit": 7,
+      "unit": 8,
       "xp": 10,
       "prompt": "A website stores its members in a `users` dict, where each key is a username.\nCreate a function that returns True if `name` is still available \u2014 that is, if it\nis NOT already a key in `users` \u2014 and False otherwise.\n\nExamples\n\n    is_available({\"ana\": 1, \"bo\": 2}, \"cy\") \u2192 True\n    is_available({\"ana\": 1, \"bo\": 2}, \"ana\") \u2192 False\n    is_available({}, \"ana\") \u2192 True\n\nNotes\n\n- `key in some_dict` checks the dict's KEYS, never its values.\n- A comparison is already True or False, so you can return it directly \u2014 no\n  if/else needed.",
       "starter": "def is_available(users, name):\n    ",
@@ -1332,7 +1332,7 @@
         "concept"
       ],
       "difficulty": "medium",
-      "unit": 7,
+      "unit": 8,
       "xp": 20,
       "prompt": "Read this code carefully. The key \"tea\" is written twice.\n\n    prices = {\"tea\": 2, \"coffee\": 3, \"tea\": 4}\n    print(len(prices), prices[\"tea\"])\n\nWhat does it print?",
       "walkthrough": "A dict key is unique. Python builds this dict one pair at a time, left to right,\nand each pair is really an assignment into the dict.\n\nSo it sets \"tea\" to 2, sets \"coffee\" to 3, and then reaches `\"tea\": 4` \u2014 a key it\nalready has. It does not complain and it does not keep both. It just overwrites,\nexactly like `x = 2` followed by `x = 4`. The last write wins.\n\nThat leaves two keys, \"tea\" and \"coffee\", so `len(prices)` is 2, and \"tea\" now\nholds 4. The output is `2 4`.\n\nThe trap is expecting an error. A repeated key is silent \u2014 which is what makes it\nworth knowing. When a dict you built in a loop comes out shorter than the list you\nbuilt it from, this is almost always why: two entries shared a key, and the second\none quietly erased the first.",
@@ -1357,7 +1357,7 @@
         "arrays"
       ],
       "difficulty": "medium",
-      "unit": 7,
+      "unit": 8,
       "xp": 20,
       "prompt": "Create a function that takes a list of dice rolls and reports how many times each\nnumber appeared. Return a list of `[face, count]` pairs, sorted from the smallest\nface to the largest.\n\nExamples\n\n    tally([1, 2, 2, 5]) \u2192 [[1, 1], [2, 2], [5, 1]]\n    tally([6, 6, 6]) \u2192 [[6, 3]]\n    tally([]) \u2192 []\n\nNotes\n\n- Count into a dict first: `counts[r] = counts.get(r, 0) + 1`.\n- `sorted(counts)` gives you the keys in order.\n- A face that was never rolled should not appear at all.",
       "starter": "def tally(rolls):\n    counts = {}\n    ",
@@ -1450,7 +1450,7 @@
         "loops"
       ],
       "difficulty": "medium",
-      "unit": 7,
+      "unit": 8,
       "xp": 20,
       "prompt": "The `scores` dict maps each player's name to their score. This function should\nreturn a list of the names who scored above 90, in the order they appear in the\ndict. It crashes instead. Fix it.\n\nExamples\n\n    high_scores({\"ana\": 95, \"bo\": 88}) \u2192 [\"ana\"]\n    high_scores({\"ana\": 95, \"bo\": 91}) \u2192 [\"ana\", \"bo\"]\n    high_scores({\"ana\": 90}) \u2192 []\n\nNotes\n\n- Looping over a dict directly gives you its keys and nothing else.\n- \"Above 90\" does not include 90 itself.",
       "walkthrough": "Run the starter and Python says something like \"too many values to unpack\". That\nmessage is the whole clue.\n\n`for name, score in scores:` asks Python for two things per step. But looping over\na dict hands you one thing per step \u2014 a key. So Python takes the key \"ana\", a\nthree-letter string, and tries to split it into `name` and `score`. Three letters,\ntwo variables, and it gives up.\n\nIf you want the key and the value together, you have to ask for both:\n\n    for name, score in scores.items():\n\nNow each step hands over a `(\"ana\", 95)` pair, which splits into two variables\nneatly.\n\nThe three ways to loop a dict are worth memorizing as a set: `scores` gives keys,\n`scores.values()` gives values, `scores.items()` gives both. A useful sanity check\nbefore you run anything: count the variables to the left of `in`, and make sure\nthe thing on the right actually produces that many per step.",
@@ -1515,7 +1515,7 @@
         "loops"
       ],
       "difficulty": "medium",
-      "unit": 7,
+      "unit": 8,
       "xp": 20,
       "prompt": "Create a function that takes a list of `words` and a `codes` dict mapping\nabbreviations to their full meaning. Replace every word that appears in `codes`\nwith its expansion, leave every other word alone, and return the result as one\nspace-separated string.\n\nExamples\n\n    expand([\"brb\", \"now\"], {\"brb\": \"be right back\"}) \u2192 \"be right back now\"\n    expand([\"hello\"], {}) \u2192 \"hello\"\n    expand([\"omw\", \"omw\"], {\"omw\": \"on my way\"}) \u2192 \"on my way on my way\"\n\nNotes\n\n- The default for a word you cannot expand is the word itself.\n- `\" \".join(list_of_strings)` glues a list into one string.",
       "starter": "def expand(words, codes):\n    ",
@@ -1584,7 +1584,7 @@
         "algorithms"
       ],
       "difficulty": "hard",
-      "unit": 7,
+      "unit": 8,
       "xp": 35,
       "prompt": "Create a function that takes a `votes` dict mapping each candidate's name to their\nnumber of votes. Return a `[name, margin]` pair for the candidate with the most\nvotes, where `margin` is how many votes they beat second place by. If the dict is\nempty, return None.\n\nExamples\n\n    winner({\"ana\": 5, \"bo\": 3}) \u2192 [\"ana\", 2]\n    winner({\"ana\": 1, \"bo\": 4, \"cy\": 2}) \u2192 [\"bo\", 2]\n    winner({}) \u2192 None\n\nNotes\n\n- With only one candidate, treat second place as having 0 votes, so the margin is\n  just the winner's own count.\n- Assume there is never a tie for first place.\n- A candidate can have 0 votes and still win, if they are the only candidate.",
       "walkthrough": "First, an honest word about `max`. If all you needed was the winner's name,\n`max(votes, key=votes.get)` would do the whole job in one line, and you should know\nthat. But you were also asked for the margin over second place, and one call to\n`max` cannot hand you two different candidates' counts. So you have to walk the dict\nyourself \u2014 which is worth doing, because \"remember the best so far\" is the pattern\nevery rule more complicated than \"biggest\" is built on.\n\nKeep three variables and update them as you go:\n\n    def winner(votes):\n        best_name = None\n        best_count = 0\n        second_count = 0\n        for name, count in votes.items():\n            if best_name is None or count > best_count:\n                second_count = best_count\n                best_name = name\n                best_count = count\n            elif count > second_count:\n                second_count = count\n        if best_name is None:\n            return None\n        return [best_name, best_count - second_count]\n\nThe line to stare at is `second_count = best_count` inside the `if`. When someone\nnew takes first place, the old leader does not vanish \u2014 they are now second. Forget\nthat line and you compare everyone against a stale second place, so the margin comes\nout too big in a way that still looks plausible.\n\nThe `elif` matters just as much. A candidate who loses to the leader might still be\nthe best of the losers, so they get their own chance to claim second. If you write a\nplain `if` there instead of `elif`, the brand-new leader immediately gets compared\nagainst themselves and becomes their own runner-up, and every margin collapses to 0.\n\nFinally, notice `best_name is None or count > best_count` rather than just\n`count > best_count`. Starting `best_count` at 0 quietly assumes nobody has 0 votes.\nIf the only candidate has 0, `0 > 0` is False, nobody is ever recorded, and you\nreturn None for a dict that had a perfectly good winner in it. The `best_name is\nNone` half forces the first candidate to be accepted no matter what \u2014 and it hands\nyou the empty-dict answer for free, since the loop never runs and `best_name` is\nstill None.",
@@ -1673,7 +1673,7 @@
         "algorithms"
       ],
       "difficulty": "hard",
-      "unit": 7,
+      "unit": 8,
       "xp": 35,
       "prompt": "Create a function that groups guest names by their first letter and writes one\nseating line per letter, in the form `\"A: Ana, Amy\"`. Return the list of those\nlines. Both the letters and the names inside each line stay in the order they first\nappear in the input.\n\nExamples\n\n    group_by_initial([\"Ana\", \"Bo\", \"Amy\"]) \u2192 [\"A: Ana, Amy\", \"B: Bo\"]\n    group_by_initial([\"Zed\"]) \u2192 [\"Z: Zed\"]\n    group_by_initial([]) \u2192 []\n\nNotes\n\n- `name[0]` is a name's first letter.\n- Build a dict whose values are lists of names, then turn it into lines at the end.\n- `\", \".join(some_names)` glues names into one string with commas between them.\n- Capital \"A\" and lowercase \"a\" are different letters.",
       "walkthrough": "This one has a real trap in it. The obvious first attempt is:\n\n    groups[n[0]].append(n)\n\nand it crashes on the very first name with a KeyError. Of course it does \u2014 the key\n\"A\" does not exist yet, so there is no list there to append to. You cannot add to a\nlist you have not created.\n\nThat diagnosis tells you the fix directly: if the list is missing, make it, then\nappend. Two lines, in that order.\n\n    def group_by_initial(names):\n        groups = {}\n        for n in names:\n            if n[0] not in groups:\n                groups[n[0]] = []\n            groups[n[0]].append(n)\n        return [letter + \": \" + \", \".join(groups[letter]) for letter in groups]\n\nThe `if` runs only the first time each letter shows up, so by the time you reach the\n`.append`, the list is guaranteed to exist. First \"A\" creates `[]` and appends to get\n`[\"Ana\"]`; later \"Amy\" skips the `if` entirely and appends onto what is already\nthere.\n\nA compact alternative you will see in other people's code is\n`groups[n[0]] = groups.get(n[0], []) + [n]`, which creates-or-fetches and adds in one\nline. It reads nicely, but it builds a brand-new list for every single name, so\nprefer the two-liner above until you have a reason not to.\n\nThe last line does the reporting. `\", \".join(groups[letter])` turns `[\"Ana\", \"Amy\"]`\ninto `\"Ana, Amy\"`, and gluing the letter and `\": \"` on the front finishes the line.\nNote that `join` only works on a list of strings \u2014 that is fine here, but the moment\nyour values are numbers it will refuse.\n\nThe ordering asked for is free, not something you have to arrange: dicts remember\nthe order their keys were first inserted, so looping `for letter in groups` at the\nend replays the letters in the order the guests introduced them.",
@@ -1744,7 +1744,7 @@
         "language_fundamentals"
       ],
       "difficulty": "starter",
-      "unit": 2,
+      "unit": 3,
       "xp": 5,
       "prompt": "Write a function that takes a size and a drink and returns them joined by a single space.\n\nExamples\n\n    order_ticket(\"large\", \"latte\") \u2192 \"large latte\"\n    order_ticket(\"small\", \"mocha\") \u2192 \"small mocha\"\n    order_ticket(\"medium\", \"tea\") \u2192 \"medium tea\"\n\nNotes\n\n- The two words are separated by exactly one space, and there is no space at the start or the end.\n- The order of the parameters matters: the size comes first, then the drink.\n- Don't forget to return the result.",
       "starter": "def order_ticket(size, drink):\n    pass",
@@ -1788,7 +1788,7 @@
         "language_fundamentals"
       ],
       "difficulty": "starter",
-      "unit": 1,
+      "unit": 3,
       "xp": 5,
       "prompt": "This function is supposed to hand back how many seats are still free, but the caller keeps getting None. Fix it.\n\n    left = seats_left(100, 42)\n    print(left)          # prints None, not 58\n\nExamples\n\n    seats_left(100, 42) \u2192 58\n    seats_left(50, 50) \u2192 0\n    seats_left(12, 3) \u2192 9\n\nNotes\n\n- print shows a value on the screen; it does not hand the value back to whoever called the function.\n- The arithmetic is already correct \u2014 only one word needs to change.",
       "walkthrough": "Run the broken version in your head. Python computes 100 - 42, gets 58, and passes it to\nprint, which draws \"58\" on the screen and then quietly evaluates to None. The function body\nends. A function that never runs a return statement hands back None \u2014 always.\n\nSo the 58 you see on the screen is real, but it is gone. It was displayed, not delivered.\nThat is why this line stores None:\n\n    left = seats_left(100, 42)\n\nThis is the single most common beginner mix-up, and it hides because the number LOOKS right\nwhen you test the function by itself. The moment you try to use the answer \u2014 store it, add\nto it, compare it \u2014 you get None and a confusing TypeError.\n\nThe fix is one word:\n\n    def seats_left(capacity, taken):\n        return capacity - taken\n\nNow nothing is printed, and that is correct. The caller decides whether to print. Rule of\nthumb: a function that computes a value should return it and print nothing.",
@@ -1833,7 +1833,7 @@
         "language_fundamentals"
       ],
       "difficulty": "easy",
-      "unit": 2,
+      "unit": 3,
       "xp": 10,
       "prompt": "Write a function that returns a mask for a password: a string the same length as the password, made only of the masking character. The masking character should be \"*\" unless the caller supplies a different one.\n\nExamples\n\n    mask(\"hunter2\") \u2192 \"*******\"\n    mask(\"hunter2\", \"#\") \u2192 \"#######\"\n    mask(\"abc\", \".\") \u2192 \"...\"\n\nNotes\n\n- The mask must be exactly as long as the password.\n- Give the second parameter a default value so it is optional at the call site.\n- Multiplying a string by a number repeats it: \"ab\" * 3 is \"ababab\".",
       "walkthrough": "Start with the length. len(\"hunter2\") is 7, so you need 7 copies of the masking character.\nString repetition gives you that in one step: \"*\" * 7 is \"*******\". Combine the two:\n\n    return char * len(password)\n\nNow the interesting part \u2014 the default. Writing char=\"*\" in the header means \"if the caller\ndoes not pass a second argument, use \"*\"\". So mask(\"abc\") and mask(\"abc\", \"*\") do exactly\nthe same thing, and mask(\"abc\", \".\") overrides the default with \".\".\n\nThe mistake waiting for you is putting the default first, like def mask(char=\"*\", password).\nPython rejects that outright: once a parameter has a default, every parameter after it must\nhave one too, otherwise Python could not tell which argument you meant. Required parameters\nfirst, optional ones last.\n\nOne more trap: do not reach for a loop that appends a \"*\" per character. It works, but the\nwhole point of len plus repetition is that you already have the tools to say it in one line.\nAnd check the empty password \u2014 len(\"\") is 0, and char * 0 is \"\", which is exactly right.",
@@ -1876,7 +1876,7 @@
         "indexing"
       ],
       "difficulty": "easy",
-      "unit": 5,
+      "unit": 6,
       "xp": 10,
       "prompt": "Cutting a deck means splitting it into two piles. Write a function that takes a list of cards and a number n, and returns the two piles as a tuple: first the pile holding the first n cards, then the pile holding everything after them.\n\nExamples\n\n    cut([1, 2, 3, 4, 5], 2) \u2192 ([1, 2], [3, 4, 5])\n    cut([1, 2, 3, 4, 5], 0) \u2192 ([], [1, 2, 3, 4, 5])\n    cut([\"a\", \"b\", \"c\"], 1) \u2192 ([\"a\"], [\"b\", \"c\"])\n\nNotes\n\n- A function can return more than one value at once \u2014 separate them with a comma, which builds a tuple. Returning a list of two lists is not the same thing.\n- Slicing a list with a colon gives you part of it; you need the part before position n and the part from n onward.\n- The two piles together must contain every original card, in order.",
       "walkthrough": "Take cut([1, 2, 3, 4, 5], 2). You want ([1, 2], [3, 4, 5]). Think of n as a cut line that sits\nBETWEEN two cards, not on top of one. With n = 2 the line sits after 1 and 2, so everything to\nits left is the first pile and everything to its right is the second.\n\nThat is exactly what the two slices say. cards[:2] means \"from the start up to but not\nincluding position 2\", giving [1, 2]. cards[2:] means \"from position 2 to the end\", giving\n[3, 4, 5]. The \"up to but not including\" is the whole reason they tile perfectly: the card at\nposition n is the LAST card excluded by the first slice and the FIRST card included by the\nsecond. No gap, no overlap, no card counted twice \u2014 and that is true for any n. So:\n\n    return cards[:n], cards[n:]\n\nCheck the ends, because that is where slicing surprises people. With n = 0 the first slice is\nempty and the second is the whole deck \u2014 nothing was cut off. With n equal to the length, the\nsecond slice is empty. Neither raises an error; an out-of-range slice quietly gives you what\nexists rather than crashing the way cards[10] would.\n\nThe mistake to name: writing return [cards[:n], cards[n:]]. Those square brackets make ONE\nlist containing two lists, which is a different value from the two piles returned side by\nside. The comma alone is what hands back two things \u2014 no brackets needed.",
@@ -1971,7 +1971,7 @@
         "concept"
       ],
       "difficulty": "easy",
-      "unit": 1,
+      "unit": 3,
       "xp": 10,
       "prompt": "Read this program carefully and predict everything it prints.\n\n    def cheer(name):\n        print(name + \" wins!\")\n\n    result = cheer(\"Ana\")\n    print(result)\n\nWhat appears on the screen?\n\nNotes\n\n- cheer has no return statement.\n- Count both print calls \u2014 the one inside the function and the one at the bottom.",
       "choices": [
@@ -1996,7 +1996,7 @@
         "conditions"
       ],
       "difficulty": "medium",
-      "unit": 4,
+      "unit": 5,
       "xp": 20,
       "prompt": "You are given line_total(price, qty), which returns the cost of one line of a shopping cart: the price times the quantity, plus a flat $1 handling fee charged once per line. Write can_afford(p1, q1, p2, q2, wallet) that returns True when the two line totals together cost no more than what is in the wallet, and False otherwise.\n\nExamples\n\n    can_afford(3, 2, 5, 1, 20) \u2192 True\n    can_afford(3, 2, 5, 1, 13) \u2192 True\n    can_afford(3, 2, 5, 1, 12) \u2192 False\n\nNotes\n\n- Call line_total instead of working the cost out yourself \u2014 it already knows about the handling fee, and the fee is charged on each of the two lines.\n- \"No more than\" includes spending exactly what you have.\n- A comparison already produces True or False, so you do not need an if statement.",
       "walkthrough": "The cart costs line_total(p1, q1) + line_total(p2, q2). The question \"can I afford it?\" is\njust that total compared against the wallet:\n\n    return line_total(p1, q1) + line_total(p2, q2) <= wallet\n\nTwo things worth naming. First, the comparison <= already evaluates to True or False, so\nwriting\n\n    if total <= wallet:\n        return True\n    else:\n        return False\n\nis not wrong, only long-winded. Return the comparison itself.\n\nSecond, the temptation is to type p1 * q1 + p2 * q2 and skip line_total entirely. Look at what\nthat costs you. line_total(3, 2) is not 6, it is 7 \u2014 six dollars of goods plus the $1 handling\nfee. Two lines means the fee is charged twice, so can_afford(3, 2, 5, 1, 12) is really 7 + 6 =\n13 against a wallet of 12, which is False. A student who multiplies by hand gets 11 and answers\nTrue. Same shape of code, wrong answer.\n\nThat is the real lesson: the helper knows a rule you do not have to re-derive, and re-deriving\nit is how you get it wrong. Call the helper and the fee comes along for free \u2014 including the\nfact that it lands once per line, not once per cart.\n\nWatch the boundary too: with a total of 13 and a wallet of 13 the answer is True, because\n\"no more than\" means <=, not <. Off-by-one at the boundary is the classic way to fail this.",
@@ -2069,7 +2069,7 @@
         "strings"
       ],
       "difficulty": "hard",
-      "unit": 2,
+      "unit": 3,
       "xp": 35,
       "prompt": "build is supposed to add a topping to an order and hand back the finished order, but the topping never sticks \u2014 build(\"pizza\", \"cheese\") gives back \"pizza\". Fix both functions.\n\n    def add_topping(order, topping):\n        order = order + \" with \" + topping\n\n    def build(base, topping):\n        o = base\n        add_topping(o, topping)\n        return o\n\nExamples\n\n    build(\"pizza\", \"cheese\") \u2192 \"pizza with cheese\"\n    build(\"toast\", \"jam\") \u2192 \"toast with jam\"\n    build(\"salad\", \"nuts\") \u2192 \"salad with nuts\"\n\nNotes\n\n- Reassigning a parameter inside a function does not change the caller's variable.\n- add_topping must hand the new string back, and build must capture what it hands back.",
       "walkthrough": "There are two separate bugs here, and fixing only one of them still fails.\n\nBug one is inside add_topping. The name order is a local parameter \u2014 a fresh label that\nhappens to point at the same string the caller passed in. The line\n\n    order = order + \" with \" + topping\n\nbuilds a brand-new string and re-points the LOCAL label at it. The caller's variable o still\npoints at the old string. Nothing outside the function changed, and add_topping returns None\nbecause it has no return. The fix: hand the new string back.\n\n    return order + \" with \" + topping\n\nBug two is inside build. Even with add_topping fixed, this line throws the answer away:\n\n    add_topping(o, topping)\n\nIt computes \"pizza with cheese\" and drops it on the floor, then build returns the untouched\no. Calling a function does not modify your variables; you have to catch the result.\n\n    o = add_topping(o, topping)\n\nThe mental model to keep: assignment to a parameter re-labels, it does not reach back into\nthe caller. So the only way information travels back out of a function is through return \u2014\nand the only way it lands anywhere is if the caller stores it.",
@@ -2114,7 +2114,7 @@
         "strings"
       ],
       "difficulty": "medium",
-      "unit": 6,
+      "unit": 7,
       "xp": 20,
       "prompt": "You are given letter_value(ch), which returns 1 for a vowel and 2 for any other letter. Write word_value(word) that returns the total value of every letter in the word.\n\nExamples\n\n    word_value(\"cab\") \u2192 5\n    word_value(\"aei\") \u2192 3\n    word_value(\"xyz\") \u2192 6\n\nNotes\n\n- Start a running total at 0, add each letter's value to it inside the loop, and return the total only after the loop has finished.\n- Use letter_value instead of deciding what a vowel is yourself.\n- An empty word scores 0.",
       "walkthrough": "Trace \"cab\" by hand before you write anything. Start total at 0. The letter \"c\" is not a\nvowel, so letter_value(\"c\") is 2 and total becomes 2. Then \"a\" is a vowel, worth 1, so total\nbecomes 3. Then \"b\" is worth 2, so total becomes 5. Return 5. That trace IS the algorithm:\n\n    total = 0\n    for ch in word:\n        total += letter_value(ch)\n    return total\n\nNow the mistake almost everyone makes here, and it is about indentation. If you put the\nreturn inside the loop:\n\n    for ch in word:\n        total += letter_value(ch)\n        return total\n\nthen the very first pass hits return and the function quits after ONE letter \u2014 word_value(\"cab\")\ngives 2. The return belongs at the same indentation as the for, so it runs only once the loop\nhas finished.\n\nThe other half of the pattern is where total lives. It must be created BEFORE the loop. Put\ntotal = 0 inside the loop and you reset it on every letter, and you end up with the value of\nthe last letter instead of the sum.\n\nFinally, notice why \"\" scoring 0 falls out for free: the loop body simply never runs, and you\nreturn the 0 you started with. When the accumulator is set up correctly, the empty case\nhandles itself.",
@@ -2159,7 +2159,7 @@
         "week2"
       ],
       "difficulty": "easy",
-      "unit": 5,
+      "unit": 6,
       "xp": 10,
       "prompt": "Create a function that takes a list containing only numbers and returns the first\nelement.\n\nExamples\n\n    get_first_value([1, 2, 3]) \u2192 1\n    get_first_value([80, 5, 100]) \u2192 80\n    get_first_value([-500, 0, 50]) \u2192 -500\n\nNotes\n\n- The first element in a list always has an index of 0.",
       "walkthrough": "Pull an item out of a list by putting its position in square brackets after the\nlist. Positions start at 0, not 1 \u2014 so the first item is at index 0:\n\n    def get_first_value(lst):\n        return lst[0]\n\nCounting from zero feels wrong for about a week and then never bothers you again.\nIt's worth saying the indexes out loud once: in [80, 5, 100], the 80 is at index\n0, the 5 at index 1, the 100 at index 2.",
@@ -2223,7 +2223,7 @@
         "week2"
       ],
       "difficulty": "easy",
-      "unit": 5,
+      "unit": 6,
       "xp": 10,
       "prompt": "Create a function that takes a list of numbers. Return the largest number in the list.\n\nExamples\n\n    find_largest_num([4, 5, 1, 3]) \u2192 5\n    find_largest_num([300, 200, 600, 150]) \u2192 600\n    find_largest_num([1000, 1001, 857, 1]) \u2192 1001\n\nNotes\n\n- Expect either positive numbers or zero (there are no negative numbers).",
       "walkthrough": "You could loop over the list comparing as you go \u2014 and later in the course you\nwill, because it's worth knowing how. But Python already ships with a built-in\nthat does exactly this:\n\n    def find_largest_num(nums):\n        return max(nums)\n\n`max()` takes the list and hands back the biggest item. Its twin `min()` gives you\nthe smallest. Reaching for a built-in instead of writing the loop yourself is\nnormal, good Python \u2014 not cheating.",
@@ -2290,7 +2290,7 @@
         "week2"
       ],
       "difficulty": "easy",
-      "unit": 5,
+      "unit": 6,
       "xp": 10,
       "prompt": "Create a function that takes a list of numbers and returns the smallest number in\nthe list.\n\nExamples\n\n    find_smallest_num([34, 15, 88, 2]) \u2192 2\n    find_smallest_num([34, -345, -1, 100]) \u2192 -345\n    find_smallest_num([-76, 1.345, 1, 0]) \u2192 -76\n    find_smallest_num([0.4356, 0.8795, 0.5435, -0.9999]) \u2192 -0.9999\n    find_smallest_num([7, 7, 7]) \u2192 7\n\nNotes\n\n- Test cases contain decimals, and negative numbers.",
       "starter": "def find_smallest_num(nums):\n    ",
@@ -2358,7 +2358,7 @@
         "types"
       ],
       "difficulty": "starter",
-      "unit": 5,
+      "unit": 6,
       "xp": 5,
       "prompt": "Store three song titles in a list called `playlist`, in this exact order: \"Blue Sky\",\n\"Rewind\", \"Nightbus\".\n\nExamples\n\n    playlist[0] \u2192 \"Blue Sky\"\n    playlist[1] \u2192 \"Rewind\"\n    playlist[2] \u2192 \"Nightbus\"\n\nNotes\n\n- A list is written with square brackets and commas between the items.\n- Each title is text, so each one needs quotes around it.",
       "starter": "playlist = ",
@@ -2383,7 +2383,7 @@
         "language_fundamentals"
       ],
       "difficulty": "starter",
-      "unit": 5,
+      "unit": 6,
       "xp": 5,
       "prompt": "Create a function that takes a list of pizza topping names and returns how many\ntoppings are on the pizza.\n\nExamples\n\n    topping_count([\"cheese\", \"basil\"]) \u2192 2\n    topping_count([\"ham\", \"olive\", \"corn\", \"chili\"]) \u2192 4\n    topping_count([]) \u2192 0\n\nNotes\n\n- `len()` counts the items in a list for you \u2014 you do not need a loop.\n- Don't forget to return the result.",
       "starter": "def topping_count(toppings):\n    ",
@@ -2441,7 +2441,7 @@
         "functions"
       ],
       "difficulty": "starter",
-      "unit": 5,
+      "unit": 6,
       "xp": 5,
       "prompt": "Create a function that takes a list of names waiting at a food truck, in order from\nfront to back, and returns the name of the person standing at the very back.\n\nExamples\n\n    last_in_line([\"mia\", \"raj\", \"kim\"]) \u2192 \"kim\"\n    last_in_line([\"ana\", \"bo\"]) \u2192 \"bo\"\n    last_in_line([\"solo\"]) \u2192 \"solo\"\n\nNotes\n\n- Index `-1` always means the last item, no matter how long the list is.\n- The list always has at least one name in it.",
       "walkthrough": "The tempting move is to count the list yourself and grab that spot:\n\n    def last_in_line(queue):\n        return queue[len(queue)]\n\nThat crashes with an IndexError, and the reason is worth burning in: a list of 3\nnames has indexes 0, 1, 2 \u2014 so `len(queue)` is 3, which is one past the end. This\nis the off-by-one error, and it shows up everywhere. You could patch it with\n`queue[len(queue) - 1]`, and that does work.\n\nBut Python gives you a shortcut. Negative indexes count backward from the end, so\n`queue[-1]` is the last item, `queue[-2]` the one before it, and so on:\n\n    def last_in_line(queue):\n        return queue[-1]\n\nSame answer, no arithmetic, nothing to get wrong.",
@@ -2496,7 +2496,7 @@
         "conditions"
       ],
       "difficulty": "easy",
-      "unit": 5,
+      "unit": 6,
       "xp": 10,
       "prompt": "Create a function that takes a list of prices from a receipt and a budget. Return\nTrue if the prices add up to more than the budget, otherwise return False.\n\nExamples\n\n    over_budget([4, 5, 3], 10) \u2192 True\n    over_budget([4, 5], 10) \u2192 False\n    over_budget([10], 10) \u2192 False\n\nNotes\n\n- `sum()` adds up every number in a list.\n- Spending exactly the budget is not over it.",
       "walkthrough": "Two things to get right here. First, `sum()` does the adding for you \u2014 no loop\nneeded:\n\n    sum([4, 5, 3])   # 12\n\nSecond, and this is where beginners lose a mark: comparing already gives you a\nboolean. So you do not need an if-statement at all:\n\n    def over_budget(prices, budget):\n        return sum(prices) > budget\n\nThe long version with `if ...: return True / else: return False` is not wrong, just\nnoisy. What IS wrong is using `>=`. Read the task again: spending exactly your\nbudget is not blowing it. `over_budget([10], 10)` must be False, and `>=` would\nreturn True. Whenever a task says \"more than\", that is a strict `>`.",
@@ -2558,7 +2558,7 @@
         "algorithms"
       ],
       "difficulty": "easy",
-      "unit": 5,
+      "unit": 6,
       "xp": 10,
       "prompt": "Create a function that takes a list of votes (each vote is a name) and one name, and\nreturns how many times that name was voted for.\n\nExamples\n\n    vote_tally([\"ana\", \"bo\", \"ana\"], \"ana\") \u2192 2\n    vote_tally([\"ana\", \"bo\", \"ana\"], \"bo\") \u2192 1\n    vote_tally([\"ana\", \"bo\"], \"kim\") \u2192 0\n\nNotes\n\n- Lists have a `.count()` method: `votes.count(name)` does the counting for you.\n- A name nobody voted for should give 0, not an error.",
       "walkthrough": "`.count()` is a method, not a plain function, so it hangs off the list itself with a\ndot:\n\n    def vote_tally(votes, name):\n        return votes.count(name)\n\nTwo mistakes worth naming. The first is writing `count(votes, name)` \u2014 there is no\nbare `count()` built-in, and you get a NameError. Compare it to `len(votes)`, which\nIS a plain function: `len` goes in front with the list in parentheses, `.count`\ngoes after the list with a dot. There is no rule you can derive here; you just have\nto learn which is which.\n\nThe second is worrying about the missing name. If nobody voted for \"kim\", you might\nexpect `.count(\"kim\")` to complain. It doesn't \u2014 it just returns 0, because it found\nzero of them. That is exactly the answer you want, so there is no if-statement to\nwrite.",
@@ -2624,7 +2624,7 @@
         "functions"
       ],
       "difficulty": "easy",
-      "unit": 5,
+      "unit": 6,
       "xp": 10,
       "prompt": "Create a function that takes a list of guest names and returns a new list with the\nnames in alphabetical order.\n\nExamples\n\n    seating_order([\"raj\", \"ana\", \"kim\"]) \u2192 [\"ana\", \"kim\", \"raj\"]\n    seating_order([\"zoe\", \"bo\"]) \u2192 [\"bo\", \"zoe\"]\n    seating_order([\"solo\"]) \u2192 [\"solo\"]\n\nNotes\n\n- `sorted()` hands you back a brand new sorted list.\n- All the names are lowercase.",
       "walkthrough": "There are two ways to sort in Python and they behave very differently:\n\n    names.sort()      # rearranges names in place, returns None\n    sorted(names)     # leaves names alone, hands back a NEW sorted list\n\nThe classic beginner bug is mixing them up:\n\n    def seating_order(names):\n        return names.sort()\n\nThat returns `None` every single time, because `.sort()` sorts the list but gives\nback nothing. The task asks for a new list, so use `sorted()` and return what it\ngives you:\n\n    def seating_order(names):\n        return sorted(names)\n\nRule of thumb: if a method changes the thing in place, it usually returns None.",
@@ -2697,7 +2697,7 @@
         "logic"
       ],
       "difficulty": "easy",
-      "unit": 5,
+      "unit": 6,
       "xp": 10,
       "prompt": "This function should report whether `username` already appears in `taken`, a list of\nusernames that are in use. It crashes with a TypeError. Fix it.\n\nExamples\n\n    is_taken(\"mia\", [\"mia\", \"raj\"]) \u2192 True\n    is_taken(\"zoe\", [\"mia\", \"raj\"]) \u2192 False\n    is_taken(\"bo\", []) \u2192 False\n\nNotes\n\n- `in` reads left to right: the item you are looking for goes first, then the list.\n- Don't forget to return the result.",
       "walkthrough": "The starter says:\n\n    return taken in username\n\nRead that out loud the way Python reads it: \"is `taken` inside `username`?\" \u2014 that\nasks Python to search the string \"mia\" for a whole list. Python won't even try: it\nraises `TypeError: 'in <string>' requires string as left operand, not list`. Every\ncall crashes, not just the ones that should be True.\n\n`in` is not symmetric. The order matters, and it is always:\n\n    thing_you_are_looking_for in collection_you_are_searching\n\nSo the fix is to swap the two:\n\n    return username in taken\n\nWhenever you write `in`, say the sentence in your head: \"is the needle in the\nhaystack?\" Needle first, haystack second.",
@@ -2759,7 +2759,7 @@
         "algorithms"
       ],
       "difficulty": "medium",
-      "unit": 5,
+      "unit": 6,
       "xp": 20,
       "prompt": "A store is running a promo: fill a basket and the single most expensive item in it\ncosts nothing. Create a function that takes a list of prices and returns what you\nactually pay.\n\nExamples\n\n    basket_total([4, 9, 2]) \u2192 6\n    basket_total([5, 5]) \u2192 5\n    basket_total([12]) \u2192 0\n\nNotes\n\n- The basket always has at least one item.\n- Only ONE item is free, even if two items tie for most expensive.",
       "walkthrough": "Add everything up, then take off the priciest item \u2014 that is the whole thing:\n\n    def basket_total(prices):\n        return sum(prices) - max(prices)\n\nThe trap is the tie. If the basket is `[5, 5]`, students often reason \"the most\nexpensive price is 5, so remove all the 5s\" and land on 0. But the promo frees one\nITEM, not one PRICE. `max([5, 5])` is just the number 5, and subtracting it once\nremoves exactly one item's worth \u2014 you pay 5. That is the right answer.\n\nCheck the single-item case too: `[12]` gives `12 - 12 = 0`. One item, and it is the\nmost expensive one, so the whole basket is free. The formula handles it without any\nspecial-casing.",
@@ -2822,7 +2822,7 @@
         "predict"
       ],
       "difficulty": "medium",
-      "unit": 5,
+      "unit": 6,
       "xp": 20,
       "prompt": "What does this print?\n\n    queue = [\"mia\", \"raj\", \"kim\", \"lee\"]\n    print(queue[2], queue[-3])",
       "choices": [
@@ -2846,7 +2846,7 @@
         "functions"
       ],
       "difficulty": "medium",
-      "unit": 5,
+      "unit": 6,
       "xp": 20,
       "prompt": "`seat_guest` should place `guest` into the third chair (index 2) of the seating\nlist and return the updated list. It doesn't work. Fix it.\n\nExamples\n\n    seat_guest([\"ana\", \"ben\", \"cal\"], \"dee\") \u2192 [\"ana\", \"ben\", \"dee\", \"cal\"]\n    seat_guest([\"ana\", \"ben\"], \"zed\")        \u2192 [\"ana\", \"ben\", \"zed\"]\n    seat_guest([], \"solo\")                   \u2192 [\"solo\"]\n\nNotes\n\n- `.insert()` takes the position first, then the item: `seats.insert(position, item)`.\n- `.insert()` changes the list itself and hands back nothing.\n- If the list is shorter than the position you asked for, `.insert()` just puts the item on the end. That's fine here.",
       "walkthrough": "There are two mistakes stacked in that one line, and both are worth naming.\n\nFirst, the arguments are backwards. `.insert()` is always\n`insert(position, item)` \u2014 the number comes first. Writing\n`seats.insert(guest, 2)` asks Python to insert the number 2 at position \"dee\",\nwhich isn't a position at all.\n\nSecond, `.insert()` is a method that *changes the list in place*. It edits\n`seats` and returns `None`. So `return seats.insert(2, guest)` would hand the\ncaller `None` even after the arguments were fixed \u2014 the insertion would happen,\nand then you'd throw away the list and return nothing.\n\nThe rule to carry with you: methods that modify a list (`.insert`, `.append`,\n`.sort`, `.remove`) return `None`. Do the modification on one line, then return\nthe list on the next:\n\n    def seat_guest(seats, guest):\n        seats.insert(2, guest)\n        return seats",
@@ -2925,7 +2925,7 @@
         "functions"
       ],
       "difficulty": "easy",
-      "unit": 5,
+      "unit": 6,
       "xp": 10,
       "prompt": "`finishers` is a list of runners in the order they crossed the line. Create a\nfunction that returns what place a given runner finished in, the way a person\nwould say it out loud: the first runner finished in place 1.\n\nExamples\n\n    placement([\"ana\", \"ben\", \"cal\"], \"ana\") \u2192 1\n    placement([\"ana\", \"ben\", \"cal\"], \"cal\") \u2192 3\n    placement([\"ana\", \"ben\", \"cal\"], \"ben\") \u2192 2\n\nNotes\n\n- `.index(value)` gives you the position of a value, counting from 0.\n- The name is guaranteed to be somewhere in the list, and appears at most once.\n- Check your answer against the examples before you move on.",
       "starter": "def placement(finishers, name):\n    ",
@@ -2993,7 +2993,7 @@
         "indexing"
       ],
       "difficulty": "medium",
-      "unit": 5,
+      "unit": 6,
       "xp": 20,
       "prompt": "The person at the front of the coffee line couldn't decide what to order, so they\nget sent to the very end. Create a function that takes the first person out of\nthe line, puts them on the end, and returns the updated line.\n\nExamples\n\n    send_to_back([\"ana\", \"ben\", \"cal\"]) \u2192 [\"ben\", \"cal\", \"ana\"]\n    send_to_back([\"ana\", \"ben\"])        \u2192 [\"ben\", \"ana\"]\n    send_to_back([\"solo\"])              \u2192 [\"solo\"]\n\nNotes\n\n- `line.pop(0)` removes the item at index 0 and gives it back to you.\n- `.append(item)` adds an item to the end.\n- A line with one person in it comes back unchanged.",
       "starter": "def send_to_back(line):\n    ",
@@ -3061,7 +3061,7 @@
         "algorithms"
       ],
       "difficulty": "hard",
-      "unit": 5,
+      "unit": 6,
       "xp": 35,
       "prompt": "Create a function that sorts a list of scores and returns the middle one. If\nthere is an even number of scores there is no single middle, so return the\naverage of the two middle scores instead.\n\nExamples\n\n    middle_score([3, 1, 2])    \u2192 2\n    middle_score([4, 1, 3, 2]) \u2192 2.5\n    middle_score([9])          \u2192 9\n\nNotes\n\n- `sorted(scores)` gives you a new sorted list without disturbing the original.\n- `len(s) % 2` is 1 when the length is odd and 0 when it is even.\n- The list always has at least one score \u2014 you don't need to handle an empty list.",
       "walkthrough": "Two things make this harder than it looks: the list isn't sorted yet, and the\n\"middle\" of an even-length list doesn't exist.\n\nStart by sorting. Use `sorted(scores)`, not `scores.sort()` \u2014 `sorted` gives you\na fresh list back, while `.sort()` returns `None` and rearranges the caller's\nlist behind their back.\n\n    s = sorted(scores)\n\nNow count. For an odd length, say 5, the middle is index 2 \u2014 and `5 // 2` is\nexactly 2. That's the whole trick: floor division lands on the middle index for\nfree. Use `//`, not `/`, because `5 / 2` is `2.5` and Python refuses to index a\nlist with a float.\n\nFor an even length, say 4, there are two middle items, at indexes 1 and 2 \u2014\nthat's `4 // 2 - 1` and `4 // 2`. Average them.\n\n    def middle_score(scores):\n        s = sorted(scores)\n        if len(s) % 2:\n            return s[len(s) // 2]\n        return (s[len(s) // 2 - 1] + s[len(s) // 2]) / 2\n\n`len(s) % 2` is 1 for odd lengths, and Python treats 1 as true \u2014 so that `if`\nmeans \"if the length is odd\". Note the even case uses `/` on purpose: the average\nof 2 and 3 should be 2.5, not 2.",
@@ -3126,7 +3126,7 @@
         "functions"
       ],
       "difficulty": "hard",
-      "unit": 6,
+      "unit": 7,
       "xp": 35,
       "prompt": "One song got added to the playlist too many times. Create a function that removes\nevery copy of `song` from `playlist` and returns the playlist. The song might\nappear many times, once, or not at all.\n\nExamples\n\n    purge([\"a\", \"b\", \"a\", \"c\"], \"a\") \u2192 [\"b\", \"c\"]\n    purge([\"a\", \"b\"], \"z\")           \u2192 [\"a\", \"b\"]\n    purge([\"a\", \"a\", \"a\"], \"a\")      \u2192 []\n\nNotes\n\n- `playlist.remove(value)` deletes only the FIRST copy it finds, and raises an error if the value isn't there.\n- Return the playlist itself, not a new list.",
       "walkthrough": "The obvious first attempt is `playlist.remove(song)`, and it half works: the\nplaylist gets shorter, but the extra copies are still sitting there. `.remove()`\ndeletes the first match and stops. It also raises a `ValueError` if the song\nisn't in the list at all, which is why you can't just call it and hope.\n\nBoth problems have the same answer: check before you remove, and keep going until\nthere's nothing left to check for.\n\n    def purge(playlist, song):\n        while song in playlist:\n            playlist.remove(song)\n        return playlist\n\nRead the `while` line as the sentence it is: \"as long as the song is still in the\nplaylist, remove one copy.\" When the last copy goes, `song in playlist` becomes\n`False` and the loop stops on its own. If the song was never there, the condition\nis `False` on the first look and the loop body never runs \u2014 the not-there case\nhandles itself.\n\nThe tempting alternative \u2014 a `for` loop over `playlist` that removes as it goes \u2014\nis a classic trap. Deleting items from a list while you're iterating over it\nshifts everything left under the loop's feet, and it silently skips elements.\nDon't modify a list you're looping over.",
@@ -3197,7 +3197,7 @@
         "week1"
       ],
       "difficulty": "easy",
-      "unit": 3,
+      "unit": 4,
       "xp": 10,
       "prompt": "Create a function that returns True if an integer is evenly divisible by 5, and\nFalse otherwise.\n\nExamples\n\n    divisible_by_five(5) \u2192 True\n    divisible_by_five(-55) \u2192 True\n    divisible_by_five(37) \u2192 False\n\nNotes\n\n- Don't forget to `return` the result.",
       "walkthrough": "\"Evenly divisible by 5\" means dividing by 5 leaves no remainder. The `%` operator\ngives you the remainder, so the question is whether `n % 5` is 0:\n\n    def divisible_by_five(num):\n        return num % 5 == 0\n\nNote what you *don't* need. This works, but it's clumsy:\n\n    if num % 5 == 0:\n        return True\n    else:\n        return False\n\n`num % 5 == 0` is already True or False on its own \u2014 the if/else just takes that\nanswer and laboriously restates it. Return the comparison directly. You'll use\nthis move on every problem in this file.",
@@ -3247,7 +3247,7 @@
         "week1"
       ],
       "difficulty": "easy",
-      "unit": 4,
+      "unit": 5,
       "xp": 10,
       "prompt": "Create a function that takes a number as its only argument and returns True if\nit's less than or equal to zero, otherwise return False.\n\nExamples\n\n    less_than_or_equal_to_zero(5) \u2192 False\n    less_than_or_equal_to_zero(0) \u2192 True\n    less_than_or_equal_to_zero(-2) \u2192 True\n\nNotes\n\n- Don't forget to `return` the result.",
       "starter": "def less_than_or_equal_to_zero(num):\n    ",
@@ -3293,7 +3293,7 @@
         "week1"
       ],
       "difficulty": "easy",
-      "unit": 4,
+      "unit": 5,
       "xp": 10,
       "prompt": "Create a function that returns True when `num1` is equal to `num2`; otherwise\nreturn False.\n\nExamples\n\n    is_same_num(4, 8) \u2192 False\n    is_same_num(2, 2) \u2192 True\n    is_same_num(2, \"2\") \u2192 False\n\nNotes\n\n- Look closely at that third example.\n- Don't forget to `return` the result.",
       "walkthrough": "The answer is short:\n\n    def is_same_num(num1, num2):\n        return num1 == num2\n\nThe interesting part is the third example. Why is 2 == \"2\" False? Because the\nnumber 2 and the text \"2\" are different types of thing, and Python never quietly\nconverts one into the other to make a comparison succeed. They look alike printed\non screen; they are not alike.\n\nAlso mind the difference between `=` and `==`. A single `=` assigns a value; a\ndouble `==` asks a question. Writing `num1 = num2` here would be a bug.",
@@ -3344,7 +3344,7 @@
         "week1"
       ],
       "difficulty": "easy",
-      "unit": 3,
+      "unit": 4,
       "xp": 10,
       "prompt": "Given two numbers, return True if the sum of both numbers is less than 100.\nOtherwise return False.\n\nExamples\n\n    less_than_100(22, 15) \u2192 True     # 22 + 15 = 37\n    less_than_100(83, 34) \u2192 False    # 83 + 34 = 117\n    less_than_100(3, 77) \u2192 True\n\nNotes\n\n- Don't forget to `return` the result.",
       "starter": "def less_than_100(a, b):\n    ",
@@ -3394,7 +3394,7 @@
         "week1"
       ],
       "difficulty": "medium",
-      "unit": 4,
+      "unit": 5,
       "xp": 20,
       "prompt": "Create a function that takes two arguments. Both arguments are integers, `a` and\n`b`. Return True if one of them is 10 or if their sum is 10.\n\nExamples\n\n    makes10(9, 10) \u2192 True\n    makes10(9, 9) \u2192 False\n    makes10(1, 9) \u2192 True\n\nNotes\n\n- Don't forget to `return` the result.",
       "walkthrough": "Three separate ways to win, and any one of them is enough. That's what `or` means:\n\n    def makes10(a, b):\n        return a == 10 or b == 10 or a + b == 10\n\n`or` is True when at least one side is True. (Its counterpart `and` needs every\nside to be True.)\n\nOne trap: you must write out `a == 10 or b == 10`. The English sentence \"if a or b\nis 10\" shortens nicely, but `a or b == 10` is not the same thing to Python and\nwill give wrong answers. Each comparison needs its own complete statement.",
@@ -3450,7 +3450,7 @@
         "week1"
       ],
       "difficulty": "medium",
-      "unit": 4,
+      "unit": 5,
       "xp": 20,
       "prompt": "Create a function that takes three arguments `prob`, `prize`, `pay` and returns\nTrue if prob * prize > pay; otherwise return False.\n\nTo illustrate:\n\n    profitable_gamble(0.2, 50, 9)\n\n... should yield True, since the net profit is 1 (0.2 * 50 - 9), and 1 > 0.\n\nExamples\n\n    profitable_gamble(0.2, 50, 9) \u2192 True\n    profitable_gamble(0.9, 1, 2) \u2192 False\n    profitable_gamble(0.9, 3, 2) \u2192 True\n\nNotes\n\n- Don't forget to `return` the result.",
       "starter": "def profitable_gamble(prob, prize, pay):\n    ",
@@ -3504,7 +3504,7 @@
         "numbers"
       ],
       "difficulty": "easy",
-      "unit": 6,
+      "unit": 7,
       "xp": 10,
       "prompt": "Create a function that takes a list of numbers and returns their total.\n\nExamples\n\n    sum_scores([1, 2, 3]) \u2192 6\n    sum_scores([10]) \u2192 10\n    sum_scores([-2, 5]) \u2192 3\n\nNotes\n\n- Start a total at 0 before the loop, then add each number to it as you go.\n- The total of an empty list is 0.\n- Don't forget to return the result.",
       "walkthrough": "This is the shape every problem in this file is built on, so get it in your\nfingers now. Three parts, always in this order.\n\nBefore the loop, create the thing you're building up. It starts at 0, because\nadding 0 to anything leaves it alone:\n\n    total = 0\n\nInside the loop, one item at a time, add it in. `total += n` is shorthand for\n`total = total + n` \u2014 take what you had, add the new number, put it back:\n\n    for n in nums:\n        total += n\n\nAfter the loop, hand back the answer:\n\n    return total\n\nTwo mistakes to name, because they are the two you will actually make. First,\nputting `total = 0` inside the loop \u2014 then you wipe it clean on every trip and\nonly the last number survives. It goes above the `for`, not under it. Second,\nputting `return total` inside the loop \u2014 then you quit after the first number.\nBoth lines belong outside the loop, lined up with the `for`.",
@@ -3561,7 +3561,7 @@
         "conditions"
       ],
       "difficulty": "medium",
-      "unit": 6,
+      "unit": 7,
       "xp": 20,
       "prompt": "Create a function that takes a list of numbers and a limit, and returns how many\nof the numbers are greater than the limit.\n\nExamples\n\n    count_above([4, 9, 2], 3) \u2192 2\n    count_above([1, 2, 3], 10) \u2192 0\n    count_above([5, 5, 5], 4) \u2192 3\n\nNotes\n\n- Start a counter at 0 before the loop, and add 1 only when the test is true.\n- \"Greater than\" is strict: a number equal to the limit does not count.\n- An empty list should return 0.",
       "starter": "def count_above(nums, limit):\n    ",
@@ -3626,7 +3626,7 @@
         "numbers"
       ],
       "difficulty": "medium",
-      "unit": 6,
+      "unit": 7,
       "xp": 20,
       "prompt": "This function is supposed to multiply all of the dice rolls together to get a\ngame score. It always returns 0 instead. Fix it.\n\nExamples\n\n    dice_score([2, 3]) \u2192 6\n    dice_score([6, 6, 6]) \u2192 216\n    dice_score([4]) \u2192 4\n\nNotes\n\n- Only one line needs to change.\n- Ask yourself what the score should be *before* any dice have been multiplied in.",
       "walkthrough": "Run the broken version in your head with [2, 3]. The score starts at 0. First\ntime round the loop, score = 0 * 2, which is 0. Second time, score = 0 * 3, which\nis still 0. Zero is a black hole for multiplication \u2014 once it's in there, nothing\ngets it out.\n\nThis is the trap: you learned to start a running *total* at 0, and that is exactly\nright, because adding 0 to something changes nothing:\n\n    total = 0\n    total += 5     # 5\n\nBut for a running *product* you need the number that changes nothing when you\nmultiply by it, and that number is 1:\n\n    score = 1\n    score *= 5     # 5\n\nSo the fix is `score = 1`. The rule worth remembering: an accumulator starts at\nthe value that leaves the first item untouched \u2014 0 for sums, 1 for products.",
@@ -3688,7 +3688,7 @@
         "functions"
       ],
       "difficulty": "medium",
-      "unit": 6,
+      "unit": 7,
       "xp": 20,
       "prompt": "What does this code print?\n\n    def add_them(nums):\n        total = 0\n        for x in nums:\n            total += x\n            return total\n\n    print(add_them([4, 7, 2]))",
       "choices": [
@@ -3712,7 +3712,7 @@
         "algorithms"
       ],
       "difficulty": "medium",
-      "unit": 6,
+      "unit": 7,
       "xp": 20,
       "prompt": "You start with 0 tokens. Given a list of daily changes (positive for tokens\nearned, negative for tokens spent), return a list of your balance at the end of\neach day.\n\nExamples\n\n    running_balance([5, -2, 10]) \u2192 [5, 3, 13]\n    running_balance([1, 1, 1]) \u2192 [1, 2, 3]\n    running_balance([10, -10]) \u2192 [10, 0]\n\nNotes\n\n- The result has exactly as many numbers as the input does.\n- You need a running total AND a list to collect it into.\n- An empty list of changes should return an empty list.",
       "walkthrough": "Two things have to happen inside this loop, and mixing them up is where people\nget stuck. You need a number that keeps growing, and a list that keeps getting\nlonger. They are not the same variable.\n\nSet both up before the loop:\n\n    total = 0\n    out = []\n\nThen on each day, update the total first, then record a snapshot of it:\n\n    for change in changes:\n        total += change\n        out.append(total)\n    return out\n\nWalk [5, -2, 10] through: total becomes 5, append 5. Total becomes 3, append 3.\nTotal becomes 13, append 13. Out is [5, 3, 13].\n\nThe mistake to watch for is appending the *change* instead of the total \u2014\n`out.append(change)` just hands back the list you were given. You want the total\nafter the change, not the change itself. The other classic slip is putting\n`return out` inside the loop, which stops you after day one. Return it after the\nloop finishes, lined up with the `for`, not indented under it.",
@@ -3783,7 +3783,7 @@
         "algorithms"
       ],
       "difficulty": "hard",
-      "unit": 6,
+      "unit": 7,
       "xp": 35,
       "prompt": "Create a function that takes a list of song titles and returns a list of every\ntitle tied for longest, in the order they appear in the original list.\n\nExamples\n\n    longest_song_titles([\"Hey\", \"Yesterday\", \"Help\"]) \u2192 [\"Yesterday\"]\n    longest_song_titles([\"one\", \"two\", \"six\"]) \u2192 [\"one\", \"two\", \"six\"]\n    longest_song_titles([\"a\", \"bbbb\", \"cc\", \"dddd\"]) \u2192 [\"bbbb\", \"dddd\"]\n\nNotes\n\n- Always return a list, even when only one title is longest.\n- The list always has at least one title.\n- Compare lengths, but collect the titles themselves \u2014 not their lengths.",
       "walkthrough": "The instinct is to do this in one pass: walk the list, keep the best title so far,\nand collect as you go. Try it and watch it break. On [\"a\", \"bbbb\", \"cc\", \"dddd\"]\nyou'd collect \"a\" (best so far), then \"bbbb\" beats it, then \"dddd\" ties it \u2014 and\nnow your list is [\"a\", \"bbbb\", \"dddd\"] with a stale \"a\" in it that stopped being\nthe longest three steps ago. You can't collect ties until you know what the\nwinning length actually is, and you don't know that until you've seen the whole\nlist.\n\nSo do it in two passes. First pass finds the number:\n\n    best = 0\n    for t in titles:\n        if len(t) > best:\n            best = len(t)\n\nNote that `best` here is a *length*, not a title. Starting it at 0 is safe because\nno title is shorter than 0 characters \u2014 this is the one place a 0 start is fine,\nunlike the freezer readings that could go negative.\n\nSecond pass collects everything that matches it:\n\n    out = []\n    for t in titles:\n        if len(t) == best:\n            out.append(t)\n    return out\n\nThat second loop uses `==`, not `>`. Ties are the entire point of this problem,\nand `>` would keep only the first one. Order comes for free again: you append in\nthe order you meet things.\n\nThis is also why `max(titles, key=len)` won't rescue you here. It hands back one\ntitle and silently forgets the rest \u2014 the question you were asked is a different\nquestion.",
@@ -3859,7 +3859,7 @@
         "algorithms"
       ],
       "difficulty": "hard",
-      "unit": 6,
+      "unit": 7,
       "xp": 35,
       "prompt": "At hour 0, exactly 1 person knows a rumor. Every hour, the number of people who\nknow it doubles. Return how many whole hours it takes until at least `target`\npeople know.\n\nExamples\n\n    rumor_hours(2) \u2192 1\n    rumor_hours(5) \u2192 3\n    rumor_hours(100) \u2192 7\n\nNotes\n\n- A while loop is the right tool: keep doubling while too few people know.\n- rumor_hours(5) is 3 because the counts go 1 \u2192 2 \u2192 4 \u2192 8, and 8 is the first\n  count that reaches 5.\n- If the target is already met at hour 0, the answer is 0.",
       "walkthrough": "Every other problem in this file used a `for` loop, and a `for` loop needs to know\nhow many trips to take before it starts \u2014 `for song in songs` takes one trip per\nsong, `for i in range(5)` takes five. Here you don't know the number of trips.\nThat's the whole difficulty: how many hours it takes is the answer you're trying\nto find, so you can't put it in a `range()` up front.\n\nThat is what `while` is for. A `while` loop doesn't count trips \u2014 it checks a\nquestion before each trip, and keeps going as long as the answer is True.\n\nSet up the two things you're tracking before the loop, exactly like any\naccumulator:\n\n    people = 1\n    hours = 0\n\nNow read the loop header as an English sentence:\n\n    while people < target:\n\n\"As long as too few people know, keep going.\" When that stops being true, the\nloop stops on its own. Inside, do one hour's worth of work \u2014 double the people,\nand count the hour:\n\n    while people < target:\n        people *= 2\n        hours += 1\n    return hours\n\nTrace target = 5. Is 1 < 5? Yes \u2192 people = 2, hours = 1. Is 2 < 5? Yes \u2192 people\n= 4, hours = 2. Is 4 < 5? Yes \u2192 people = 8, hours = 3. Is 8 < 5? No \u2192 stop, and\nreturn 3. Three doublings, which matches 1 \u2192 2 \u2192 4 \u2192 8.\n\nTwo slips to name, because you will make one of them. The first: forgetting\n`hours += 1`, or forgetting `people *= 2`. A `for` loop always ends because it\nruns out of items, but a `while` loop only ends when *you* change something that\nmakes its question False. Leave `people` alone and it stays 1 forever, 1 < 5 is\nforever True, and your program hangs. Every `while` loop needs a line inside it\nthat moves you toward the exit.\n\nThe second: writing `while people <= target`. Check it against target = 1. One\nperson already knows, so the answer is 0 hours \u2014 and `1 < 1` is False, so the\nloop never runs and you correctly return 0. But `1 <= 1` is True, so it doubles\nonce and hands back 1. \"At least target\" means stop when `people >= target`, so\nkeep going while `people < target`.",
@@ -3904,7 +3904,7 @@
         "conditions"
       ],
       "difficulty": "hard",
-      "unit": 6,
+      "unit": 7,
       "xp": 35,
       "prompt": "Create a function that takes a playlist (a list of song names, possibly with\nrepeats) and returns a new list keeping only the first appearance of each song,\nin the original order.\n\nExamples\n\n    dedupe_playlist([\"a\", \"b\", \"a\", \"c\", \"b\"]) \u2192 [\"a\", \"b\", \"c\"]\n    dedupe_playlist([\"x\", \"x\", \"x\"]) \u2192 [\"x\"]\n    dedupe_playlist([\"p\", \"q\"]) \u2192 [\"p\", \"q\"]\n\nNotes\n\n- Build a new list \u2014 don't change the one you were given.\n- `if song not in out:` asks whether you have collected that song already.\n- Song names are case sensitive: \"Blue\" and \"blue\" are different songs.",
       "walkthrough": "The trick here is that the list you are building is also the list you check\nagainst. You don't need a second bookkeeping variable \u2014 the answer so far already\nknows everything you've kept.\n\nStart empty, and before adding a song, ask whether it's in there yet:\n\n    out = []\n    for song in songs:\n        if song not in out:\n            out.append(song)\n    return out\n\nThe `not in` operator asks \"is this missing from the list?\" and gives back True\nor False. So the first \"a\" gets added; when the second \"a\" comes round, `\"a\" not\nin out` is False and it gets skipped. Order is preserved for free, because you\nappend in the order you meet things.\n\nThe mistake to name: appending first and trying to clean up afterwards, or\nchecking `if song not in songs`, which is always False \u2014 you're checking the\nwrong list. Check what you've *collected*, not what you were *given*.",
@@ -3978,7 +3978,7 @@
         "functions"
       ],
       "difficulty": "easy",
-      "unit": 6,
+      "unit": 7,
       "xp": 10,
       "prompt": "Create a function that counts how many characters of a phrase are vowels (a, e, i, o, u). Upper and lower case both count.\n\nExamples\n\n    count_vowels(\"banana\") \u2192 3\n    count_vowels(\"Ohio\") \u2192 3\n    count_vowels(\"rhythm\") \u2192 0\n\nNotes\n\n- \"A\" is a vowel just as much as \"a\".\n- Spaces, digits and punctuation are never vowels.\n- Don't forget to return the result.",
       "walkthrough": "A `for` loop over a string hands you one character at a time:\n\n    for ch in \"cat\":\n        print(ch)      # c, then a, then t\n\nSo the plan is: start a counter at 0, look at each character, and add 1 when it is\na vowel. The test \"is this a vowel?\" is just `ch in \"aeiou\"` \u2014 the `in` operator\nasks whether that one character appears anywhere in that little string.\n\nThe trap is case. \"Ohio\" starts with a capital O, and `\"O\" in \"aeiou\"` is False,\nbecause Python compares characters exactly. Rather than writing out \"aeiouAEIOU\",\nflatten the problem first with `phrase.lower()` and loop over that:\n\n    def count_vowels(phrase):\n        count = 0\n        for ch in phrase.lower():\n            if ch in \"aeiou\":\n                count = count + 1\n        return count\n\nOne more thing: `count = 0` must sit *above* the loop. Put it inside and you reset\nyour counter on every character, and the answer can never be bigger than 1.",
@@ -4027,7 +4027,7 @@
         "functions"
       ],
       "difficulty": "easy",
-      "unit": 6,
+      "unit": 7,
       "xp": 10,
       "prompt": "You photocopied every page from `first` to `last`. Create a function that returns the sum of all those page numbers, counting both the first and the last page.\n\nExamples\n\n    sum_pages(1, 5) \u2192 15\n    sum_pages(10, 12) \u2192 33\n    sum_pages(7, 7) \u2192 7\n\nNotes\n\n- Both ends are included.\n- `first` is never greater than `last`.",
       "walkthrough": "`range(a, b)` produces the numbers starting at `a` and stopping *before* `b`. So\n`range(1, 5)` is 1, 2, 3, 4 \u2014 the 5 never shows up. That is the single most common\noff-by-one bug in Python, and it is exactly what this problem is about.\n\nYou want the pages 1 through 5 *inclusive*, so you have to ask for one past the end.\nThen it is an ordinary accumulator: a running total created *before* the loop, and\none page added on each trip through it.\n\n    def sum_pages(first, last):\n        total = 0\n        for page in range(first, last + 1):\n            total = total + page\n        return total\n\nThe `+ 1` is not a fudge factor \u2014 it is you saying \"stop before last + 1\", which is\nthe same as \"include last\". Check it against the edge case `sum_pages(7, 7)`:\n`range(7, 8)` is just the number 7, so the answer is 7. If you had written\n`range(7, 7)` you'd get nothing at all and the sum would be 0.\n\nOnce the `+ 1` makes sense to you, there is a shortcut: `sum` will run that same\naccumulator loop for you, so `sum(range(first, last + 1))` does the whole job in one\nline. Write the loop yourself first \u2014 the shortcut is only obvious once you have.",
@@ -4077,7 +4077,7 @@
         "concept"
       ],
       "difficulty": "easy",
-      "unit": 6,
+      "unit": 7,
       "xp": 10,
       "prompt": "What does this print, one number per line?\n\n    for n in range(10, 0, -3):\n        print(n)",
       "choices": [
@@ -4101,7 +4101,7 @@
         "formatting"
       ],
       "difficulty": "medium",
-      "unit": 6,
+      "unit": 7,
       "xp": 20,
       "prompt": "Create a function that takes a list of song titles and returns a list of numbered strings, starting the numbering at 1.\n\nExamples\n\n    number_playlist([\"Hey Jude\", \"Yesterday\"]) \u2192 [\"1. Hey Jude\", \"2. Yesterday\"]\n    number_playlist([\"Solo\"]) \u2192 [\"1. Solo\"]\n    number_playlist([]) \u2192 []\n\nNotes\n\n- The format is the number, a period, a single space, then the title.\n- Return a new list \u2014 don't print anything.",
       "walkthrough": "You need two things at once for each song: the title, and its position in the list.\nA plain `for song in songs` gives you only the title. `enumerate` gives you both:\n\n    for i, song in enumerate([\"Hey Jude\", \"Yesterday\"]):\n        print(i, song)      # 0 Hey Jude,  then  1 Yesterday\n\nNotice the numbers start at 0, because that's how Python indexes. But humans number\nplaylists from 1. The tempting fix is `i + 1` scattered through your code; the\ncleaner one is to tell `enumerate` where to start:\n\n    def number_playlist(songs):\n        result = []\n        for i, song in enumerate(songs, start=1):\n            result.append(f\"{i}. {song}\")\n        return result\n\nThe f-string does the gluing: `f\"{i}. {song}\"` drops the number in, then a literal\n\". \", then the title. Note the space after the period lives inside the quotes \u2014 if\nyou forget it you get \"1.Hey Jude\" and every check fails.",
@@ -4160,7 +4160,7 @@
         "indexing"
       ],
       "difficulty": "medium",
-      "unit": 6,
+      "unit": 7,
       "xp": 20,
       "prompt": "Create a function that hides a code by replacing every character with `*`, except the last four, which stay as they are.\n\nExamples\n\n    mask_code(\"9876543210\") \u2192 \"******3210\"\n    mask_code(\"12345\") \u2192 \"*2345\"\n    mask_code(\"1234\") \u2192 \"1234\"\n\nNotes\n\n- If the code is four characters or shorter, nothing is hidden.\n- The result is the same length as the input.",
       "walkthrough": "The question you must answer for each character is \"am I in the last four?\". To know\nthat, you need the character's *position*, not just the character \u2014 so loop with\n`enumerate`, which hands you both:\n\n    for i, ch in enumerate(\"12345\"):\n        ...    # i = 0, 1, 2, 3, 4 and ch = \"1\", \"2\", ...\n\nNow do the arithmetic once, not per character. For a string of length 5, the last\nfour positions are 1, 2, 3, 4 \u2014 that is, every `i` where `i >= 5 - 4`. In general\nthe keeper positions are `i >= len(code) - 4`; everything else becomes a star.\n\n    def mask_code(code):\n        result = \"\"\n        for i, ch in enumerate(code):\n            if i >= len(code) - 4:\n                result = result + ch\n            else:\n                result = result + \"*\"\n        return result\n\nThe edge case to think about is a short code like \"1234\": `len(code) - 4` is 0, so\n`i >= 0` is true for every character and nothing gets hidden \u2014 which is exactly the\nbehavior we asked for. The arithmetic handles it for free; you don't need a special\n`if len(code) <= 4` branch.",
@@ -4209,7 +4209,7 @@
         "arrays"
       ],
       "difficulty": "easy",
-      "unit": 6,
+      "unit": 7,
       "xp": 10,
       "prompt": "`locker_numbers(n)` should return the list of locker numbers from 1 to `n`. Right now the hallway is missing its last locker \u2014 there is no locker `n`. Fix it.\n\nExamples\n\n    locker_numbers(3) \u2192 [1, 2, 3]\n    locker_numbers(1) \u2192 [1]\n    locker_numbers(0) \u2192 []\n\nNotes\n\n- The lockers are numbered starting at 1, like a real hallway.\n- A hallway with 0 lockers is an empty list, not an error.",
       "starter": "def locker_numbers(n):\n    lockers = []\n    for i in range(1, n):\n        lockers.append(i)\n    return lockers",
@@ -4261,7 +4261,7 @@
         "functions"
       ],
       "difficulty": "medium",
-      "unit": 6,
+      "unit": 7,
       "xp": 20,
       "prompt": "`total_tips(tips)` should add up every tip in the list. Instead it always reports just the last one. Find out why and fix it.\n\nExamples\n\n    total_tips([3, 5, 2]) \u2192 10\n    total_tips([7]) \u2192 7\n    total_tips([]) \u2192 0\n\nNotes\n\n- The bug is about *where* a line sits, not what it says.\n- An empty list should give 0.",
       "walkthrough": "Run the broken code in your head with `[3, 5, 2]`. First trip through the loop:\n`total = 0`, then `total += 3` \u2192 3. Second trip: `total = 0` *again* \u2014 that line is\ninside the loop, so it runs every single time \u2014 then `total += 5` \u2192 5. Third trip:\nreset to 0, add 2 \u2192 2. You return 2, the last tip. That matches the symptom exactly.\n\nA variable that accumulates across a loop has to be created *once, before* the loop\nstarts. Inside the loop belongs only the work that changes each time:\n\n    def total_tips(tips):\n        total = 0\n        for tip in tips:\n            total += tip\n        return total\n\nIndentation is what says \"before\" versus \"inside\" in Python \u2014 moving `total = 0`\nout one level is the entire fix. And notice the empty-list case falls out for free:\nthe loop body never runs, and you return the 0 you started with. If you had tried to\n\"fix\" this by initializing `total = tips[0]`, an empty list would crash.",
@@ -4321,7 +4321,7 @@
         "algorithms"
       ],
       "difficulty": "hard",
-      "unit": 6,
+      "unit": 7,
       "xp": 35,
       "prompt": "Create a function that returns the length of the longest streak of identical characters sitting next to each other in a string.\n\nExamples\n\n    longest_run(\"aaabbbbcc\") \u2192 4\n    longest_run(\"abc\") \u2192 1\n    longest_run(\"\") \u2192 0\n\nNotes\n\n- The characters in a streak must be consecutive.\n- An empty string has no streak, so the answer is 0.",
       "walkthrough": "The instinct is to count each letter's total, but that's a different question:\n\"abab\" has two a's, yet its longest *streak* is 1, because they aren't next to each\nother. You have to walk the string in order and watch for the moment it breaks.\n\nCarry two numbers as you go. `current` is how long the streak you're standing in is;\n`best` is the longest one you've finished so far. For each character, ask only one\nthing: is this the same as the character just before me?\n\n    def longest_run(text):\n        best = 0\n        current = 0\n        for i, ch in enumerate(text):\n            if i > 0 and ch == text[i - 1]:\n                current = current + 1\n            else:\n                current = 1\n            best = max(best, current)\n        return best\n\nTwo details matter. First, `i > 0` guards the very first character \u2014 without it,\n`text[i - 1]` is `text[-1]`, which is the *last* character of the string, and you'd\nsilently compare the wrong things. Second, update `best` on every character, not\nonly when the streak ends. Otherwise a string that ends mid-streak, like \"aabbb\",\nnever gets its final run counted.\n\nEmpty string: the loop never runs and `best` stays 0, which is the answer we want.",
@@ -4374,7 +4374,7 @@
         "strings"
       ],
       "difficulty": "hard",
-      "unit": 6,
+      "unit": 7,
       "xp": 35,
       "prompt": "Create a function that takes a string of digits and adds up the rightmost digit, the digit two places to its left, the one two places left of that, and so on.\n\nExamples\n\n    alt_sum(\"1234\") \u2192 6\n    alt_sum(\"13579\") \u2192 15\n    alt_sum(\"7\") \u2192 7\n\nNotes\n\n- In \"1234\" you add 4 + 2. In \"13579\" you add 9 + 5 + 1.\n- An empty string sums to 0.\n- Each character of the string is a digit, so you'll need int() to do arithmetic.",
       "walkthrough": "Counting from the right is easier if you walk the *indexes* backwards instead of the\ncharacters. `range` takes three arguments \u2014 start, stop, step \u2014 and the step can be\nnegative:\n\n    range(len(digits) - 1, -1, -2)\n\nRead it piece by piece. Start at `len(digits) - 1`, the index of the last character\n(for \"1234\" that's index 3, the \"4\"). Step by `-2`, so you skip every other one: 3,\n1. Stop before `-1`, which means index 0 is still included \u2014 the classic mistake is\nwriting `range(len(digits) - 1, 0, -2)`, whose stop of 0 means index 0 gets skipped,\nso `alt_sum(\"13579\")` quietly loses the leading 1 and returns 14 instead of 15.\n\nThen it's an ordinary accumulator, remembering that `digits[i]` is the *character*\n\"4\", not the number 4 \u2014 `\"4\" + \"2\"` would give you \"42\".\n\n    def alt_sum(digits):\n        total = 0\n        for i in range(len(digits) - 1, -1, -2):\n            total = total + int(digits[i])\n        return total",
@@ -4806,7 +4806,7 @@
         "week1"
       ],
       "difficulty": "easy",
-      "unit": 3,
+      "unit": 4,
       "xp": 10,
       "prompt": "Create a function that takes a base number and an exponent number and returns the\ncalculation.\n\nExamples\n\n    calculate_exponent(5, 5) \u2192 3125\n    calculate_exponent(10, 10) \u2192 10000000000\n    calculate_exponent(3, 3) \u2192 27\n\nNotes\n\n- All test inputs will be positive integers.\n- Don't forget to `return` the result.",
       "walkthrough": "Python has an operator for raising to a power: `**`. It is not `^` \u2014 that's a\ndifferent operation entirely (bitwise XOR), and using it gives you a wrong answer\nrather than an error, which is the worst kind of bug.\n\n    def calculate_exponent(base, exponent):\n        return base ** exponent\n\nSanity check: 5 ** 5 is 5*5*5*5*5 = 3125, matching the first example. If you'd\nwritten 5 ^ 5 you'd have silently gotten 0.",
@@ -5016,7 +5016,7 @@
         "language_fundamentals"
       ],
       "difficulty": "starter",
-      "unit": 2,
+      "unit": 3,
       "xp": 5,
       "prompt": "A progress bar is just a row of repeated characters. Write a function\n`loading_bar(n)` that returns a string made of exactly `n` equals signs.\n\nExamples\n\n    loading_bar(3) \u2192 \"===\"\n    loading_bar(6) \u2192 \"======\"\n    loading_bar(1) \u2192 \"=\"\n\nNotes\n\n- The `*` operator repeats a string a whole number of times.\n- `loading_bar(0)` is an empty string.\n- Don't forget to return the result.",
       "starter": "def loading_bar(n):\n    ",
@@ -5060,7 +5060,7 @@
         "validation"
       ],
       "difficulty": "starter",
-      "unit": 3,
+      "unit": 4,
       "xp": 5,
       "prompt": "Usernames are stored in one standard form: no spaces around the outside, and all\nlowercase. Write a function `clean_username(raw)` that returns the name with the\nsurrounding spaces removed AND every letter lowercased.\n\nExamples\n\n    clean_username(\"  Ada  \") \u2192 \"ada\"\n    clean_username(\"GRACE \") \u2192 \"grace\"\n    clean_username(\"linus\") \u2192 \"linus\"\n\nNotes\n\n- Spaces in the middle of the text stay exactly where they are.\n- Two steps, both needed \u2014 doing only one of them is the usual mistake.\n- Don't forget to return the result.",
       "walkthrough": "There are two jobs here, and each has its own method. `.strip()` removes the spaces\non the ends. `.lower()` turns every letter lowercase. Neither one does the other's\njob, so you need both.\n\nThe natural first attempt is to do them one at a time:\n\n    trimmed = raw.strip()\n    return trimmed.lower()\n\nThat is correct, and there is nothing wrong with writing it that way. But you can\nalso chain the calls. `raw.strip()` hands back a string, and you can call a method\nstraight onto that returned string:\n\n    return raw.strip().lower()\n\nRead it left to right: take `raw`, strip it, lowercase the result. That is the same\ntwo steps on one line.\n\nHere is the mistake to name. Because strings are immutable, this does nothing:\n\n    raw.strip()\n    raw.lower()\n    return raw\n\nEach of those calls builds a new string and then throws it away, because you never\ncaught the result. `raw` itself is untouched, so you return exactly what you were\ngiven. A method call whose result you don't keep is a wasted line.",
@@ -5105,7 +5105,7 @@
         "formatting"
       ],
       "difficulty": "starter",
-      "unit": 2,
+      "unit": 3,
       "xp": 5,
       "prompt": "Song titles typed in a hurry come out all lowercase. Write a function\n`fix_title(name)` that returns the title with the first letter of every word\ncapitalized.\n\nExamples\n\n    fix_title(\"road trip mix\") \u2192 \"Road Trip Mix\"\n    fix_title(\"summer\") \u2192 \"Summer\"\n    fix_title(\"late night study\") \u2192 \"Late Night Study\"\n\nNotes\n\n- Python has a string method that does exactly this in one step.\n- An empty title should come back as an empty string.",
       "starter": "def fix_title(name):\n    ",
@@ -5149,7 +5149,7 @@
         "language_fundamentals"
       ],
       "difficulty": "easy",
-      "unit": 2,
+      "unit": 3,
       "xp": 10,
       "prompt": "Write a function `chant(word, times)` that returns the word followed by an\nexclamation mark and a space, repeated `times` times.\n\nExamples\n\n    chant(\"go\", 3) \u2192 \"go! go! go! \"\n    chant(\"hey\", 1) \u2192 \"hey! \"\n    chant(\"win\", 2) \u2192 \"win! win! \"\n\nNotes\n\n- Every repetition ends with a space, including the last one.\n- If `times` is 0, the result is an empty string.",
       "walkthrough": "The piece you want repeated is not just `word` \u2014 it's the whole chunk `word` plus\n`\"! \"`. So first build that chunk, then repeat it:\n\n    chunk = word + \"! \"\n    return chunk * times\n\nYou can do it on one line, but here is the trap. Python runs `*` before `+`, the\nsame way it does with numbers. So this:\n\n    return word + \"! \" * times\n\ndoes NOT repeat the whole chunk. It repeats only `\"! \"`, and then glues the word\non the front once: `chant(\"go\", 3)` gives `\"go! ! ! \"`. Read it out loud as\n\"word, plus (bang-space three times)\" and the bug is obvious.\n\nParentheses force the addition to happen first:\n\n    return (word + \"! \") * times\n\nNow the thing being repeated is `\"go! \"`, and you get `\"go! go! go! \"`.",
@@ -5194,7 +5194,7 @@
         "functions"
       ],
       "difficulty": "easy",
-      "unit": 2,
+      "unit": 3,
       "xp": 10,
       "prompt": "Write a function `cart_line(item, qty, price)` that returns one receipt line\nshowing the quantity, the item name, and the total cost for that line (quantity\ntimes price).\n\nExamples\n\n    cart_line(\"mug\", 3, 7) \u2192 \"3 x mug = $21\"\n    cart_line(\"pen\", 2, 5) \u2192 \"2 x pen = $10\"\n    cart_line(\"hat\", 1, 12) \u2192 \"1 x hat = $12\"\n\nNotes\n\n- `price` is the price of ONE item, so you have to do the multiplication yourself.\n- The dollar sign goes right before the total, with no space after it.",
       "walkthrough": "An f-string lets you drop a value into the middle of text by putting it in curly\nbraces:\n\n    return f\"{qty} x {item} = $...\"\n\nThe part students get stuck on is the total. It's tempting to think braces can\nonly hold a plain variable name, so you compute the total on its own line first.\nThat works fine:\n\n    total = qty * price\n    return f\"{qty} x {item} = ${total}\"\n\nBut braces can hold any expression, so you can also write the math directly\ninside them:\n\n    return f\"{qty} x {item} = ${qty * price}\"\n\nOne thing to watch: the `$` sits OUTSIDE the braces. If you write `{$qty * price}`\nPython has no idea what `$` means and you get a syntax error. Everything outside\nthe braces is just literal text; everything inside is Python.",
@@ -5243,7 +5243,7 @@
         "functions"
       ],
       "difficulty": "easy",
-      "unit": 2,
+      "unit": 3,
       "xp": 10,
       "prompt": "This function is supposed to return a phone number with every dash removed, but it\nhands back the number completely unchanged. Find the bug and fix it.\n\nExamples\n\n    strip_dashes(\"402-555-0199\") \u2192 \"4025550199\"\n    strip_dashes(\"1-2\") \u2192 \"12\"\n    strip_dashes(\"5551234\") \u2192 \"5551234\"\n\nNotes\n\n- `.replace()` hands you back a brand-new string \u2014 it never edits the original.\n- Don't forget to return the result.",
       "walkthrough": "Run the code in your head. Line one calls `phone.replace(\"-\", \"\")`. That call does\nbuild the string `\"4025550199\"` \u2014 but then the line ends, nobody catches the\nresult, and Python throws it away. Line two returns `phone`, which is still the\noriginal with all its dashes.\n\nThe reason is that strings in Python are immutable: nothing can change a string\nonce it exists. Methods like `.replace()`, `.strip()`, `.upper()` and `.title()`\nnever modify the string you called them on. They return a NEW string and leave the\nold one alone.\n\nSo a bare method call on its own line is always useless. You have to either catch\nthe result in a variable:\n\n    cleaned = phone.replace(\"-\", \"\")\n    return cleaned\n\nor return it directly:\n\n    return phone.replace(\"-\", \"\")\n\nIf you ever find yourself writing `phone.strip()` on a line by itself and\nwondering why nothing changed, this is why.",
@@ -5309,7 +5309,7 @@
         "algorithms"
       ],
       "difficulty": "medium",
-      "unit": 2,
+      "unit": 3,
       "xp": 20,
       "prompt": "Write a function `censor(message, word)` that replaces every appearance of `word`\nwith a run of asterisks the same length as that word.\n\nExamples\n\n    censor(\"that mule is a mule\", \"mule\") \u2192 \"that **** is a ****\"\n    censor(\"no bad words here\", \"bad\") \u2192 \"no *** words here\"\n    censor(\"all clear\", \"danger\") \u2192 \"all clear\"\n\nNotes\n\n- The replacement must have exactly as many asterisks as the word has letters.\n- If the word never appears, return the message unchanged.",
       "walkthrough": "Two tools you already have, snapped together. `.replace(old, new)` swaps every\noccurrence of `old` for `new`. So the shape of the answer is:\n\n    return message.replace(word, ???)\n\nThe only question is what to put in for `???`. It's a string of asterisks \u2014 and\nyou can't hard-code `\"****\"`, because the word's length changes every call. Build\nit instead: `len(word)` tells you how many you need, and `*` repeats a string that\nmany times:\n\n    stars = \"*\" * len(word)\n    return message.replace(word, stars)\n\nThe mistake to avoid is `\"*\" * word`, which asks Python to repeat a string a\nstring number of times and raises a TypeError. It's `len(word)` \u2014 a count \u2014 that\ngoes on the right of the `*`.\n\nNotice you never wrote a loop. `.replace()` already handles every occurrence, and\nif the word isn't there it quietly returns the message untouched.",
@@ -5354,7 +5354,7 @@
         "validation"
       ],
       "difficulty": "medium",
-      "unit": 3,
+      "unit": 4,
       "xp": 20,
       "prompt": "Two people typed their name into a signup form. Write a function `same_person(a, b)`\nthat returns True if the two names match once you ignore surrounding spaces and\ncapitalization, and False otherwise.\n\nExamples\n\n    same_person(\"  Ada \", \"ada\") \u2192 True\n    same_person(\"Grace\", \"GRACE\") \u2192 True\n    same_person(\"ada\", \"linus\") \u2192 False\n\nNotes\n\n- Spaces in the middle of a name still matter \u2014 \"ada lovelace\" is not \"adalovelace\".\n- Return the boolean True or False, not a string.",
       "walkthrough": "The temptation is to write a pile of ifs. Don't. The trick is to clean up BOTH\nstrings the same way first, then compare the cleaned versions with a single `==`.\n\nCleaning means two steps. `.strip()` removes the spaces on the ends, and `.lower()`\nmakes every letter lowercase so \"Ada\", \"ADA\" and \"ada\" all become the same text.\nYou can chain them, because `.strip()` returns a string and you can immediately\ncall `.lower()` on that string:\n\n    return a.strip().lower() == b.strip().lower()\n\nTwo things to watch. First, you must clean BOTH sides \u2014 cleaning only `a` and\ncomparing it to a raw `b` fails the moment `b` has a capital. Second, don't write\n`if ... : return True else: return False`. The expression `a.strip().lower() ==\nb.strip().lower()` is ALREADY True or False, so returning it directly is shorter\nand says exactly the same thing.",
@@ -5473,7 +5473,7 @@
         "logic"
       ],
       "difficulty": "medium",
-      "unit": 3,
+      "unit": 4,
       "xp": 20,
       "prompt": "A license plate is \"reversible\" if it reads exactly the same forwards and\nbackwards. Create a function that takes a plate as a string and returns True if it\nis reversible and False otherwise.\n\nExamples\n\n    is_reversible(\"ABA\") \u2192 True\n    is_reversible(\"XYZ\") \u2192 False\n    is_reversible(\"77\") \u2192 True\n\nNotes\n\n- The slice plate[::-1] gives you the whole string reversed.\n- Two strings can be compared with == just like two numbers.\n- Return the boolean True or False, not the string \"True\".",
       "walkthrough": "The wording (\"reads the same forwards and backwards\") tempts people into a loop\nthat walks from both ends at once. You don't need it. Python can hand you the\nreversed string in one step, and compare it in one more.\n\nThe slice plate[::-1] means \"take the whole string, stepping by -1\" \u2014 that is,\nwalk it backwards:\n\n    \"ABA\"[::-1]   is  \"ABA\"\n    \"XYZ\"[::-1]   is  \"ZYX\"\n\nSo the plate is reversible exactly when the reversed copy equals the original:\n\n    def is_reversible(plate):\n        return plate == plate[::-1]\n\nHere's the mistake waiting for you. Many students write:\n\n    if plate == plate[::-1]:\n        return True\n    else:\n        return False\n\nThat works, but notice what you did: `plate == plate[::-1]` is *already* True or\nFalse. Wrapping a boolean in an if just to hand back the same boolean is extra\ntyping that can go wrong. Return the comparison itself.\n\nOne more trap, for when you meet this on a list instead of a string. Python has a\nbuilt-in called `reversed()`, and it looks like the obvious tool:\n\n    reversed([1, 2, 1]) == [1, 2, 1]      is False \u2014 always\n\nThat is not a bug in your logic. `reversed()` doesn't hand you a list; it hands\nback a lazy \"I'll go backwards when you ask\" object, and such an object is never\nequal to a list. You have to ask for the list: `list(reversed(x)) == x`. The [::-1]\nslice sidesteps the whole problem, which is one reason to prefer it.",
@@ -5518,7 +5518,7 @@
         "language_fundamentals"
       ],
       "difficulty": "easy",
-      "unit": 5,
+      "unit": 6,
       "xp": 10,
       "prompt": "Create a function that takes a text message as a string and returns how many words\nit contains. Words are separated by one or more spaces.\n\nExamples\n\n    word_count(\"call me back\") \u2192 3\n    word_count(\"hello\") \u2192 1\n    word_count(\"running    late    sorry\") \u2192 3\n\nNotes\n\n- An empty message contains 0 words.\n- Splitting a string turns it into a list of its words, and extra spaces between\n  words should not change the count.\n- Don't forget to return the result.",
       "walkthrough": "The instinct almost everyone has first is to count the spaces and add one: three\nwords have two spaces between them, so surely\n\n    def word_count(message):\n        return message.count(\" \") + 1\n\nCheck it against the examples before you trust it. \"call me back\" has two spaces \u2192\n3. Correct. Now \"running    late    sorry\": that is four spaces between each pair,\neight spaces in all, so this returns 9. And \"\" has no spaces at all, so it returns\n1 \u2014 an empty message with one word in it. The rule \"words are separated by spaces\"\nis true, but counting the separators is not the same as counting the words.\n\nLet Python find the words instead. message.split() with no argument splits on any\nrun of whitespace and throws the blanks away:\n\n    \"call me back\".split()              is  [\"call\", \"me\", \"back\"]\n    \"running    late    sorry\".split()  is  [\"running\", \"late\", \"sorry\"]\n    \"\".split()                          is  []\n\nEvery awkward case handled: runs of spaces collapse, and the empty message gives an\nempty list. Then len() of that list is the count:\n\n    def word_count(message):\n        return len(message.split())\n\nNote the no-argument part. message.split(\" \") splits on each single space, keeping\nthe empty strings between doubled spaces \u2014 and it lands you right back in the\ncounting-separators trap.",
@@ -5563,7 +5563,7 @@
         "conditions"
       ],
       "difficulty": "medium",
-      "unit": 4,
+      "unit": 5,
       "xp": 20,
       "prompt": "A cafe app reads the note a customer typed with their order and reports whether\nthey asked for decaf. The code below looks reasonable and is badly wrong. Fix it.\n\nExamples\n\n    has_decaf(\"one decaf latte\") \u2192 True\n    has_decaf(\"large latte\") \u2192 False\n    has_decaf(\"decaf\") \u2192 True\n\nNotes\n\n- order.find(\"decaf\") returns the index where \"decaf\" starts, or -1 if it isn't\n  there at all.\n- Ask yourself what index a match at the very start of the string gets, and\n  whether Python treats that number as true or false.",
       "walkthrough": "Start by printing what .find() actually gives back, because the bug lives there:\n\n    \"one decaf latte\".find(\"decaf\")   is  4\n    \"decaf\".find(\"decaf\")             is  0\n    \"large latte\".find(\"decaf\")       is  -1\n\nNow read the broken line: `if order.find(\"decaf\"):`. That asks \"is this number\ntruthy?\" \u2014 not \"did we find it?\". In Python, every number is truthy except 0. So:\n\n- \"decaf\" found at index 0 \u2192 0 \u2192 falsy \u2192 the function says False. Wrong.\n- \"decaf\" not found at all \u2192 -1 \u2192 truthy (it is not zero!) \u2192 says True. Wrong.\n\nThis is the classic .find() trap: the two answers get swapped exactly backwards\nfor the not-found case, and an order that *starts* with \"decaf\" quietly slips\nthrough. The fix is to compare against the sentinel value instead of leaning on\ntruthiness:\n\n    def has_decaf(order):\n        return order.find(\"decaf\") != -1\n\nIf -1 feels fiddly, `return \"decaf\" in order` does the same job and is what most\nPython programmers would actually write. Either one passes.",
@@ -5608,7 +5608,7 @@
         "formatting"
       ],
       "difficulty": "easy",
-      "unit": 5,
+      "unit": 6,
       "xp": 10,
       "prompt": "Create a function that takes a list of bus stop names and returns a single string\nshowing the route, with the stops joined by an arrow \" -> \".\n\nExamples\n\n    route_label([\"Oak\", \"Elm\", \"Pine\"]) \u2192 \"Oak -> Elm -> Pine\"\n    route_label([\"Main\", \"5th\"]) \u2192 \"Main -> 5th\"\n    route_label([\"Depot\"]) \u2192 \"Depot\"\n\nNotes\n\n- join builds one string out of a list, using the string you call it on as the glue\n  between the items.\n- Notice there is no arrow before the first stop or after the last one.\n- An empty list of stops should give back an empty string.\n- Return the string \u2014 do not print it.",
       "starter": "def route_label(stops):\n    ",
@@ -5666,7 +5666,7 @@
         "indexing"
       ],
       "difficulty": "hard",
-      "unit": 6,
+      "unit": 7,
       "xp": 35,
       "prompt": "Clubs make acronyms by taking the first letter of each important word and skipping\nthe little ones. Create a function that takes a club name and returns the uppercase\nfirst letters of every word that is 3 or more letters long.\n\nExamples\n\n    acronym(\"friends of the reading room\") \u2192 \"FTRR\"\n    acronym(\"board game night\") \u2192 \"BGN\"\n    acronym(\"cat in a box\") \u2192 \"CB\"\n\nNotes\n\n- Words are separated by single spaces.\n- Skip any word shorter than 3 letters \u2014 \"of\", \"a\" and \"in\" contribute nothing,\n  but \"the\" is 3 letters long, so it stays.\n- The answer is one string, not a list.",
       "walkthrough": "Three small jobs, in order: break the name into words, pick the words you want,\ntake one letter from each \u2014 then glue the letters back into a string.\n\nStep one, split it:\n\n    \"cat in a box\".split()   is  [\"cat\", \"in\", \"a\", \"box\"]\n\nStep two, keep only words with len(w) >= 3. That drops \"in\" and \"a\", leaving\n[\"cat\", \"box\"].\n\nStep three, take w[0] from each and uppercase it: \"C\", \"B\".\n\nStep four \u2014 the step people forget \u2014 glue them. If you stop at a list you return\n[\"C\", \"B\"], not \"CB\". \"\".join(...) with an *empty* separator sticks them together\nwith nothing in between:\n\n    def acronym(name):\n        letters = []\n        for w in name.split():\n            if len(w) >= 3:\n                letters.append(w[0].upper())\n        return \"\".join(letters)\n\nOnce that makes sense, the same logic compresses into one line:\n\n    return \"\".join(w[0].upper() for w in name.split() if len(w) >= 3)\n\nWrite the loop version first. The one-liner is a reward for understanding it, not\na shortcut around it.",
@@ -5800,7 +5800,7 @@
         "logic"
       ],
       "difficulty": "starter",
-      "unit": 3,
+      "unit": 4,
       "xp": 5,
       "prompt": "A signup form gives you whatever the user typed into the nickname box, as a string. Return `True` if they typed anything at all, and `False` if they left it blank.\n\nExamples\n\n    nickname_filled(\"ace\") \u2192 True\n    nickname_filled(\"\") \u2192 False\n    nickname_filled(\"Zebra99\") \u2192 True\n\nNotes\n\n- A blank box arrives as the empty string `\"\"`.\n- `bool()` on a string is `False` for the empty string and `True` for every other string.\n- Don't forget to return the result.",
       "starter": "def nickname_filled(nickname):\n    pass",
@@ -5946,7 +5946,7 @@
         "conditions"
       ],
       "difficulty": "easy",
-      "unit": 4,
+      "unit": 5,
       "xp": 10,
       "prompt": "A quiz app stores two answers and wants to know whether they are the same *kind* of value \u2014 not whether they are equal, but whether they are the same type. Return `True` if they are, `False` otherwise.\n\nExamples\n\n    same_type_check(1, 2) \u2192 True\n    same_type_check(1, \"2\") \u2192 False\n    same_type_check(\"a\", \"b\") \u2192 True\n\nNotes\n\n- `type(x)` tells you what kind of value `x` is; two types can be compared with `==`.\n- `1` and `1.0` look equal, but they are not the same type.\n- Don't forget to return the result.",
       "starter": "def same_type_check(a, b):\n    pass",
@@ -6045,7 +6045,7 @@
         "loops"
       ],
       "difficulty": "medium",
-      "unit": 6,
+      "unit": 7,
       "xp": 20,
       "prompt": "A panel of judges typed their scores into a form, so they arrive as a list of strings. A judge who skipped the round left the box empty, which shows up as `\"\"`. Return a list of whole numbers, counting every blank as `0`.\n\nExamples\n\n    scores_with_blanks([\"8\", \"9\", \"\"]) \u2192 [8, 9, 0]\n    scores_with_blanks([\"\", \"\"]) \u2192 [0, 0]\n    scores_with_blanks([\"10\"]) \u2192 [10]\n\nNotes\n\n- `int(\"\")` raises an error, so you have to handle the blank before converting.\n- Return a new list \u2014 don't print it.\n- Stuck? Hit \"Show me how\".",
       "walkthrough": "Try it the obvious way first and watch it break:\n\n    int(\"\")\n\nPython says `ValueError: invalid literal for int() with base 10: ''`. There is no\nnumber in an empty string, so there is nothing for `int()` to convert. That means\nyou have to deal with the blank *before* you convert, not after.\n\nSo each score needs a decision: did the judge type something, or not? Build the\nanswer up one item at a time:\n\n    result = []\n    for s in scores:\n        if s:\n            result.append(int(s))\n        else:\n            result.append(0)\n    return result\n\nThe `if s` line is the interesting part. You might expect to need `if s != \"\"`,\nand that works \u2014 but Python already treats an empty string as False and any\nnon-empty string as True, so `if s` says the same thing. That's worth knowing,\nbecause you'll see it constantly in other people's code.\n\nNote `result = []` sits *above* the loop. Put it inside and you'd start a fresh\nempty list on every pass and return a list holding only the last score.",
@@ -6147,7 +6147,7 @@
         "week1"
       ],
       "difficulty": "easy",
-      "unit": 1,
+      "unit": 3,
       "xp": 10,
       "prompt": "Create a function that takes two numbers as arguments and returns their sum.\n\nExamples\n\n    addition(3, 2) \u2192 5\n    addition(-3, -6) \u2192 -9\n    addition(7, 3) \u2192 10\n\nNotes\n\n- Don't forget to `return` the result.",
       "starter": "def addition(a, b):\n    ",
@@ -6198,7 +6198,7 @@
         "week1"
       ],
       "difficulty": "easy",
-      "unit": 1,
+      "unit": 3,
       "xp": 10,
       "prompt": "Create a function that takes a number as an argument, increments the number by +1\nand returns the result.\n\nExamples\n\n    next_num(0) \u2192 1\n    next_num(9) \u2192 10\n    next_num(-3) \u2192 -2\n\nNotes\n\n- Don't forget to `return` the result.",
       "starter": "def next_num(num):\n    ",
@@ -6283,7 +6283,7 @@
         "week1"
       ],
       "difficulty": "easy",
-      "unit": 1,
+      "unit": 3,
       "xp": 10,
       "prompt": "Fix the bug: `double` should return its input doubled.",
       "starter": "def double(x):\n    return x + 2      # <-- wrong, fix it",
@@ -6327,7 +6327,7 @@
         "week1"
       ],
       "difficulty": "easy",
-      "unit": 1,
+      "unit": 3,
       "xp": 10,
       "prompt": "Write a function `area(length, width)` that returns the area of a rectangle.",
       "starter": "def area(length, width):\n    ",
@@ -6376,7 +6376,7 @@
         "week1"
       ],
       "difficulty": "easy",
-      "unit": 3,
+      "unit": 4,
       "xp": 10,
       "prompt": "Write a function `is_even(n)` that returns True if n is even, False otherwise.",
       "starter": "def is_even(n):\n    ",
@@ -6639,7 +6639,7 @@
         "week2"
       ],
       "difficulty": "easy",
-      "unit": 4,
+      "unit": 5,
       "xp": 10,
       "prompt": "Create a function that takes a boolean variable `flag` and returns it as a string.\n\nExamples\n\n    bool_to_string(True) \u2192 \"True\"\n    bool_to_string(False) \u2192 \"False\"\n\nNotes\n\n- The same `str()` that turns a number into text turns a boolean into text too.",
       "starter": "def bool_to_string(flag):\n    ",
@@ -6671,7 +6671,7 @@
         "week2"
       ],
       "difficulty": "easy",
-      "unit": 2,
+      "unit": 3,
       "xp": 10,
       "prompt": "Write a function `shout(word)` that returns the word in uppercase with an exclamation mark, e.g. shout(\"hi\") -> \"HI!\".",
       "starter": "def shout(word):\n    ",
@@ -6716,7 +6716,7 @@
         "week2"
       ],
       "difficulty": "easy",
-      "unit": 2,
+      "unit": 3,
       "xp": 10,
       "prompt": "Write a function `first_letter(word)` that returns the first letter of a word. (Hint: word[0].)",
       "starter": "def first_letter(word):\n    ",

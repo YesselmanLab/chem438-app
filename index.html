@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/runmode/runmode.min.js"></script>
 <!-- Supabase JS: email-code login + accounts. Only used if you set the keys below. -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -137,15 +138,32 @@
   .chc .tick{position:absolute;top:13px;right:13px;width:19px;height:19px;border-radius:50%;background:var(--good);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700}
   .chc h4{margin:0;font-size:.98rem;padding-right:22px}
   .chc .tg{display:flex;gap:4px;flex-wrap:wrap}
+  /* Learn: the topic reference pages */
+  .refbody{color:var(--ink);font-size:15px;line-height:1.65}
+  .refbody h2{font-size:19px;margin:34px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--line2);letter-spacing:-.01em}
+  .refbody h2:first-child{margin-top:0}
+  .refbody h3{font-size:15.5px;margin:24px 0 8px;color:var(--soft)}
+  .refbody p{margin:0 0 12px}
+  .refbody ul,.refbody ol{margin:0 0 12px;padding-left:22px}
+  .refbody li{margin:4px 0}
+  .refbody code{font-family:var(--mono);font-size:.88em;background:var(--bg);border:1px solid var(--line2);
+                padding:1px 5px;border-radius:4px}
+  .refbody blockquote{margin:16px 0;padding:12px 14px;border-left:3px solid var(--accent);
+                      background:var(--accent-soft);border-radius:0 8px 8px 0}
+  .refbody blockquote p{margin:0 0 6px}
+  .refbody blockquote p:last-child{margin:0}
+  .refbody blockquote code{background:var(--card)}
+  .refbody pre.ref-code{font-family:var(--mono);font-size:13px;line-height:1.55;padding:13px 15px;
+                        border-radius:10px;margin:0 0 14px;overflow-x:auto;white-space:pre;
+                        border:1px solid var(--line2)}
+  /* runmode paints with the CodeMirror theme classes; give it the matching canvas */
+  .refbody pre.cm-s-default{background:var(--bg);color:var(--ink)}
+  .refbody pre.cm-s-material-darker{background:#212121;color:#eeffff;border-color:#2a2a2a}
   /* course units: the challenge list doubles as the syllabus */
   .unithd{display:flex;align-items:baseline;gap:10px;margin:22px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--line2)}
   .unithd:first-child{margin-top:4px}
   .unithd h3{margin:0;font-size:14.5px;letter-spacing:-.01em}
   .unithd .uc{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--faint);white-space:nowrap}
-  .unithd .uc.lk{color:var(--accent-ink)}
-  .chc.locked{opacity:.5;cursor:default}
-  .chc.locked:hover{transform:none;border-color:var(--line2)}
-  .chc.locked .tick{background:none;font-size:13px}
   .hwc .prac{margin-top:10px;width:100%;background:var(--bg);border:1px solid var(--line2);color:var(--soft);
              font-family:var(--sans);font-size:11.5px;padding:6px 8px;border-radius:8px;cursor:pointer}
   .hwc .prac:hover{border-color:var(--accent);color:var(--accent-ink)}
@@ -239,6 +257,7 @@
     <div class="snav hidden" id="snav">
       <button data-nav="dash">Dashboard</button>
       <button data-nav="hw">Homework</button>
+      <button data-nav="learn">Learn</button>
       <button data-nav="ch">Challenges</button>
     </div>
     <div style="margin-left:auto;display:flex;gap:10px;align-items:center">
@@ -406,6 +425,25 @@
     <div id="lessonList" class="lessonlist"></div>
   </div>
 
+  <!-- LEARN: topic reference pages -->
+  <div class="hidden" id="refCard">
+    <div class="card">
+      <h1 style="margin:0 0 2px">Learn</h1>
+      <p class="intro" id="refIntro"></p>
+      <div class="lessonlist" id="refList"></div>
+    </div>
+  </div>
+  <div class="hidden" id="refPage">
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span class="diff" id="refUnit"></span>
+      </div>
+      <h1 id="refTitle" style="margin:8px 0 14px"></h1>
+      <div class="refbody" id="refBody"></div>
+      <div id="refPractice" style="margin-top:26px"></div>
+    </div>
+  </div>
+
   <!-- HOMEWORK AS A CHALLENGE SERIES -->
   <div class="hidden" id="setCard">
     <div class="card">
@@ -456,14 +494,14 @@ const params = new URLSearchParams(location.search);
 const LESSON_ID = params.get("lesson") || "lesson_01";
 
 const $$ = s => document.querySelectorAll(s);
-let lesson = null, manifest = [], units = [], maxOpenUnit = 0, pyodide = null, pyFailed = false;
+let lesson = null, manifest = [], units = [], reference = [], maxOpenUnit = 0, pyodide = null, pyFailed = false;
 // instructor-only: preview the student view as if only units 1..N were open.
 // null = use the real gate from the manifest.
 let previewUnit = null;
 let challenges = [], mySubs = [], allSubs = [];      // practice challenges + submission rows
 let lastList = "dash", chFilter = null, tagFilter = null, chScope = null, curSet = null, curChal = null, chalState = {};
 let adminEmail = null, viewingAsStudent = false;
-const VIEWS = ["#startCard","#dashCard","#homeCard","#chCard","#setCard","#chalCard","#qCards","#submitCard","#resultsCard","#instructorCard"];
+const VIEWS = ["#startCard","#dashCard","#homeCard","#refCard","#refPage","#chCard","#setCard","#chalCard","#qCards","#submitCard","#resultsCard","#instructorCard"];
 function hideAll(){ VIEWS.forEach(s=>{ const e=$(s); if(e) e.classList.add("hidden"); }); }
 // ---------------- light / dark ----------------
 // No stored choice = follow the OS. Once the user picks, data-theme wins and sticks.
@@ -481,6 +519,10 @@ function applyTheme(t){
   if(b){ b.textContent = dark ? "☀️" : "🌙"; b.title = dark ? "Switch to light" : "Switch to dark"; }
   // CodeMirror themes are baked in at construction — repaint any open editor.
   cmEditors.forEach(cm=>{ try{ cm.setOption("theme", dark ? "material-darker" : "default"); }catch(e){} });
+  $$("#refBody .ref-code").forEach(pre=>{
+    pre.classList.toggle("cm-s-material-darker", dark);
+    pre.classList.toggle("cm-s-default", !dark);
+  });
 }
 function initTheme(){
   applyTheme(localStorage.getItem(THEME_KEY) || null);
@@ -575,6 +617,9 @@ async function boot(){
   try{
     challenges = ((await fetch(`lessons/challenges.json`).then(r=>r.json())).challenges) || [];
   }catch(e){ challenges = []; }
+  try{
+    reference = ((await fetch(`lessons/reference.json`).then(r=>r.json())).pages) || [];
+  }catch(e){ reference = []; }
 
   initTheme();
   $("#startTitle").textContent = "CHEM 438 Homework";
@@ -685,7 +730,8 @@ function setNav(v){
   $("#snav").classList.remove("hidden");
   $$("#snav button").forEach(b=>b.classList.toggle("on", b.dataset.nav===v));
 }
-function navTo(v){ if(v==="dash") showDashboard(); else if(v==="hw") showHomework(); else showChallenges(null); }
+function navTo(v){ if(v==="dash") showDashboard(); else if(v==="hw") showHomework();
+  else if(v==="learn") showReference(); else showChallenges(null); }
 function backForList(){
   const h=$("#homeBtn");
   if(viewingAsStudent){ h.textContent="← Instructor"; h.classList.remove("hidden");
@@ -695,6 +741,68 @@ function backForList(){
 function backTo(list){ backToFn("← Back", ()=>navTo(list)); }
 function backToFn(label, fn){
   const h=$("#homeBtn"); h.textContent=label; h.classList.remove("hidden"); h.onclick=fn;
+}
+
+// ---------------- Learn: topic reference ----------------
+// One explainer per course section, gated the same way practice is: a page stays
+// hidden until the homework covering its section is released.
+function openRefPages(){ return reference.filter(p=>p.unit <= gateUnit()); }
+
+function showReference(){
+  hideAll(); setWidth(true); curSet=null; $("#refCard").classList.remove("hidden");
+  setNav("learn"); lastList="learn"; backForList();
+  $("#lessonTitle").textContent="Learn";
+  const pages = openRefPages();
+  $("#refIntro").textContent = pages.length
+    ? "How each topic works, with worked examples. Read alongside lecture, or come back when you're stuck."
+    : "Topic guides appear here as your instructor releases each section.";
+  const s = solvedIds();
+  $("#refList").innerHTML = pages.map(p=>{
+    const n = challenges.filter(c=>(c.unit||1)===p.unit);
+    const done = n.filter(c=>s.has(c.id)).length;
+    return '<div class="lessonlink" data-ref="'+p.id+'"><span class="diff">'+p.unit+'</span>'+
+      '<span style="margin-left:8px">'+esc(p.title)+'</span>'+
+      '<span class="go">'+n.length+' challenges · '+done+' solved →</span></div>';
+  }).join("") || '<p class="foot" style="text-align:left">Nothing released yet.</p>';
+  $$("#refList [data-ref]").forEach(el=>el.onclick=()=>openRefPage(el.dataset.ref));
+}
+
+function openRefPage(id){
+  const p = reference.find(x=>x.id===id);
+  if(!p) return;
+  if(p.unit > gateUnit()){ toast("That section hasn't been released yet."); return showReference(); }
+  hideAll(); setWidth("mid"); curSet=null; $("#refPage").classList.remove("hidden");
+  setNav("learn"); backToFn("← Learn", ()=>showReference());
+  $("#lessonTitle").textContent = p.title;
+  $("#refTitle").textContent = p.title;
+  $("#refUnit").textContent = "Section " + p.unit;
+  $("#refBody").innerHTML = p.html;
+  highlightRefCode();
+  // Reading is not learning — send them straight into the matching practice.
+  const s = solvedIds(), mine = challenges.filter(c=>(c.unit||1)===p.unit && unlocked(c));
+  const done = mine.filter(c=>s.has(c.id)).length;
+  $("#refPractice").innerHTML = mine.length
+    ? '<div class="unithd"><h3>Practise this</h3><span class="uc">'+done+'/'+mine.length+' solved</span></div>'+
+      '<div class="chgrid">'+mine.slice(0,6).map(c=>chCardHtml(c,s)).join("")+'</div>'+
+      (mine.length>6 ? '<button class="linkish" id="refMore" style="margin-top:12px">All '+mine.length+' '+esc(p.title.toLowerCase())+' challenges →</button>' : '')
+    : '';
+  wireCards();
+  if($("#refMore")) $("#refMore").onclick=()=>{ tagFilter=null; chFilter=null; showChallenges(null); };
+}
+
+// Static example code gets the same Python highlighting as the editors, via the
+// CodeMirror runmode addon (no second library).
+function highlightRefCode(){
+  if(!window.CodeMirror || !CodeMirror.runMode) return;
+  const theme = isDark() ? "cm-s-material-darker" : "cm-s-default";
+  $$("#refBody .ref-code").forEach(pre=>{
+    if(pre.dataset.hl) return;
+    const src = pre.textContent;
+    pre.textContent = "";
+    pre.className = "ref-code " + theme;
+    CodeMirror.runMode(src, "python", pre);
+    pre.dataset.hl = "1";
+  });
 }
 
 // ---------------- homework as a challenge series ----------------
@@ -760,7 +868,7 @@ function opensWith(n){
   return l ? l.title : null;
 }
 // challenges practising exactly what a given assignment covers
-function practiceFor(l){ return challenges.filter(c=>(c.unit||1) <= (l.unit||1)); }
+function practiceFor(l){ return challenges.filter(c=>(c.unit||1) <= (l.unit||1) && unlocked(c)); }
 // A student only sees assignments their instructor has released.
 function visibleLessons(){
   return manifest.filter(l => l.open && (previewUnit===null || (l.unit||1) <= previewUnit));
@@ -773,12 +881,9 @@ function allTags(pool){
   return Object.entries(m).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]));
 }
 function chCardHtml(c,s){
-  const done=s.has(c.id), lock=!unlocked(c);
-  // Locked challenges stay VISIBLE but greyed: seeing what's coming is motivating,
-  // and it tells a student the practice exists rather than hiding it.
-  if(lock) return '<div class="chc locked" data-lock="'+c.unit+'"><div class="tick">🔒</div>'+
-    '<h4>'+esc(c.title)+'</h4><div class="tg">'+tagsOf(c).map(t=>'<span class="tag">'+esc(t)+'</span>').join("")+'</div>'+
-    '<div class="row"><span class="diff">'+esc(c.difficulty)+'</span><span class="xpv">◆ '+c.xp+' XP</span></div></div>';
+  const done=s.has(c.id);
+  // A locked challenge is not rendered at all — a student shouldn't be able to see
+  // a problem before its section is taught. Callers filter with unlocked() first.
   return '<div class="chc'+(done?" solved":"")+'" data-ch="'+c.id+'">'+(done?'<div class="tick">✓</div>':'')+
     '<h4>'+esc(c.title)+'</h4><div class="tg">'+tagsOf(c).map(t=>'<span class="tag">'+esc(t)+'</span>').join("")+'</div>'+
     '<div class="row"><span class="diff">'+esc(c.difficulty)+'</span><span class="xpv">◆ '+c.xp+' XP</span></div></div>';
@@ -786,10 +891,6 @@ function chCardHtml(c,s){
 function wireCards(){
   $$(".hwc").forEach(el=>el.onclick=()=>openLesson(el.dataset.open));
   $$(".chc[data-ch]").forEach(el=>el.onclick=()=>openChallenge(el.dataset.ch));
-  $$(".chc.locked").forEach(el=>el.onclick=()=>{
-    const n=+el.dataset.lock, w=opensWith(n);
-    toast(w ? "Unlocks with " + w : "Your instructor hasn't released this material yet.");
-  });
   $$("[data-practice]").forEach(el=>el.onclick=(e)=>{
     e.stopPropagation(); showChallenges(el.dataset.practice); });
 }
@@ -893,7 +994,7 @@ function showChallenges(scopeId){
   $("#chFilters").innerHTML=["all","unsolved","solved"].map(o=>
     '<button class="fchip'+((chFilter||"all")===o?" on":"")+'" data-f="'+o+'">'+o+'</button>').join("");
   $$("#chFilters .fchip").forEach(b=>b.onclick=()=>{ chFilter = b.dataset.f==="all"?null:b.dataset.f; showChallenges(); });
-  const pool = scope ? practiceFor(scope) : challenges;
+  const pool = scope ? practiceFor(scope) : openChallenges();
   $("#chTags").innerHTML = allTags(pool).map(([t,n])=>
     '<button class="tag'+(tagFilter===t?" on":"")+'" data-t="'+esc(t)+'">'+esc(t)+' '+n+'</button>').join("");
   $$("#chTags .tag").forEach(b=>b.onclick=()=>{
@@ -906,13 +1007,12 @@ function showChallenges(scopeId){
   if(tagFilter) list=list.filter(c=>tagsOf(c).includes(tagFilter));
 
   // Grouped by unit, in course order — the list IS the syllabus.
-  const groups = units.map(u=>({u, items:list.filter(c=>(c.unit||1)===u.n)})).filter(g=>g.items.length);
+  const groups = units.filter(u=>u.n <= gateUnit())
+    .map(u=>({u, items:list.filter(c=>(c.unit||1)===u.n)})).filter(g=>g.items.length);
   $("#chList").innerHTML = groups.length ? groups.map(g=>{
-    const open = g.u.n <= gateUnit(), nSolved = g.items.filter(c=>s.has(c.id)).length;
-    const right = open
-      ? '<span class="uc">'+nSolved+'/'+g.items.length+' solved</span>'
-      : '<span class="uc lk">🔒 '+(opensWith(g.u.n) ? "unlocks with "+esc(opensWith(g.u.n)) : "not released yet")+'</span>';
-    return '<div class="unithd"><h3>'+g.u.n+'. '+esc(g.u.name)+'</h3>'+right+'</div>'+
+    const nSolved = g.items.filter(c=>s.has(c.id)).length;
+    return '<div class="unithd"><h3>'+g.u.n+'. '+esc(g.u.name)+'</h3>'+
+           '<span class="uc">'+nSolved+'/'+g.items.length+' solved</span></div>'+
            '<div class="chgrid">'+g.items.map(c=>chCardHtml(c,s)).join("")+'</div>';
   }).join("") : '<p class="foot" style="text-align:left">No challenges match that filter.</p>';
   wireCards();

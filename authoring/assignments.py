@@ -30,7 +30,9 @@ ASSIGNMENTS = {
     # when all ten are green. mode="challenges" is what does that.
     "homework_01": dict(
         title="Homework 1 — Python basics",
-        unit=1,
+        # covers variables, math, strings, functions and if/else — i.e. units 1-5.
+        # Anything beyond (lists, loops, dicts) stays hidden until a later homework.
+        unit=5,
         open=True,
         mode="challenges",
         intro="Ten challenges to get you going. Solve them in any order — each one "
@@ -56,7 +58,7 @@ ASSIGNMENTS = {
     ),
     "lesson_01": dict(
         title="Lesson 1 — the basics",
-        unit=3,          # is_even needs comparisons
+        unit=4,          # is_even needs comparisons
         open=True,
         intro="Type your answer in each box. Run coding cells to test them, then "
               "submit the whole lesson for instant feedback.",
@@ -67,7 +69,7 @@ ASSIGNMENTS = {
     ),
     "lesson_02": dict(
         title="Lesson 2 — strings & functions",
-        unit=2,
+        unit=3,          # shout/first_letter are functions, not just strings
         open=False,     # <-- closed, so you can see the locking work
         intro="More practice with text and writing your own functions.",
         problems=[
