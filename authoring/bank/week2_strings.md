@@ -295,7 +295,7 @@ first_letter("salt") == "s"
 ## str_upper
 kind: code_var
 title: Uppercase a string
-tags: strings, methods, week2
+tags: strings, week2
 entry: caps
 
 ### prompt

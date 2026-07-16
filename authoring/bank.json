@@ -1,6 +1,499 @@
 {
   "problems": [
     {
+      "id": "thermostat_gap",
+      "title": "How far off is the thermostat",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "math",
+        "numbers"
+      ],
+      "difficulty": "starter",
+      "prompt": "Write a function that takes the current `room` temperature and the `dial` setting\nand returns how far apart they are. The answer must be a positive number, no\nmatter which one is bigger.\n\nExamples\n\n    gap(18, 23) \u2192 5\n    gap(23, 18) \u2192 5\n    gap(20, 20) \u2192 0\n\nNotes\n\n- `abs(x)` gives the size of a number, throwing away any minus sign.\n- Do the subtraction inside `abs(...)`.\n- Don't forget to `return` the result."
+    },
+    {
+      "id": "pizza_slices_each",
+      "title": "Slices each",
+      "kind": "code_var",
+      "tags": [
+        "math",
+        "numbers",
+        "types"
+      ],
+      "difficulty": "starter",
+      "prompt": "There are 8 slices of pizza and 4 people. Use division to store how many slices\neach person gets in a variable `each`.\n\nNotes\n\n- Use the `/` operator.\n- `/` always hands you back a float, even when the division comes out even."
+    },
+    {
+      "id": "score_range",
+      "title": "How spread out are three scores",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "math",
+        "numbers"
+      ],
+      "difficulty": "easy",
+      "prompt": "Three friends bowled a game each. Write a function that takes their three scores\nand returns the spread: the distance between the best score and the worst.\n\nExamples\n\n    score_range(120, 95, 100) \u2192 25\n    score_range(5, 5, 5) \u2192 0\n    score_range(0, 7, 3) \u2192 7\n\nNotes\n\n- `max(a, b, c)` hands back the largest of the three; `min(a, b, c)` the smallest.\n- The spread is one of those subtracted from the other.\n- Don't forget to `return` the result."
+    },
+    {
+      "id": "mcq_precedence_power",
+      "title": "What does this print?",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "concept",
+        "math"
+      ],
+      "difficulty": "starter",
+      "prompt": "What does this print?\n\n    print(2 + 3 * 4 ** 2)"
+    },
+    {
+      "id": "quiz_percent",
+      "title": "Score as a percent",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "math",
+        "numbers"
+      ],
+      "difficulty": "easy",
+      "prompt": "Write a function that takes how many questions a student got `correct` and how\nmany there were in `total`, and returns their score as a percentage rounded to\nthe nearest whole number.\n\nExamples\n\n    quiz_percent(9, 10) \u2192 90\n    quiz_percent(1, 3) \u2192 33\n    quiz_percent(7, 9) \u2192 78\n\nNotes\n\n- Divide, multiply by 100, then hand the result to `round()`.\n- `round()` with one argument gives you a whole number back."
+    },
+    {
+      "id": "average_three_bug",
+      "title": "The average is way too big",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "math",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "This function is supposed to return the average of three numbers, but the answers\ncome out far too large. Averaging 9, 9 and 9 should obviously give 9.0, yet it\nreports 21.0. Fix it.\n\nExamples\n\n    average(9, 9, 9) \u2192 9.0\n    average(1, 2, 3) \u2192 2.0\n    average(10, 20, 60) \u2192 30.0\n\nNotes\n\n- `/` happens before `+`, so only the last number is being divided.\n- One pair of parentheses is all you need."
+    },
+    {
+      "id": "split_change",
+      "title": "Quarters, dimes and leftover",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "math",
+        "numbers"
+      ],
+      "difficulty": "medium",
+      "prompt": "You have a pile of loose change worth `cents` cents. Make it into as few coins as\npossible, biggest first: take out all the whole quarters (25 cents each) you can,\nthen all the whole dimes (10 cents each) you can from what remains. Write a\nfunction that returns a three-item list of the quarter count, the dime count, and\nthe cents still left over.\n\nExamples\n\n    split_change(80) \u2192 [3, 0, 5]\n    split_change(95) \u2192 [3, 2, 0]\n    split_change(12) \u2192 [0, 1, 2]\n\nNotes\n\n- `//` divides and throws away the remainder; `%` gives you that remainder back.\n- The dimes do not come out of `cents` \u2014 they come out of what the quarters left\n  behind."
+    },
+    {
+      "id": "clamp_volume",
+      "title": "Keep the volume in range",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "math",
+        "numbers"
+      ],
+      "difficulty": "easy",
+      "prompt": "A speaker's volume dial only accepts numbers from 0 to 10. Write a function that\ntakes any number `v` and returns it pushed back into that range: anything below 0\nbecomes 0, anything above 10 becomes 10, and anything already in range comes back\nunchanged.\n\nExamples\n\n    clamp_volume(-3) \u2192 0\n    clamp_volume(47) \u2192 10\n    clamp_volume(6) \u2192 6\n\nNotes\n\n- `max()` and `min()` are both useful here \u2014 work out which one guards which end.\n- `v` may be a whole number or have a decimal part; an in-range number must come\n  back exactly as it went in.\n- No `if` needed: one of these can be nested inside the other on a single line."
+    },
+    {
+      "id": "keep_playing_flag",
+      "title": "Flip the game-over flag",
+      "kind": "code_fn",
+      "tags": [
+        "logic",
+        "language_fundamentals",
+        "functions"
+      ],
+      "difficulty": "starter",
+      "prompt": "A game keeps a flag telling it whether play has ended. Write `keep_playing(game_over)`\nthat returns the opposite of `game_over`.\n\nExamples\n\n    keep_playing(False) \u2192 True\n    keep_playing(True) \u2192 False\n\nNotes\n\n- `not` flips a boolean: `not True` is `False`, and `not False` is `True`.\n- The flipped value is already True or False \u2014 you can `return` it directly."
+    },
+    {
+      "id": "free_shipping",
+      "title": "Do they get free shipping?",
+      "kind": "code_fn",
+      "tags": [
+        "logic",
+        "validation",
+        "functions"
+      ],
+      "difficulty": "starter",
+      "prompt": "A store gives free shipping once your cart total reaches 35 dollars. Write\n`free_shipping(cart_total)` that returns True when the total is 35 or more, and\nFalse otherwise.\n\nExamples\n\n    free_shipping(40) \u2192 True\n    free_shipping(35) \u2192 True\n    free_shipping(12) \u2192 False\n\nNotes\n\n- A cart of exactly 35 dollars qualifies.\n- A comparison is already True or False \u2014 you can `return` it directly."
+    },
+    {
+      "id": "mcq_four_vs_string_four",
+      "title": "Is 4 the same as \"4\"?",
+      "kind": "mcq",
+      "tags": [
+        "types",
+        "predict",
+        "concept"
+      ],
+      "difficulty": "starter",
+      "prompt": "What does this code print?\n\n    a = 4\n    b = \"4\"\n    print(a == b)"
+    },
+    {
+      "id": "can_ride_coaster",
+      "title": "Can they ride the coaster?",
+      "kind": "code_fn",
+      "tags": [
+        "logic",
+        "conditions",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "A roller coaster requires that you are taller than 120 cm **and** that you are\nholding a ticket. Write `can_ride(height_cm, has_ticket)` that returns True only\nwhen both are satisfied.\n\nExamples\n\n    can_ride(150, True) \u2192 True\n    can_ride(150, False) \u2192 False\n    can_ride(110, True) \u2192 False\n\nNotes\n\n- \"Taller than 120\" means strictly over 120 \u2014 exactly 120 is not tall enough.\n- `and` is True only when the expression on each side is True."
+    },
+    {
+      "id": "staircase_switches",
+      "title": "One light, two switches",
+      "kind": "code_fn",
+      "tags": [
+        "logic",
+        "conditions",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "A staircase light is wired to two switches, one at the top and one at the bottom.\nThe light is on exactly when the two switches are in *different* positions. Write\n`light_on(top, bottom)`, where each argument is True or False, returning True when\nthe light is on.\n\nExamples\n\n    light_on(True, False) \u2192 True\n    light_on(False, True) \u2192 True\n    light_on(True, True) \u2192 False\n\nNotes\n\n- Each argument is already True or False."
+    },
+    {
+      "id": "door_code_bug",
+      "title": "One equals sign too few",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "conditions",
+        "logic"
+      ],
+      "difficulty": "easy",
+      "prompt": "This function is supposed to unlock a door when the keypad code is 1234. Right now\nit doesn't even run \u2014 Python refuses the file. Fix it.\n\nExamples\n\n    door_unlocks(1234) \u2192 True\n    door_unlocks(1111) \u2192 False\n    door_unlocks(0) \u2192 False\n\nNotes\n\n- `=` puts a value into a variable. `==` asks whether two values are the same.\n- One character is enough to make it run. Once it runs, look again and ask whether\n  the `if` is still earning its keep."
+    },
+    {
+      "id": "valid_username",
+      "title": "Is that username allowed?",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "validation",
+        "logic"
+      ],
+      "difficulty": "medium",
+      "prompt": "A site accepts a username when its length is between 3 and 12 characters\n(inclusive) and the name is not \"admin\". Write `valid_username(name)` returning\nTrue when the name is allowed.\n\nExamples\n\n    valid_username(\"joe\") \u2192 True\n    valid_username(\"ab\") \u2192 False\n    valid_username(\"admin\") \u2192 False\n\nNotes\n\n- `len(name)` gives the number of characters in a string.\n- \"Between 3 and 12 (inclusive)\" means 3 and 12 are both allowed."
+    },
+    {
+      "id": "playlist_first_vs_last",
+      "title": "Front-loaded playlist?",
+      "kind": "code_fn",
+      "tags": [
+        "arrays",
+        "indexing",
+        "logic"
+      ],
+      "difficulty": "medium",
+      "prompt": "You have a list of play counts, one per song, in playlist order. Write\n`front_loaded(plays)` that returns True when the first song was played more times\nthan the last song.\n\nExamples\n\n    front_loaded([90, 40, 12]) \u2192 True\n    front_loaded([5, 40, 90]) \u2192 False\n    front_loaded([7, 7]) \u2192 False\n\nNotes\n\n- \"More than\" is strict, so equal counts are not front-loaded.\n- The list always has at least one song."
+    },
+    {
+      "id": "free_shipping_cost",
+      "title": "Free shipping at fifty",
+      "kind": "code_fn",
+      "tags": [
+        "conditions",
+        "logic",
+        "numbers"
+      ],
+      "difficulty": "easy",
+      "prompt": "An online store ships free once your cart reaches $50. Given the cart total,\nreturn the shipping cost: `0.0` when the total is 50 or more, otherwise `5.99`.\nFill in the three blanks so the whole thing is a single ternary (conditional)\nexpression.\n\nExamples\n\n    free_shipping_cost(80) \u2192 0.0\n    free_shipping_cost(12.5) \u2192 5.99\n    free_shipping_cost(50) \u2192 0.0\n\nNotes\n\n- A ternary reads left to right: `value_if_true if condition else value_if_false`.\n- \"50 or more\" includes exactly 50 \u2014 pick your comparison carefully."
+    },
+    {
+      "id": "nickname_or_name",
+      "title": "Shorten the long names",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "conditions",
+        "indexing"
+      ],
+      "difficulty": "easy",
+      "prompt": "A name tag only has room for short names. Given a name, return the first 3\nletters followed by a period if the name is longer than 6 characters. Otherwise\nreturn the name unchanged.\n\nExamples\n\n    nickname_or_name(\"Alexander\") \u2192 \"Ale.\"\n    nickname_or_name(\"Sam\") \u2192 \"Sam\"\n    nickname_or_name(\"Jasmine\") \u2192 \"Jas.\"\n\nNotes\n\n- `name[:3]` gives you the first three characters of a string.\n- \"Longer than 6\" means a 6-character name is left alone."
+    },
+    {
+      "id": "weekend_or_not",
+      "title": "Is it the weekend?",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "conditions",
+        "logic"
+      ],
+      "difficulty": "easy",
+      "prompt": "This function should return True for `\"Saturday\"` and `\"Sunday\"` and False for\nevery other day. Instead it says every day is the weekend. Find the bug and fix it.\n\nExamples\n\n    weekend_or_not(\"Saturday\") \u2192 True\n    weekend_or_not(\"Monday\") \u2192 False\n    weekend_or_not(\"Sunday\") \u2192 True\n\nNotes\n\n- `or` joins two complete conditions \u2014 it does not distribute across a comparison.\n- Ask yourself what `'Sunday'` on its own is worth to Python."
+    },
+    {
+      "id": "elevator_direction",
+      "title": "Which way does the elevator go?",
+      "kind": "code_fn",
+      "tags": [
+        "conditions",
+        "logic",
+        "numbers"
+      ],
+      "difficulty": "easy",
+      "prompt": "An elevator is sitting on some floor when a passenger requests another floor.\nGiven the current floor and the requested floor, return `'up'`, `'down'`, or\n`'stay'`.\n\nExamples\n\n    elevator_direction(2, 7) \u2192 \"up\"\n    elevator_direction(9, 3) \u2192 \"down\"\n    elevator_direction(4, 4) \u2192 \"stay\"\n\nNotes\n\n- Three outcomes means three branches: `if` / `elif` / `else`.\n- Floors can be negative (a basement is fine)."
+    },
+    {
+      "id": "grade_letter_order",
+      "title": "Everyone got a D",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "conditions",
+        "logic"
+      ],
+      "difficulty": "medium",
+      "prompt": "This function should turn a score into a letter grade: 90 and up is `'A'`, 80 and\nup `'B'`, 70 and up `'C'`, 60 and up `'D'`, and anything lower `'F'`. But a 95\ncomes back as `'D'`. Every comparison in it is correct on its own \u2014 the bug is in\nthe order they run in.\n\nExamples\n\n    grade_letter_order(95) \u2192 \"A\"\n    grade_letter_order(72) \u2192 \"C\"\n    grade_letter_order(41) \u2192 \"F\"\n\nNotes\n\n- An `if`/`elif` chain stops at the *first* test that is true.\n- Nothing is wrong with any single comparison. Look at their order."
+    },
+    {
+      "id": "first_over_budget",
+      "title": "First price over the limit",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "conditions",
+        "arrays"
+      ],
+      "difficulty": "medium",
+      "prompt": "You are scanning a receipt for the first thing that blew the budget. Given a list\nof prices and a limit, return the first price that is greater than the limit. If\nevery price is within budget, return `None`.\n\nExamples\n\n    first_over_budget([3, 8, 25, 4], 10) \u2192 25\n    first_over_budget([1, 2, 3], 10) \u2192 None\n    first_over_budget([12, 40], 10) \u2192 12\n\nNotes\n\n- Return as soon as you find it \u2014 don't keep looping.\n- The fallback `return None` goes *after* the loop, not inside it."
+    },
+    {
+      "id": "censor_words",
+      "title": "Bleep the banned words",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "arrays",
+        "conditions",
+        "loops"
+      ],
+      "difficulty": "medium",
+      "prompt": "Given a list of words and a list of banned words, return a new list where every\nbanned word is replaced by `'***'` and every other word is kept as it is.\n\nExamples\n\n    censor_words([\"you\", \"are\", \"silly\"], [\"silly\"]) \u2192 [\"you\", \"are\", \"***\"]\n    censor_words([\"hi\", \"there\"], []) \u2192 [\"hi\", \"there\"]\n    censor_words([\"bad\", \"bad\"], [\"bad\"]) \u2192 [\"***\", \"***\"]\n\nNotes\n\n- The list you return must not shrink \u2014 same length, same order.\n- `w in banned` asks whether a word appears in the banned list.\n- Build a fresh list and append to it. Leave `words` itself alone."
+    },
+    {
+      "id": "mcq_elif_stops",
+      "title": "Predict \u2014 if/elif with n = 12",
+      "kind": "mcq",
+      "tags": [
+        "conditions",
+        "predict",
+        "concept"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this code print?\n\n    n = 12\n    if n % 2 == 0:\n        print('even')\n    elif n % 3 == 0:\n        print('by three')\n    else:\n        print('neither')"
+    },
+    {
+      "id": "vending_slots_dict",
+      "title": "Stock the vending machine",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "language_fundamentals",
+        "types"
+      ],
+      "difficulty": "easy",
+      "prompt": "A vending machine has three slots. Slot \"A1\" holds chips, slot \"A2\" holds gum, and\nslot \"B1\" holds candy. You want a dict named `slots` that maps each slot code to\nthe snack in it, so that this prints `gum`:\n\n    print(slots[\"A2\"])\n\nWhich line creates `slots` correctly?"
+    },
+    {
+      "id": "menu_price_lookup",
+      "title": "What does it cost?",
+      "kind": "code_fn",
+      "tags": [
+        "dicts",
+        "functions",
+        "validation"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that takes a `menu` dict mapping item names to prices, plus an\n`item` name. Return that item's price, or 0 if the item is not on the menu.\n\nExamples\n\n    price({\"tea\": 2, \"coffee\": 3}, \"tea\") \u2192 2\n    price({\"tea\": 2, \"coffee\": 3}, \"juice\") \u2192 0\n    price({}, \"tea\") \u2192 0\n\nNotes\n\n- Reaching for a missing key with `menu[item]` crashes. There is a dict method\n  that lets you name a fallback value instead.\n- Don't forget to return the result."
+    },
+    {
+      "id": "username_available",
+      "title": "Is that username taken?",
+      "kind": "code_fn",
+      "tags": [
+        "dicts",
+        "logic",
+        "validation"
+      ],
+      "difficulty": "easy",
+      "prompt": "A website stores its members in a `users` dict, where each key is a username.\nCreate a function that returns True if `name` is still available \u2014 that is, if it\nis NOT already a key in `users` \u2014 and False otherwise.\n\nExamples\n\n    is_available({\"ana\": 1, \"bo\": 2}, \"cy\") \u2192 True\n    is_available({\"ana\": 1, \"bo\": 2}, \"ana\") \u2192 False\n    is_available({}, \"ana\") \u2192 True\n\nNotes\n\n- `key in some_dict` checks the dict's KEYS, never its values.\n- A comparison is already True or False, so you can return it directly \u2014 no\n  if/else needed."
+    },
+    {
+      "id": "mcq_dup_dict_key",
+      "title": "Two prices for tea",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "predict",
+        "concept"
+      ],
+      "difficulty": "medium",
+      "prompt": "Read this code carefully. The key \"tea\" is written twice.\n\n    prices = {\"tea\": 2, \"coffee\": 3, \"tea\": 4}\n    print(len(prices), prices[\"tea\"])\n\nWhat does it print?"
+    },
+    {
+      "id": "tally_dice_rolls",
+      "title": "Tally the dice",
+      "kind": "code_fn",
+      "tags": [
+        "dicts",
+        "loops",
+        "arrays"
+      ],
+      "difficulty": "medium",
+      "prompt": "Create a function that takes a list of dice rolls and reports how many times each\nnumber appeared. Return a list of `[face, count]` pairs, sorted from the smallest\nface to the largest.\n\nExamples\n\n    tally([1, 2, 2, 5]) \u2192 [[1, 1], [2, 2], [5, 1]]\n    tally([6, 6, 6]) \u2192 [[6, 3]]\n    tally([]) \u2192 []\n\nNotes\n\n- Count into a dict first: `counts[r] = counts.get(r, 0) + 1`.\n- `sorted(counts)` gives you the keys in order.\n- A face that was never rolled should not appear at all."
+    },
+    {
+      "id": "fix_high_scores_loop",
+      "title": "Fix the high score list",
+      "kind": "code_fn",
+      "tags": [
+        "dicts",
+        "bugs",
+        "loops"
+      ],
+      "difficulty": "medium",
+      "prompt": "The `scores` dict maps each player's name to their score. This function should\nreturn a list of the names who scored above 90, in the order they appear in the\ndict. It crashes instead. Fix it.\n\nExamples\n\n    high_scores({\"ana\": 95, \"bo\": 88}) \u2192 [\"ana\"]\n    high_scores({\"ana\": 95, \"bo\": 91}) \u2192 [\"ana\", \"bo\"]\n    high_scores({\"ana\": 90}) \u2192 []\n\nNotes\n\n- Looping over a dict directly gives you its keys and nothing else.\n- \"Above 90\" does not include 90 itself."
+    },
+    {
+      "id": "expand_textspeak",
+      "title": "Expand the text-speak",
+      "kind": "code_fn",
+      "tags": [
+        "dicts",
+        "strings",
+        "loops"
+      ],
+      "difficulty": "medium",
+      "prompt": "Create a function that takes a list of `words` and a `codes` dict mapping\nabbreviations to their full meaning. Replace every word that appears in `codes`\nwith its expansion, leave every other word alone, and return the result as one\nspace-separated string.\n\nExamples\n\n    expand([\"brb\", \"now\"], {\"brb\": \"be right back\"}) \u2192 \"be right back now\"\n    expand([\"hello\"], {}) \u2192 \"hello\"\n    expand([\"omw\", \"omw\"], {\"omw\": \"on my way\"}) \u2192 \"on my way on my way\"\n\nNotes\n\n- The default for a word you cannot expand is the word itself.\n- `\" \".join(list_of_strings)` glues a list into one string."
+    },
+    {
+      "id": "vote_winner",
+      "title": "Who won the vote?",
+      "kind": "code_fn",
+      "tags": [
+        "dicts",
+        "loops",
+        "algorithms"
+      ],
+      "difficulty": "hard",
+      "prompt": "Create a function that takes a `votes` dict mapping each candidate's name to their\nnumber of votes. Return a `[name, margin]` pair for the candidate with the most\nvotes, where `margin` is how many votes they beat second place by. If the dict is\nempty, return None.\n\nExamples\n\n    winner({\"ana\": 5, \"bo\": 3}) \u2192 [\"ana\", 2]\n    winner({\"ana\": 1, \"bo\": 4, \"cy\": 2}) \u2192 [\"bo\", 2]\n    winner({}) \u2192 None\n\nNotes\n\n- With only one candidate, treat second place as having 0 votes, so the margin is\n  just the winner's own count.\n- Assume there is never a tie for first place.\n- A candidate can have 0 votes and still win, if they are the only candidate."
+    },
+    {
+      "id": "seat_by_initial",
+      "title": "Group the guests by initial",
+      "kind": "code_fn",
+      "tags": [
+        "dicts",
+        "strings",
+        "algorithms"
+      ],
+      "difficulty": "hard",
+      "prompt": "Create a function that groups guest names by their first letter and writes one\nseating line per letter, in the form `\"A: Ana, Amy\"`. Return the list of those\nlines. Both the letters and the names inside each line stay in the order they first\nappear in the input.\n\nExamples\n\n    group_by_initial([\"Ana\", \"Bo\", \"Amy\"]) \u2192 [\"A: Ana, Amy\", \"B: Bo\"]\n    group_by_initial([\"Zed\"]) \u2192 [\"Z: Zed\"]\n    group_by_initial([]) \u2192 []\n\nNotes\n\n- `name[0]` is a name's first letter.\n- Build a dict whose values are lists of names, then turn it into lines at the end.\n- `\", \".join(some_names)` glues names into one string with commas between them.\n- Capital \"A\" and lowercase \"a\" are different letters."
+    },
+    {
+      "id": "coffee_order_ticket",
+      "title": "Write the coffee ticket",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "strings",
+        "language_fundamentals"
+      ],
+      "difficulty": "starter",
+      "prompt": "Write a function that takes a size and a drink and returns them joined by a single space.\n\nExamples\n\n    order_ticket(\"large\", \"latte\") \u2192 \"large latte\"\n    order_ticket(\"small\", \"mocha\") \u2192 \"small mocha\"\n    order_ticket(\"medium\", \"tea\") \u2192 \"medium tea\"\n\nNotes\n\n- The two words are separated by exactly one space, and there is no space at the start or the end.\n- The order of the parameters matters: the size comes first, then the drink.\n- Don't forget to return the result."
+    },
+    {
+      "id": "seats_left_print_bug",
+      "title": "The seat counter returns nothing",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "bugs",
+        "language_fundamentals"
+      ],
+      "difficulty": "starter",
+      "prompt": "This function is supposed to hand back how many seats are still free, but the caller keeps getting None. Fix it.\n\n    left = seats_left(100, 42)\n    print(left)          # prints None, not 58\n\nExamples\n\n    seats_left(100, 42) \u2192 58\n    seats_left(50, 50) \u2192 0\n    seats_left(12, 3) \u2192 9\n\nNotes\n\n- print shows a value on the screen; it does not hand the value back to whoever called the function.\n- The arithmetic is already correct \u2014 only one word needs to change."
+    },
+    {
+      "id": "mask_password",
+      "title": "Mask the password",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "strings",
+        "language_fundamentals"
+      ],
+      "difficulty": "easy",
+      "prompt": "Write a function that returns a mask for a password: a string the same length as the password, made only of the masking character. The masking character should be \"*\" unless the caller supplies a different one.\n\nExamples\n\n    mask(\"hunter2\") \u2192 \"*******\"\n    mask(\"hunter2\", \"#\") \u2192 \"#######\"\n    mask(\"abc\", \".\") \u2192 \"...\"\n\nNotes\n\n- The mask must be exactly as long as the password.\n- Give the second parameter a default value so it is optional at the call site.\n- Multiplying a string by a number repeats it: \"ab\" * 3 is \"ababab\"."
+    },
+    {
+      "id": "cut_the_deck",
+      "title": "Cut the deck",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "arrays",
+        "indexing"
+      ],
+      "difficulty": "easy",
+      "prompt": "Cutting a deck means splitting it into two piles. Write a function that takes a list of cards and a number n, and returns the two piles as a tuple: first the pile holding the first n cards, then the pile holding everything after them.\n\nExamples\n\n    cut([1, 2, 3, 4, 5], 2) \u2192 ([1, 2], [3, 4, 5])\n    cut([1, 2, 3, 4, 5], 0) \u2192 ([], [1, 2, 3, 4, 5])\n    cut([\"a\", \"b\", \"c\"], 1) \u2192 ([\"a\"], [\"b\", \"c\"])\n\nNotes\n\n- A function can return more than one value at once \u2014 separate them with a comma, which builds a tuple. Returning a list of two lists is not the same thing.\n- Slicing a list with a colon gives you part of it; you need the part before position n and the part from n onward.\n- The two piles together must contain every original card, in order."
+    },
+    {
+      "id": "mcq_function_with_no_return",
+      "title": "What does the cheer print?",
+      "kind": "mcq",
+      "tags": [
+        "functions",
+        "predict",
+        "concept"
+      ],
+      "difficulty": "easy",
+      "prompt": "Read this program carefully and predict everything it prints.\n\n    def cheer(name):\n        print(name + \" wins!\")\n\n    result = cheer(\"Ana\")\n    print(result)\n\nWhat appears on the screen?\n\nNotes\n\n- cheer has no return statement.\n- Count both print calls \u2014 the one inside the function and the one at the bottom."
+    },
+    {
+      "id": "can_afford_cart",
+      "title": "Can you afford the cart?",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "logic",
+        "conditions"
+      ],
+      "difficulty": "medium",
+      "prompt": "You are given line_total(price, qty), which returns the cost of one line of a shopping cart: the price times the quantity, plus a flat $1 handling fee charged once per line. Write can_afford(p1, q1, p2, q2, wallet) that returns True when the two line totals together cost no more than what is in the wallet, and False otherwise.\n\nExamples\n\n    can_afford(3, 2, 5, 1, 20) \u2192 True\n    can_afford(3, 2, 5, 1, 13) \u2192 True\n    can_afford(3, 2, 5, 1, 12) \u2192 False\n\nNotes\n\n- Call line_total instead of working the cost out yourself \u2014 it already knows about the handling fee, and the fee is charged on each of the two lines.\n- \"No more than\" includes spending exactly what you have.\n- A comparison already produces True or False, so you do not need an if statement."
+    },
+    {
+      "id": "topping_never_added",
+      "title": "The topping never sticks",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "bugs",
+        "strings"
+      ],
+      "difficulty": "hard",
+      "prompt": "build is supposed to add a topping to an order and hand back the finished order, but the topping never sticks \u2014 build(\"pizza\", \"cheese\") gives back \"pizza\". Fix both functions.\n\n    def add_topping(order, topping):\n        order = order + \" with \" + topping\n\n    def build(base, topping):\n        o = base\n        add_topping(o, topping)\n        return o\n\nExamples\n\n    build(\"pizza\", \"cheese\") \u2192 \"pizza with cheese\"\n    build(\"toast\", \"jam\") \u2192 \"toast with jam\"\n    build(\"salad\", \"nuts\") \u2192 \"salad with nuts\"\n\nNotes\n\n- Reassigning a parameter inside a function does not change the caller's variable.\n- add_topping must hand the new string back, and build must capture what it hands back."
+    },
+    {
+      "id": "word_value_loop",
+      "title": "Score the word",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "loops",
+        "strings"
+      ],
+      "difficulty": "medium",
+      "prompt": "You are given letter_value(ch), which returns 1 for a vowel and 2 for any other letter. Write word_value(word) that returns the total value of every letter in the word.\n\nExamples\n\n    word_value(\"cab\") \u2192 5\n    word_value(\"aei\") \u2192 3\n    word_value(\"xyz\") \u2192 6\n\nNotes\n\n- Start a running total at 0, add each letter's value to it inside the loop, and return the total only after the loop has finished.\n- Use letter_value instead of deciding what a vowel is yourself.\n- An empty word scores 0."
+    },
+    {
       "id": "get_first_value",
       "title": "Return the first element in a list",
       "kind": "code_fn",
@@ -37,6 +530,186 @@
       ],
       "difficulty": "easy",
       "prompt": "Create a function that takes a list of numbers and returns the smallest number in\nthe list.\n\nExamples\n\n    find_smallest_num([34, 15, 88, 2]) \u2192 2\n    find_smallest_num([34, -345, -1, 100]) \u2192 -345\n    find_smallest_num([-76, 1.345, 1, 0]) \u2192 -76\n    find_smallest_num([0.4356, 0.8795, 0.5435, -0.9999]) \u2192 -0.9999\n    find_smallest_num([7, 7, 7]) \u2192 7\n\nNotes\n\n- Test cases contain decimals, and negative numbers."
+    },
+    {
+      "id": "build_playlist",
+      "title": "Build a playlist",
+      "kind": "code_var",
+      "tags": [
+        "arrays",
+        "language_fundamentals",
+        "types"
+      ],
+      "difficulty": "starter",
+      "prompt": "Store three song titles in a list called `playlist`, in this exact order: \"Blue Sky\",\n\"Rewind\", \"Nightbus\".\n\nExamples\n\n    playlist[0] \u2192 \"Blue Sky\"\n    playlist[1] \u2192 \"Rewind\"\n    playlist[2] \u2192 \"Nightbus\"\n\nNotes\n\n- A list is written with square brackets and commas between the items.\n- Each title is text, so each one needs quotes around it."
+    },
+    {
+      "id": "topping_count",
+      "title": "Count the toppings",
+      "kind": "code_fn",
+      "tags": [
+        "arrays",
+        "functions",
+        "language_fundamentals"
+      ],
+      "difficulty": "starter",
+      "prompt": "Create a function that takes a list of pizza topping names and returns how many\ntoppings are on the pizza.\n\nExamples\n\n    topping_count([\"cheese\", \"basil\"]) \u2192 2\n    topping_count([\"ham\", \"olive\", \"corn\", \"chili\"]) \u2192 4\n    topping_count([]) \u2192 0\n\nNotes\n\n- `len()` counts the items in a list for you \u2014 you do not need a loop.\n- Don't forget to return the result."
+    },
+    {
+      "id": "last_in_line",
+      "title": "Last in line",
+      "kind": "code_fn",
+      "tags": [
+        "arrays",
+        "indexing",
+        "functions"
+      ],
+      "difficulty": "starter",
+      "prompt": "Create a function that takes a list of names waiting at a food truck, in order from\nfront to back, and returns the name of the person standing at the very back.\n\nExamples\n\n    last_in_line([\"mia\", \"raj\", \"kim\"]) \u2192 \"kim\"\n    last_in_line([\"ana\", \"bo\"]) \u2192 \"bo\"\n    last_in_line([\"solo\"]) \u2192 \"solo\"\n\nNotes\n\n- Index `-1` always means the last item, no matter how long the list is.\n- The list always has at least one name in it."
+    },
+    {
+      "id": "over_budget",
+      "title": "Blew the budget?",
+      "kind": "code_fn",
+      "tags": [
+        "arrays",
+        "logic",
+        "conditions"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that takes a list of prices from a receipt and a budget. Return\nTrue if the prices add up to more than the budget, otherwise return False.\n\nExamples\n\n    over_budget([4, 5, 3], 10) \u2192 True\n    over_budget([4, 5], 10) \u2192 False\n    over_budget([10], 10) \u2192 False\n\nNotes\n\n- `sum()` adds up every number in a list.\n- Spending exactly the budget is not over it."
+    },
+    {
+      "id": "vote_tally",
+      "title": "Count the votes",
+      "kind": "code_fn",
+      "tags": [
+        "arrays",
+        "functions",
+        "algorithms"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that takes a list of votes (each vote is a name) and one name, and\nreturns how many times that name was voted for.\n\nExamples\n\n    vote_tally([\"ana\", \"bo\", \"ana\"], \"ana\") \u2192 2\n    vote_tally([\"ana\", \"bo\", \"ana\"], \"bo\") \u2192 1\n    vote_tally([\"ana\", \"bo\"], \"kim\") \u2192 0\n\nNotes\n\n- Lists have a `.count()` method: `votes.count(name)` does the counting for you.\n- A name nobody voted for should give 0, not an error."
+    },
+    {
+      "id": "seating_order",
+      "title": "Alphabetical seating",
+      "kind": "code_fn",
+      "tags": [
+        "arrays",
+        "sorting",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that takes a list of guest names and returns a new list with the\nnames in alphabetical order.\n\nExamples\n\n    seating_order([\"raj\", \"ana\", \"kim\"]) \u2192 [\"ana\", \"kim\", \"raj\"]\n    seating_order([\"zoe\", \"bo\"]) \u2192 [\"bo\", \"zoe\"]\n    seating_order([\"solo\"]) \u2192 [\"solo\"]\n\nNotes\n\n- `sorted()` hands you back a brand new sorted list.\n- All the names are lowercase."
+    },
+    {
+      "id": "username_taken_fix",
+      "title": "Fix the username checker",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "arrays",
+        "logic"
+      ],
+      "difficulty": "easy",
+      "prompt": "This function should report whether `username` already appears in `taken`, a list of\nusernames that are in use. It crashes with a TypeError. Fix it.\n\nExamples\n\n    is_taken(\"mia\", [\"mia\", \"raj\"]) \u2192 True\n    is_taken(\"zoe\", [\"mia\", \"raj\"]) \u2192 False\n    is_taken(\"bo\", []) \u2192 False\n\nNotes\n\n- `in` reads left to right: the item you are looking for goes first, then the list.\n- Don't forget to return the result."
+    },
+    {
+      "id": "priciest_is_free",
+      "title": "The priciest item is free",
+      "kind": "code_fn",
+      "tags": [
+        "arrays",
+        "math",
+        "algorithms"
+      ],
+      "difficulty": "medium",
+      "prompt": "A store is running a promo: fill a basket and the single most expensive item in it\ncosts nothing. Create a function that takes a list of prices and returns what you\nactually pay.\n\nExamples\n\n    basket_total([4, 9, 2]) \u2192 6\n    basket_total([5, 5]) \u2192 5\n    basket_total([12]) \u2192 0\n\nNotes\n\n- The basket always has at least one item.\n- Only ONE item is free, even if two items tie for most expensive."
+    },
+    {
+      "id": "mcq_index_vs_position",
+      "title": "Which spot is which?",
+      "kind": "mcq",
+      "tags": [
+        "indexing",
+        "arrays",
+        "predict"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    queue = [\"mia\", \"raj\", \"kim\", \"lee\"]\n    print(queue[2], queue[-3])"
+    },
+    {
+      "id": "written_sort_returns_none",
+      "title": "Why did my sorted list vanish?",
+      "kind": "written",
+      "tags": [
+        "arrays",
+        "sorting",
+        "written"
+      ],
+      "difficulty": "easy",
+      "prompt": "A student wants their scores in order, so they write:\n\n    scores = [88, 72, 95]\n    ranked = scores.sort()\n    print(ranked)\n\nThey expected `[72, 88, 95]`. Python printed `None`.\n\nIn a sentence or two, explain why `ranked` is `None`, and give the two different\nways to fix this so the sorted numbers actually get printed.\n\nNotes\n\n- Nothing crashed and nothing was lost \u2014 think about what `.sort()` hands back.\n- One fix keeps using `.sort()`; the other uses a different tool."
+    },
+    {
+      "id": "squeeze_in_a_guest",
+      "title": "Squeeze in a guest",
+      "kind": "code_fn",
+      "tags": [
+        "arrays",
+        "bugs",
+        "functions"
+      ],
+      "difficulty": "medium",
+      "prompt": "`seat_guest` should place `guest` into the third chair (index 2) of the seating\nlist and return the updated list. It doesn't work. Fix it.\n\nExamples\n\n    seat_guest([\"ana\", \"ben\", \"cal\"], \"dee\") \u2192 [\"ana\", \"ben\", \"dee\", \"cal\"]\n    seat_guest([\"ana\", \"ben\"], \"zed\")        \u2192 [\"ana\", \"ben\", \"zed\"]\n    seat_guest([], \"solo\")                   \u2192 [\"solo\"]\n\nNotes\n\n- `.insert()` takes the position first, then the item: `seats.insert(position, item)`.\n- `.insert()` changes the list itself and hands back nothing.\n- If the list is shorter than the position you asked for, `.insert()` just puts the item on the end. That's fine here."
+    },
+    {
+      "id": "race_placement",
+      "title": "What place did they finish?",
+      "kind": "code_fn",
+      "tags": [
+        "arrays",
+        "indexing",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "`finishers` is a list of runners in the order they crossed the line. Create a\nfunction that returns what place a given runner finished in, the way a person\nwould say it out loud: the first runner finished in place 1.\n\nExamples\n\n    placement([\"ana\", \"ben\", \"cal\"], \"ana\") \u2192 1\n    placement([\"ana\", \"ben\", \"cal\"], \"cal\") \u2192 3\n    placement([\"ana\", \"ben\", \"cal\"], \"ben\") \u2192 2\n\nNotes\n\n- `.index(value)` gives you the position of a value, counting from 0.\n- The name is guaranteed to be somewhere in the list, and appears at most once.\n- Check your answer against the examples before you move on."
+    },
+    {
+      "id": "back_of_the_line",
+      "title": "Send them to the back",
+      "kind": "code_fn",
+      "tags": [
+        "arrays",
+        "functions",
+        "indexing"
+      ],
+      "difficulty": "medium",
+      "prompt": "The person at the front of the coffee line couldn't decide what to order, so they\nget sent to the very end. Create a function that takes the first person out of\nthe line, puts them on the end, and returns the updated line.\n\nExamples\n\n    send_to_back([\"ana\", \"ben\", \"cal\"]) \u2192 [\"ben\", \"cal\", \"ana\"]\n    send_to_back([\"ana\", \"ben\"])        \u2192 [\"ben\", \"ana\"]\n    send_to_back([\"solo\"])              \u2192 [\"solo\"]\n\nNotes\n\n- `line.pop(0)` removes the item at index 0 and gives it back to you.\n- `.append(item)` adds an item to the end.\n- A line with one person in it comes back unchanged."
+    },
+    {
+      "id": "middle_score",
+      "title": "The middle score",
+      "kind": "code_fn",
+      "tags": [
+        "arrays",
+        "sorting",
+        "algorithms"
+      ],
+      "difficulty": "hard",
+      "prompt": "Create a function that sorts a list of scores and returns the middle one. If\nthere is an even number of scores there is no single middle, so return the\naverage of the two middle scores instead.\n\nExamples\n\n    middle_score([3, 1, 2])    \u2192 2\n    middle_score([4, 1, 3, 2]) \u2192 2.5\n    middle_score([9])          \u2192 9\n\nNotes\n\n- `sorted(scores)` gives you a new sorted list without disturbing the original.\n- `len(s) % 2` is 1 when the length is odd and 0 when it is even.\n- The list always has at least one score \u2014 you don't need to handle an empty list."
+    },
+    {
+      "id": "purge_the_playlist",
+      "title": "Purge every copy",
+      "kind": "code_fn",
+      "tags": [
+        "arrays",
+        "loops",
+        "functions"
+      ],
+      "difficulty": "hard",
+      "prompt": "One song got added to the playlist too many times. Create a function that removes\nevery copy of `song` from `playlist` and returns the playlist. The song might\nappear many times, once, or not at all.\n\nExamples\n\n    purge([\"a\", \"b\", \"a\", \"c\"], \"a\") \u2192 [\"b\", \"c\"]\n    purge([\"a\", \"b\"], \"z\")           \u2192 [\"a\", \"b\"]\n    purge([\"a\", \"a\", \"a\"], \"a\")      \u2192 []\n\nNotes\n\n- `playlist.remove(value)` deletes only the FIRST copy it finds, and raises an error if the value isn't there.\n- Return the playlist itself, not a new list."
     },
     {
       "id": "divisible_by_five",
@@ -116,6 +789,222 @@
       ],
       "difficulty": "medium",
       "prompt": "Create a function that takes three arguments `prob`, `prize`, `pay` and returns\nTrue if prob * prize > pay; otherwise return False.\n\nTo illustrate:\n\n    profitable_gamble(0.2, 50, 9)\n\n... should yield True, since the net profit is 1 (0.2 * 50 - 9), and 1 > 0.\n\nExamples\n\n    profitable_gamble(0.2, 50, 9) \u2192 True\n    profitable_gamble(0.9, 1, 2) \u2192 False\n    profitable_gamble(0.9, 3, 2) \u2192 True\n\nNotes\n\n- Don't forget to `return` the result."
+    },
+    {
+      "id": "sum_the_scores",
+      "title": "Add up the scores",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "arrays",
+        "numbers"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that takes a list of numbers and returns their total.\n\nExamples\n\n    sum_scores([1, 2, 3]) \u2192 6\n    sum_scores([10]) \u2192 10\n    sum_scores([-2, 5]) \u2192 3\n\nNotes\n\n- Start a total at 0 before the loop, then add each number to it as you go.\n- The total of an empty list is 0.\n- Don't forget to return the result."
+    },
+    {
+      "id": "count_above_threshold",
+      "title": "Count the high scores",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "arrays",
+        "conditions"
+      ],
+      "difficulty": "medium",
+      "prompt": "Create a function that takes a list of numbers and a limit, and returns how many\nof the numbers are greater than the limit.\n\nExamples\n\n    count_above([4, 9, 2], 3) \u2192 2\n    count_above([1, 2, 3], 10) \u2192 0\n    count_above([5, 5, 5], 4) \u2192 3\n\nNotes\n\n- Start a counter at 0 before the loop, and add 1 only when the test is true.\n- \"Greater than\" is strict: a number equal to the limit does not count.\n- An empty list should return 0."
+    },
+    {
+      "id": "dice_product_bug",
+      "title": "Fix the dice multiplier",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "loops",
+        "numbers"
+      ],
+      "difficulty": "medium",
+      "prompt": "This function is supposed to multiply all of the dice rolls together to get a\ngame score. It always returns 0 instead. Fix it.\n\nExamples\n\n    dice_score([2, 3]) \u2192 6\n    dice_score([6, 6, 6]) \u2192 216\n    dice_score([4]) \u2192 4\n\nNotes\n\n- Only one line needs to change.\n- Ask yourself what the score should be *before* any dice have been multiplied in."
+    },
+    {
+      "id": "mcq_return_inside_loop",
+      "title": "The loop that only ran once",
+      "kind": "mcq",
+      "tags": [
+        "loops",
+        "predict",
+        "functions"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this code print?\n\n    def add_them(nums):\n        total = 0\n        for x in nums:\n            total += x\n            return total\n\n    print(add_them([4, 7, 2]))"
+    },
+    {
+      "id": "written_why_not_start_max_at_zero",
+      "title": "Why not start the max at zero?",
+      "kind": "written",
+      "tags": [
+        "written",
+        "loops",
+        "concept"
+      ],
+      "difficulty": "medium",
+      "prompt": "A student writes this to find the largest temperature reading in a list of\nfreezer readings:\n\n    def biggest_reading(readings):\n        biggest = 0\n        for r in readings:\n            if r > biggest:\n                biggest = r\n        return biggest\n\nIt works on [3, 9, 5], but on [-4, -18, -9] it returns 0 \u2014 a reading that was\nnever in the list.\n\nIn one or two sentences, explain why starting at 0 is a bad idea here, and say\nwhat you would start `biggest` at instead so the answer is always a real reading\nfrom the list."
+    },
+    {
+      "id": "running_balance",
+      "title": "Running token balance",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "arrays",
+        "algorithms"
+      ],
+      "difficulty": "medium",
+      "prompt": "You start with 0 tokens. Given a list of daily changes (positive for tokens\nearned, negative for tokens spent), return a list of your balance at the end of\neach day.\n\nExamples\n\n    running_balance([5, -2, 10]) \u2192 [5, 3, 13]\n    running_balance([1, 1, 1]) \u2192 [1, 2, 3]\n    running_balance([10, -10]) \u2192 [10, 0]\n\nNotes\n\n- The result has exactly as many numbers as the input does.\n- You need a running total AND a list to collect it into.\n- An empty list of changes should return an empty list."
+    },
+    {
+      "id": "longest_song_titles",
+      "title": "Every longest song title",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "strings",
+        "algorithms"
+      ],
+      "difficulty": "hard",
+      "prompt": "Create a function that takes a list of song titles and returns a list of every\ntitle tied for longest, in the order they appear in the original list.\n\nExamples\n\n    longest_song_titles([\"Hey\", \"Yesterday\", \"Help\"]) \u2192 [\"Yesterday\"]\n    longest_song_titles([\"one\", \"two\", \"six\"]) \u2192 [\"one\", \"two\", \"six\"]\n    longest_song_titles([\"a\", \"bbbb\", \"cc\", \"dddd\"]) \u2192 [\"bbbb\", \"dddd\"]\n\nNotes\n\n- Always return a list, even when only one title is longest.\n- The list always has at least one title.\n- Compare lengths, but collect the titles themselves \u2014 not their lengths."
+    },
+    {
+      "id": "rumor_doubling_hours",
+      "title": "How many hours until everyone knows?",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "numbers",
+        "algorithms"
+      ],
+      "difficulty": "hard",
+      "prompt": "At hour 0, exactly 1 person knows a rumor. Every hour, the number of people who\nknow it doubles. Return how many whole hours it takes until at least `target`\npeople know.\n\nExamples\n\n    rumor_hours(2) \u2192 1\n    rumor_hours(5) \u2192 3\n    rumor_hours(100) \u2192 7\n\nNotes\n\n- A while loop is the right tool: keep doubling while too few people know.\n- rumor_hours(5) is 3 because the counts go 1 \u2192 2 \u2192 4 \u2192 8, and 8 is the first\n  count that reaches 5.\n- If the target is already met at hour 0, the answer is 0."
+    },
+    {
+      "id": "dedupe_playlist",
+      "title": "Trim the repeat plays",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "arrays",
+        "conditions"
+      ],
+      "difficulty": "hard",
+      "prompt": "Create a function that takes a playlist (a list of song names, possibly with\nrepeats) and returns a new list keeping only the first appearance of each song,\nin the original order.\n\nExamples\n\n    dedupe_playlist([\"a\", \"b\", \"a\", \"c\", \"b\"]) \u2192 [\"a\", \"b\", \"c\"]\n    dedupe_playlist([\"x\", \"x\", \"x\"]) \u2192 [\"x\"]\n    dedupe_playlist([\"p\", \"q\"]) \u2192 [\"p\", \"q\"]\n\nNotes\n\n- Build a new list \u2014 don't change the one you were given.\n- `if song not in out:` asks whether you have collected that song already.\n- Song names are case sensitive: \"Blue\" and \"blue\" are different songs."
+    },
+    {
+      "id": "count_vowels_in_phrase",
+      "title": "Count the vowels",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "strings",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that counts how many characters of a phrase are vowels (a, e, i, o, u). Upper and lower case both count.\n\nExamples\n\n    count_vowels(\"banana\") \u2192 3\n    count_vowels(\"Ohio\") \u2192 3\n    count_vowels(\"rhythm\") \u2192 0\n\nNotes\n\n- \"A\" is a vowel just as much as \"a\".\n- Spaces, digits and punctuation are never vowels.\n- Don't forget to return the result."
+    },
+    {
+      "id": "sum_page_numbers",
+      "title": "Sum the page numbers",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "math",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "You photocopied every page from `first` to `last`. Create a function that returns the sum of all those page numbers, counting both the first and the last page.\n\nExamples\n\n    sum_pages(1, 5) \u2192 15\n    sum_pages(10, 12) \u2192 33\n    sum_pages(7, 7) \u2192 7\n\nNotes\n\n- Both ends are included.\n- `first` is never greater than `last`."
+    },
+    {
+      "id": "mcq_range_step_countdown",
+      "title": "Predict the backwards countdown",
+      "kind": "mcq",
+      "tags": [
+        "loops",
+        "predict",
+        "concept"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print, one number per line?\n\n    for n in range(10, 0, -3):\n        print(n)"
+    },
+    {
+      "id": "number_the_playlist",
+      "title": "Number the playlist",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "strings",
+        "formatting"
+      ],
+      "difficulty": "medium",
+      "prompt": "Create a function that takes a list of song titles and returns a list of numbered strings, starting the numbering at 1.\n\nExamples\n\n    number_playlist([\"Hey Jude\", \"Yesterday\"]) \u2192 [\"1. Hey Jude\", \"2. Yesterday\"]\n    number_playlist([\"Solo\"]) \u2192 [\"1. Solo\"]\n    number_playlist([]) \u2192 []\n\nNotes\n\n- The format is the number, a period, a single space, then the title.\n- Return a new list \u2014 don't print anything."
+    },
+    {
+      "id": "mask_card_digits",
+      "title": "Hide all but the last four",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "strings",
+        "indexing"
+      ],
+      "difficulty": "medium",
+      "prompt": "Create a function that hides a code by replacing every character with `*`, except the last four, which stay as they are.\n\nExamples\n\n    mask_code(\"9876543210\") \u2192 \"******3210\"\n    mask_code(\"12345\") \u2192 \"*2345\"\n    mask_code(\"1234\") \u2192 \"1234\"\n\nNotes\n\n- If the code is four characters or shorter, nothing is hidden.\n- The result is the same length as the input."
+    },
+    {
+      "id": "fix_locker_numbers",
+      "title": "The last locker is missing",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "bugs",
+        "arrays"
+      ],
+      "difficulty": "easy",
+      "prompt": "`locker_numbers(n)` should return the list of locker numbers from 1 to `n`. Right now the hallway is missing its last locker \u2014 there is no locker `n`. Fix it.\n\nExamples\n\n    locker_numbers(3) \u2192 [1, 2, 3]\n    locker_numbers(1) \u2192 [1]\n    locker_numbers(0) \u2192 []\n\nNotes\n\n- The lockers are numbered starting at 1, like a real hallway.\n- A hallway with 0 lockers is an empty list, not an error."
+    },
+    {
+      "id": "fix_tip_total",
+      "title": "The tip jar keeps emptying",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "bugs",
+        "functions"
+      ],
+      "difficulty": "medium",
+      "prompt": "`total_tips(tips)` should add up every tip in the list. Instead it always reports just the last one. Find out why and fix it.\n\nExamples\n\n    total_tips([3, 5, 2]) \u2192 10\n    total_tips([7]) \u2192 7\n    total_tips([]) \u2192 0\n\nNotes\n\n- The bug is about *where* a line sits, not what it says.\n- An empty list should give 0."
+    },
+    {
+      "id": "longest_same_letter_run",
+      "title": "Longest streak of the same letter",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "strings",
+        "algorithms"
+      ],
+      "difficulty": "hard",
+      "prompt": "Create a function that returns the length of the longest streak of identical characters sitting next to each other in a string.\n\nExamples\n\n    longest_run(\"aaabbbbcc\") \u2192 4\n    longest_run(\"abc\") \u2192 1\n    longest_run(\"\") \u2192 0\n\nNotes\n\n- The characters in a streak must be consecutive.\n- An empty string has no streak, so the answer is 0."
+    },
+    {
+      "id": "sum_every_other_digit",
+      "title": "Every other digit, from the right",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "indexing",
+        "strings"
+      ],
+      "difficulty": "hard",
+      "prompt": "Create a function that takes a string of digits and adds up the rightmost digit, the digit two places to its left, the one two places left of that, and so on.\n\nExamples\n\n    alt_sum(\"1234\") \u2192 6\n    alt_sum(\"13579\") \u2192 15\n    alt_sum(\"7\") \u2192 7\n\nNotes\n\n- In \"1234\" you add 4 + 2. In \"13579\" you add 9 + 5 + 1.\n- An empty string sums to 0.\n- Each character of the string is a digit, so you'll need int() to do arithmetic."
     },
     {
       "id": "convert_minutes",
@@ -273,6 +1162,330 @@
       "prompt": "Create a function that finds the maximum range of a triangle's third edge, where\nthe side lengths are all integers.\n\nExamples\n\n    next_edge(8, 10) \u2192 17\n    next_edge(5, 7) \u2192 11\n    next_edge(9, 2) \u2192 10\n\nNotes\n\n- (side1 + side2) - 1 = maximum range of third edge.\n- The side lengths of the triangle are positive integers.\n- Don't forget to `return` the result."
     },
     {
+      "id": "loading_bar",
+      "title": "Draw a loading bar",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "functions",
+        "language_fundamentals"
+      ],
+      "difficulty": "starter",
+      "prompt": "A progress bar is just a row of repeated characters. Write a function\n`loading_bar(n)` that returns a string made of exactly `n` equals signs.\n\nExamples\n\n    loading_bar(3) \u2192 \"===\"\n    loading_bar(6) \u2192 \"======\"\n    loading_bar(1) \u2192 \"=\"\n\nNotes\n\n- The `*` operator repeats a string a whole number of times.\n- `loading_bar(0)` is an empty string.\n- Don't forget to return the result."
+    },
+    {
+      "id": "trim_username",
+      "title": "Tidy up the username",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "functions",
+        "validation"
+      ],
+      "difficulty": "starter",
+      "prompt": "Usernames are stored in one standard form: no spaces around the outside, and all\nlowercase. Write a function `clean_username(raw)` that returns the name with the\nsurrounding spaces removed AND every letter lowercased.\n\nExamples\n\n    clean_username(\"  Ada  \") \u2192 \"ada\"\n    clean_username(\"GRACE \") \u2192 \"grace\"\n    clean_username(\"linus\") \u2192 \"linus\"\n\nNotes\n\n- Spaces in the middle of the text stay exactly where they are.\n- Two steps, both needed \u2014 doing only one of them is the usual mistake.\n- Don't forget to return the result."
+    },
+    {
+      "id": "playlist_title",
+      "title": "Fix the playlist title",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "functions",
+        "formatting"
+      ],
+      "difficulty": "starter",
+      "prompt": "Song titles typed in a hurry come out all lowercase. Write a function\n`fix_title(name)` that returns the title with the first letter of every word\ncapitalized.\n\nExamples\n\n    fix_title(\"road trip mix\") \u2192 \"Road Trip Mix\"\n    fix_title(\"summer\") \u2192 \"Summer\"\n    fix_title(\"late night study\") \u2192 \"Late Night Study\"\n\nNotes\n\n- Python has a string method that does exactly this in one step.\n- An empty title should come back as an empty string."
+    },
+    {
+      "id": "crowd_chant",
+      "title": "Start the chant",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "functions",
+        "language_fundamentals"
+      ],
+      "difficulty": "easy",
+      "prompt": "Write a function `chant(word, times)` that returns the word followed by an\nexclamation mark and a space, repeated `times` times.\n\nExamples\n\n    chant(\"go\", 3) \u2192 \"go! go! go! \"\n    chant(\"hey\", 1) \u2192 \"hey! \"\n    chant(\"win\", 2) \u2192 \"win! win! \"\n\nNotes\n\n- Every repetition ends with a space, including the last one.\n- If `times` is 0, the result is an empty string."
+    },
+    {
+      "id": "cart_line",
+      "title": "Print a cart line",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "formatting",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "Write a function `cart_line(item, qty, price)` that returns one receipt line\nshowing the quantity, the item name, and the total cost for that line (quantity\ntimes price).\n\nExamples\n\n    cart_line(\"mug\", 3, 7) \u2192 \"3 x mug = $21\"\n    cart_line(\"pen\", 2, 5) \u2192 \"2 x pen = $10\"\n    cart_line(\"hat\", 1, 12) \u2192 \"1 x hat = $12\"\n\nNotes\n\n- `price` is the price of ONE item, so you have to do the multiplication yourself.\n- The dollar sign goes right before the total, with no space after it."
+    },
+    {
+      "id": "fix_remove_dashes",
+      "title": "The dashes won't go away",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "bugs",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "This function is supposed to return a phone number with every dash removed, but it\nhands back the number completely unchanged. Find the bug and fix it.\n\nExamples\n\n    strip_dashes(\"402-555-0199\") \u2192 \"4025550199\"\n    strip_dashes(\"1-2\") \u2192 \"12\"\n    strip_dashes(\"5551234\") \u2192 \"5551234\"\n\nNotes\n\n- `.replace()` hands you back a brand-new string \u2014 it never edits the original.\n- Don't forget to return the result."
+    },
+    {
+      "id": "mcq_count_ana",
+      "title": "Predict \u2014 \"banana\".count(\"ana\")",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "predict",
+        "concept"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this code print?\n\n    print(\"banana\".count(\"ana\"))"
+    },
+    {
+      "id": "censor_word",
+      "title": "Bleep out the word",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "functions",
+        "algorithms"
+      ],
+      "difficulty": "medium",
+      "prompt": "Write a function `censor(message, word)` that replaces every appearance of `word`\nwith a run of asterisks the same length as that word.\n\nExamples\n\n    censor(\"that mule is a mule\", \"mule\") \u2192 \"that **** is a ****\"\n    censor(\"no bad words here\", \"bad\") \u2192 \"no *** words here\"\n    censor(\"all clear\", \"danger\") \u2192 \"all clear\"\n\nNotes\n\n- The replacement must have exactly as many asterisks as the word has letters.\n- If the word never appears, return the message unchanged."
+    },
+    {
+      "id": "same_signup_name",
+      "title": "Is that the same person?",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "logic",
+        "validation"
+      ],
+      "difficulty": "medium",
+      "prompt": "Two people typed their name into a signup form. Write a function `same_person(a, b)`\nthat returns True if the two names match once you ignore surrounding spaces and\ncapitalization, and False otherwise.\n\nExamples\n\n    same_person(\"  Ada \", \"ada\") \u2192 True\n    same_person(\"Grace\", \"GRACE\") \u2192 True\n    same_person(\"ada\", \"linus\") \u2192 False\n\nNotes\n\n- Spaces in the middle of a name still matter \u2014 \"ada lovelace\" is not \"adalovelace\".\n- Return the boolean True or False, not a string."
+    },
+    {
+      "id": "ticket_last_two",
+      "title": "Ticket check characters",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "indexing",
+        "language_fundamentals"
+      ],
+      "difficulty": "easy",
+      "prompt": "Every ticket code ends in a two-character check block. Create a function that takes\na ticket code as a string and returns its last two characters. If the code is only\none character long, return that one character.\n\nExamples\n\n    last_two(\"A7X9\") \u2192 \"X9\"\n    last_two(\"ZZ100\") \u2192 \"00\"\n    last_two(\"Q\") \u2192 \"Q\"\n\nNotes\n\n- Negative positions count from the right-hand end of the string, so you never have\n  to count the characters yourself.\n- A slice can start at a negative position and run to the end.\n- The code always has at least one character.\n- Don't forget to return the result."
+    },
+    {
+      "id": "mcq_slice_end",
+      "title": "Where does a slice stop?",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "indexing",
+        "predict"
+      ],
+      "difficulty": "easy",
+      "prompt": "Read the code carefully and predict exactly what it prints.\n\n    s = \"playlist\"\n    print(s[2:5])\n\nNotes\n\n- Counting starts at 0, so s[0] is \"p\".\n- A slice s[a:b] starts at index a. Think hard about whether index b is included."
+    },
+    {
+      "id": "written_in_substring",
+      "title": "Why \"cat\" is in \"concatenate\"",
+      "kind": "written",
+      "tags": [
+        "strings",
+        "concept",
+        "written"
+      ],
+      "difficulty": "easy",
+      "prompt": "In Python, the expression below evaluates to True, even though the word\n\"concatenate\" has nothing to do with cats.\n\n    \"cat\" in \"concatenate\"\n\nIn a sentence or two, explain in your own words why Python says True here. Then\nsay what this tells you about using `in` when what you actually want is to find a\nwhole word inside a sentence.\n\nNotes\n\n- Look at the letters of \"concatenate\" one stretch at a time.\n- This is not auto-graded \u2014 your reasoning is the answer."
+    },
+    {
+      "id": "plate_palindrome",
+      "title": "Reversible license plate",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "indexing",
+        "logic"
+      ],
+      "difficulty": "medium",
+      "prompt": "A license plate is \"reversible\" if it reads exactly the same forwards and\nbackwards. Create a function that takes a plate as a string and returns True if it\nis reversible and False otherwise.\n\nExamples\n\n    is_reversible(\"ABA\") \u2192 True\n    is_reversible(\"XYZ\") \u2192 False\n    is_reversible(\"77\") \u2192 True\n\nNotes\n\n- The slice plate[::-1] gives you the whole string reversed.\n- Two strings can be compared with == just like two numbers.\n- Return the boolean True or False, not the string \"True\"."
+    },
+    {
+      "id": "count_words_in_message",
+      "title": "How many words in the message",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "arrays",
+        "language_fundamentals"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that takes a text message as a string and returns how many words\nit contains. Words are separated by one or more spaces.\n\nExamples\n\n    word_count(\"call me back\") \u2192 3\n    word_count(\"hello\") \u2192 1\n    word_count(\"running    late    sorry\") \u2192 3\n\nNotes\n\n- An empty message contains 0 words.\n- Splitting a string turns it into a list of its words, and extra spaces between\n  words should not change the count.\n- Don't forget to return the result."
+    },
+    {
+      "id": "fix_find_decaf",
+      "title": "The broken decaf detector",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "bugs",
+        "conditions"
+      ],
+      "difficulty": "medium",
+      "prompt": "A cafe app reads the note a customer typed with their order and reports whether\nthey asked for decaf. The code below looks reasonable and is badly wrong. Fix it.\n\nExamples\n\n    has_decaf(\"one decaf latte\") \u2192 True\n    has_decaf(\"large latte\") \u2192 False\n    has_decaf(\"decaf\") \u2192 True\n\nNotes\n\n- order.find(\"decaf\") returns the index where \"decaf\" starts, or -1 if it isn't\n  there at all.\n- Ask yourself what index a match at the very start of the string gets, and\n  whether Python treats that number as true or false."
+    },
+    {
+      "id": "format_bus_route",
+      "title": "Build the route string",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "arrays",
+        "formatting"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that takes a list of bus stop names and returns a single string\nshowing the route, with the stops joined by an arrow \" -> \".\n\nExamples\n\n    route_label([\"Oak\", \"Elm\", \"Pine\"]) \u2192 \"Oak -> Elm -> Pine\"\n    route_label([\"Main\", \"5th\"]) \u2192 \"Main -> 5th\"\n    route_label([\"Depot\"]) \u2192 \"Depot\"\n\nNotes\n\n- join builds one string out of a list, using the string you call it on as the glue\n  between the items.\n- Notice there is no arrow before the first stop or after the last one.\n- An empty list of stops should give back an empty string.\n- Return the string \u2014 do not print it."
+    },
+    {
+      "id": "club_acronym",
+      "title": "Acronym for the club name",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "loops",
+        "indexing"
+      ],
+      "difficulty": "hard",
+      "prompt": "Clubs make acronyms by taking the first letter of each important word and skipping\nthe little ones. Create a function that takes a club name and returns the uppercase\nfirst letters of every word that is 3 or more letters long.\n\nExamples\n\n    acronym(\"friends of the reading room\") \u2192 \"FTRR\"\n    acronym(\"board game night\") \u2192 \"BGN\"\n    acronym(\"cat in a box\") \u2192 \"CB\"\n\nNotes\n\n- Words are separated by single spaces.\n- Skip any word shorter than 3 letters \u2014 \"of\", \"a\" and \"in\" contribute nothing,\n  but \"the\" is 3 letters long, so it stays.\n- The answer is one string, not a list."
+    },
+    {
+      "id": "middle_chars",
+      "title": "The middle of the password",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "indexing",
+        "math"
+      ],
+      "difficulty": "hard",
+      "prompt": "Create a function that takes a word and returns its middle. If the word has an odd\nnumber of letters, return the single middle character. If it has an even number,\nreturn the two middle characters.\n\nExamples\n\n    middle(\"cat\") \u2192 \"a\"\n    middle(\"code\") \u2192 \"od\"\n    middle(\"x\") \u2192 \"x\"\n\nNotes\n\n- len(word) tells you which case you are in.\n- // is integer division: 7 // 2 is 3, not 3.5.\n- The word always has at least one character."
+    },
+    {
+      "id": "cart_total_from_text",
+      "title": "The total came in as text",
+      "kind": "code_fn",
+      "tags": [
+        "types",
+        "numbers",
+        "language_fundamentals"
+      ],
+      "difficulty": "starter",
+      "prompt": "A checkout page hands you the cart total as text, like the string `\"8.50\"`. Return that same amount as a real number you could do math with.\n\nExamples\n\n    cart_total_from_text(\"8.50\") \u2192 8.5\n    cart_total_from_text(\"3.25\") \u2192 3.25\n    cart_total_from_text(\"10.00\") \u2192 10.0\n\nNotes\n\n- A string of digits is not a number \u2014 `\"8.50\" * 2` gives you `\"8.508.50\"`, not `17.0`.\n- Use `float()` to convert.\n- Don't forget to return the result."
+    },
+    {
+      "id": "nickname_filled",
+      "title": "Did they pick a nickname?",
+      "kind": "code_fn",
+      "tags": [
+        "types",
+        "strings",
+        "logic"
+      ],
+      "difficulty": "starter",
+      "prompt": "A signup form gives you whatever the user typed into the nickname box, as a string. Return `True` if they typed anything at all, and `False` if they left it blank.\n\nExamples\n\n    nickname_filled(\"ace\") \u2192 True\n    nickname_filled(\"\") \u2192 False\n    nickname_filled(\"Zebra99\") \u2192 True\n\nNotes\n\n- A blank box arrives as the empty string `\"\"`.\n- `bool()` on a string is `False` for the empty string and `True` for every other string.\n- Don't forget to return the result."
+    },
+    {
+      "id": "whole_dollars_only",
+      "title": "Ignore the cents",
+      "kind": "code_fn",
+      "tags": [
+        "types",
+        "numbers",
+        "math"
+      ],
+      "difficulty": "starter",
+      "prompt": "A receipt line gives you a price as a decimal number, like `12.99`. Return just the whole-dollar part of it.\n\nExamples\n\n    whole_dollars_only(12.99) \u2192 12\n    whole_dollars_only(0.99) \u2192 0\n    whole_dollars_only(199.95) \u2192 199\n\nNotes\n\n- `int()` on a float throws the decimal part away.\n- Prices are never negative here."
+    },
+    {
+      "id": "mcq_divide_type",
+      "title": "What kind of number is 10 / 5?",
+      "kind": "mcq",
+      "tags": [
+        "types",
+        "numbers",
+        "predict"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(type(10 / 5))\n\nNotes\n\n- `10 / 5` is exactly 2, with nothing left over."
+    },
+    {
+      "id": "count_digits",
+      "title": "How long is that ticket number?",
+      "kind": "code_fn",
+      "tags": [
+        "types",
+        "strings",
+        "numbers"
+      ],
+      "difficulty": "easy",
+      "prompt": "A raffle ticket number arrives as a whole number. Return how many digits it has.\n\nExamples\n\n    count_digits(4021) \u2192 4\n    count_digits(7) \u2192 1\n    count_digits(100000) \u2192 6\n\nNotes\n\n- You cannot call `len()` on an int, but you can call it on a string.\n- Ticket numbers are zero or positive.\n- Don't forget to return the result."
+    },
+    {
+      "id": "written_float_equality",
+      "title": "Why isn't 0.1 + 0.2 equal to 0.3?",
+      "kind": "written",
+      "tags": [
+        "types",
+        "numbers",
+        "written"
+      ],
+      "difficulty": "easy",
+      "prompt": "Explain this result in one or two sentences:\n\n    print(0.1 + 0.2 == 0.3)\n\nPython prints `False`. Here is the clue you need:\n\n    print(0.1 + 0.2)  \u2192  0.30000000000000004\n\nExplain why the addition produces that number, and why it makes the `==` comparison `False`.\n\nNotes\n\n- No code needed \u2014 plain English.\n- Say something about how Python stores decimal numbers.\n- Nothing is broken and this is not a Python bug; every language that stores decimals this way does the same thing."
+    },
+    {
+      "id": "same_type_check",
+      "title": "Same kind of thing?",
+      "kind": "code_fn",
+      "tags": [
+        "types",
+        "logic",
+        "conditions"
+      ],
+      "difficulty": "easy",
+      "prompt": "A quiz app stores two answers and wants to know whether they are the same *kind* of value \u2014 not whether they are equal, but whether they are the same type. Return `True` if they are, `False` otherwise.\n\nExamples\n\n    same_type_check(1, 2) \u2192 True\n    same_type_check(1, \"2\") \u2192 False\n    same_type_check(\"a\", \"b\") \u2192 True\n\nNotes\n\n- `type(x)` tells you what kind of value `x` is; two types can be compared with `==`.\n- `1` and `1.0` look equal, but they are not the same type.\n- Don't forget to return the result."
+    },
+    {
+      "id": "tip_total_bug",
+      "title": "The tip that made the bill huge",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "types",
+        "numbers"
+      ],
+      "difficulty": "medium",
+      "prompt": "`total_paid` is supposed to take a bill and a tip, each typed in as text, and return what was paid in total as a number. Instead, a $20 bill with a $3 tip comes back as the string `\"203\"` instead of the number `23.0`. Fix it.\n\nExamples\n\n    total_paid(\"20\", \"3\") \u2192 23.0\n    total_paid(\"12.50\", \"2.50\") \u2192 15.0\n    total_paid(\"0\", \"0\") \u2192 0.0\n\nNotes\n\n- Notice that the broken version does not crash \u2014 it happily returns a wrong answer.\n- Return a number, not a string."
+    },
+    {
+      "id": "scores_with_blanks",
+      "title": "Some judges left it blank",
+      "kind": "code_fn",
+      "tags": [
+        "types",
+        "arrays",
+        "loops"
+      ],
+      "difficulty": "medium",
+      "prompt": "A panel of judges typed their scores into a form, so they arrive as a list of strings. A judge who skipped the round left the box empty, which shows up as `\"\"`. Return a list of whole numbers, counting every blank as `0`.\n\nExamples\n\n    scores_with_blanks([\"8\", \"9\", \"\"]) \u2192 [8, 9, 0]\n    scores_with_blanks([\"\", \"\"]) \u2192 [0, 0]\n    scores_with_blanks([\"10\"]) \u2192 [10]\n\nNotes\n\n- `int(\"\")` raises an error, so you have to handle the blank before converting.\n- Return a new list \u2014 don't print it.\n- Stuck? Hit \"Show me how\"."
+    },
+    {
       "id": "hello_438",
       "title": "How challenges work",
       "kind": "code_fn",
@@ -318,8 +1531,8 @@
       "title": "Sum two variables",
       "kind": "code_var",
       "tags": [
-        "arithmetic",
-        "variables",
+        "math",
+        "language_fundamentals",
         "week1"
       ],
       "difficulty": "easy",
@@ -330,8 +1543,7 @@
       "title": "Remainder with %",
       "kind": "code_var",
       "tags": [
-        "arithmetic",
-        "operators",
+        "math",
         "week1"
       ],
       "difficulty": "easy",
@@ -343,7 +1555,7 @@
       "kind": "code_fn",
       "tags": [
         "functions",
-        "debug",
+        "bugs",
         "week1"
       ],
       "difficulty": "easy",
@@ -355,7 +1567,7 @@
       "kind": "code_fn",
       "tags": [
         "functions",
-        "arithmetic",
+        "math",
         "week1"
       ],
       "difficulty": "easy",
@@ -379,7 +1591,7 @@
       "kind": "mcq",
       "tags": [
         "concept",
-        "debug",
+        "bugs",
         "types",
         "week1"
       ],
@@ -393,7 +1605,7 @@
       "tags": [
         "concept",
         "predict",
-        "operators",
+        "math",
         "week1"
       ],
       "difficulty": "easy",
@@ -506,7 +1718,6 @@
       "kind": "code_var",
       "tags": [
         "strings",
-        "methods",
         "week2"
       ],
       "difficulty": "easy",

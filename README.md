@@ -98,7 +98,12 @@ double(0) == 0
 
 Optional sections: **`### walkthrough`** is a worked example, shown on the challenge
 behind a collapsed "Show me how" toggle, so it helps a stuck student without
-spoiling the answer. `difficulty: easy|medium|hard` sets the XP (10/20/35).
+spoiling the answer. `difficulty: starter|easy|medium|hard` sets the XP (5/10/20/35).
+
+Verify one file on its own with `python bankmd.py bank/<file>.md`. Beyond running
+every check against the solution, it rejects a `bugs`-tagged problem whose starter
+isn't actually broken, and a code problem with no `### starter` (which would open a
+blank editor for the student).
 
 The **`### check` lines must pass against the `### solution`** — if they don't,
 the build stops with an error, so a broken problem never ships. The checks also

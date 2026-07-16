@@ -170,7 +170,7 @@ next_num(-1) == 0
 ## sum_total
 kind: code_var
 title: Sum two variables
-tags: arithmetic, variables, week1
+tags: math, language_fundamentals, week1
 entry: total
 
 ### prompt
@@ -198,7 +198,7 @@ total == 12
 ## remainder_mod
 kind: code_var
 title: Remainder with %
-tags: arithmetic, operators, week1
+tags: math, week1
 entry: rem
 
 ### prompt
@@ -222,7 +222,7 @@ rem == 2
 ## double_fix
 kind: code_fn
 title: Fix the double function
-tags: functions, debug, week1
+tags: functions, bugs, week1
 entry: double
 
 ### prompt
@@ -252,7 +252,7 @@ double(25) == 50
 ## area_rect
 kind: code_fn
 title: Rectangle area
-tags: functions, arithmetic, week1
+tags: functions, math, week1
 entry: area
 
 ### prompt
@@ -313,7 +313,7 @@ is_even(1) is False
 ## mcq_str_plus_int
 kind: mcq
 title: What's wrong — text + number
-tags: concept, debug, types, week1
+tags: concept, bugs, types, week1
 answer: 2
 
 ### prompt
@@ -332,7 +332,7 @@ What is wrong with this code?
 ## mcq_floor_div
 kind: mcq
 title: Predict — 7 // 2
-tags: concept, predict, operators, week1
+tags: concept, predict, math, week1
 answer: 2
 
 ### prompt

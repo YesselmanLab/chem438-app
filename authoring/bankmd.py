@@ -15,6 +15,8 @@ build.py imports BANK from here; nothing downstream changes.
 from __future__ import annotations
 
 import ast
+import contextlib
+import io
 import re
 from pathlib import Path
 
@@ -93,16 +95,19 @@ TIERS = ("starter", "easy", "medium", "hard")
 def _fails(code, checks):
     """True if `code` is genuinely broken — it errors, or misses a check."""
     ns = {}
-    try:
-        exec(code, ns)  # noqa: S102 -- author-trusted starter
-    except Exception:  # noqa: BLE001
-        return True                     # doesn't even run: definitely broken
-    for c in checks:
+    # A starter is allowed to print (a classic bug is print-instead-of-return);
+    # swallow its output so running it here can't pollute the build log.
+    with contextlib.redirect_stdout(io.StringIO()):
         try:
-            if eval(c, dict(ns)) is not True:  # noqa: S307
-                return True
+            exec(code, ns)  # noqa: S102 -- author-trusted starter
         except Exception:  # noqa: BLE001
-            return True
+            return True                 # doesn't even run: definitely broken
+        for c in checks:
+            try:
+                if eval(c, dict(ns)) is not True:  # noqa: S307
+                    return True
+            except Exception:  # noqa: BLE001
+                return True
     return False
 
 
@@ -136,6 +141,11 @@ def _problem(pid, meta, sec, where):
     if kind in ("code_var", "code_fn"):
         prob["entry"] = meta["entry"]
         prob["starter"] = _code(sec.get("starter", ""))
+        # Without a starter the student opens an empty editor and isn't even told
+        # the function name. Nothing else catches this, so catch it here.
+        if not prob["starter"].strip():
+            raise SystemExit(f"[{pid}] has no '### starter' — a student would open "
+                             f"this to a blank editor ({where})")
         solution = _code(sec.get("solution", sec.get("reference", "")))
         checks = [c for c in sec.get("check", "").split("\n") if c.strip()]
         ns = {}
