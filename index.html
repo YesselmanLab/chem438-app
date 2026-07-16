@@ -137,6 +137,24 @@
              font-family:var(--sans);font-size:11.5px;padding:6px 8px;border-radius:8px;cursor:pointer}
   .hwc .prac:hover{border-color:var(--accent);color:var(--accent-ink)}
   .linkish{background:none;border:none;padding:0;font:inherit;color:var(--accent-ink);cursor:pointer;text-decoration:underline}
+  /* celebration on a correct solve */
+  .confetti{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
+  .confetti i{position:absolute;display:block;border-radius:2px;opacity:0;
+              animation:burst var(--d) cubic-bezier(.15,.6,.4,1) var(--dl) forwards}
+  @keyframes burst{
+    0%  {opacity:1;transform:translate(-50%,-50%) rotate(0) scale(1)}
+    45% {opacity:1;transform:translate(calc(-50% + var(--x)*.62), calc(-50% - 13vh)) rotate(calc(var(--r)*.5)) scale(1)}
+    100%{opacity:0;transform:translate(calc(-50% + var(--x)), calc(-50% + var(--y))) rotate(var(--r)) scale(.85)}
+  }
+  .solvedbanner{margin-top:10px;padding:12px 14px;border-radius:10px;background:var(--good-soft);
+                color:var(--good);font-weight:700;animation:popin .34s cubic-bezier(.2,1.5,.4,1)}
+  @keyframes popin{0%{transform:scale(.86);opacity:0}100%{transform:scale(1);opacity:1}}
+  .setdone{padding:12px 14px;border-radius:10px;background:var(--good-soft);color:var(--good);
+           font-weight:700;animation:popin .34s cubic-bezier(.2,1.5,.4,1)}
+  @media (prefers-reduced-motion: reduce){
+    .confetti{display:none}
+    .solvedbanner,.setdone{animation:none}
+  }
   .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(14px);z-index:50;
          background:var(--ink);color:var(--card);font-size:13px;padding:10px 16px;border-radius:9px;
          opacity:0;pointer-events:none;transition:opacity .16s,transform .16s;max-width:88vw;text-align:center}
@@ -357,6 +375,16 @@
     <div id="lessonList" class="lessonlist"></div>
   </div>
 
+  <!-- HOMEWORK AS A CHALLENGE SERIES -->
+  <div class="hidden" id="setCard">
+    <div class="card">
+      <h1 style="margin:0 0 2px" id="setTitle"></h1>
+      <p class="intro" id="setIntro"></p>
+      <div id="setProg"></div>
+      <div class="chgrid" id="setList" style="margin-top:16px"></div>
+    </div>
+  </div>
+
   <!-- QUESTIONS -->
   <div id="qCards" class="hidden"></div>
   <div class="card hidden" id="submitCard">
@@ -402,9 +430,9 @@ let lesson = null, manifest = [], units = [], maxOpenUnit = 0, pyodide = null, p
 // null = use the real gate from the manifest.
 let previewUnit = null;
 let challenges = [], mySubs = [], allSubs = [];      // practice challenges + submission rows
-let lastList = "dash", chFilter = null, tagFilter = null, chScope = null, curChal = null, chalState = {};
+let lastList = "dash", chFilter = null, tagFilter = null, chScope = null, curSet = null, curChal = null, chalState = {};
 let adminEmail = null, viewingAsStudent = false;
-const VIEWS = ["#startCard","#dashCard","#homeCard","#chCard","#chalCard","#qCards","#submitCard","#resultsCard","#instructorCard"];
+const VIEWS = ["#startCard","#dashCard","#homeCard","#chCard","#setCard","#chalCard","#qCards","#submitCard","#resultsCard","#instructorCard"];
 function hideAll(){ VIEWS.forEach(s=>{ const e=$(s); if(e) e.classList.add("hidden"); }); }
 // wide = dashboards/console (use the screen); narrow = reading/coding views
 function setWidth(wide){ document.querySelector(".wrap").classList.toggle("wide", !!wide); }
@@ -597,14 +625,48 @@ function backForList(){
     h.onclick=()=>{ viewingAsStudent=false; renderInstructor(adminEmail); }; }
   else h.classList.add("hidden");
 }
-function backTo(list){
-  const h=$("#homeBtn"); h.textContent="← Back"; h.classList.remove("hidden");
-  h.onclick=()=>navTo(list);
+function backTo(list){ backToFn("← Back", ()=>navTo(list)); }
+function backToFn(label, fn){
+  const h=$("#homeBtn"); h.textContent=label; h.classList.remove("hidden"); h.onclick=fn;
+}
+
+// ---------------- homework as a challenge series ----------------
+// mode="challenges": no single submit. Each challenge checks itself and ticks off.
+function setItems(l){ return (l.challenges||[]).map(id=>challenges.find(c=>c.id===id)).filter(Boolean); }
+function setDone(l, s){ return setItems(l).filter(c=>(s||solvedIds()).has(c.id)).length; }
+
+function showChallengeSet(l){
+  hideAll(); setWidth(true); $("#setCard").classList.remove("hidden");
+  setNav("hw"); curSet = l; backTo("hw");
+  const s = solvedIds(), items = setItems(l), done = items.filter(c=>s.has(c.id)).length;
+  const all = items.length && done === items.length;
+  $("#lessonTitle").textContent = l.title;
+  $("#setTitle").textContent = l.title;
+  $("#setIntro").textContent = l.intro || "";
+  const pct = items.length ? Math.round(100*done/items.length) : 0;
+  $("#setProg").innerHTML =
+    (all ? '<div class="setdone">🎉 Homework complete — all '+items.length+' solved. Nice work.</div>' : '')+
+    '<div class="bar" style="margin-top:10px"><span class="k">'+done+' of '+items.length+' solved</span>'+
+    '<span class="t"><span style="width:'+pct+'%"></span></span><span class="v">'+pct+'%</span></div>';
+  $("#setList").innerHTML = items.map(c=>chCardHtml(c,s)).join("");
+  wireCards();
 }
 
 // ---------------- dashboard ----------------
 function stat(n,l,c){ return '<div class="st"><div class="n '+c+'">'+n+'</div><div class="l">'+l+'</div></div>'; }
 function hwCardHtml(l,hw){
+  // A challenge-series homework has no single submit — progress IS how many of
+  // its challenges are solved, so read that straight off the solved set.
+  if(l.mode === "challenges"){
+    const s=solvedIds(), items=setItems(l), done=items.filter(c=>s.has(c.id)).length;
+    const pct = items.length ? Math.round(100*done/items.length) : 0;
+    const ft = done===items.length && items.length
+      ? '<span>complete</span><span class="scored">'+done+'/'+items.length+' ✓</span>'
+      : '<span>'+(done?"in progress":"not started")+'</span><span>'+done+'/'+items.length+'</span>';
+    return '<div class="hwc" data-open="'+l.id+'"><h4>'+esc(l.title)+'</h4>'+
+      '<div class="trk"><span style="width:'+pct+'%"></span></div><div class="ft">'+ft+'</div>'+
+      '<button class="prac" data-practice="'+l.id+'">▤ '+practiceFor(l).length+' practice challenges on this material</button></div>';
+  }
   const sub=hw.find(r=>r.lesson===l.id);
   const started=!!localStorage.getItem("c438:"+student.id+":"+l.id);
   const prog=sub?100:(started?40:0);
@@ -664,6 +726,42 @@ function wireCards(){
   $$("[data-practice]").forEach(el=>el.onclick=(e)=>{
     e.stopPropagation(); showChallenges(el.dataset.practice); });
 }
+// ---------------- celebration ----------------
+// Self-contained: a strict CSP blocks any external confetti library, and this is
+// ~20 lines anyway. big=true for finishing a whole homework.
+function confetti(big){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const n = big ? 96 : 36;
+  const host = document.createElement("div"); host.className = "confetti";
+  const colors = ["#f59e0b","#10b981","#3b82f6","#ef4444","#8b5cf6","#ec4899","#14b8a6"];
+  for(let i=0;i<n;i++){
+    const p = document.createElement("i"), R = Math.random;
+    p.style.cssText =
+      "left:50%;top:"+(big?46:52)+"%;"+
+      "width:"+(5+R()*6).toFixed(1)+"px;height:"+(8+R()*7).toFixed(1)+"px;"+
+      "background:"+colors[i%colors.length]+";"+
+      "--x:"+((R()*2-1)*(big?52:30)).toFixed(1)+"vw;"+
+      "--y:"+(38+R()*46).toFixed(1)+"vh;"+
+      "--r:"+(R()*900-450).toFixed(0)+"deg;"+
+      "--d:"+(1.0+R()*.85).toFixed(2)+"s;"+
+      "--dl:"+(R()*(big?.3:.14)).toFixed(2)+"s";
+    host.appendChild(p);
+  }
+  document.body.appendChild(host);
+  setTimeout(()=>host.remove(), 2600);
+}
+// Fires on a FIRST solve only — re-solving something shouldn't throw a party.
+function celebrate(){
+  confetti(false);
+  if(!curSet) return;
+  const items = setItems(curSet), s = solvedIds();
+  if(items.length && items.every(x=>s.has(x.id))){
+    setTimeout(()=>{
+      confetti(true);
+      toast("🎉 "+curSet.title.split("—")[0].trim()+" complete — all "+items.length+" solved!");
+    }, 400);
+  }
+}
 function toast(msg){
   let t=$("#toast");
   if(!t){ t=document.createElement("div"); t.id="toast"; t.className="toast"; document.body.appendChild(t); }
@@ -672,7 +770,7 @@ function toast(msg){
 }
 
 function showDashboard(){
-  hideAll(); setWidth(true); $("#dashCard").classList.remove("hidden");
+  hideAll(); setWidth(true); curSet = null; $("#dashCard").classList.remove("hidden");
   setNav("dash"); lastList="dash"; backForList();
   $("#lessonTitle").textContent="Dashboard";
   updateChips();
@@ -700,7 +798,7 @@ function showDashboard(){
 }
 
 function showHomework(){
-  hideAll(); setWidth(true); $("#homeCard").classList.remove("hidden");
+  hideAll(); setWidth(true); curSet = null; $("#homeCard").classList.remove("hidden");
   setNav("hw"); lastList="hw"; backForList();
   $("#lessonTitle").textContent="Homework";
   $("#homeHi").textContent="Graded assignments. Submit when you're done.";
@@ -710,7 +808,7 @@ function showHomework(){
 
 // scopeId: an assignment id to show practice for, or null for the whole course.
 function showChallenges(scopeId){
-  hideAll(); setWidth(true); $("#chCard").classList.remove("hidden");
+  hideAll(); setWidth(true); curSet = null; $("#chCard").classList.remove("hidden");
   setNav("ch"); lastList="ch"; backForList();
   chScope = (scopeId === undefined) ? chScope : scopeId;
   const scope = chScope ? manifest.find(l=>l.id===chScope) : null;
@@ -762,7 +860,8 @@ async function openChallenge(id){
   }
   curChal=c; chalState={};
   hideAll(); setWidth(false); $("#chalCard").classList.remove("hidden");
-  setNav("ch"); backTo("ch");
+  if(curSet){ setNav("hw"); backToFn("← "+curSet.title.split("—")[0].trim(), ()=>showChallengeSet(curSet)); }
+  else { setNav("ch"); backTo("ch"); }
   $("#lessonTitle").textContent=c.title;
   $("#chalTitle").textContent=c.title;
   $("#chalDiff").textContent=c.difficulty;
@@ -818,10 +917,22 @@ function gradeWithKey(a,k){
 }
 async function recordSolve(c){
   if(!SUPA || !student.id.startsWith("email:")) return;
+  const email = student.id.slice(6);
   try{
     await SUPA.from("submissions").upsert(
-      {email:student.id.slice(6), lesson:"ch:"+c.id, score:1, out_of:1, results:{solved:true}},
+      {email, lesson:"ch:"+c.id, score:1, out_of:1, results:{solved:true}},
       {onConflict:"email,lesson"});
+    await loadMySubs();
+    // A challenge-series homework has no submit button, so its gradebook row is
+    // derived: score = how many of its challenges this student has solved.
+    const s = solvedIds();
+    for(const l of manifest.filter(x=>x.mode==="challenges" && (x.challenges||[]).includes(c.id))){
+      const items = setItems(l), done = items.filter(x=>s.has(x.id)).length;
+      await SUPA.from("submissions").upsert(
+        {email, lesson:l.id, score:done, out_of:items.length,
+         results:{mode:"challenges", solved:items.filter(x=>s.has(x.id)).map(x=>x.id)}},
+        {onConflict:"email,lesson"});
+    }
     await loadMySubs();
   }catch(e){}
 }
@@ -1020,6 +1131,7 @@ async function openLesson(id){
   if(meta && !meta.open && !viewingAsStudent && !adminEmail){
     toast("That assignment hasn't been released yet."); return showHomework();
   }
+  if(meta && meta.mode === "challenges") return showChallengeSet(meta);
   hideAll(); setWidth(false);
   $("#errBanner").classList.remove("show");
   try{ lesson = await fetch(`lessons/${id}.json`).then(r=>r.json()); }
@@ -1244,10 +1356,22 @@ $("#chalSubmit").onclick = async ()=>{
   const ok = gradeWithKey(a, c.grade);
   if(ok === true){
     const already = solvedIds().has(c.id);
-    res.innerHTML = '<div style="margin-top:10px;padding:12px 14px;border-radius:10px;background:var(--good-soft);color:var(--good);font-weight:700">🎉 Solved!'
+    res.innerHTML = '<div class="solvedbanner">🎉 Solved!'
       + (already ? " (already earned)" : " +" + c.xp + " XP") + '</div>';
     await recordSolve(c);
     updateChips();
+    if(!already) celebrate();
+    // In a series, keep them moving instead of making them hit Back every time.
+    if(curSet){
+      const s = solvedIds(), items = setItems(curSet);
+      const next = items.find(x => !s.has(x.id) && x.id !== c.id);
+      const btn = document.createElement("button");
+      btn.className = "btn btn-primary btn-sm";
+      btn.style.marginTop = "10px";
+      btn.textContent = next ? "Next: " + next.title + " →" : "← Back to " + curSet.title.split("—")[0].trim();
+      btn.onclick = () => next ? openChallenge(next.id) : showChallengeSet(curSet);
+      res.appendChild(btn);
+    }
   } else {
     res.innerHTML = '<div style="margin-top:10px;padding:12px 14px;border-radius:10px;background:var(--bad-soft);color:var(--bad);font-weight:600">✗ Not correct yet — keep trying.</div>';
   }

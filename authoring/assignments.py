@@ -25,27 +25,33 @@ ASSIGNMENTS = {
     # A full demo homework, composed by picking problems out of the bank.
     # Mixes all four kinds: define-a-variable, write-a-function, fix-a-bug,
     # multiple choice, and one written answer.
+    # Homework 1 is a SERIES OF CHALLENGES, not one big submit-at-the-end form.
+    # Students solve each one on its own and it ticks off; the homework is done
+    # when all ten are green. mode="challenges" is what does that.
     "homework_01": dict(
         title="Homework 1 — Python basics",
-        unit=3,          # spans basics, strings and booleans (is_even)
+        unit=1,
         open=True,
-        intro="Nine questions on variables, arithmetic, strings, and functions. "
-              "Write your answer, hit Run to test it, then Submit the whole "
-              "assignment for a score. The written question is read by your instructor.",
+        mode="challenges",
+        intro="Ten challenges to get you going. Solve them in any order — each one "
+              "checks itself the moment you hit Submit, and you can retry as many "
+              "times as you like. No penalty for a wrong answer, so experiment.",
         problems=[
-            # --- variables & arithmetic ---
+            # 1-2: the ramp in. One line each, impossible to get lost.
+            "hello_438",            # how a challenge works, start to finish
+            "pizza_slices_each",    # assign one variable
+            # 3-5: your first functions
             "sum_total",
-            "remainder_mod",
-            "str_upper",
-            # --- writing & fixing functions ---
+            "addition",
+            "next_num",
+            # 6: read the examples, find the pattern yourself
+            "convert_minutes",
+            # 7-8: read broken code and fix it — the print-vs-return trap first
+            "seats_left_print_bug",
             "double_fix",
-            "area_rect",
-            "is_even",
-            # --- concepts: read code, don't write it ---
-            "mcq_str_plus_int",
+            # 9-10: read code without writing any
+            "mcq_four_vs_string_four",
             "mcq_floor_div",
-            # --- explain in your own words ---
-            "written_plus_vs_star_hello",
         ],
     ),
     "lesson_01": dict(

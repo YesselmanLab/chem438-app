@@ -1,16 +1,29 @@
 {
   "lessons": [
     {
+      "id": "homework_01",
+      "title": "Homework 1 \u2014 Python basics",
+      "unit": 1,
+      "open": true,
+      "mode": "challenges",
+      "challenges": [
+        "hello_438",
+        "pizza_slices_each",
+        "sum_total",
+        "addition",
+        "next_num",
+        "convert_minutes",
+        "seats_left_print_bug",
+        "double_fix",
+        "mcq_four_vs_string_four",
+        "mcq_floor_div"
+      ]
+    },
+    {
       "id": "lesson_02",
       "title": "Lesson 2 \u2014 strings & functions",
       "unit": 2,
       "open": false
-    },
-    {
-      "id": "homework_01",
-      "title": "Homework 1 \u2014 Python basics",
-      "unit": 3,
-      "open": true
     },
     {
       "id": "lesson_01",

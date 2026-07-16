@@ -44,15 +44,47 @@ def expected_for_code_var(p, qid):
     return norm.normalize(ns[p["entry"]])
 
 
+def check_unit(assignment_id, a):
+    """An assignment cannot cover less material than its own problems need — that
+    would unlock practice for a unit whose homework hasn't been released."""
+    needed = max((unit_of(BANK[pid]) for pid in a["problems"]), default=1)
+    if a.get("unit", 1) < needed:
+        worst = [pid for pid in a["problems"] if unit_of(BANK[pid]) == needed]
+        raise SystemExit(
+            f"[{assignment_id}] says unit={a.get('unit', 1)} but contains {worst[0]!r}, "
+            f"which needs unit {needed} ({UNIT_NAMES[needed]}). Either raise the "
+            f"assignment's unit to {needed} or drop that problem.")
+
+
 def build(assignment_id):
     if assignment_id not in ASSIGNMENTS:
         raise SystemExit(f"unknown assignment {assignment_id!r}; have {sorted(ASSIGNMENTS)}")
     a = ASSIGNMENTS[assignment_id]
     public_qs, keys = [], {}
 
-    for i, pid in enumerate(a["problems"], 1):
+    for pid in a["problems"]:
         if pid not in BANK:
             raise SystemExit(f"[{assignment_id}] problem {pid!r} is not in the bank")
+
+    # mode="challenges": the assignment is just an ordered list of practice
+    # challenges. Students solve each on its own; there's no single submit, and no
+    # keys to hide — the challenge already carries its own grading.
+    if a.get("mode") == "challenges":
+        for pid in a["problems"]:
+            if BANK[pid]["kind"] == "written":
+                raise SystemExit(
+                    f"[{assignment_id}] {pid!r} is a written question, which can't check "
+                    f"itself — a challenge-series assignment needs auto-gradable problems.")
+        check_unit(assignment_id, a)
+        public = {"id": assignment_id, "title": a["title"], "intro": a.get("intro", ""),
+                  "unit": a.get("unit", 1), "mode": "challenges", "challenges": list(a["problems"])}
+        PUBLIC_DIR.mkdir(exist_ok=True)
+        (PUBLIC_DIR / f"{assignment_id}.json").write_text(json.dumps(public, indent=2))
+        update_manifest(assignment_id, a["title"])
+        print(f"built {assignment_id}: {len(a['problems'])} challenges (series, self-checking)")
+        return assignment_id, {}
+
+    for i, pid in enumerate(a["problems"], 1):
         p = BANK[pid]
         qid = f"q{i}"
         kind = p["kind"]
@@ -71,16 +103,7 @@ def build(assignment_id):
         else:
             raise SystemExit(f"[{qid}] unknown kind {kind!r}")
 
-    # An assignment cannot cover less material than its own problems need — that
-    # would unlock practice for a unit whose homework hasn't been released.
-    needed = max((unit_of(BANK[pid]) for pid in a["problems"]), default=1)
-    if a.get("unit", 1) < needed:
-        worst = [pid for pid in a["problems"] if unit_of(BANK[pid]) == needed]
-        raise SystemExit(
-            f"[{assignment_id}] says unit={a.get('unit', 1)} but contains {worst[0]!r}, "
-            f"which needs unit {needed} ({UNIT_NAMES[needed]}). Either raise the "
-            f"assignment's unit to {needed} or drop that problem.")
-
+    check_unit(assignment_id, a)
     public = {"id": assignment_id, "title": a["title"], "intro": a.get("intro", ""),
               "unit": a.get("unit", 1), "questions": public_qs}
     # VIABILITY MODE: ship the answer keys so the browser can grade (soft-hidden).
@@ -105,8 +128,13 @@ def update_manifest(assignment_id, title):
         except Exception: pass
     a = ASSIGNMENTS[assignment_id]
     lessons = [l for l in data.get("lessons", []) if l.get("id") != assignment_id]
-    lessons.append({"id": assignment_id, "title": title,
-                    "unit": a.get("unit", 1), "open": bool(a.get("open", False))})
+    entry = {"id": assignment_id, "title": title,
+             "unit": a.get("unit", 1), "open": bool(a.get("open", False))}
+    if a.get("mode") == "challenges":
+        # ship the list so the app can show progress without fetching the lesson
+        entry["mode"] = "challenges"
+        entry["challenges"] = list(a["problems"])
+    lessons.append(entry)
     lessons.sort(key=lambda l: (l.get("unit", 1), l["id"]))
     # The gate: the furthest unit any OPEN assignment reaches. Everything up to
     # there is unlocked — an assignment covering unit 3 has necessarily taught
