@@ -1,0 +1,16 @@
+{
+  "id": "hw_numpy",
+  "title": "Numbers at scale \u2014 NumPy",
+  "intro": "NumPy does math on whole arrays at once \u2014 no loop needed \u2014 and it's what pandas, plotting and every science library is built on. Work through the notebook, then check in.",
+  "unit": 14,
+  "mode": "notebook",
+  "url": "https://colab.research.google.com/",
+  "preview": "import numpy as np\n\nreadings = np.array([100, 112, 98, 120])\nprint(readings[readings > 100].mean())   # mean of just the high ones",
+  "question": "The check-in builds 50 seeded readings, keeps those above 100, and prints their mean (2 decimals). What is it?",
+  "checkinUnit": "",
+  "grade": {
+    "kind": "value",
+    "expected": 111.67,
+    "tol": 0.2
+  }
+}

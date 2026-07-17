@@ -1,0 +1,16 @@
+{
+  "id": "hw_plotting",
+  "title": "Plotting your data",
+  "intro": "A plot is how you SEE data. matplotlib draws lines, scatters, bars and histograms \u2014 and this homework is as much about choosing the RIGHT plot and reading one honestly as drawing it. Work through it, then check in.",
+  "unit": 13,
+  "mode": "notebook",
+  "url": "https://colab.research.google.com/",
+  "preview": "import matplotlib.pyplot as plt\n\nplt.plot(months, yields)\nplt.xlabel(\"month\"); plt.ylabel(\"yield %\")   # a plot with no labels is useless\nplt.show()",
+  "question": "The notebook plots 12 months of reaction yields. How many months had a yield above the average? (the check-in prints it)",
+  "checkinUnit": "",
+  "grade": {
+    "kind": "value",
+    "expected": 6.0,
+    "tol": 0.5
+  }
+}

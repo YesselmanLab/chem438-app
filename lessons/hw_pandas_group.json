@@ -1,0 +1,16 @@
+{
+  "id": "hw_pandas_group",
+  "title": "Grouping & merging data",
+  "intro": "The two moves that turn a table into an answer: grouping (one row per category) and merging (joining two tables). Work through the notebook, then check in.",
+  "unit": 12,
+  "mode": "notebook",
+  "url": "https://colab.research.google.com/",
+  "preview": "df.groupby(\"lab\")[\"yield_pct\"].mean()   # each lab's average yield",
+  "question": "The check-in cell groups samples by lab and prints the highest lab-average yield (1 decimal). What is it?",
+  "checkinUnit": "",
+  "grade": {
+    "kind": "value",
+    "expected": 38.3,
+    "tol": 0.2
+  }
+}

@@ -78,6 +78,83 @@ ASSIGNMENTS = {
         ],
     ),
 
+    # ─────────────────────────────────────────────────────────────────────────
+    # SCIENCE-STACK HOMEWORKS — each is a Colab notebook (in notebooks/), because
+    # these libraries can't run in the browser. The app teaches the concept, hands
+    # off to the notebook, and records a check-in keyed to a value the notebook
+    # prints. Upload each notebook to Colab, paste its share link into `url`, then
+    # flip open=True to release it. Check-in answers are computed + verified.
+    # ─────────────────────────────────────────────────────────────────────────
+    "hw_pandas": dict(
+        title="Data with pandas",
+        unit=12, open=False, mode="notebook",
+        url="https://colab.research.google.com/",   # notebooks/hw_pandas_basics.ipynb
+        intro="Real data lives in tables. pandas is how Python handles them — loading, "
+              "filtering, sorting, and summarising a spreadsheet in a few lines. Work "
+              "through the notebook, then check in.",
+        preview="import pandas as pd\n\n"
+                "df = pd.DataFrame({\"Sample\": [\"S1\",\"S2\"], \"Purity\": [98.2, 88.4]})\n"
+                "print(df[df[\"Purity\"] >= 95])   # just the pure ones",
+        checkin=dict(question="In the notebook, how many samples in samples.csv have a "
+                              "Purity of at least 95? (the check-in cell prints it)",
+                     expected=4, tol=0.5),
+    ),
+    "hw_pandas_group": dict(
+        title="Grouping & merging data",
+        unit=12, open=False, mode="notebook",
+        url="https://colab.research.google.com/",   # notebooks/hw_pandas_group.ipynb
+        intro="The two moves that turn a table into an answer: grouping (one row per "
+              "category) and merging (joining two tables). Work through the notebook, "
+              "then check in.",
+        preview="df.groupby(\"lab\")[\"yield_pct\"].mean()   # each lab's average yield",
+        checkin=dict(question="The check-in cell groups samples by lab and prints the "
+                              "highest lab-average yield (1 decimal). What is it?",
+                     expected=38.3, tol=0.2),
+    ),
+    "hw_plotting": dict(
+        title="Plotting your data",
+        unit=13, open=False, mode="notebook",
+        url="https://colab.research.google.com/",   # notebooks/hw_plotting.ipynb
+        intro="A plot is how you SEE data. matplotlib draws lines, scatters, bars and "
+              "histograms — and this homework is as much about choosing the RIGHT plot "
+              "and reading one honestly as drawing it. Work through it, then check in.",
+        preview="import matplotlib.pyplot as plt\n\n"
+                "plt.plot(months, yields)\n"
+                "plt.xlabel(\"month\"); plt.ylabel(\"yield %\")   # a plot with no labels is useless\n"
+                "plt.show()",
+        checkin=dict(question="The notebook plots 12 months of reaction yields. How many "
+                              "months had a yield above the average? (the check-in prints it)",
+                     expected=6, tol=0.5),
+    ),
+    "hw_numpy": dict(
+        title="Numbers at scale — NumPy",
+        unit=14, open=False, mode="notebook",
+        url="https://colab.research.google.com/",   # notebooks/hw_numpy.ipynb
+        intro="NumPy does math on whole arrays at once — no loop needed — and it's what "
+              "pandas, plotting and every science library is built on. Work through the "
+              "notebook, then check in.",
+        preview="import numpy as np\n\n"
+                "readings = np.array([100, 112, 98, 120])\n"
+                "print(readings[readings > 100].mean())   # mean of just the high ones",
+        checkin=dict(question="The check-in builds 50 seeded readings, keeps those above "
+                              "100, and prints their mean (2 decimals). What is it?",
+                     expected=111.67, tol=0.2),
+    ),
+    "hw_regression": dict(
+        title="Fitting data — regression",
+        unit=15, open=False, mode="notebook",
+        url="https://colab.research.google.com/",   # notebooks/hw_regression.ipynb
+        intro="Fitting a line to data — and, more importantly, reading what the fit MEANS: "
+              "the slope in real units, R² as how much the line explains, and when a line "
+              "is the wrong model. Work through the notebook, then check in.",
+        preview="from scipy import stats\n\n"
+                "fit = stats.linregress(x, y)\n"
+                "print(fit.slope, fit.rvalue**2)   # slope, and R²",
+        checkin=dict(question="The check-in fits a line to a seeded dataset and prints the "
+                              "fitted slope (2 decimals). What is it?",
+                     expected=1.88, tol=0.03),
+    ),
+
     # A Colab-notebook homework, for material that can't run in the browser.
     # The notebook (notebooks/hw_molecules_rdkit.ipynb) is the homework; the app
     # teaches the concept, hands off, and records the check-in.
@@ -101,5 +178,20 @@ ASSIGNMENTS = {
                      "weight did it print for caffeine (to 1 decimal)?",
             expected=194.2, tol=0.1, unit="g/mol",
         ),
+    ),
+    "hw_structures": dict(
+        title="Protein structures",
+        unit=17, open=False, mode="notebook",
+        url="https://colab.research.google.com/",   # notebooks/hw_structures.ipynb
+        intro="A protein structure is a list of atoms with 3D coordinates — and once you "
+              "load one, it's just a pandas DataFrame, so everything you already know "
+              "applies. You'll load lysozyme from the PDB and measure it. Work through the "
+              "notebook, then check in.",
+        preview="from biopandas.pdb import PandasPdb\n\n"
+                "atoms = PandasPdb().fetch_pdb(\"1AKI\").df[\"ATOM\"]\n"
+                "print(len(atoms[atoms[\"element_symbol\"] == \"C\"]))   # carbon atoms",
+        checkin=dict(question="The check-in cell counts the carbon atoms in the 1AKI "
+                              "structure. How many are there?",
+                     expected=613, tol=0.5),
     ),
 }

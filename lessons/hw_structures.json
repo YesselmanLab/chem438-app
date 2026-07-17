@@ -1,0 +1,16 @@
+{
+  "id": "hw_structures",
+  "title": "Protein structures",
+  "intro": "A protein structure is a list of atoms with 3D coordinates \u2014 and once you load one, it's just a pandas DataFrame, so everything you already know applies. You'll load lysozyme from the PDB and measure it. Work through the notebook, then check in.",
+  "unit": 17,
+  "mode": "notebook",
+  "url": "https://colab.research.google.com/",
+  "preview": "from biopandas.pdb import PandasPdb\n\natoms = PandasPdb().fetch_pdb(\"1AKI\").df[\"ATOM\"]\nprint(len(atoms[atoms[\"element_symbol\"] == \"C\"]))   # carbon atoms",
+  "question": "The check-in cell counts the carbon atoms in the 1AKI structure. How many are there?",
+  "checkinUnit": "",
+  "grade": {
+    "kind": "value",
+    "expected": 613.0,
+    "tol": 0.5
+  }
+}

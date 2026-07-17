@@ -1,0 +1,16 @@
+{
+  "id": "hw_pandas",
+  "title": "Data with pandas",
+  "intro": "Real data lives in tables. pandas is how Python handles them \u2014 loading, filtering, sorting, and summarising a spreadsheet in a few lines. Work through the notebook, then check in.",
+  "unit": 12,
+  "mode": "notebook",
+  "url": "https://colab.research.google.com/",
+  "preview": "import pandas as pd\n\ndf = pd.DataFrame({\"Sample\": [\"S1\",\"S2\"], \"Purity\": [98.2, 88.4]})\nprint(df[df[\"Purity\"] >= 95])   # just the pure ones",
+  "question": "In the notebook, how many samples in samples.csv have a Purity of at least 95? (the check-in cell prints it)",
+  "checkinUnit": "",
+  "grade": {
+    "kind": "value",
+    "expected": 4.0,
+    "tol": 0.5
+  }
+}

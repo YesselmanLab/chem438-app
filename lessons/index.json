@@ -32,9 +32,51 @@
       ]
     },
     {
+      "id": "hw_pandas",
+      "title": "Data with pandas",
+      "unit": 12,
+      "open": false,
+      "mode": "notebook"
+    },
+    {
+      "id": "hw_pandas_group",
+      "title": "Grouping & merging data",
+      "unit": 12,
+      "open": false,
+      "mode": "notebook"
+    },
+    {
+      "id": "hw_plotting",
+      "title": "Plotting your data",
+      "unit": 13,
+      "open": false,
+      "mode": "notebook"
+    },
+    {
+      "id": "hw_numpy",
+      "title": "Numbers at scale \u2014 NumPy",
+      "unit": 14,
+      "open": false,
+      "mode": "notebook"
+    },
+    {
+      "id": "hw_regression",
+      "title": "Fitting data \u2014 regression",
+      "unit": 15,
+      "open": false,
+      "mode": "notebook"
+    },
+    {
       "id": "hw_molecules",
       "title": "Homework 7 \u2014 Working with molecules",
-      "unit": 12,
+      "unit": 16,
+      "open": false,
+      "mode": "notebook"
+    },
+    {
+      "id": "hw_structures",
+      "title": "Protein structures",
+      "unit": 17,
       "open": false,
       "mode": "notebook"
     }
@@ -74,43 +116,73 @@
       "n": 6,
       "name": "Lists",
       "open": false,
-      "opens_with": "Homework 7 \u2014 Working with molecules"
+      "opens_with": "Data with pandas"
     },
     {
       "n": 7,
       "name": "Loops",
       "open": false,
-      "opens_with": "Homework 7 \u2014 Working with molecules"
+      "opens_with": "Data with pandas"
     },
     {
       "n": 8,
       "name": "Dictionaries",
       "open": false,
-      "opens_with": "Homework 7 \u2014 Working with molecules"
+      "opens_with": "Data with pandas"
     },
     {
       "n": 9,
       "name": "Planning your code",
       "open": false,
-      "opens_with": "Homework 7 \u2014 Working with molecules"
+      "opens_with": "Data with pandas"
     },
     {
       "n": 10,
       "name": "Modules & imports",
       "open": false,
-      "opens_with": "Homework 7 \u2014 Working with molecules"
+      "opens_with": "Data with pandas"
     },
     {
       "n": 11,
       "name": "Files",
       "open": false,
-      "opens_with": "Homework 7 \u2014 Working with molecules"
+      "opens_with": "Data with pandas"
     },
     {
       "n": 12,
+      "name": "Data with pandas",
+      "open": false,
+      "opens_with": "Data with pandas"
+    },
+    {
+      "n": 13,
+      "name": "Plotting",
+      "open": false,
+      "opens_with": "Plotting your data"
+    },
+    {
+      "n": 14,
+      "name": "NumPy",
+      "open": false,
+      "opens_with": "Numbers at scale \u2014 NumPy"
+    },
+    {
+      "n": 15,
+      "name": "Fitting data",
+      "open": false,
+      "opens_with": "Fitting data \u2014 regression"
+    },
+    {
+      "n": 16,
       "name": "Working with molecules",
       "open": false,
       "opens_with": "Homework 7 \u2014 Working with molecules"
+    },
+    {
+      "n": 17,
+      "name": "Protein structures",
+      "open": false,
+      "opens_with": "Protein structures"
     }
   ],
   "max_open_unit": 5

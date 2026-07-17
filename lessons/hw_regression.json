@@ -1,0 +1,16 @@
+{
+  "id": "hw_regression",
+  "title": "Fitting data \u2014 regression",
+  "intro": "Fitting a line to data \u2014 and, more importantly, reading what the fit MEANS: the slope in real units, R\u00b2 as how much the line explains, and when a line is the wrong model. Work through the notebook, then check in.",
+  "unit": 15,
+  "mode": "notebook",
+  "url": "https://colab.research.google.com/",
+  "preview": "from scipy import stats\n\nfit = stats.linregress(x, y)\nprint(fit.slope, fit.rvalue**2)   # slope, and R\u00b2",
+  "question": "The check-in fits a line to a seeded dataset and prints the fitted slope (2 decimals). What is it?",
+  "checkinUnit": "",
+  "grade": {
+    "kind": "value",
+    "expected": 1.88,
+    "tol": 0.03
+  }
+}
