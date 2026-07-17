@@ -140,6 +140,16 @@ def check_page(path):
         printed = out.split("\n")
         if printed and printed[-1] == "":
             printed.pop()
+        # A block that ADVERTISES an error must actually raise one. Without this, an
+        # example can teach a false lesson and still pass: the page says "this fails
+        # with NameError", the block quietly succeeds (because an earlier block
+        # already imported the name), and every printed line still matches.
+        claimed_err = [c for c in re.findall(r"#\s*([A-Za-z_]+(?:Error|Exception)\b[^\n]*)", code)]
+        if claimed_err and not err:
+            problems.append(f"  line {line_no}: claims {claimed_err[0].strip()!r} but the block "
+                            f"RAN FINE — the error it teaches does not happen")
+            continue
+
         wants, style = expected_outputs(code)
         if wants is None:
             continue                       # block claims no output; nothing to check

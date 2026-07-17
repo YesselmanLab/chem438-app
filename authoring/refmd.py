@@ -160,6 +160,9 @@ def load():
     ids = [p["id"] for p in pages]
     if len(set(ids)) != len(ids):
         raise SystemExit("duplicate reference page id")
+    # Course order, not filename order — 09_errors is unit 1 and belongs near the
+    # front, not after the unit-8 material just because of how it sorts on disk.
+    pages.sort(key=lambda p: (p["unit"], p["id"]))
     return pages
 
 

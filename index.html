@@ -39,7 +39,7 @@
     --good:#4ecb96;--good-soft:#172a24;--bad:#f0849a;--bad-soft:#2c1a20;--code-bg:#10121c;
     --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 34px rgba(0,0,0,.4);}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:1rem;line-height:1.55;-webkit-font-smoothing:antialiased}
   /* size-adaptive: reading views stay narrow; dashboards/console use the screen */
   /* three widths: narrow for the login form, mid for reading+coding (a code
      editor needs more room than prose), wide for dashboards and the console */
@@ -48,56 +48,56 @@
   .wrap.wide{max-width:1160px}
   @media (min-width:1500px){ .wrap.wide{max-width:1320px} .wrap.mid{max-width:1100px} }
   .top{display:flex;align-items:center;gap:10px;margin-bottom:18px}
-  .logo{width:30px;height:30px;border-radius:8px;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:14px}
-  .top b{font-weight:650}.top small{display:block;color:var(--faint);font-size:12px}
-  .banner{font-size:13px;padding:10px 14px;border-radius:10px;margin-bottom:16px;display:none}
+  .logo{width:30px;height:30px;border-radius:8px;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:0.875rem}
+  .top b{font-weight:650}.top small{display:block;color:var(--faint);font-size:0.75rem}
+  .banner{font-size:0.8125rem;padding:10px 14px;border-radius:10px;margin-bottom:16px;display:none}
   .banner.show{display:block}
   .banner.warn{background:var(--bad-soft);color:var(--bad)}
   .banner.info{background:var(--accent-soft);color:var(--accent-ink)}
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:24px;margin-bottom:16px}
   h1{font-size:1.4rem;margin:0 0 6px;letter-spacing:-.02em}
   .intro{color:var(--soft);margin:0 0 4px}
-  label.fld{display:block;font-size:13px;font-weight:600;color:var(--soft);margin:0 0 8px}
-  select,input,textarea{width:100%;font-family:var(--sans);font-size:16px;color:var(--ink);background:var(--bg);border:1.5px solid var(--line2);border-radius:10px;padding:11px 13px;outline:none}
+  label.fld{display:block;font-size:0.8125rem;font-weight:600;color:var(--soft);margin:0 0 8px}
+  select,input,textarea{width:100%;font-family:var(--sans);font-size:1.0rem;color:var(--ink);background:var(--bg);border:1.5px solid var(--line2);border-radius:10px;padding:11px 13px;outline:none}
   select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-  textarea.code{font-family:var(--mono);font-size:13.5px;line-height:1.5;min-height:96px;white-space:pre;overflow-wrap:normal;tab-size:4}
+  textarea.code{font-family:var(--mono);font-size:0.8438rem;line-height:1.5;min-height:96px;white-space:pre;overflow-wrap:normal;tab-size:4}
   textarea.prose{min-height:96px;line-height:1.5}
-  .btn{font-family:var(--sans);font-size:15px;font-weight:600;border-radius:10px;padding:11px 18px;border:1.5px solid transparent;cursor:pointer}
+  .btn{font-family:var(--sans);font-size:0.9375rem;font-weight:600;border-radius:10px;padding:11px 18px;border:1.5px solid transparent;cursor:pointer}
   .btn:active{transform:translateY(1px)}
   .btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:var(--accent-ink)}
   .btn-primary:disabled{background:var(--line2);color:var(--faint);cursor:not-allowed}
   .btn-ghost{background:transparent;color:var(--soft);border:1.5px solid var(--line2)}
   .btn-ghost:hover{color:var(--ink);border-color:var(--faint)}
-  .btn-sm{font-size:13px;padding:8px 14px}
-  .qtag{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);padding:3px 8px;border-radius:6px;margin-bottom:10px}
+  .btn-sm{font-size:0.8125rem;padding:8px 14px}
+  .qtag{display:inline-block;font-family:var(--mono);font-size:0.6875rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);padding:3px 8px;border-radius:6px;margin-bottom:10px}
   .qnum{color:var(--faint);font-weight:600;margin-right:6px}
   .prompt{white-space:pre-wrap;margin:0 0 14px}
   .prompt code,.prompt-inline{font-family:var(--mono);font-size:.9em;background:var(--bg);padding:1px 5px;border-radius:4px}
-  pre.out{background:var(--code-bg);color:var(--code-ink);font-family:var(--mono);font-size:13px;line-height:1.55;padding:12px 14px;border-radius:10px;margin:12px 0 0;overflow-x:auto;white-space:pre-wrap;display:none}
+  pre.out{background:var(--code-bg);color:var(--code-ink);font-family:var(--mono);font-size:0.8125rem;line-height:1.55;padding:12px 14px;border-radius:10px;margin:12px 0 0;overflow-x:auto;white-space:pre-wrap;display:none}
   pre.out.show{display:block}
   .runrow{display:flex;gap:10px;align-items:center;margin-top:12px}
   .choices{display:flex;flex-direction:column;gap:9px}
-  .choice{display:flex;gap:11px;align-items:flex-start;text-align:left;width:100%;background:var(--card);border:1.5px solid var(--line2);border-radius:11px;padding:12px 14px;cursor:pointer;font-size:15px;color:var(--ink);font-family:var(--sans)}
+  .choice{display:flex;gap:11px;align-items:flex-start;text-align:left;width:100%;background:var(--card);border:1.5px solid var(--line2);border-radius:11px;padding:12px 14px;cursor:pointer;font-size:0.9375rem;color:var(--ink);font-family:var(--sans)}
   .choice:hover{border-color:var(--accent);background:var(--accent-soft)}
   .choice.sel{border-color:var(--accent);background:var(--accent-soft)}
-  .choice .mk{flex:none;width:22px;height:22px;border-radius:6px;border:1.5px solid var(--line2);display:grid;place-items:center;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--faint)}
+  .choice .mk{flex:none;width:22px;height:22px;border-radius:6px;border:1.5px solid var(--line2);display:grid;place-items:center;font-family:var(--mono);font-size:0.75rem;font-weight:700;color:var(--faint)}
   .choice.sel .mk{border-color:var(--accent);background:var(--accent);color:#fff}
-  .res{display:none;margin-top:10px;font-size:14px;font-weight:600}
+  .res{display:none;margin-top:10px;font-size:0.875rem;font-weight:600}
   .res.show{display:block}.res.ok{color:var(--good)}.res.no{color:var(--bad)}.res.pend{color:var(--faint)}
   .summary{display:flex;flex-direction:column;gap:8px;margin:16px 0}
-  .srow{display:flex;align-items:center;gap:10px;font-size:14px;padding:8px 0;border-top:1px solid var(--line)}
+  .srow{display:flex;align-items:center;gap:10px;font-size:0.875rem;padding:8px 0;border-top:1px solid var(--line)}
   .srow:first-child{border-top:none}
-  .dot{width:20px;height:20px;border-radius:6px;flex:none;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:700}
+  .dot{width:20px;height:20px;border-radius:6px;flex:none;display:grid;place-items:center;color:#fff;font-size:0.75rem;font-weight:700}
   .dot.ok{background:var(--good)}.dot.no{background:var(--bad)}.dot.txt{background:var(--accent)}
   .hidden{display:none!important}
-  .foot{color:var(--faint);font-size:12.5px;text-align:center;margin-top:20px}
+  .foot{color:var(--faint);font-size:0.7812rem;text-align:center;margin-top:20px}
   /* ===== student nav ===== */
   .snav{display:flex;gap:3px;margin-left:14px}
-  .snav button{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--soft);background:none;border:none;padding:7px 11px;border-radius:8px;cursor:pointer}
+  .snav button{font-family:var(--sans);font-size:0.875rem;font-weight:600;color:var(--soft);background:none;border:none;padding:7px 11px;border-radius:8px;cursor:pointer}
   .snav button:hover{background:var(--accent-soft);color:var(--ink)}
   .snav button.on{background:var(--accent-soft);color:var(--accent-ink)}
-  .xpchip{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:12.5px;font-weight:700;color:#b9791a;background:#f8efd9;padding:4px 10px;border-radius:20px}
-  .strk{font-weight:700;font-size:13px;color:#e2673a}
+  .xpchip{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:0.7812rem;font-weight:700;color:#b9791a;background:#f8efd9;padding:4px 10px;border-radius:20px}
+  .strk{font-weight:700;font-size:0.8125rem;color:#e2673a}
   @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .xpchip{color:#e0b155;background:#2a2415}
                                    :root:not([data-theme="light"]) .strk{color:#ef8055}}
   :root[data-theme="dark"] .xpchip{color:#e0b155;background:#2a2415}
@@ -106,43 +106,43 @@
   .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:18px}
   .st{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 17px;box-shadow:var(--shadow)}
   .st .n{font-size:1.65rem;font-weight:760;letter-spacing:-.03em}
-  .st .l{font-size:12.5px;color:var(--faint);margin-top:2px}
+  .st .l{font-size:0.7812rem;color:var(--faint);margin-top:2px}
   .st .n.a{color:var(--accent-ink)}.st .n.g{color:var(--good)}.st .n.o{color:#b9791a}.st .n.f{color:#e2673a}
   .resume{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,var(--accent),#7d5cf0);color:#fff;border-radius:15px;padding:18px 20px;margin-bottom:6px;box-shadow:var(--shadow)}
-  .resume .t{font-weight:700;font-size:1.02rem}.resume .d{opacity:.87;font-size:13px;margin-top:2px}
+  .resume .t{font-weight:700;font-size:1.02rem}.resume .d{opacity:.87;font-size:0.8125rem;margin-top:2px}
   .resume button{margin-left:auto;background:#fff;color:var(--accent-ink);border:none;font-weight:700;padding:9px 16px;border-radius:9px;cursor:pointer;font-family:var(--sans);white-space:nowrap}
   .sechd{display:flex;align-items:center;margin:22px 0 11px;font-size:1.05rem;font-weight:660}
-  .sechd .more{margin-left:auto;font-size:13px;font-weight:600;color:var(--accent);cursor:pointer}
+  .sechd .more{margin-left:auto;font-size:0.8125rem;font-weight:600;color:var(--accent);cursor:pointer}
   .hwgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:13px}
   .hwc{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px;box-shadow:var(--shadow);cursor:pointer;display:flex;flex-direction:column;gap:8px}
   .hwc:hover{border-color:var(--accent)}
   .hwc h4{margin:0;font-size:1rem}
-  .hwc .meta{font-size:12.5px;color:var(--faint)}
+  .hwc .meta{font-size:0.7812rem;color:var(--faint)}
   .trk{height:6px;background:var(--bg);border-radius:9px;overflow:hidden;margin-top:auto}
   .trk>span{display:block;height:100%;background:var(--accent);border-radius:9px}
-  .hwc .ft{display:flex;justify-content:space-between;font-size:12.5px}
+  .hwc .ft{display:flex;justify-content:space-between;font-size:0.7812rem}
   .scored{color:var(--good);font-weight:700}
   .skill{display:flex;align-items:center;gap:11px;margin-bottom:10px}
-  .skill .k{width:100px;font-size:13.5px;font-weight:600}
+  .skill .k{width:100px;font-size:0.8438rem;font-weight:600}
   .skill .t{flex:1;height:8px;background:var(--bg);border-radius:9px;overflow:hidden}
   .skill .t>span{display:block;height:100%;background:var(--accent);border-radius:9px}
-  .skill .v{width:44px;text-align:right;font-family:var(--mono);font-size:12px;color:var(--soft)}
+  .skill .v{width:44px;text-align:right;font-family:var(--mono);font-size:0.75rem;color:var(--soft)}
   /* ===== challenges ===== */
   .filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
-  .fchip{font-family:var(--mono);font-size:11.5px;padding:5px 11px;border-radius:20px;border:1px solid var(--line2);color:var(--soft);background:var(--card);cursor:pointer}
+  .fchip{font-family:var(--mono);font-size:0.7188rem;padding:5px 11px;border-radius:20px;border:1px solid var(--line2);color:var(--soft);background:var(--card);cursor:pointer}
   .fchip.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
   .chgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:13px}
   .chc{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px;box-shadow:var(--shadow);cursor:pointer;display:flex;flex-direction:column;gap:7px;position:relative}
   .chc:hover{border-color:var(--accent)}
   .chc.solved{border-color:color-mix(in srgb,var(--good) 45%,var(--line))}
-  .chc .tick{position:absolute;top:13px;right:13px;width:19px;height:19px;border-radius:50%;background:var(--good);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700}
+  .chc .tick{position:absolute;top:13px;right:13px;width:19px;height:19px;border-radius:50%;background:var(--good);color:#fff;display:grid;place-items:center;font-size:0.6875rem;font-weight:700}
   .chc h4{margin:0;font-size:.98rem;padding-right:22px}
   .chc .tg{display:flex;gap:4px;flex-wrap:wrap}
   /* Learn: the topic reference pages */
-  .refbody{color:var(--ink);font-size:15px;line-height:1.65}
-  .refbody h2{font-size:19px;margin:34px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--line2);letter-spacing:-.01em}
+  .refbody{color:var(--ink);font-size:0.9375rem;line-height:1.65}
+  .refbody h2{font-size:1.1875rem;margin:34px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--line2);letter-spacing:-.01em}
   .refbody h2:first-child{margin-top:0}
-  .refbody h3{font-size:15.5px;margin:24px 0 8px;color:var(--soft)}
+  .refbody h3{font-size:0.9688rem;margin:24px 0 8px;color:var(--soft)}
   .refbody p{margin:0 0 12px}
   .refbody ul,.refbody ol{margin:0 0 12px;padding-left:22px}
   .refbody li{margin:4px 0}
@@ -153,7 +153,7 @@
   .refbody blockquote p{margin:0 0 6px}
   .refbody blockquote p:last-child{margin:0}
   .refbody blockquote code{background:var(--card)}
-  .refbody pre.ref-code{font-family:var(--mono);font-size:13px;line-height:1.55;padding:13px 15px;
+  .refbody pre.ref-code{font-family:var(--mono);font-size:0.8125rem;line-height:1.55;padding:13px 15px;
                         border-radius:10px;margin:0 0 14px;overflow-x:auto;white-space:pre;
                         border:1px solid var(--line2)}
   /* runmode paints with the CodeMirror theme classes; give it the matching canvas */
@@ -165,22 +165,22 @@
   .refbody .ex .CodeMirror{border-radius:10px 10px 0 0;border-bottom:none;min-height:0}
   .refbody .exbar{display:flex;align-items:center;gap:9px;padding:6px 8px;border:1px solid var(--line2);
                   border-top:none;border-radius:0 0 10px 10px;background:var(--bg)}
-  .refbody .exrun{font-family:var(--sans);font-size:11.5px;font-weight:600;padding:4px 11px;border-radius:7px;
+  .refbody .exrun{font-family:var(--sans);font-size:0.7188rem;font-weight:600;padding:4px 11px;border-radius:7px;
                   border:1px solid var(--line2);background:var(--card);color:var(--ink);cursor:pointer}
   .refbody .exrun:hover:not(:disabled){border-color:var(--accent);color:var(--accent-ink)}
   .refbody .exrun:disabled{opacity:.6;cursor:default}
-  .refbody .exhint{font-size:11px;color:var(--faint)}
-  .refbody .exout{display:none;font-family:var(--mono);font-size:12.5px;line-height:1.5;
+  .refbody .exhint{font-size:0.6875rem;color:var(--faint)}
+  .refbody .exout{display:none;font-family:var(--mono);font-size:0.7812rem;line-height:1.5;
                   white-space:pre-wrap;margin:8px 0 0;padding:10px 13px;border-radius:9px;
                   background:var(--code-bg);color:var(--code-ink)}
   .refbody .exout.show{display:block}
   .refbody .exout.err{background:var(--bad-soft);color:var(--bad)}
   /* display-only text: expected output or a traceback the page is quoting */
-  .refbody pre.ref-out{font-family:var(--mono);font-size:12.5px;line-height:1.55;padding:11px 14px;
+  .refbody pre.ref-out{font-family:var(--mono);font-size:0.7812rem;line-height:1.55;padding:11px 14px;
                        border-radius:9px;margin:0 0 14px;overflow-x:auto;white-space:pre-wrap;
                        background:var(--code-bg);color:var(--code-ink);border:none}
   /* the "read up on this" link from a problem */
-  .seelink{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:12.5px;
+  .seelink{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:0.7812rem;
            font-weight:600;padding:7px 12px;border-radius:9px;border:1px solid var(--line2);
            background:var(--bg);color:var(--accent-ink);cursor:pointer;margin:0 0 14px}
   .seelink:hover{border-color:var(--accent);background:var(--accent-soft)}
@@ -188,13 +188,44 @@
   .refbody h2.jumped,.refbody h3.jumped{animation:flash 1.6s ease-out}
   @keyframes flash{0%,55%{background:var(--accent-soft)}100%{background:transparent}}
   @media (prefers-reduced-motion: reduce){.refbody h2.jumped,.refbody h3.jumped{animation:none}}
+  /* text size preference — scales everything, since all sizing is relative to root */
+  :root[data-size="large"]{font-size:17.5px}
+  :root[data-size="xl"]{font-size:19.5px}
+  :root[data-fx="off"] .confetti{display:none}
+  /* preferences panel */
+  .prefs{position:absolute;right:16px;top:62px;z-index:40;width:min(400px,calc(100vw - 32px));
+         background:var(--card);border:1px solid var(--line2);border-radius:14px;
+         box-shadow:var(--shadow);padding:14px 16px}
+  .pf-hd{font-weight:700;font-size:0.875rem;margin:0 0 10px}
+  .pf-row{display:flex;align-items:center;gap:10px;margin:0 0 9px;flex-wrap:wrap}
+  .pf-l{font-size:0.7812rem;color:var(--soft);min-width:104px}
+  .pf-seg{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+  .pf-seg button{font-family:var(--sans);font-size:0.7188rem;padding:5px 10px;border-radius:7px;
+                 border:1px solid var(--line2);background:var(--bg);color:var(--soft);cursor:pointer}
+  .pf-seg button:hover{border-color:var(--accent)}
+  .pf-seg button.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+  .pf-foot{font-size:0.6875rem;color:var(--faint);margin:10px 0 0}
+  /* first-run: one door, not a wall of zeros */
+  .firstrun{margin:16px 0 0;padding:18px 20px;border-radius:14px;
+            background:linear-gradient(135deg,var(--accent) 0%,#7c7ff0 100%);color:#fff}
+  .fr-t{font-weight:700;font-size:0.9688rem;margin:0 0 3px}
+  .fr-d{font-size:0.8125rem;opacity:.92;margin:0 0 13px}
+  .fr-b{font-family:var(--sans);font-weight:700;font-size:0.8125rem;padding:9px 16px;border-radius:9px;
+        border:none;background:#fff;color:var(--accent-ink);cursor:pointer}
+  /* Learn cards on the dashboard */
+  .refgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+  .refc{border:1px solid var(--line2);border-radius:11px;padding:13px 14px;background:var(--card);
+        cursor:pointer;transition:transform .12s,border-color .12s}
+  .refc:hover{transform:translateY(-2px);border-color:var(--accent)}
+  .refc h4{margin:0 0 4px;font-size:0.8438rem}
+  .refc .rc-n{font-family:var(--mono);font-size:0.6562rem;color:var(--faint)}
   /* course units: the challenge list doubles as the syllabus */
   .unithd{display:flex;align-items:baseline;gap:10px;margin:22px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--line2)}
   .unithd:first-child{margin-top:4px}
-  .unithd h3{margin:0;font-size:14.5px;letter-spacing:-.01em}
-  .unithd .uc{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--faint);white-space:nowrap}
+  .unithd h3{margin:0;font-size:0.9062rem;letter-spacing:-.01em}
+  .unithd .uc{margin-left:auto;font-family:var(--mono);font-size:0.6875rem;color:var(--faint);white-space:nowrap}
   .hwc .prac{margin-top:10px;width:100%;background:var(--bg);border:1px solid var(--line2);color:var(--soft);
-             font-family:var(--sans);font-size:11.5px;padding:6px 8px;border-radius:8px;cursor:pointer}
+             font-family:var(--sans);font-size:0.7188rem;padding:6px 8px;border-radius:8px;cursor:pointer}
   .hwc .prac:hover{border-color:var(--accent);color:var(--accent-ink)}
   .linkish{background:none;border:none;padding:0;font:inherit;color:var(--accent-ink);cursor:pointer;text-decoration:underline}
   /* celebration on a correct solve */
@@ -216,46 +247,46 @@
     .solvedbanner,.setdone{animation:none}
   }
   .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(14px);z-index:50;
-         background:var(--ink);color:var(--card);font-size:13px;padding:10px 16px;border-radius:9px;
+         background:var(--ink);color:var(--card);font-size:0.8125rem;padding:10px 16px;border-radius:9px;
          opacity:0;pointer-events:none;transition:opacity .16s,transform .16s;max-width:88vw;text-align:center}
   .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
   .howto{border:1px solid var(--line2);border-radius:10px;background:var(--bg);margin:0 0 14px}
-  .howto summary{cursor:pointer;padding:9px 13px;font-size:13px;font-weight:600;color:var(--accent-ink);list-style:none}
+  .howto summary{cursor:pointer;padding:9px 13px;font-size:0.8125rem;font-weight:600;color:var(--accent-ink);list-style:none}
   .howto summary::-webkit-details-marker{display:none}
   .howto summary::before{content:"▸ ";display:inline-block;transition:transform .15s}
   .howto[open] summary::before{content:"▾ "}
-  .howto .prompt{padding:0 13px 12px;margin:0;font-size:13.5px;color:var(--soft)}
-  .tag{font-family:var(--mono);font-size:10.5px;padding:2px 7px;border-radius:5px;
+  .howto .prompt{padding:0 13px 12px;margin:0;font-size:0.8438rem;color:var(--soft)}
+  .tag{font-family:var(--mono);font-size:0.6562rem;padding:2px 7px;border-radius:5px;
        background:var(--bg);border:1px solid var(--line2);color:var(--faint);white-space:nowrap}
   button.tag{cursor:pointer}
   button.tag:hover{border-color:var(--accent);color:var(--accent-ink)}
   button.tag.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
   .chc .row{display:flex;align-items:center;gap:8px;margin-top:auto}
-  .diff{font-family:var(--mono);font-size:10px;text-transform:uppercase;font-weight:700;padding:2px 7px;border-radius:5px;color:var(--good);background:var(--good-soft)}
-  .xpv{margin-left:auto;font-family:var(--mono);font-size:12px;font-weight:700;color:#b9791a}
+  .diff{font-family:var(--mono);font-size:0.625rem;text-transform:uppercase;font-weight:700;padding:2px 7px;border-radius:5px;color:var(--good);background:var(--good-soft)}
+  .xpv{margin-left:auto;font-family:var(--mono);font-size:0.75rem;font-weight:700;color:#b9791a}
   @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .xpv{color:#e0b155}}
   :root[data-theme="dark"] .xpv{color:#e0b155}
   /* ===== instructor console ===== */
   .itabs{display:flex;gap:3px;border-bottom:1px solid var(--line);margin-bottom:18px}
-  .itabs button{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--soft);background:none;border:none;padding:9px 12px;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px}
+  .itabs button{font-family:var(--sans);font-size:0.875rem;font-weight:600;color:var(--soft);background:none;border:none;padding:9px 12px;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px}
   .itabs button.on{color:var(--accent-ink);border-bottom-color:var(--accent)}
   .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:18px}
   .bar{display:flex;align-items:center;gap:11px;margin-bottom:11px}
-  .bar .k{width:130px;font-size:13.5px;font-weight:600}
+  .bar .k{width:130px;font-size:0.8438rem;font-weight:600}
   .bar .t{flex:1;height:8px;background:var(--bg);border-radius:9px;overflow:hidden}
   .bar .t>span{display:block;height:100%;background:var(--accent);border-radius:9px}
-  .bar .v{width:52px;text-align:right;font-family:var(--mono);font-size:12px;color:var(--soft)}
-  .feed .fi{display:flex;align-items:center;gap:9px;padding:8px 0;border-top:1px solid var(--line);font-size:13.5px}
+  .bar .v{width:52px;text-align:right;font-family:var(--mono);font-size:0.75rem;color:var(--soft)}
+  .feed .fi{display:flex;align-items:center;gap:9px;padding:8px 0;border-top:1px solid var(--line);font-size:0.8438rem}
   .feed .fi:first-child{border-top:none}
-  .feed .fi .m{margin-left:auto;color:var(--faint);font-family:var(--mono);font-size:12px}
+  .feed .fi .m{margin-left:auto;color:var(--faint);font-family:var(--mono);font-size:0.75rem}
   .sub-panel{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
   .sub-panel h3{margin:0 0 14px;font-size:1.02rem}
   .lessonlist{display:flex;flex-direction:column;gap:10px;margin-top:14px}
-  .lessonlink{display:flex;align-items:center;gap:12px;text-align:left;width:100%;background:var(--card);border:1.5px solid var(--line2);border-radius:12px;padding:16px 18px;cursor:pointer;font-size:16px;font-weight:600;color:var(--ink);font-family:var(--sans)}
+  .lessonlink{display:flex;align-items:center;gap:12px;text-align:left;width:100%;background:var(--card);border:1.5px solid var(--line2);border-radius:12px;padding:16px 18px;cursor:pointer;font-size:1.0rem;font-weight:600;color:var(--ink);font-family:var(--sans)}
   .lessonlink:hover{border-color:var(--accent);background:var(--accent-soft)}
-  .lessonlink .go{margin-left:auto;color:var(--faint);font-weight:500;font-size:13px;white-space:nowrap}
+  .lessonlink .go{margin-left:auto;color:var(--faint);font-weight:500;font-size:0.8125rem;white-space:nowrap}
   /* CodeMirror sizing to match the plain box */
-  .CodeMirror{border:1.5px solid var(--line2);border-radius:10px;height:auto;min-height:96px;font-family:var(--mono);font-size:13.5px;line-height:1.5;padding:4px 2px}
+  .CodeMirror{border:1.5px solid var(--line2);border-radius:10px;height:auto;min-height:96px;font-family:var(--mono);font-size:0.8438rem;line-height:1.5;padding:4px 2px}
   .CodeMirror-focused{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
   .cm-s-default.CodeMirror{background:var(--bg);color:var(--ink)}
   .cm-s-default .CodeMirror-gutters{background:var(--bg);border:none}
@@ -292,10 +323,33 @@
     <div style="margin-left:auto;display:flex;gap:10px;align-items:center">
       <span class="strk hidden" id="streakChip"></span>
       <span class="xpchip hidden" id="xpChip"></span>
+      <button id="prefsBtn" class="btn btn-ghost btn-sm" title="Preferences" aria-label="Preferences">⚙</button>
       <button id="themeBtn" class="btn btn-ghost btn-sm" title="Light / dark" aria-label="Toggle light or dark mode">🌙</button>
       <button id="homeBtn" class="btn btn-ghost btn-sm hidden">← Back</button>
       <button id="switchBtn" class="btn btn-ghost btn-sm hidden">Switch</button>
     </div>
+  </div>
+
+  <!-- PREFERENCES -->
+  <div class="prefs hidden" id="prefsPanel">
+    <div class="pf-hd">Preferences</div>
+    <div class="pf-row"><span class="pf-l">Appearance</span>
+      <div class="pf-seg" id="pfTheme">
+        <button data-t="">System</button><button data-t="light">Light</button><button data-t="dark">Dark</button>
+      </div></div>
+    <div class="pf-row"><span class="pf-l">Text size</span>
+      <div class="pf-seg" id="pfSize">
+        <button data-s="">Normal</button><button data-s="large">Large</button><button data-s="xl">Larger</button>
+      </div></div>
+    <div class="pf-row"><span class="pf-l">Celebrations</span>
+      <div class="pf-seg" id="pfFx">
+        <button data-f="">On</button><button data-f="off">Off</button>
+      </div></div>
+    <div class="pf-row"><span class="pf-l">Worked examples</span>
+      <div class="pf-seg" id="pfHow">
+        <button data-h="">Hidden until asked</button><button data-h="open">Always open</button>
+      </div></div>
+    <p class="pf-foot">Saved on this device.</p>
   </div>
 
   <div class="banner info" id="pyBanner">Loading Python… the first time takes a few seconds.</div>
@@ -399,14 +453,17 @@
     <div class="card">
       <h1 id="dashHi" style="margin:0 0 2px">Hi</h1>
       <p class="intro" id="dashSub"></p>
+      <div id="firstRun"></div>
       <div style="height:14px"></div>
       <div class="stats" id="dashStats"></div>
       <div id="resumeWrap"></div>
       <div class="sechd">Your homework <span class="more" data-nav="hw">See all →</span></div>
       <div class="hwgrid" id="dashHw"></div>
+      <div class="sechd" id="learnHd">Learn — how each topic works <span class="more" data-nav="learn">All topics →</span></div>
+      <div class="refgrid" id="dashLearn"></div>
       <div class="sechd">Recommended challenges <span class="more" data-nav="ch">Browse all →</span></div>
       <div class="chgrid" id="dashRec"></div>
-      <div class="sechd">Your skills</div>
+      <div class="sechd hidden" id="skillsHd">Your skills</div>
       <div id="dashSkills"></div>
     </div>
   </div>
@@ -559,12 +616,61 @@ function initTheme(){
   $("#themeBtn").onclick = ()=>{
     const next = isDark() ? "light" : "dark";
     localStorage.setItem(THEME_KEY, next);
-    applyTheme(next);
+    applyTheme(next); syncPrefs();
   };
   // With no explicit choice, keep following the OS if it changes mid-session.
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ()=>{
     if(!localStorage.getItem(THEME_KEY)) applyTheme(null);
   });
+}
+
+// ---------------- preferences ----------------
+// Small, real choices: how it looks, how big the text is, whether it throws
+// confetti, and whether the worked example is open by default. All per-device.
+const PREF = {
+  size: "c438:size",     // "" | large | xl
+  fx:   "c438:fx",       // "" (on) | off
+  how:  "c438:how",      // "" (collapsed) | open
+};
+function pref(k){ return localStorage.getItem(PREF[k]) || ""; }
+function applyPrefs(){
+  const r = document.documentElement;
+  r.setAttribute("data-size", pref("size"));
+  r.setAttribute("data-fx", pref("fx"));
+}
+function syncPrefs(){
+  const mark = (sel, attr, val) => $$(sel+" button").forEach(b=>
+    b.classList.toggle("on", (b.dataset[attr] || "") === val));
+  mark("#pfTheme", "t", localStorage.getItem(THEME_KEY) || "");
+  mark("#pfSize", "s", pref("size"));
+  mark("#pfFx", "f", pref("fx"));
+  mark("#pfHow", "h", pref("how"));
+}
+function initPrefs(){
+  applyPrefs();
+  $("#prefsBtn").onclick = (e)=>{
+    e.stopPropagation();
+    const p = $("#prefsPanel"); p.classList.toggle("hidden"); syncPrefs();
+  };
+  document.addEventListener("click", (e)=>{
+    const p = $("#prefsPanel");
+    if(!p.classList.contains("hidden") && !p.contains(e.target) && e.target.id !== "prefsBtn")
+      p.classList.add("hidden");
+  });
+  $$("#pfTheme button").forEach(b=>b.onclick=()=>{
+    const v = b.dataset.t;
+    if(v) localStorage.setItem(THEME_KEY, v); else localStorage.removeItem(THEME_KEY);
+    applyTheme(v || null); syncPrefs();
+  });
+  const set = (sel, attr, key, after) => $$(sel+" button").forEach(b=>b.onclick=()=>{
+    const v = b.dataset[attr];
+    if(v) localStorage.setItem(PREF[key], v); else localStorage.removeItem(PREF[key]);
+    applyPrefs(); syncPrefs(); if(after) after();
+  });
+  set("#pfSize", "s", "size", ()=>cmEditors.forEach(cm=>{ try{ cm.refresh(); }catch(e){} }));
+  set("#pfFx", "f", "fx");
+  set("#pfHow", "h", "how", ()=>{ const h=$("#chalHow"); if(h && !h.classList.contains("hidden")) h.open = pref("how")==="open"; });
+  syncPrefs();
 }
 
 // "wide" (or true) = dashboards/console; "mid" = lesson + challenge workspaces;
@@ -674,7 +780,7 @@ async function boot(){
     reference = ((await fetch(`lessons/reference.json`).then(r=>r.json())).pages) || [];
   }catch(e){ reference = []; }
 
-  initTheme();
+  initTheme(); initPrefs();
   $("#startTitle").textContent = "CHEM 438 Homework";
   $$("#snav button").forEach(b=>b.onclick=()=>navTo(b.dataset.nav));
   $$(".sechd .more").forEach(el=>el.onclick=()=>navTo(el.dataset.nav));
@@ -960,7 +1066,7 @@ function hwCardHtml(l,hw){
       : '<span>'+(done?"in progress":"not started")+'</span><span>'+done+'/'+items.length+'</span>';
     return '<div class="hwc" data-open="'+l.id+'"><h4>'+esc(l.title)+'</h4>'+
       '<div class="trk"><span style="width:'+pct+'%"></span></div><div class="ft">'+ft+'</div>'+
-      '<button class="prac" data-practice="'+l.id+'">▤ '+practiceFor(l).length+' practice challenges on this material</button></div>';
+      '<button class="prac" data-practice="'+l.id+'">'+practiceFor(l).length+' practice challenges →</button></div>';
   }
   const sub=hw.find(r=>r.lesson===l.id);
   const started=!!localStorage.getItem("c438:"+student.id+":"+l.id);
@@ -970,7 +1076,7 @@ function hwCardHtml(l,hw){
   const np = practiceFor(l).length;
   return '<div class="hwc" data-open="'+l.id+'"><h4>'+esc(l.title)+'</h4>'+
     '<div class="trk"><span style="width:'+prog+'%"></span></div><div class="ft">'+ft+'</div>'+
-    '<button class="prac" data-practice="'+l.id+'">▤ '+np+' practice challenges on this material</button></div>';
+    '<button class="prac" data-practice="'+l.id+'">'+np+' practice challenges →</button></div>';
 }
 // ---------------- curriculum gate ----------------
 // Practice unlocks with the material: when an assignment covering unit N is open,
@@ -1018,6 +1124,7 @@ function wireCards(){
 // Self-contained: a strict CSP blocks any external confetti library, and this is
 // ~20 lines anyway. big=true for finishing a whole homework.
 function confetti(big){
+  if(pref("fx")==="off") return;
   if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const n = big ? 96 : 36;
   const host = document.createElement("div"); host.className = "confetti";
@@ -1063,13 +1170,36 @@ function showDashboard(){
   $("#lessonTitle").textContent="Dashboard";
   updateChips();
   const s=solvedIds(), hw=hwSubs();
-  $("#dashHi").textContent="Hi "+student.name.split(" ")[0]+" 👋";
+  const fresh = !s.size && !hw.length;          // brand new: never solved, never submitted
+  $("#dashHi").textContent = (fresh ? "Welcome, " : "Hi ")+student.name.split(" ")[0]+" 👋";
   $("#dashSub").textContent = s.size
     ? "You've solved "+s.size+" challenge"+(s.size===1?"":"s")+" and earned "+totalXp()+" XP."
-    : "Start with a homework, or warm up with a practice challenge.";
-  $("#dashStats").innerHTML = stat(totalXp(),"XP earned","o")+stat(s.size,"challenges solved","a")+
+    : "Everything here runs in your browser. Nothing to install, and you can't break anything.";
+
+  // A first-time student shouldn't be met with a wall of zeros. Give them one
+  // obvious door instead, and keep the scoreboard for when there's a score.
+  const intro = challenges.find(c=>c.id==="hello_438") || openChallenges()[0];
+  $("#firstRun").innerHTML = fresh && intro
+    ? '<div class="firstrun"><div class="fr-t">New here? Start with one challenge.</div>'+
+      '<div class="fr-d">“'+esc(intro.title)+'” walks you through how this works, start to finish. Two minutes.</div>'+
+      '<button class="fr-b" id="frBtn">Start here →</button></div>'
+    : '';
+  if(fresh && intro) $("#frBtn").onclick=()=>openChallenge(intro.id);
+  $("#dashStats").classList.toggle("hidden", fresh);
+  if(!fresh) $("#dashStats").innerHTML = stat(totalXp(),"XP earned","o")+stat(s.size,"challenges solved","a")+
     stat(hw.length+"/"+visibleLessons().length,"homework submitted","g")+stat(streakDays(),"day streak","f");
-  const next = visibleLessons().find(l=>!hw.some(r=>r.lesson===l.id));
+
+  // Learn on the dashboard: the reference is half the app and was reachable only
+  // from the nav bar, so most students would never have found it.
+  const pages = openRefPages();
+  $("#learnHd").classList.toggle("hidden", !pages.length);
+  $("#dashLearn").innerHTML = pages.slice(0,6).map(p=>{
+    const n = (p.html.match(/<div class="ex"/g)||[]).length;
+    return '<div class="refc" data-ref="'+p.id+'"><h4>'+esc(p.title)+'</h4>'+
+           '<div class="rc-n">'+n+' runnable examples</div></div>';
+  }).join("");
+  $$("#dashLearn [data-ref]").forEach(el=>el.onclick=()=>openRefPage(el.dataset.ref));
+  const next = fresh ? null : visibleLessons().find(l=>!hw.some(r=>r.lesson===l.id));
   $("#resumeWrap").innerHTML = next
     ? '<div class="resume"><div><div class="t">Pick up where you left off</div><div class="d">'+esc(next.title)+'</div></div><button id="resumeBtn">Continue →</button></div>'
     : '';
@@ -1078,10 +1208,12 @@ function showDashboard(){
   const rec = openChallenges().filter(c=>!s.has(c.id)).slice(0,3);
   $("#dashRec").innerHTML = rec.length ? rec.map(c=>chCardHtml(c,s)).join("")
     : '<p class="foot" style="text-align:left">You\'ve solved them all. 🎉</p>';
-  const sk=skills();
-  $("#dashSkills").innerHTML = sk.length
-    ? sk.map(k=>'<div class="skill"><span class="k">'+esc(k.k)+'</span><span class="t"><span style="width:'+k.pct+'%"></span></span><span class="v">'+k.pct+'%</span></div>').join("")
-    : '<p class="foot" style="text-align:left">Solve challenges to build your skill profile.</p>';
+  // Six bars all reading 0% is noise, not a profile — it only means something once
+  // there's something in it.
+  const sk = s.size ? skills() : [];
+  $("#skillsHd").classList.toggle("hidden", !sk.length);
+  $("#dashSkills").innerHTML = sk.map(k=>'<div class="skill"><span class="k">'+esc(k.k)+
+    '</span><span class="t"><span style="width:'+k.pct+'%"></span></span><span class="v">'+k.pct+'%</span></div>').join("");
   wireCards();
 }
 
@@ -1166,7 +1298,7 @@ async function openChallenge(id){
   $$("#chalTags .tag").forEach(b=>b.onclick=()=>{ tagFilter=b.dataset.t; chFilter=null; showChallenges(); });
   $("#chalPrompt").textContent=c.prompt;
   // worked example, collapsed by default so it never spoils the problem unasked
-  const how=$("#chalHow"); how.open=false;
+  const how=$("#chalHow"); how.open = pref("how")==="open";
   how.classList.toggle("hidden", !c.walkthrough);
   if(c.walkthrough) $("#chalHowBody").textContent=c.walkthrough;
   const out=$("#chalOut"); out.classList.remove("show"); out.textContent="";

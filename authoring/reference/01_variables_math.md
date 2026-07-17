@@ -26,6 +26,39 @@ If `=` meant "equals," `x = x + 1` would say `5 = 6`, which is nonsense. But it'
 
 > Later you'll meet `==`, which really does check "are these equal?" (`5 == 5` gives `True`). That's a different tool for a different job — comparing, not storing. Keep `=` (assign) and `==` (compare) straight.
 
+## Comments: notes Python ignores
+
+```python
+apples = 3
+print(apples)
+# 3
+```
+
+That `# 3` on the last line is a **comment**. When Python sees a `#`, it ignores the rest of that line completely — everything after it is written for humans, not for the computer. Nothing after a `#` ever runs.
+
+You can put a comment on its own line, or hang one off the end of a line of code:
+
+```python
+apples = 3        # start with three
+apples += 2       # someone brought two more
+print(apples)
+# 5
+```
+
+Both of those `#` notes explain what's happening; neither one does anything. Delete them and the program behaves identically.
+
+Comments are worth writing when the *why* isn't obvious from the code. `apples += 2` already says it adds 2 — the useful comment is the one telling you where those 2 came from.
+
+> **In these pages, comments do a second job:** they show you what the code prints. A comment sitting under a `print()` is that print's output. **When you see `# 3` under a print in these pages, that's what it prints** — you'd never type that line yourself; it's there so you can check your prediction against the real answer.
+
+Some pages hang the output on the end of the print line instead. It means exactly the same thing:
+
+```python
+print(2 + 2)    # 4
+```
+
+Two conventions, one idea: the `#` part is the answer, not the code.
+
 ## Naming your variables
 
 Rules Python enforces:
@@ -265,6 +298,50 @@ print(max(4, 9, 1))
 ```
 
 `abs()` strips the sign off a number — always non-negative. `round()` with a second argument rounds to that many decimal places (`round(3.14159, 2)` keeps 2 digits after the point). `min()` and `max()` take any number of values and return the smallest or largest.
+
+## Why 0.1 + 0.2 isn't 0.3
+
+Predict this one before you look. You already know the answer from grade school:
+
+```python
+print(0.1 + 0.2)
+# 0.30000000000000004
+```
+
+That is not a bug, and your computer is not broken. Python really does think `0.1 + 0.2` is a hair bigger than `0.3`.
+
+Here's why. A float is stored in **binary** — as halves, quarters, eighths, and so on added together. Some decimals fit that scheme exactly: `0.5` is one half, `0.25` is one quarter, done. But `0.1` doesn't. There's no sum of halves and quarters and eighths that lands exactly on one tenth, no matter how many you use — the same way `1/3` written in decimal gives `0.3333...` forever and never quite closes. Python stores the closest float it can, which is off by a vanishingly small amount, and adding two of those slightly-off numbers leaves the error visible in the last few digits.
+
+The practical consequence is the part that bites:
+
+```python
+print(0.1 + 0.2 == 0.3)
+# False
+```
+
+> **Common mistake:** comparing floats with `==` and trusting the answer. Two floats that *should* be equal often aren't, by a millionth of a millionth. `==` is exact and unforgiving, so it says `False` and your `if` never runs — with no error message to tell you why.
+
+Two fixes, both fine:
+
+```python
+a = 0.1 + 0.2
+b = 0.3
+print(round(a, 2) == round(b, 2))
+print(abs(a - b) < 0.0001)
+# True
+# True
+```
+
+Round both to the number of decimal places you actually care about and compare those, or check that the **difference** is tiny — `abs()` makes the difference positive so you don't have to know which one is bigger.
+
+Rounding also cleans up the display when you just want to show someone a number:
+
+```python
+print(round(0.1 + 0.2, 2))
+# 0.3
+```
+
+The rule to carry with you: **never compare two floats with `==`.** Ints are safe (`3 == 3` is exact and always will be); floats need `round()` or a tiny-difference check.
 
 ## Augmented assignment: shortcuts like `+=`
 

@@ -225,6 +225,51 @@ print(word[2:5])
 
 It prints `tho` — positions 2, 3, and 4 (`t`, `h`, `o`). Position 5 is excluded because it's the stop index.
 
+## Slicing With a Step
+
+That reversal trick has a third number hiding in it. The full form of a slice is `start:stop:step`, and the **step** is how far to jump each time you grab a character. Leave it off and it's `1` — every character, one after another.
+
+Give it `2` and you take every other character:
+
+```python
+word = "python"
+print(word[::2])    # pto   <- positions 0, 2, 4
+```
+
+Both sides of the first colon are empty, so it starts at the beginning and runs to the end — it just skips one each time. Start somewhere else and you get the characters it missed:
+
+```python
+word = "python"
+print(word[1::2])    # yhn   <- positions 1, 3, 5
+```
+
+A **negative** step walks backward through the string instead of forward. That's all `[::-1]` is: start at the end, walk to the beginning, one character at a time.
+
+```python
+word = "python"
+print(word[::-1])    # nohtyp
+```
+
+It's not a magic spell — it's `start:stop:step` with the start and stop left blank and the step pointed the other way.
+
+You can use all three numbers at once. `word[0:5:2]` means "from 0, stop before 5, take every other one":
+
+```python
+word = "python"
+print(word[0:5:2])    # pto
+```
+
+> **Common mistake:** reading `word[::2]` as "the first two characters." The step is not a count — it's a stride. `word[:2]` is the first two characters (`py`); `word[::2]` is every other character across the whole string (`pto`). The number of colons is what tells them apart.
+
+**Predict the output before you run this:**
+
+```python
+word = "python"
+print(word[::3])
+```
+
+It prints `ph` — positions 0 and 3. Starting at 0 and jumping 3 at a time gives 0, then 3, then 6, which is past the end, so it stops.
+
 ## Strings Are Immutable
 
 Once a string exists, you cannot change individual characters inside it. This is called being **immutable**.
@@ -378,6 +423,76 @@ int("hello")
 
 `ValueError` means the *type* was right (it was a string) but the *value* inside it made no sense as a number.
 
+## Getting Input From a Person
+
+Every string so far has been one you typed into the program yourself. `input()` gets one from whoever is *running* the program: it prints a prompt, waits for them to type something and press Enter, and hands back what they typed.
+
+> **This one you have to try in Colab or your own Python — it can't run in the box on this page.** The examples below have no Run button, on purpose. `input()` stops and waits for a keyboard, and there's no keyboard attached to this page, so it would just hang there forever.
+
+Here's the shape of it:
+
+```
+name = input("What's your name? ")
+print("Hello, " + name)
+```
+
+Run that yourself and the conversation looks like this — the part after the prompt is what the person typed:
+
+```
+What's your name? Alice
+Hello, Alice
+```
+
+The text you pass to `input()` is the prompt. It's optional, but leave it out and your program sits there silently while the person wonders what it wants. Notice the trailing space inside `"What's your name? "` — that's what keeps their typing from butting up against the question mark.
+
+### input() Always Gives You a String
+
+This is the part that catches everyone. **`input()` always returns a string.** Always. Even when the person clearly typed a number.
+
+```
+age = input("How old are you? ")
+print(type(age))
+```
+
+```
+How old are you? 25
+<class 'str'>
+```
+
+They typed `25`, and you got `"25"` — text, not a number. Which means the obvious next line does the wrong thing entirely:
+
+```
+age = input("How old are you? ")
+print(age + 1)
+```
+
+```
+How old are you? 25
+TypeError: can only concatenate str (not "int") to str
+```
+
+Same `TypeError` from the top of this page, for exactly the same reason: `age` is a string, and you can't `+` a string and a number. The fix is `int()`, wrapped right around the `input()`:
+
+```
+age = int(input("How old are you? "))
+print(age + 1)
+```
+
+```
+How old are you? 25
+26
+```
+
+Read `int(input(...))` from the inside out: `input()` runs first and gives back `"25"`, then `int()` converts that to `25`, and *that* is what lands in `age`. Use `float()` instead when the answer could have a decimal point in it — `float(input("Price? "))`.
+
+> **Watch out:** `int(input(...))` crashes with a `ValueError` if the person types something that isn't a number. Type `twenty-five` at that prompt and you get `ValueError: invalid literal for int() with base 10: 'twenty-five'`. That's the same `ValueError` from the section above — `int()` doesn't care whether the text came from you or from a keyboard.
+
+This also explains a habit you'll see everywhere: `.strip()` on input. People hit the spacebar by accident, and `" alice "` and `"alice"` are different strings.
+
+```
+name = input("Name: ").strip().lower()
+```
+
 ## f-strings: Building Strings with Variables
 
 An f-string lets you drop variables straight into a string, without any `+` gluing. Put an `f` right before the opening quote, and wrap each variable in curly braces.
@@ -414,6 +529,49 @@ You can also control number formatting. `:.2f` means "show two digits after the 
 price = 3.14159
 print(f"{price:.2f}")    # 3.14
 ```
+
+### Lining Things Up
+
+That `:` after the variable name is where formatting instructions go. `.2f` is one of them; a plain **number** is another, and it means "make this at least that many characters wide," padding with spaces if the value is shorter.
+
+```python
+print(f"[{'apple':10}]")    # [apple     ]
+```
+
+`apple` is 5 characters, the width asked for 10, so Python added 5 spaces to fill it out. Text pads on the **right** by default — the word stays left, the padding goes after it.
+
+Numbers do the opposite. Put `>` before the width to force anything to the right:
+
+```python
+print(f"[{42:>5}]")    # [   42]
+```
+
+The point of all this is tables. Give every row the same widths and the columns line up, because every entry takes the same amount of space whether its text is short or long:
+
+```python
+print(f"{'apple':8}{12:>5}")
+print(f"{'fig':8}{7:>5}")
+print(f"{'banana':8}{115:>5}")
+# apple      12
+# fig         7
+# banana    115
+```
+
+Names left, numbers right, columns straight — no counting spaces by hand. You'll see `f"{item:8}"` used exactly this way when you get to dictionaries.
+
+The three you need to read a formatted table:
+
+- `f"{name:10}"` — at least 10 wide, padded on the right (text's default)
+- `f"{n:>5}"` — at least 5 wide, pushed to the right
+- `f"{x:.2f}"` — two digits after the decimal point
+
+They combine, too: `f"{price:>8.2f}"` is 8 wide, right-aligned, 2 decimals.
+
+```python
+print(f"[{3.14159:>8.2f}]")    # [    3.14]
+```
+
+> **Watch out:** the width is a *minimum*, not a maximum. If the value is longer than the width you asked for, nothing gets cut off — the column just gets wider and that row's alignment breaks. Pick a width bigger than your longest entry.
 
 ## Putting It Together: Worked Examples
 
