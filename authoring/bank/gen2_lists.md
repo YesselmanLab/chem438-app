@@ -6,282 +6,281 @@ Extra drills on making lists, pulling items out by position, changing them in pl
 
 ## p_first_item
 kind: mcq
-title: Predict — first item
+title: Top of the playlist
 tags: predict, arrays
 difficulty: starter
 answer: 1
 
 ### prompt
-What does this print?
+Your playlist stores each song's play count. What plays back?
 
-    print([10, 20, 30][0])
+    print([210, 45, 180][0])
 
 ### code
-print([10, 20, 30][0])
+print([210, 45, 180][0])
 
 ### choices
-- 10
+- 210
 - 1
-- 20
-- 30
+- 45
+- 180
 
 ---
 
 ## p_last_neg
 kind: mcq
-title: Predict — the last item
+title: Last one through the door
 tags: predict, arrays, indexing
 difficulty: starter
 answer: 2
 
 ### prompt
-What does this print?
+The guest list is in arrival order. Who showed up last?
 
-    print(["a", "b", "c"][-1])
+    print(["Ana", "Bo", "Cy"][-1])
 
 ### code
-print(["a", "b", "c"][-1])
+print(["Ana", "Bo", "Cy"][-1])
 
 ### choices
-- a
-- c
-- b
+- Ana
+- Cy
+- Bo
 - -1
 
 ---
 
 ## p_slice_mid
 kind: mcq
-title: Predict — a slice
+title: The middle innings
 tags: predict, arrays
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+These are the runs scored each inning. What does this slice print?
 
-    print([5, 6, 7, 8][1:3])
+    print([12, 15, 9, 20][1:3])
 
 ### code
-print([5, 6, 7, 8][1:3])
+print([12, 15, 9, 20][1:3])
 
 ### choices
-- [6, 7]
-- [6, 7, 8]
-- [5, 6]
-- [7, 8]
+- [15, 9]
+- [15, 9, 20]
+- [12, 15]
+- [9, 20]
 
 ---
 
 ## p_append_end
 kind: mcq
-title: Predict — after append
+title: Tossing cheese in the cart
 tags: predict, arrays
 difficulty: easy
 answer: 3
 
 ### prompt
-What does this print?
+You grab one more thing on the way out. What's in the cart now?
 
-    nums = [3, 1, 2]
-    nums.append(4)
-    print(nums)
+    cart = ["milk", "eggs", "bread"]
+    cart.append("cheese")
+    print(cart)
 
 ### code
-nums = [3, 1, 2]
-nums.append(4)
-print(nums)
+cart = ["milk", "eggs", "bread"]
+cart.append("cheese")
+print(cart)
 
 ### choices
-- [4, 3, 1, 2]
-- [3, 1, 2]
-- [3, 1, 2, 4]
-- [1, 2, 3, 4]
+- ['cheese', 'milk', 'eggs', 'bread']
+- ['milk', 'eggs', 'bread']
+- ['milk', 'eggs', 'bread', 'cheese']
+- ['bread', 'eggs', 'milk', 'cheese']
 
 ---
 
 ## p_len_list
 kind: mcq
-title: Predict — how long
+title: Headcount for the party
 tags: predict, arrays
 difficulty: starter
 answer: 2
 
 ### prompt
-What does this print?
+How many people are on the guest list?
 
-    print(len([4, 5, 6, 7]))
+    print(len(["Ana", "Bo", "Cy", "Di"]))
 
 ### code
-print(len([4, 5, 6, 7]))
+print(len(["Ana", "Bo", "Cy", "Di"]))
 
 ### choices
 - 3
 - 4
-- 7
-- [4, 5, 6, 7]
+- 5
+- ["Ana", "Bo", "Cy", "Di"]
 
 ---
 
 ## p_sum_list
 kind: mcq
-title: Predict — add them up
+title: Ringing up the total
 tags: predict, arrays
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+Three items land in the cart. What's the total price?
 
-    print(sum([10, 20, 30]))
+    print(sum([12, 8, 5]))
 
 ### code
-print(sum([10, 20, 30]))
+print(sum([12, 8, 5]))
 
 ### choices
-- 60
-- 30
-- 102030
+- 25
+- 5
+- 1285
 - 3
 
 ---
 
 ## p_max_list
 kind: mcq
-title: Predict — the biggest
+title: Who topped the leaderboard
 tags: predict, arrays
 difficulty: easy
 answer: 3
 
 ### prompt
-What does this print?
+These are tonight's final scores. What's the high score?
 
-    print(max([4, 7, 9, 2]))
+    print(max([88, 72, 95, 60]))
 
 ### code
-print(max([4, 7, 9, 2]))
+print(max([88, 72, 95, 60]))
 
 ### choices
-- 4
-- 7
-- 9
-- 2
+- 88
+- 72
+- 95
+- 60
 
 ---
 
 ## p_sort_returns_none
 kind: mcq
-title: Predict — the sort() trap
+title: The sort() trap
 tags: predict, sorting
 difficulty: medium
 answer: 2
 
 ### prompt
-What does this print?
+Watch closely — you try to grab the sorted leaderboard in one line:
 
-    x = [3, 1, 2].sort()
-    print(x)
+    ranked = [30, 10, 20].sort()
+    print(ranked)
 
 ### code
-x = [3, 1, 2].sort()
-print(x)
+ranked = [30, 10, 20].sort()
+print(ranked)
 
 ### choices
-- [1, 2, 3]
+- [10, 20, 30]
 - None
-- [3, 1, 2]
+- [30, 10, 20]
 - it raises an error
 
 ---
 
 ## p_sorted_new
 kind: mcq
-title: Predict — sorted()
+title: Ranking the scores
 tags: predict, sorting
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+You sort tonight's scores lowest to highest. What prints?
 
-    print(sorted([30, 10, 20]))
+    print(sorted([95, 60, 88]))
 
 ### code
-print(sorted([30, 10, 20]))
+print(sorted([95, 60, 88]))
 
 ### choices
-- [10, 20, 30]
-- [30, 10, 20]
+- [60, 88, 95]
+- [95, 60, 88]
 - None
-- [30, 20, 10]
+- [95, 88, 60]
 
 ---
 
 ## p_alias_append
 kind: mcq
-title: Predict — aliasing
+title: Two names, one playlist
 tags: predict, arrays
 difficulty: medium
 answer: 4
 
 ### prompt
-What does this print?
+Watch closely — Bo copies your playlist, then you add a song:
 
-    a = [1, 2]
-    b = a
-    a.append(3)
-    print(b)
+    playlist = ["Ana", "Bo"]
+    shared = playlist
+    playlist.append("Cy")
+    print(shared)
 
 ### code
-a = [1, 2]
-b = a
-a.append(3)
-print(b)
+playlist = ["Ana", "Bo"]
+shared = playlist
+playlist.append("Cy")
+print(shared)
 
 ### choices
-- [1, 2]
-- [3]
+- ['Ana', 'Bo']
+- ['Cy']
 - it raises an error
-- [1, 2, 3]
+- ['Ana', 'Bo', 'Cy']
 
 ---
 
 ## p_pop_last
 kind: mcq
-title: Predict — after pop
+title: One guest heads home
 tags: predict, arrays
 difficulty: medium
 answer: 1
 
 ### prompt
-What does this print?
+The last guest on the list leaves early. Who's still here?
 
-    nums = [10, 20, 30]
-    nums.pop()
-    print(nums)
+    guests = ["Ana", "Bo", "Cy"]
+    guests.pop()
+    print(guests)
 
 ### code
-nums = [10, 20, 30]
-nums.pop()
-print(nums)
+guests = ["Ana", "Bo", "Cy"]
+guests.pop()
+print(guests)
 
 ### choices
-- [10, 20]
-- [20, 30]
-- [10, 20, 30]
-- 30
+- ['Ana', 'Bo']
+- ['Bo', 'Cy']
+- ['Ana', 'Bo', 'Cy']
+- 'Cy'
 
 ---
 
 ## bug_append_returns_list
 kind: code_fn
-title: Fix the cart adder
+title: The cart keeps coming up empty
 tags: bugs, arrays
 difficulty: easy
 entry: add_item
-
 ### prompt
-`add_item` should add `item` to the end of the `cart` list and return the updated
+`add_item` should drop `item` at the end of the `cart` list and return the updated
 cart. Instead every call returns `None`. Fix it.
 
 Examples
@@ -317,13 +316,12 @@ add_item(["p"], "q") == ["p", "q"]
 
 ## bug_sort_returns_none
 kind: code_fn
-title: Fix the score ranker
+title: The leaderboard shows nothing
 tags: bugs, sorting
 difficulty: easy
 entry: rank_scores
-
 ### prompt
-`rank_scores` should return a new list of the scores sorted from lowest to highest.
+`rank_scores` should return a new list of the scores ranked lowest to highest.
 Right now it returns `None`. Fix it.
 
 Examples
@@ -358,14 +356,13 @@ rank_scores([2, 2, 1]) == [1, 2, 2]
 
 ## bug_second_item_index
 kind: code_fn
-title: Fix the second-item grabber
+title: Grabbing the runner-up
 tags: bugs, arrays, indexing
 difficulty: easy
 entry: second_item
-
 ### prompt
-`second_item` should return the SECOND item in the list. It grabs the wrong spot
-(and crashes on a two-item list). Fix it.
+`second_item` should return the SECOND finisher in the list. It grabs the wrong spot
+(and crashes on a two-person list). Fix it.
 
 Examples
 
@@ -399,14 +396,13 @@ second_item([1, 2, 3, 4]) == 2
 
 ## bug_last_two_slice
 kind: code_fn
-title: Fix the last-two grabber
+title: The last two across the line
 tags: bugs, arrays
 difficulty: medium
 entry: last_two
-
 ### prompt
-`last_two` should return a list of the last TWO items. Right now it returns just one
-item, not a list. Fix it.
+`last_two` should return a list of the last TWO finishers. Right now it returns just
+one item, not a list. Fix it.
 
 Examples
 
@@ -440,13 +436,13 @@ last_two([5, 6, 7]) == [6, 7]
 
 ## wrong_sort_then_index
 kind: mcq
-title: What's wrong — sort then index
+title: What's wrong — chasing the low score
 tags: bugs, sorting
 difficulty: medium
 answer: 1
 
 ### prompt
-A student wants the lowest score, so they write:
+A player wants the lowest score of the night, so they write:
 
     scores = [88, 72, 95]
     ranked = scores.sort()
@@ -464,13 +460,13 @@ This crashes with a TypeError. What is wrong?
 
 ## wrong_append_reassign
 kind: mcq
-title: What's wrong — reassigning append
+title: What's wrong — the cart vanished
 tags: bugs, arrays
 difficulty: medium
 answer: 2
 
 ### prompt
-A student writes:
+A shopper writes:
 
     cart = ["milk"]
     cart = cart.append("eggs")
@@ -488,13 +484,13 @@ They expected `['milk', 'eggs']` but got `None`. What went wrong?
 
 ## wrong_index_off_end
 kind: mcq
-title: What's wrong — off the end
+title: What's wrong — no fourth guest
 tags: bugs, arrays, indexing
 difficulty: easy
 answer: 3
 
 ### prompt
-A student writes:
+A host writes:
 
     names = ["ana", "ben", "cal"]
     print(names[3])
@@ -511,13 +507,13 @@ It raises an `IndexError`. Why?
 
 ## wrong_alias_backup
 kind: mcq
-title: What's wrong — the backup changed
+title: What's wrong — the backup changed too
 tags: bugs, arrays
 difficulty: medium
 answer: 1
 
 ### prompt
-A student wanted `backup` to keep the original, unchanged list:
+A player wanted `backup` to keep the original, unchanged inventory:
 
     original = [1, 2, 3]
     backup = original
@@ -595,7 +591,7 @@ difficulty: starter
 answer: 1
 
 ### prompt
-In the list `["a", "b", "c"]`, what index does the first item `"a"` sit at?
+In the playlist `["a", "b", "c"]`, what index does the first song `"a"` sit at?
 
 ### choices
 - 0
@@ -647,7 +643,6 @@ title: Store the dice rolls
 tags: arrays
 difficulty: starter
 entry: dice
-
 ### prompt
 Store these three dice rolls in a list called `dice`, in this exact order: 7, 3, 9.
 
@@ -678,13 +673,12 @@ dice == [7, 3, 9]
 
 ## list_average
 kind: code_fn
-title: Average of a list
+title: Class average
 tags: arrays
 difficulty: easy
 entry: list_average
-
 ### prompt
-Create a function that takes a non-empty list of numbers and returns their average
+Create a function that takes a non-empty list of test scores and returns their average
 (the sum divided by how many there are).
 
 Examples
@@ -720,14 +714,13 @@ list_average([5, 15]) == 10
 
 ## first_and_last
 kind: code_fn
-title: First and last
+title: Opener and closer
 tags: arrays, indexing
 difficulty: easy
 entry: first_and_last
-
 ### prompt
-Create a function that takes a list and returns a NEW two-item list holding just the
-first item and the last item, in that order.
+Create a function that takes a playlist and returns a NEW two-item list holding just the
+first track and the last track, in that order.
 
 Examples
 
@@ -762,14 +755,13 @@ first_and_last([5]) == [5, 5]
 
 ## sort_desc
 kind: code_fn
-title: Highest to lowest
+title: Leaderboard, highest first
 tags: sorting
 difficulty: medium
 entry: sort_desc
-
 ### prompt
-Create a function that takes a list of numbers and returns a NEW list with them
-ordered from largest to smallest.
+Create a function that takes a list of scores and returns a NEW list ranked from
+highest to lowest.
 
 Examples
 
@@ -804,13 +796,12 @@ sort_desc([2, 9, 1, 5]) == [9, 5, 2, 1]
 
 ## make_sentence
 kind: code_fn
-title: Words into a sentence
+title: Words into a text message
 tags: arrays
 difficulty: medium
 entry: make_sentence
-
 ### prompt
-Create a function that takes a list of words and returns them joined into one string
+Create a function that takes a list of words and returns them joined into one message
 with a single space between each word.
 
 Examples
@@ -850,10 +841,9 @@ title: How many of that face?
 tags: arrays
 difficulty: easy
 entry: roll_count
-
 ### prompt
 Create a function that takes a list of dice rolls and one face value, and returns how
-many times that face was rolled.
+many times that face came up.
 
 Examples
 

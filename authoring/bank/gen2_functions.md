@@ -6,24 +6,24 @@ More predict-the-output, what's-wrong, conceptual, and write-a-function drills o
 
 ## g2_print_f3f4
 kind: mcq
-title: Predict — adding two calls
+title: Double score, then add
 tags: predict, functions
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+A bonus round doubles every point you earn. What does this print?
 
-    def f(x):
-        return x * 2
+    def double_score(points):
+        return points * 2
 
-    print(f(3) + f(4))
+    print(double_score(3) + double_score(4))
 
 ### code
-def f(x):
-    return x * 2
+def double_score(points):
+    return points * 2
 
-print(f(3) + f(4))
+print(double_score(3) + double_score(4))
 ### choices
 - 14
 - 68
@@ -34,24 +34,24 @@ print(f(3) + f(4))
 
 ## g2_print_vs_return_none
 kind: mcq
-title: Predict — it prints, then returns
+title: The score that vanishes
 tags: predict, functions
 difficulty: easy
 answer: 2
 
 ### prompt
-What does this print?
+Watch closely — this function prints the score instead of returning it. What does this print?
 
-    def f(x):
-        print(x * 2)
+    def show_score(points):
+        print(points * 2)
 
-    print(f(3))
+    print(show_score(3))
 
 ### code
-def f(x):
-    print(x * 2)
+def show_score(points):
+    print(points * 2)
 
-print(f(3))
+print(show_score(3))
 ### choices
 - 6
 - 6\nNone
@@ -62,26 +62,26 @@ print(f(3))
 
 ## g2_g_prints_hi_none
 kind: mcq
-title: Predict — hi then what?
+title: Bo waves back... with nothing
 tags: predict, functions
 difficulty: easy
 answer: 3
 
 ### prompt
-What does this print?
+Bo's chat bot prints a wave but hands back no value. What does this print?
 
-    def g():
+    def wave():
         print("hi")
 
-    x = g()
-    print(x)
+    reply = wave()
+    print(reply)
 
 ### code
-def g():
+def wave():
     print("hi")
 
-x = g()
-print(x)
+reply = wave()
+print(reply)
 ### choices
 - hi
 - hi\nhi
@@ -92,13 +92,13 @@ print(x)
 
 ## g2_default_two_ways
 kind: mcq
-title: Predict — a default called two ways
+title: One greeting maker, two ways to call it
 tags: predict, functions
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+The greeting defaults to "Hi" unless you pass your own. What does this print?
 
     def greet(name, greeting="Hi"):
         return greeting + ", " + name
@@ -122,130 +122,130 @@ print(greet("Sam", "Yo"))
 
 ## g2_code_after_return
 kind: mcq
-title: Predict — code after return
+title: The line after return never fires
 tags: predict, functions
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+This attack function returns first, then tries to log. What does this print?
 
-    def f(x):
-        return x
-        print("done")
+    def deal_damage(power):
+        return power
+        print("logged")
 
-    print(f(5))
+    print(deal_damage(5))
 
 ### code
-def f(x):
-    return x
-    print("done")
+def deal_damage(power):
+    return power
+    print("logged")
 
-print(f(5))
+print(deal_damage(5))
 ### choices
 - 5
-- done\n5
-- 5\ndone
-- done
+- logged\n5
+- 5\nlogged
+- logged
 
 ---
 
 ## g2_multiple_returns
 kind: mcq
-title: Predict — which return fires?
+title: Which medal do you win?
 tags: predict, functions
 difficulty: easy
 answer: 2
 
 ### prompt
-What does this print?
+Your score decides your medal, and the first matching return wins. What does this print?
 
-    def describe(n):
-        if n > 10:
-            return "big"
-        if n > 5:
-            return "medium"
-        return "small"
+    def rank(score):
+        if score > 10:
+            return "gold"
+        if score > 5:
+            return "silver"
+        return "bronze"
 
-    print(describe(8))
+    print(rank(8))
 
 ### code
-def describe(n):
-    if n > 10:
-        return "big"
-    if n > 5:
-        return "medium"
-    return "small"
+def rank(score):
+    if score > 10:
+        return "gold"
+    if score > 5:
+        return "silver"
+    return "bronze"
 
-print(describe(8))
+print(rank(8))
 ### choices
-- big
-- medium
-- small
-- medium\nsmall
+- gold
+- silver
+- bronze
+- silver\nbronze
 
 ---
 
 ## g2_call_from_call
 kind: mcq
-title: Predict — one function calls another
+title: Damage calc calls the damage helper
 tags: predict, functions
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+The report builder calls damage to get the number. What does this print?
 
-    def area(w, h):
-        return w * h
+    def damage(base, mult):
+        return base * mult
 
-    def label(w, h):
-        return "area=" + str(area(w, h))
+    def report(base, mult):
+        return "dmg=" + str(damage(base, mult))
 
-    print(label(2, 3))
+    print(report(2, 3))
 
 ### code
-def area(w, h):
-    return w * h
+def damage(base, mult):
+    return base * mult
 
-def label(w, h):
-    return "area=" + str(area(w, h))
+def report(base, mult):
+    return "dmg=" + str(damage(base, mult))
 
-print(label(2, 3))
+print(report(2, 3))
 ### choices
-- area=6
-- area=23
+- dmg=6
+- dmg=23
 - 6
-- area=w*h
+- dmg=base*mult
 
 ---
 
 ## g2_nested_calls
 kind: mcq
-title: Predict — a function calling itself's helper
+title: Level up, three times over
 tags: predict, functions
 difficulty: medium
 answer: 3
 
 ### prompt
-What does this print?
+triple_up levels you up by calling level_up three times. What does this print?
 
-    def add1(x):
-        return x + 1
+    def level_up(xp):
+        return xp + 1
 
-    def add3(x):
-        return add1(add1(add1(x)))
+    def triple_up(xp):
+        return level_up(level_up(level_up(xp)))
 
-    print(add3(0))
+    print(triple_up(0))
 
 ### code
-def add1(x):
-    return x + 1
+def level_up(xp):
+    return xp + 1
 
-def add3(x):
-    return add1(add1(add1(x)))
+def triple_up(xp):
+    return level_up(level_up(level_up(xp)))
 
-print(add3(0))
+print(triple_up(0))
 ### choices
 - 1
 - 0
@@ -256,30 +256,30 @@ print(add3(0))
 
 ## g2_reassign_param
 kind: mcq
-title: Predict — does the caller's number change?
+title: Does your lives count actually change?
 tags: predict, functions
 difficulty: medium
 answer: 1
 
 ### prompt
-What does this print?
+add_bonus bumps its own copy by one. What does this print?
 
-    def f(x):
-        x = x + 1
-        return x
+    def add_bonus(score):
+        score = score + 1
+        return score
 
-    n = 10
-    print(f(n))
-    print(n)
+    lives = 10
+    print(add_bonus(lives))
+    print(lives)
 
 ### code
-def f(x):
-    x = x + 1
-    return x
+def add_bonus(score):
+    score = score + 1
+    return score
 
-n = 10
-print(f(n))
-print(n)
+lives = 10
+print(add_bonus(lives))
+print(lives)
 ### choices
 - 11\n10
 - 11\n11
@@ -290,27 +290,27 @@ print(n)
 
 ## g2_return_stops_loop
 kind: mcq
-title: Predict — return inside a loop
+title: First even dice roll wins
 tags: predict, functions
 difficulty: medium
 answer: 3
 
 ### prompt
-What does this print?
+This scans your dice rolls and returns the first even one. What does this print?
 
-    def first_even(nums):
-        for n in nums:
-            if n % 2 == 0:
-                return n
+    def first_even(rolls):
+        for roll in rolls:
+            if roll % 2 == 0:
+                return roll
         return -1
 
     print(first_even([1, 3, 4, 7, 8]))
 
 ### code
-def first_even(nums):
-    for n in nums:
-        if n % 2 == 0:
-            return n
+def first_even(rolls):
+    for roll in rolls:
+        if roll % 2 == 0:
+            return roll
     return -1
 
 print(first_even([1, 3, 4, 7, 8]))
@@ -324,71 +324,71 @@ print(first_even([1, 3, 4, 7, 8]))
 
 ## g2_return_two_values
 kind: mcq
-title: Predict — returning two things
+title: Split the bill, keep the change
 tags: predict, functions
 difficulty: medium
 answer: 2
 
 ### prompt
-What does this print?
+split_bill hands back dollars-each and the leftover cents. What does this print?
 
-    def stats(a, b):
-        return a + b, a * b
+    def split_bill(total, people):
+        return total // people, total % people
 
-    print(stats(2, 3))
+    print(split_bill(23, 4))
 
 ### code
-def stats(a, b):
-    return a + b, a * b
+def split_bill(total, people):
+    return total // people, total % people
 
-print(stats(2, 3))
+print(split_bill(23, 4))
 ### choices
-- 5 6
-- (5, 6)
-- (6, 5)
-- 5, 6
+- 5 3
+- (5, 3)
+- (3, 5)
+- 5, 3
 
 ---
 
 ## g2_print_then_return
 kind: mcq
-title: Predict — print inside, print outside
+title: Charge the card, then hand back the total
 tags: predict, functions
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+The function prints a status line, then returns the amount. What does this print?
 
-    def f(x):
-        print("in")
-        return x
+    def charge(amount):
+        print("charging...")
+        return amount
 
-    print(f(9))
+    print(charge(9))
 
 ### code
-def f(x):
-    print("in")
-    return x
+def charge(amount):
+    print("charging...")
+    return amount
 
-print(f(9))
+print(charge(9))
 ### choices
-- in\n9
+- charging...\n9
 - 9
-- in
-- 9\nin
+- charging...
+- 9\ncharging...
 
 ---
 
 ## g2_fix_print_not_return
 kind: code_fn
-title: It prints the answer instead of returning it
+title: The score tripler that hands back None
 tags: functions, bugs
 difficulty: starter
 entry: triple
 
 ### prompt
-This function is supposed to hand back three times its input, but callers keep getting None. Fix it.
+A power-up should triple your score and hand it back, but callers keep getting None. Fix it.
 
     n = triple(2)
     print(n + 1)     # crashes: None + 1
@@ -406,14 +406,14 @@ Notes
 
 ### starter
 ```python
-def triple(x):
-    print(x * 3)
+def triple(points):
+    print(points * 3)
 ```
 
 ### solution
 ```python
-def triple(x):
-    return x * 3
+def triple(points):
+    return points * 3
 ```
 
 ### check
@@ -426,13 +426,13 @@ triple(-3) == -9
 
 ## g2_fix_missing_return
 kind: code_fn
-title: The sum never comes back
+title: The coin total never comes back
 tags: functions, bugs
 difficulty: starter
 entry: add
 
 ### prompt
-This function computes the total but forgets to hand it back, so every call gives None. Fix it.
+This adds up two coin piles but forgets to hand back the total, so every call gives None. Fix it.
 
 Examples
 
@@ -468,13 +468,13 @@ add(100, 100) == 200
 
 ## g2_fix_return_in_loop
 kind: code_fn
-title: The counter quits after the first item
+title: The win counter quits after round one
 tags: functions, bugs
 difficulty: medium
 entry: count_positives
 
 ### prompt
-This function should count how many numbers in the list are greater than zero, but it keeps returning too early. Fix it.
+This should count how many rounds had a positive score, but it keeps returning too early. Fix it.
 
 Examples
 
@@ -489,10 +489,10 @@ Notes
 
 ### starter
 ```python
-def count_positives(nums):
+def count_positives(scores):
     count = 0
-    for n in nums:
-        if n > 0:
+    for s in scores:
+        if s > 0:
             count += 1
             return count
     return count
@@ -500,10 +500,10 @@ def count_positives(nums):
 
 ### solution
 ```python
-def count_positives(nums):
+def count_positives(scores):
     count = 0
-    for n in nums:
-        if n > 0:
+    for s in scores:
+        if s > 0:
             count += 1
     return count
 ```
@@ -518,13 +518,13 @@ count_positives([5]) == 1
 
 ## g2_fix_default_order
 kind: code_fn
-title: The default is in the wrong place
+title: The optional greeting is in the wrong spot
 tags: functions, bugs
 difficulty: medium
 entry: greet
 
 ### prompt
-This function will not even define — Python rejects the header. Fix the parameter order so the greeting is optional and defaults to "Hi".
+This greeting maker will not even define — Python rejects the header. Fix the parameter order so the greeting is optional and defaults to "Hi".
 
 Examples
 
@@ -564,13 +564,13 @@ difficulty: easy
 answer: 2
 
 ### prompt
-This code will not run. What is wrong?
+This score doubler will not run. What is wrong?
 
-    def f(x)
-        return x * 2
+    def double_score(points)
+        return points * 2
 
 ### choices
-- x is not defined
+- points is not defined
 - The def line is missing a colon at the end
 - A function cannot multiply its argument
 - return must come before def
@@ -587,16 +587,16 @@ answer: 1
 ### prompt
 This program crashes on the last line. What is the real cause?
 
-    def area(w, h):
-        print(w * h)
+    def damage(base, mult):
+        print(base * mult)
 
-    result = area(3, 4)
+    result = damage(3, 4)
     print(result * 2)
 
 ### choices
-- area prints instead of returning, so result is None and None * 2 fails
+- damage prints instead of returning, so result is None and None * 2 fails
 - You cannot multiply two numbers inside a function
-- area needs three arguments, not two
+- damage needs three arguments, not two
 - print(result * 2) should be print(result + 2)
 
 ---
@@ -762,7 +762,7 @@ You have a function named `double`. Which of these actually calls it with the va
 
 ## g2_make_greeting
 kind: code_fn
-title: Write a greeting
+title: Build the welcome message
 tags: functions
 difficulty: starter
 entry: make_greeting
@@ -843,13 +843,13 @@ final_price(5) == 5
 
 ## g2_is_adult
 kind: code_fn
-title: Is this person an adult?
+title: Old enough to ride?
 tags: functions, logic
 difficulty: easy
 entry: is_adult
 
 ### prompt
-Write a function that returns True when an age is 18 or more, and False otherwise.
+The ride has an 18-and-up rule. Write a function that returns True when an age is 18 or more, and False otherwise.
 
 Examples
 
@@ -884,13 +884,13 @@ is_adult(0) is False
 
 ## g2_bigger
 kind: code_fn
-title: Return the bigger of two
+title: Keep the higher score
 tags: functions
 difficulty: easy
 entry: bigger
 
 ### prompt
-Write a function that returns the larger of two numbers. If they are equal, return that value.
+Write a function that returns the larger of two scores. If they are equal, return that value.
 
 Examples
 
@@ -927,13 +927,13 @@ bigger(-1, -5) == -1
 
 ## g2_total_area
 kind: code_fn
-title: Total area of two rectangles
+title: Total area of two pizzas
 tags: functions
 difficulty: medium
 entry: total_area
 
 ### prompt
-You are given area(w, h), which returns the area of one rectangle. Write total_area(w1, h1, w2, h2) that returns the combined area of two rectangles by calling area twice.
+You are given area(w, h), which returns the area of one rectangular pizza. Write total_area(w1, h1, w2, h2) that returns the combined area of two pizzas by calling area twice.
 
 Examples
 
@@ -943,7 +943,7 @@ Examples
 
 Notes
 
-- Call area for each rectangle instead of multiplying by hand.
+- Call area for each pizza instead of multiplying by hand.
 - Add the two results together and return the sum.
 
 ### starter
@@ -974,7 +974,7 @@ total_area(10, 1, 0, 0) == 10
 
 ## g2_initials
 kind: code_fn
-title: Build the initials
+title: Build a gamertag from initials
 tags: functions, strings
 difficulty: easy
 entry: initials

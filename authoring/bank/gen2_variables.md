@@ -4,19 +4,23 @@
 
 ## p_floor_div_seven_two
 kind: mcq
-title: Predict — 7 // 2
+title: Splitting 7 slices between 2 friends
 tags: predict, math
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+You split a pizza's 7 slices evenly between 2 friends. How many *whole* slices does each get?
 
-    print(7 // 2)
+    slices = 7
+    friends = 2
+    print(slices // friends)
 
 ### code
 ```python
-print(7 // 2)
+slices = 7
+friends = 2
+print(slices // friends)
 ```
 
 ### choices
@@ -29,19 +33,23 @@ print(7 // 2)
 
 ## p_true_div_seven_two
 kind: mcq
-title: Predict — 7 / 2
+title: Splitting a $7 bill two ways
 tags: predict, math
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+Two people split a $7 bill evenly. What does this print?
 
-    print(7 / 2)
+    bill = 7
+    people = 2
+    print(bill / people)
 
 ### code
 ```python
-print(7 / 2)
+bill = 7
+people = 2
+print(bill / people)
 ```
 
 ### choices
@@ -54,13 +62,13 @@ print(7 / 2)
 
 ## p_two_to_third
 kind: mcq
-title: Predict — 2 ** 3
+title: A slime that doubles each turn
 tags: predict, math
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+A slime splits in two every turn. Starting from 1, how many slimes after 3 turns?
 
     print(2 ** 3)
 
@@ -79,19 +87,23 @@ print(2 ** 3)
 
 ## p_mod_ten_three
 kind: mcq
-title: Predict — 10 % 3
+title: Leftover cards after dealing
 tags: predict, math
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+You deal 10 cards to 3 players, one at a time, until you can't give everyone another. How many are left in your hand?
 
-    print(10 % 3)
+    cards = 10
+    players = 3
+    print(cards % players)
 
 ### code
 ```python
-print(10 % 3)
+cards = 10
+players = 3
+print(cards % players)
 ```
 
 ### choices
@@ -104,13 +116,13 @@ print(10 % 3)
 
 ## p_add_then_mul
 kind: mcq
-title: Predict — order of operations
+title: One combo plus three sides
 tags: predict, math
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+Your order is a $2 combo plus 3 sides at $4 each. What does this print?
 
     print(2 + 3 * 4)
 
@@ -129,13 +141,13 @@ print(2 + 3 * 4)
 
 ## p_int_truncate
 kind: mcq
-title: Predict — int(3.9)
+title: Whole dollars only
 tags: predict, numbers
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+You have $3.90 in coins. How many *whole* dollars can you actually hand over?
 
     print(int(3.9))
 
@@ -154,13 +166,13 @@ print(int(3.9))
 
 ## p_round_banker
 kind: mcq
-title: Predict — round(2.5)
+title: The round(2.5) surprise
 tags: predict, numbers
 difficulty: medium
 answer: 1
 
 ### prompt
-What does this print?
+You'd bet `round(2.5)` is 3. Watch closely — what does Python actually print?
 
     print(round(2.5))
 
@@ -183,23 +195,23 @@ print(round(2.5))
 
 ## p_augmented_add
 kind: mcq
-title: Predict — x += 3
+title: Three more points
 tags: predict, math
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+Your score is 5, then you earn 3 more. What does this print?
 
-    x = 5
-    x += 3
-    print(x)
+    score = 5
+    score += 3
+    print(score)
 
 ### code
 ```python
-x = 5
-x += 3
-print(x)
+score = 5
+score += 3
+print(score)
 ```
 
 ### choices
@@ -212,13 +224,13 @@ print(x)
 
 ## p_int_plus_int
 kind: mcq
-title: Predict — 5 + 5
+title: Two bonuses, no quotes
 tags: predict, types
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+You grab a 5-point bonus twice. What does this print?
 
     print(5 + 5)
 
@@ -241,13 +253,13 @@ print(5 + 5)
 
 ## p_type_div
 kind: mcq
-title: Predict — type(10 / 2)
+title: What type is a split result?
 tags: predict, types
 difficulty: medium
 answer: 1
 
 ### prompt
-What does this print?
+You split 10 gems between 2 players — it divides evenly. What *type* is the result?
 
     print(type(10 / 2))
 
@@ -270,13 +282,13 @@ print(type(10 / 2))
 
 ## p_power_before_mult
 kind: mcq
-title: Predict — 2 * 3 ** 2
+title: Does ** or * go first?
 tags: predict, math
 difficulty: medium
 answer: 1
 
 ### prompt
-What does this print?
+Watch closely — which operator runs first here?
 
     print(2 * 3 ** 2)
 
@@ -299,13 +311,13 @@ print(2 * 3 ** 2)
 
 ## p_neg_floor_div
 kind: mcq
-title: Predict — -7 // 2
+title: Splitting a debt with //
 tags: predict, math
 difficulty: hard
 answer: 1
 
 ### prompt
-What does this print?
+You're $7 in the red and split it across 2 months. What does `-7 // 2` print?
 
     print(-7 // 2)
 
@@ -328,13 +340,13 @@ print(-7 // 2)
 
 ## p_round_two_dp
 kind: mcq
-title: Predict — round to 2 places
+title: Rounding pi to the penny
 tags: predict, numbers
 difficulty: medium
 answer: 1
 
 ### prompt
-What does this print?
+A price came out to 3.14159 dollars. Round it to 2 decimal places. What prints?
 
     print(round(3.14159, 2))
 
@@ -353,13 +365,13 @@ print(round(3.14159, 2))
 
 ## p_paren_first
 kind: mcq
-title: Predict — parentheses first
+title: Parentheses jump the line
 tags: predict, math
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+2 friends plus 3 more show up, and each brings 4 snacks. How many snacks total?
 
     print((2 + 3) * 4)
 
@@ -378,13 +390,13 @@ print((2 + 3) * 4)
 
 ## bug_power_caret
 kind: code_fn
-title: The wrong power symbol
+title: The attack that barely scratches
 tags: bugs, math, numbers
 difficulty: easy
 entry: power
 
 ### prompt
-`power` should return `base` raised to the power `exp` — so `power(2, 3)` is `8` (2 × 2 × 2). Instead it returns strange small numbers. Fix it.
+This `power` helper is supposed to compute attack damage as `base` raised to `exp` — so `power(2, 3)` is `8` (2 × 2 × 2). Instead it deals strange tiny numbers. Fix it.
 
 Examples
 
@@ -419,13 +431,13 @@ power(10, 2) == 100
 
 ## bug_avg_floor
 kind: code_fn
-title: The halfway point that lost its decimal
+title: The checkpoint that lost its half-mile
 tags: bugs, math, numbers
 difficulty: medium
 entry: midpoint
 
 ### prompt
-`midpoint` should return the value exactly halfway between two mile markers. For markers 3 and 4 that is `3.5`, but the code returns `3`. Fix it.
+`midpoint` should drop a checkpoint exactly halfway between two mile markers. For markers 3 and 4 that is `3.5`, but the code returns `3`. Fix it.
 
 Examples
 
@@ -460,13 +472,13 @@ midpoint(10, 15) == 12.5
 
 ## bug_whole_groups
 kind: code_fn
-title: Counting full boxes
+title: How many full raid parties
 tags: bugs, math, numbers
 difficulty: medium
 entry: whole_groups
 
 ### prompt
-`whole_groups` should return how many *completely full* boxes you can fill — so 7 items with 2 per box makes `3` full boxes (with one left over). Instead it returns things like `3.5`. Fix it.
+`whole_groups` should return how many *completely full* raid parties you can form — so 7 players in parties of 2 makes `3` full parties (with one sitting out). Instead it returns things like `3.5`. Fix it.
 
 Examples
 
@@ -476,7 +488,7 @@ Examples
 
 Notes
 
-- A count of boxes should be a whole number, never `3.5`.
+- A count of parties should be a whole number, never `3.5`.
 - `/` always gives a decimal; you want the operator that divides and drops the remainder.
 
 ### starter
@@ -502,13 +514,13 @@ whole_groups(10, 3) == 3
 
 ## bug_add_boxes
 kind: code_fn
-title: Two counts typed as text
+title: Two scores that got glued together
 tags: bugs, types, numbers
 difficulty: medium
 entry: add_boxes
 
 ### prompt
-`add_boxes` receives two counts as text (like `"12"` and `"3"`) and should return their sum as a number. Instead, `add_boxes("12", "3")` comes back as `"123"`. Fix it.
+`add_boxes` reads two scores off a scoreboard as text (like `"12"` and `"3"`) and should return their total as a number. Instead, `add_boxes("12", "3")` comes back as `"123"`. Fix it.
 
 Examples
 
@@ -543,13 +555,13 @@ add_boxes("10", "0") == 10
 
 ## wrong_equals_sign
 kind: mcq
-title: What's wrong — = vs ==
+title: The thermostat that won't compile
 tags: bugs, language_fundamentals
 difficulty: medium
 answer: 1
 
 ### prompt
-This code crashes with a `SyntaxError`. What is wrong?
+This thermostat check crashes with a `SyntaxError`. What is wrong?
 
     temperature = 70
     if temperature = 100:
@@ -565,13 +577,13 @@ This code crashes with a `SyntaxError`. What is wrong?
 
 ## wrong_caret_power
 kind: mcq
-title: What's wrong — using ^ for a power
+title: The power that printed 1
 tags: bugs, math
 difficulty: medium
 answer: 1
 
 ### prompt
-This is meant to print `8` (which is 2 to the power of 3), but it prints `1` instead. Why?
+This is meant to print `8` (2 to the power of 3), but it prints `1` instead. Why?
 
     print(2 ^ 3)
 
@@ -585,13 +597,13 @@ This is meant to print `8` (which is 2 to the power of 3), but it prints `1` ins
 
 ## wrong_missing_quotes
 kind: mcq
-title: What's wrong — a missing pair of quotes
+title: The name with no quotes
 tags: bugs, types
 difficulty: medium
 answer: 1
 
 ### prompt
-Running this raises `NameError: name 'Maria' is not defined`. Why?
+Saving a player's name raises `NameError: name 'Maria' is not defined`. Why?
 
     first_name = Maria
     print(first_name)
@@ -606,13 +618,13 @@ Running this raises `NameError: name 'Maria' is not defined`. Why?
 
 ## wrong_int_of_decimal_text
 kind: mcq
-title: What's wrong — int() on decimal text
+title: The age that had a decimal
 tags: bugs, types, numbers
 difficulty: medium
 answer: 1
 
 ### prompt
-This line raises a `ValueError`. What is the problem?
+Reading an age off a form raises a `ValueError`. What is the problem?
 
     age = int("42.5")
 
@@ -626,13 +638,13 @@ This line raises a `ValueError`. What is the problem?
 
 ## concept_float_value
 kind: mcq
-title: Which value is a float?
+title: Which health value is a float?
 tags: concept, types, numbers
 difficulty: easy
 answer: 3
 
 ### prompt
-Which of these values is a float?
+A game could store your health in any of these ways. Which one is a float?
 
 ### choices
 - 7
@@ -644,13 +656,13 @@ Which of these values is a float?
 
 ## concept_equals_does
 kind: mcq
-title: What does x = 5 do?
+title: What does count = 5 do?
 tags: concept, language_fundamentals
 difficulty: easy
 answer: 1
 
 ### prompt
-What does the line `count = 5` do?
+You're tracking coins collected. What does the line `count = 5` do?
 
 ### choices
 - Stores the value `5` in a variable called `count`
@@ -668,7 +680,7 @@ difficulty: easy
 answer: 1
 
 ### prompt
-What does the `//` operator do in Python?
+When you split loot into equal stacks, what does the `//` operator do?
 
 ### choices
 - Divides and throws away the remainder, giving a whole-number result
@@ -704,7 +716,7 @@ difficulty: easy
 answer: 1
 
 ### prompt
-What does `17 % 5` give you?
+You deal 17 cards to 5 players. What does `17 % 5` give you?
 
 ### choices
 - The remainder left after dividing 17 by 5
@@ -722,7 +734,7 @@ difficulty: easy
 answer: 1
 
 ### prompt
-The line `score += 10` is shorthand for which line?
+You just cleared a level. The line `score += 10` is shorthand for which line?
 
 ### choices
 - score = score + 10
@@ -734,13 +746,13 @@ The line `score += 10` is shorthand for which line?
 
 ## store_remainder
 kind: code_var
-title: Store a remainder
+title: Cards left in your hand
 tags: math, numbers
 difficulty: easy
 entry: remainder
 
 ### prompt
-In a variable named `remainder`, store the remainder left over when 17 is divided by 5.
+You deal 17 cards to 5 players. In a variable named `remainder`, store how many cards are left in your hand.
 
 Notes
 
@@ -771,7 +783,7 @@ difficulty: easy
 entry: to_the_power
 
 ### prompt
-Return `base` raised to the power `exp`.
+A spell's damage is `base` raised to the power `exp`. Return that value.
 
 Examples
 
@@ -853,7 +865,7 @@ difficulty: easy
 entry: round_to_cents
 
 ### prompt
-Return the price rounded to 2 decimal places (the nearest cent).
+A shopping cart total needs to show cents. Return the price rounded to 2 decimal places.
 
 Examples
 

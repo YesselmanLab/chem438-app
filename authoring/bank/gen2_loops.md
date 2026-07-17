@@ -6,20 +6,20 @@ Extra drills on `for`, `range`, `enumerate`, accumulators, `break`/`continue`, `
 
 ## p2_range3
 kind: mcq
-title: Predict — range(3)
+title: Warm-up spins from zero
 tags: predict, loops
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print, one value per line?
+A drone logs each warm-up spin, counting from 0. What prints, one per line?
 
-    for i in range(3):
-        print(i)
+    for spin in range(3):
+        print(spin)
 
 ### code
-for i in range(3):
-    print(i)
+for spin in range(3):
+    print(spin)
 
 ### choices
 - 0\n1\n2
@@ -31,20 +31,20 @@ for i in range(3):
 
 ## p2_range_1_4
 kind: mcq
-title: Predict — range(1, 4)
+title: Podium places one, two, three
 tags: predict, loops
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print, one value per line?
+A race announcer calls the top-3 podium places, starting at 1. What prints, one per line?
 
-    for i in range(1, 4):
-        print(i)
+    for place in range(1, 4):
+        print(place)
 
 ### code
-for i in range(1, 4):
-    print(i)
+for place in range(1, 4):
+    print(place)
 
 ### choices
 - 1\n2\n3
@@ -56,20 +56,20 @@ for i in range(1, 4):
 
 ## p2_range_step
 kind: mcq
-title: Predict — range with a step
+title: Even house numbers up the block
 tags: predict, loops
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print, one value per line?
+A mail carrier reads the even house numbers up one side of the street. What prints, one per line?
 
-    for i in range(0, 10, 2):
-        print(i)
+    for house in range(0, 10, 2):
+        print(house)
 
 ### code
-for i in range(0, 10, 2):
-    print(i)
+for house in range(0, 10, 2):
+    print(house)
 
 ### choices
 - 0\n2\n4\n6\n8
@@ -81,75 +81,75 @@ for i in range(0, 10, 2):
 
 ## p2_for_string
 kind: mcq
-title: Predict — looping a string
+title: Spelling out the chant
 tags: predict, loops
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+The crowd spells out a two-letter chant, one letter per line. What prints?
 
-    for c in "hi":
-        print(c)
+    for letter in "go":
+        print(letter)
 
 ### code
-for c in "hi":
-    print(c)
+for letter in "go":
+    print(letter)
 
 ### choices
-- h\ni
-- hi
-- h i
-- i\nh
+- g\no
+- go
+- g o
+- o\ng
 
 ---
 
 ## p2_range_len
 kind: mcq
-title: Predict — range(len(word))
+title: Numbering a tag's letters
 tags: predict, loops
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print, one value per line?
+A form numbers each letter position in a 3-letter tag, starting at 0. What prints, one per line?
 
-    word = "cat"
-    for i in range(len(word)):
+    tag = "dog"
+    for i in range(len(tag)):
         print(i)
 
 ### code
-word = "cat"
-for i in range(len(word)):
+tag = "dog"
+for i in range(len(tag)):
     print(i)
 
 ### choices
 - 0\n1\n2
 - 0\n1\n2\n3
 - 1\n2\n3
-- c\na\nt
+- d\no\ng
 
 ---
 
 ## p2_accum_sum
 kind: mcq
-title: Predict — summing with +=
+title: Adding up three rounds
 tags: predict, loops
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+A player tallies points from three rounds. What prints?
 
     total = 0
-    for n in [4, 5, 6]:
-        total += n
+    for points in [4, 5, 6]:
+        total += points
     print(total)
 
 ### code
 total = 0
-for n in [4, 5, 6]:
-    total += n
+for points in [4, 5, 6]:
+    total += points
 print(total)
 
 ### choices
@@ -162,23 +162,23 @@ print(total)
 
 ## p2_sum_range
 kind: mcq
-title: Predict — sum over a range
+title: Coins stacked over four days
 tags: predict, loops
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+You stack 1 coin on day 1, 2 on day 2, and so on through day 4. What total prints?
 
     total = 0
-    for i in range(1, 5):
-        total += i
+    for day in range(1, 5):
+        total += day
     print(total)
 
 ### code
 total = 0
-for i in range(1, 5):
-    total += i
+for day in range(1, 5):
+    total += day
 print(total)
 
 ### choices
@@ -191,26 +191,26 @@ print(total)
 
 ## p2_count_condition
 kind: mcq
-title: Predict — counting with a condition
+title: How many hit five goals
 tags: predict, loops
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+These are goal counts for five players. How many scored at least 5?
 
-    scores = [8, 3, 9, 2, 7]
+    goals = [8, 3, 9, 2, 7]
     count = 0
-    for s in scores:
-        if s >= 5:
+    for g in goals:
+        if g >= 5:
             count += 1
     print(count)
 
 ### code
-scores = [8, 3, 9, 2, 7]
+goals = [8, 3, 9, 2, 7]
 count = 0
-for s in scores:
-    if s >= 5:
+for g in goals:
+    if g >= 5:
         count += 1
 print(count)
 
@@ -224,13 +224,13 @@ print(count)
 
 ## p2_star_end
 kind: mcq
-title: Predict — print with end=""
+title: A row of rating stars
 tags: predict, loops
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+A review prints one star per rating point, all on one line. What shows for a 4-star review?
 
     for i in range(4):
         print("*", end="")
@@ -249,24 +249,24 @@ for i in range(4):
 
 ## p2_build_list
 kind: mcq
-title: Predict — building a list
+title: Scaling scores by ten
 tags: predict, loops
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+Each raw score is multiplied by 10 and collected into a new list. What prints?
 
-    result = []
-    for n in [1, 2, 3]:
-        result.append(n * 10)
-    print(result)
+    scaled = []
+    for score in [1, 2, 3]:
+        scaled.append(score * 10)
+    print(scaled)
 
 ### code
-result = []
-for n in [1, 2, 3]:
-    result.append(n * 10)
-print(result)
+scaled = []
+for score in [1, 2, 3]:
+    scaled.append(score * 10)
+print(scaled)
 
 ### choices
 - [10, 20, 30]
@@ -278,24 +278,24 @@ print(result)
 
 ## p2_string_concat
 kind: mcq
-title: Predict — building a string backwards
+title: Spelling a word backwards
 tags: predict, loops
 difficulty: medium
 answer: 1
 
 ### prompt
-What does this print?
+Each letter is glued onto the front of what came before. What prints?
 
-    result = ""
-    for c in "abc":
-        result = c + result
-    print(result)
+    backwards = ""
+    for letter in "abc":
+        backwards = letter + backwards
+    print(backwards)
 
 ### code
-result = ""
-for c in "abc":
-    result = c + result
-print(result)
+backwards = ""
+for letter in "abc":
+    backwards = letter + backwards
+print(backwards)
 
 ### choices
 - cba
@@ -307,13 +307,13 @@ print(result)
 
 ## p2_countdown_range
 kind: mcq
-title: Predict — counting down
+title: Countdown to launch
 tags: predict, loops
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print, one value per line?
+Mission control counts down to launch. What prints, one per line?
 
     for n in range(5, 0, -1):
         print(n)
@@ -332,49 +332,49 @@ for n in range(5, 0, -1):
 
 ## p2_enumerate
 kind: mcq
-title: Predict — enumerate
+title: Numbering a playlist
 tags: predict, loops
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print, one line per pass?
+A playlist prints each track with its position number. What prints, one line per track?
 
-    for i, c in enumerate("ab"):
-        print(i, c)
+    for i, song in enumerate(["Yes", "No"]):
+        print(i, song)
 
 ### code
-for i, c in enumerate("ab"):
-    print(i, c)
+for i, song in enumerate(["Yes", "No"]):
+    print(i, song)
 
 ### choices
-- 0 a\n1 b
-- 1 a\n2 b
-- a b
+- 0 Yes\n1 No
+- 1 Yes\n2 No
+- Yes No
 - 0 1
 
 ---
 
 ## p2_break_early
 kind: mcq
-title: Predict — break stops the loop
+title: Stop at the reserved seat
 tags: predict, loops
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print, one value per line?
+Seats are called out in order, but calling stops the moment seat 3 comes up. What prints, one per line?
 
-    for n in [1, 2, 3, 4, 5]:
-        if n == 3:
+    for seat in [1, 2, 3, 4, 5]:
+        if seat == 3:
             break
-        print(n)
+        print(seat)
 
 ### code
-for n in [1, 2, 3, 4, 5]:
-    if n == 3:
+for seat in [1, 2, 3, 4, 5]:
+    if seat == 3:
         break
-    print(n)
+    print(seat)
 
 ### choices
 - 1\n2
@@ -386,24 +386,24 @@ for n in [1, 2, 3, 4, 5]:
 
 ## p2_continue_skip
 kind: mcq
-title: Predict — continue skips one
+title: The elevator skips a floor
 tags: predict, loops
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print, one value per line?
+An elevator announces each floor but skips floor 2. What prints, one per line?
 
-    for n in [1, 2, 3, 4]:
-        if n == 2:
+    for floor in [1, 2, 3, 4]:
+        if floor == 2:
             continue
-        print(n)
+        print(floor)
 
 ### code
-for n in [1, 2, 3, 4]:
-    if n == 2:
+for floor in [1, 2, 3, 4]:
+    if floor == 2:
         continue
-    print(n)
+    print(floor)
 
 ### choices
 - 1\n3\n4
@@ -415,24 +415,24 @@ for n in [1, 2, 3, 4]:
 
 ## p2_while_countdown
 kind: mcq
-title: Predict — a while countdown
+title: Lives ticking down
 tags: predict, loops
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print, one value per line?
+A game prints your remaining lives until they hit zero. What prints, one per line?
 
-    n = 3
-    while n > 0:
-        print(n)
-        n -= 1
+    lives = 3
+    while lives > 0:
+        print(lives)
+        lives -= 1
 
 ### code
-n = 3
-while n > 0:
-    print(n)
-    n -= 1
+lives = 3
+while lives > 0:
+    print(lives)
+    lives -= 1
 
 ### choices
 - 3\n2\n1
@@ -444,22 +444,22 @@ while n > 0:
 
 ## p2_nested_pairs
 kind: mcq
-title: Predict — a nested loop
+title: Every shirt-and-pants combo
 tags: predict, loops
 difficulty: medium
 answer: 1
 
 ### prompt
-What does this print, one pair per line?
+You try every pairing of 2 shirts and 2 pants. What prints, one pair per line?
 
-    for i in range(2):
-        for j in range(2):
-            print(i, j)
+    for shirt in range(2):
+        for pant in range(2):
+            print(shirt, pant)
 
 ### code
-for i in range(2):
-    for j in range(2):
-        print(i, j)
+for shirt in range(2):
+    for pant in range(2):
+        print(shirt, pant)
 
 ### choices
 - 0 0\n0 1\n1 0\n1 1
@@ -471,22 +471,22 @@ for i in range(2):
 
 ## p2_nested_stars
 kind: mcq
-title: Predict — a triangle of stars
+title: Building a staircase of stars
 tags: predict, loops
 difficulty: medium
 answer: 1
 
 ### prompt
-What does this print?
+Each row prints one more star than the last. What prints?
 
-    for i in range(3):
-        for j in range(i + 1):
+    for row in range(3):
+        for star in range(row + 1):
             print("*", end="")
         print()
 
 ### code
-for i in range(3):
-    for j in range(i + 1):
+for row in range(3):
+    for star in range(row + 1):
         print("*", end="")
     print()
 
@@ -895,7 +895,7 @@ This is meant to add 1, 2 and 3 to get 6, but it prints 3. What's happening?
 
 ## g2_concept_range5
 kind: mcq
-title: Concept — what does range(5) give?
+title: What range(5) actually gives
 tags: loops, concept
 difficulty: easy
 answer: 1
@@ -913,7 +913,7 @@ How many numbers does `range(5)` produce, and what are they?
 
 ## g2_concept_total_location
 kind: mcq
-title: Concept — where does total = 0 go?
+title: Where the accumulator starts
 tags: loops, concept
 difficulty: easy
 answer: 1
@@ -931,7 +931,7 @@ You're summing a list with an accumulator. Where must `total = 0` be written?
 
 ## g2_concept_enumerate
 kind: mcq
-title: Concept — what enumerate gives you
+title: What enumerate hands you
 tags: loops, concept
 difficulty: easy
 answer: 1
@@ -949,7 +949,7 @@ In `for i, x in enumerate(["a", "b", "c"])`, what are `i` and `x` on the first p
 
 ## g2_concept_break_continue
 kind: mcq
-title: Concept — break vs continue
+title: break versus continue
 tags: loops, concept
 difficulty: easy
 answer: 1
@@ -967,7 +967,7 @@ What is the difference between `break` and `continue` inside a loop?
 
 ## g2_concept_for_item
 kind: mcq
-title: Concept — what the loop variable holds
+title: What the loop variable holds
 tags: loops, concept
 difficulty: easy
 answer: 1
@@ -985,7 +985,7 @@ In `for song in playlist:`, what does `song` hold on each pass?
 
 ## g2_concept_while_true
 kind: mcq
-title: Concept — when a while loop keeps going
+title: When a while loop keeps going
 tags: loops, concept
 difficulty: easy
 answer: 1
@@ -1003,13 +1003,13 @@ A `while` loop keeps repeating for as long as its condition is...?
 
 ## g2_count_negatives
 kind: code_fn
-title: Count the negative numbers
+title: How many freezing days
 tags: loops, functions
 difficulty: easy
 entry: count_negatives
 
 ### prompt
-Create a function that counts how many numbers in a list are negative (less than 0).
+Write `count_negatives(nums)` that counts how many temperature readings dropped below zero (negative).
 
 Examples
 
@@ -1061,13 +1061,13 @@ count_negatives([0, -1, 0]) == 1
 
 ## g2_sum_evens
 kind: code_fn
-title: Sum only the even numbers
+title: Points from the even rounds
 tags: loops, functions
 difficulty: easy
 entry: sum_evens
 
 ### prompt
-Create a function that adds up only the even numbers in a list and returns the total.
+Write `sum_evens(nums)` that adds up only the even numbers in a list and returns the total.
 
 Examples
 
@@ -1119,13 +1119,13 @@ sum_evens([0, 2]) == 2
 
 ## g2_word_lengths
 kind: code_fn
-title: List the length of each word
+title: Character count of each text
 tags: loops, functions, arrays
 difficulty: easy
 entry: word_lengths
 
 ### prompt
-Create a function that takes a list of words and returns a new list with the length of each word, in order.
+Write `word_lengths(words)` that takes a list of words and returns a new list with the length of each word, in order.
 
 Examples
 
@@ -1174,13 +1174,13 @@ word_lengths(["cat", "dogs", "x"]) == [3, 4, 1]
 
 ## g2_repeat_string
 kind: code_fn
-title: Repeat a string n times
+title: Echo the cheer n times
 tags: loops, functions, strings
 difficulty: easy
 entry: repeat_string
 
 ### prompt
-Create a function that builds a new string by repeating `text` `n` times, using a loop.
+Write `repeat_string(text, n)` that builds a new string by repeating `text` `n` times, using a loop.
 
 Examples
 
@@ -1229,13 +1229,13 @@ repeat_string("z", 4) == "zzzz"
 
 ## g2_count_target
 kind: code_fn
-title: Count how many times a value appears
+title: How often the song repeats
 tags: loops, functions
 difficulty: medium
 entry: count_target
 
 ### prompt
-Create a function that counts how many times `target` appears in a list.
+Write `count_target(items, target)` that counts how many times `target` appears in a list.
 
 Examples
 
@@ -1287,13 +1287,13 @@ count_target([1, 2, 3], 2) == 1
 
 ## g2_sum_1_to_n
 kind: code_fn
-title: Sum 1 to n with a while loop
+title: Total steps on a stair climb
 tags: loops, functions
 difficulty: medium
 entry: sum_1_to_n
 
 ### prompt
-Create a function that adds up every whole number from 1 to `n` (both included), using a `while` loop.
+Write `sum_1_to_n(n)` that adds up every whole number from 1 to `n` (both included), using a `while` loop.
 
 Examples
 

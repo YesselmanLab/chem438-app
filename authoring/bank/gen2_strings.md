@@ -8,7 +8,7 @@ numbers, and f-strings.
 
 ## p_repeat_ab
 kind: mcq
-title: Predict — repeating a string
+title: Santa's laugh
 tags: strings, predict, formatting
 difficulty: easy
 answer: 2
@@ -16,45 +16,45 @@ answer: 2
 ### prompt
 What does this print?
 
-    print("ab" * 3)
+    print("ho" * 3)
 
 ### code
-print("ab" * 3)
+print("ho" * 3)
 ### choices
-- ab ab ab
-- ababab
-- abababab
-- ab3
+- ho ho ho
+- hohoho
+- hohohoho
+- ho3
 
 ---
 
 ## p_index_first_char
 kind: mcq
-title: Predict — grabbing one character
+title: The second letter, really
 tags: strings, predict, indexing
 difficulty: easy
 answer: 2
 
 ### prompt
-What does this print?
+A username is stored below. What does this print?
 
-    word = "hello"
-    print(word[1])
+    username = "pixel"
+    print(username[1])
 
 ### code
-word = "hello"
-print(word[1])
+username = "pixel"
+print(username[1])
 ### choices
-- h
-- e
-- l
-- he
+- p
+- i
+- x
+- pi
 
 ---
 
 ## p_last_char_neg
 kind: mcq
-title: Predict — the last character
+title: Grabbing the tail end
 tags: strings, predict, indexing
 difficulty: easy
 answer: 2
@@ -62,21 +62,21 @@ answer: 2
 ### prompt
 What does this print?
 
-    print("hello"[-1])
+    print("taco"[-1])
 
 ### code
-print("hello"[-1])
+print("taco"[-1])
 ### choices
-- h
+- t
 - o
-- l
+- c
 - -1
 
 ---
 
 ## p_slice_1_4
 kind: mcq
-title: Predict — a slice in the middle
+title: A slice of the weekday
 tags: strings, predict, indexing
 difficulty: easy
 answer: 2
@@ -84,21 +84,21 @@ answer: 2
 ### prompt
 What does this print?
 
-    print("python"[1:4])
+    print("friday"[1:4])
 
 ### code
-print("python"[1:4])
+print("friday"[1:4])
 ### choices
-- pyth
-- yth
-- ytho
-- yt
+- frid
+- rid
+- rida
+- ri
 
 ---
 
 ## p_reverse_python
 kind: mcq
-title: Predict — reversing with a step
+title: Playing the word backwards
 tags: strings, predict, indexing
 difficulty: medium
 answer: 2
@@ -106,43 +106,43 @@ answer: 2
 ### prompt
 What does this print?
 
-    print("python"[::-1])
+    print("stream"[::-1])
 
 ### code
-print("python"[::-1])
+print("stream"[::-1])
 ### choices
-- python
-- nohtyp
-- ohtypn
-- nothyp
+- stream
+- maerts
+- amerts
+- maetrs
 
 ---
 
 ## p_len_with_space
 kind: mcq
-title: Predict — length with a space
+title: Does the space count?
 tags: strings, predict
 difficulty: easy
 answer: 2
 
 ### prompt
-What does this print?
+You text your friend "good game". What does this print?
 
-    print(len("hello world"))
+    print(len("good game"))
 
 ### code
-print(len("hello world"))
+print(len("good game"))
 ### choices
-- 10
-- 11
+- 8
+- 9
 - 2
-- 12
+- 10
 
 ---
 
 ## p_split_comma
 kind: mcq
-title: Predict — splitting on commas
+title: Breaking up the guest list
 tags: strings, predict, formatting
 difficulty: medium
 answer: 2
@@ -150,21 +150,21 @@ answer: 2
 ### prompt
 What does this print?
 
-    print("a,b,c".split(","))
+    print("amy,ben,cam".split(","))
 
 ### code
-print("a,b,c".split(","))
+print("amy,ben,cam".split(","))
 ### choices
-- a b c
-- ['a', 'b', 'c']
-- ['a,b,c']
-- abc
+- amy ben cam
+- ['amy', 'ben', 'cam']
+- ['amy,ben,cam']
+- amybencam
 
 ---
 
 ## p_join_dash
 kind: mcq
-title: Predict — joining a list
+title: Building a phone number
 tags: strings, predict, formatting
 difficulty: medium
 answer: 2
@@ -172,21 +172,21 @@ answer: 2
 ### prompt
 What does this print?
 
-    print("-".join(["a", "b", "c"]))
+    print("-".join(["555", "867", "5309"]))
 
 ### code
-print("-".join(["a", "b", "c"]))
+print("-".join(["555", "867", "5309"]))
 ### choices
-- abc
-- a-b-c
-- ['a', 'b', 'c']
-- -a-b-c
+- 5558675309
+- 555-867-5309
+- ['555', '867', '5309']
+- -555-867-5309
 
 ---
 
 ## p_count_a
 kind: mcq
-title: Predict — counting a letter
+title: How many A's in Alabama?
 tags: strings, predict
 difficulty: easy
 answer: 2
@@ -194,21 +194,21 @@ answer: 2
 ### prompt
 What does this print?
 
-    print("banana".count("a"))
+    print("alabama".count("a"))
 
 ### code
-print("banana".count("a"))
+print("alabama".count("a"))
 ### choices
-- 2
 - 3
+- 4
 - 1
-- 6
+- 7
 
 ---
 
 ## p_in_word
 kind: mcq
-title: Predict — is it inside?
+title: Hidden word inside a word
 tags: strings, predict
 difficulty: easy
 answer: 1
@@ -216,27 +216,27 @@ answer: 1
 ### prompt
 What does this print?
 
-    print("cat" in "category")
+    print("app" in "happy")
 
 ### code
-print("cat" in "category")
+print("app" in "happy")
 ### choices
 - True
 - False
-- cat
+- app
 - 1
 
 ---
 
 ## p_concat_5
 kind: mcq
-title: Predict — adding two strings
+title: Two fives that don't add up
 tags: strings, predict
 difficulty: easy
 answer: 2
 
 ### prompt
-What does this print?
+These look like numbers, but they're in quotes. What does this print?
 
     print("5" + "5")
 
@@ -252,7 +252,7 @@ print("5" + "5")
 
 ## p_step_two
 kind: mcq
-title: Predict — every other letter
+title: Every other letter of PIZZA
 tags: strings, predict, indexing
 difficulty: medium
 answer: 2
@@ -260,21 +260,21 @@ answer: 2
 ### prompt
 What does this print?
 
-    print("abcdef"[::2])
+    print("pizza"[::2])
 
 ### code
-print("abcdef"[::2])
+print("pizza"[::2])
 ### choices
-- abc
-- ace
-- bdf
-- abcdef
+- iz
+- pza
+- iza
+- pizza
 
 ---
 
 ## p_fstring_name
 kind: mcq
-title: Predict — an f-string
+title: Welcome screen text
 tags: strings, predict, formatting
 difficulty: easy
 answer: 2
@@ -282,30 +282,30 @@ answer: 2
 ### prompt
 What does this print?
 
-    name = "Sam"
-    print(f"Hi {name}!")
+    name = "Zoe"
+    print(f"Welcome, {name}!")
 
 ### code
-name = "Sam"
-print(f"Hi {name}!")
+name = "Zoe"
+print(f"Welcome, {name}!")
 ### choices
-- Hi {name}!
-- Hi Sam!
-- Hi name!
-- HiSam!
+- Welcome, {name}!
+- Welcome, Zoe!
+- Welcome, name!
+- Welcome,Zoe!
 
 ---
 
 ## bug_greet_space
 kind: code_fn
-title: The missing space
+title: Names with no space between
 tags: strings, bugs, formatting
 difficulty: easy
 entry: greet
 
 ### prompt
-This function should join a first and last name into one string with a single
-space between them. It runs, but the result is wrong. Fix it.
+This should build a player's display name from a first and last name, with one
+space between them. It runs, but the names come out mashed together. Fix it.
 
 Examples
 
@@ -340,14 +340,14 @@ greet("Jo", "Ng") == "Jo Ng"
 
 ## bug_price_label
 kind: code_fn
-title: Dollars and text won't add
+title: The shop price tag crashes
 tags: strings, bugs, formatting
 difficulty: easy
 entry: price_label
 
 ### prompt
-This function should build a price label like "$5" from a whole-dollar amount.
-The amount comes in as an integer, and the code crashes. Fix it.
+This should build a shop price tag like "$5" from a whole-coin amount. The
+amount arrives as an integer, and the code crashes. Fix it.
 
 Examples
 
@@ -381,14 +381,14 @@ price_label(99) == "$99"
 
 ## bug_shout_upper
 kind: code_fn
-title: .upper() hands back a new string
+title: Caps lock that does nothing
 tags: strings, bugs
 difficulty: medium
 entry: shout_it
 
 ### prompt
-This function should return the word in all capital letters. It runs without
-error but returns the word unchanged. Fix it.
+This should return a text message in all caps. It runs without error but returns
+the message unchanged. Fix it.
 
 Examples
 
@@ -424,14 +424,14 @@ shout_it("a") == "A"
 
 ## bug_cap_first
 kind: code_fn
-title: You can't rewrite one letter
+title: You can't overwrite one letter
 tags: strings, bugs, indexing
 difficulty: medium
 entry: cap_first
 
 ### prompt
-This function should return the word with its first letter capitalized. It tries
-to change the first character in place and crashes. Fix it.
+This should capitalize the first letter of a username. It tries to overwrite that
+one character in place and crashes. Fix it.
 
 Examples
 
@@ -473,8 +473,8 @@ difficulty: medium
 entry: last_char
 
 ### prompt
-This function should return the last character of a word. It uses the length as
-the index and crashes. Fix it.
+This should return the last letter of a password. It uses the length as the
+index and crashes. Fix it.
 
 Examples
 
@@ -509,7 +509,7 @@ last_char("python") == "n"
 
 ## wrong_score_concat
 kind: mcq
-title: What's wrong — text plus a number
+title: XP that won't glue on
 tags: strings, bugs, formatting
 difficulty: easy
 answer: 2
@@ -517,20 +517,20 @@ answer: 2
 ### prompt
 What is wrong with this code?
 
-    score = 10
-    print("Score: " + score)
+    xp = 10
+    print("XP: " + xp)
 
 ### choices
-- Nothing, it prints "Score: 10"
-- You can't add a string and an integer; you need str(score)
-- score must be written in quotes when it is created
+- Nothing, it prints "XP: 10"
+- You can't add a string and an integer; you need str(xp)
+- xp must be written in quotes when it is created
 - print can only be given one thing at a time
 
 ---
 
 ## wrong_upper_lost
 kind: mcq
-title: What's wrong — the result vanished
+title: The shout that got lost
 tags: strings, bugs
 difficulty: medium
 answer: 2
@@ -552,16 +552,16 @@ This code prints "sam", not "SAM". Why?
 
 ## wrong_index_range
 kind: mcq
-title: What's wrong — reaching too far
+title: Reaching past the last letter
 tags: strings, bugs, indexing
 difficulty: easy
 answer: 3
 
 ### prompt
-What happens when this code runs?
+A username "cat" has three letters. What happens when this runs?
 
-    word = "cat"
-    print(word[3])
+    username = "cat"
+    print(username[3])
 
 ### choices
 - It prints "t"
@@ -591,7 +591,7 @@ In Python, what is the index of the first character of a string?
 
 ## concept_slice_excludes
 kind: mcq
-title: What a slice includes
+title: Which letters does a slice grab?
 tags: strings, concept, indexing
 difficulty: medium
 answer: 2
@@ -664,7 +664,7 @@ Which statement about Python strings is true?
 
 ## concept_len_counts
 kind: mcq
-title: What does len() count?
+title: What does len() actually count?
 tags: strings, concept
 difficulty: easy
 answer: 2
@@ -682,14 +682,14 @@ What does len("hi there") count?
 
 ## ends
 kind: code_fn
-title: First and last character
+title: A two-letter monogram
 tags: strings, indexing
 difficulty: easy
 entry: ends
 
 ### prompt
-Create a function that takes a word and returns a two-character string made of
-its first and last character.
+Write a function that takes a word and returns a two-character string made of its
+first and last character.
 
 Examples
 
@@ -731,7 +731,7 @@ difficulty: easy
 entry: yell
 
 ### prompt
-Create a function that takes a word and returns it in all capital letters with a
+Write a function that takes a word and returns it in all capital letters with a
 single "!" added to the end.
 
 Examples
@@ -767,13 +767,13 @@ yell("a") == "A!"
 
 ## chant
 kind: code_fn
-title: Repeat the word
+title: Chant it n times
 tags: strings, formatting
 difficulty: easy
 entry: chant
 
 ### prompt
-Create a function that takes a word and a whole number n, and returns the word
+Write a function that takes a word and a whole number n, and returns the word
 repeated n times with nothing in between.
 
 Examples
@@ -810,13 +810,13 @@ chant("hi", 0) == ""
 
 ## tag_line
 kind: code_fn
-title: Label and number together
+title: Stitch a label to a score
 tags: strings, formatting
 difficulty: easy
 entry: tag_line
 
 ### prompt
-Create a function that takes a label (a string) and a score (a whole number) and
+Write a function that takes a label (a string) and a score (a whole number) and
 returns a string in the form "label: score".
 
 Examples
@@ -852,14 +852,14 @@ tag_line("hp", 100) == "hp: 100"
 
 ## slugify
 kind: code_fn
-title: Make a web slug
+title: Turn a title into a URL slug
 tags: strings, formatting
 difficulty: medium
 entry: slugify
 
 ### prompt
-Create a function that turns a title into a "slug": all lowercase, with every
-space replaced by a dash "-".
+Write a function that turns a blog-post title into a "slug" for its web address:
+all lowercase, with every space replaced by a dash "-".
 
 Examples
 
@@ -894,7 +894,7 @@ slugify("A B C") == "a-b-c"
 
 ## letters_in_banana
 kind: code_var
-title: Store a length in a variable
+title: Let Python count the letters
 tags: strings
 difficulty: easy
 entry: n

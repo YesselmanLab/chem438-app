@@ -7,32 +7,32 @@ between keys and values, and counting with the tally pattern.
 
 ## p_ages_lookup
 kind: mcq
-title: Predict — look up by key
+title: How old is Milo?
 tags: dicts, predict
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+A dict maps each pet's name to its age. What does this print?
 
-    ages = {"ana": 20, "bo": 22}
-    print(ages["bo"])
+    pet_age = {"rex": 4, "milo": 7}
+    print(pet_age["milo"])
 
 ### code
-ages = {"ana": 20, "bo": 22}
-print(ages["bo"])
+pet_age = {"rex": 4, "milo": 7}
+print(pet_age["milo"])
 
 ### choices
-- 22
-- 20
-- bo
-- ana
+- 7
+- 4
+- milo
+- rex
 
 ---
 
 ## p_dict_len_three
 kind: mcq
-title: Predict — how many pairs
+title: How full is the backpack?
 tags: dicts, predict
 difficulty: easy
 answer: 1
@@ -40,12 +40,12 @@ answer: 1
 ### prompt
 What does this print?
 
-    inventory = {"pen": 5, "cup": 2, "hat": 9}
-    print(len(inventory))
+    backpack = {"potion": 5, "sword": 2, "shield": 9}
+    print(len(backpack))
 
 ### code
-inventory = {"pen": 5, "cup": 2, "hat": 9}
-print(len(inventory))
+backpack = {"potion": 5, "sword": 2, "shield": 9}
+print(len(backpack))
 
 ### choices
 - 3
@@ -57,38 +57,38 @@ print(len(inventory))
 
 ## p_get_missing_zero
 kind: mcq
-title: Predict — .get() with a missing key
+title: Texts from someone who never texts
 tags: dicts, predict
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+`unread` counts unread texts per friend. Ana isn't in it. What does this print?
 
-    d = {"x": 5}
-    print(d.get("y", 0))
+    unread = {"bo": 5}
+    print(unread.get("ana", 0))
 
 ### code
-d = {"x": 5}
-print(d.get("y", 0))
+unread = {"bo": 5}
+print(unread.get("ana", 0))
 
 ### choices
 - 0
 - 5
 - None
-- y
+- ana
 
 ---
 
 ## p_get_present_value
 kind: mcq
-title: Predict — .get() when the key is there
+title: Ana's score, safely
 tags: dicts, predict
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+`points` maps each player to their score. What does this print?
 
     points = {"ana": 7}
     print(points.get("ana", 0))
@@ -107,53 +107,53 @@ print(points.get("ana", 0))
 
 ## p_in_key_true
 kind: mcq
-title: Predict — in finds a key
+title: Is latte on the menu?
 tags: dicts, predict
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+The dict maps each drink to its price. What does this print?
 
-    print("apple" in {"apple": 3, "pear": 5})
+    print("latte" in {"latte": 4, "mocha": 5})
 
 ### code
-print("apple" in {"apple": 3, "pear": 5})
+print("latte" in {"latte": 4, "mocha": 5})
 
 ### choices
 - True
 - False
-- 3
-- apple
+- 4
+- latte
 
 ---
 
 ## p_in_value_false
 kind: mcq
-title: Predict — in does NOT find a value
+title: Is there anything that costs 4?
 tags: dicts, predict
 difficulty: medium
 answer: 1
 
 ### prompt
-What does this print?
+Watch closely: `in` checks the KEYS, and 4 is a price (a value), not a drink.
 
-    print(3 in {"apple": 3, "pear": 5})
+    print(4 in {"latte": 4, "mocha": 5})
 
 ### code
-print(3 in {"apple": 3, "pear": 5})
+print(4 in {"latte": 4, "mocha": 5})
 
 ### choices
 - False
 - True
-- apple
-- 3
+- latte
+- 4
 
 ---
 
 ## p_add_key_show
 kind: mcq
-title: Predict — add a key then print the dict
+title: A new player joins
 tags: dicts, predict
 difficulty: medium
 answer: 1
@@ -161,76 +161,76 @@ answer: 1
 ### prompt
 What does this print?
 
-    d = {"a": 1}
-    d["b"] = 2
-    print(d)
+    lives = {"ana": 1}
+    lives["bo"] = 2
+    print(lives)
 
 ### code
-d = {"a": 1}
-d["b"] = 2
-print(d)
+lives = {"ana": 1}
+lives["bo"] = 2
+print(lives)
 
 ### choices
-- {'a': 1, 'b': 2}
-- {'a': 1}
-- {'b': 2}
-- {'a': 1, 'b': 1}
+- {'ana': 1, 'bo': 2}
+- {'ana': 1}
+- {'bo': 2}
+- {'ana': 1, 'bo': 1}
 
 ---
 
 ## p_loop_over_keys
 kind: mcq
-title: Predict — looping over a dict
+title: Looping the scoreboard
 tags: dicts, predict
 difficulty: medium
 answer: 1
 
 ### prompt
-What does this print?
+Looping a dict directly walks its KEYS. What does this print?
 
-    for k in {"x": 1, "y": 2}:
-        print(k)
+    for player in {"ana": 1, "bo": 2}:
+        print(player)
 
 ### code
-for k in {"x": 1, "y": 2}:
-    print(k)
+for player in {"ana": 1, "bo": 2}:
+    print(player)
 
 ### choices
-- x\ny
+- ana\nbo
 - 1\n2
-- x 1\ny 2
-- {'x': 1, 'y': 2}
+- ana 1\nbo 2
+- {'ana': 1, 'bo': 2}
 
 ---
 
 ## p_dup_key_wins
 kind: mcq
-title: Predict — the same key written twice
+title: The same key, written twice
 tags: dicts, predict
 difficulty: medium
 answer: 1
 
 ### prompt
-What does this print?
+Watch closely: "potion" is written twice, so the LAST value wins.
 
-    stock = {"pen": 5, "pen": 9}
-    print(stock["pen"])
+    stock = {"potion": 5, "potion": 9}
+    print(stock["potion"])
 
 ### code
-stock = {"pen": 5, "pen": 9}
-print(stock["pen"])
+stock = {"potion": 5, "potion": 9}
+print(stock["potion"])
 
 ### choices
 - 9
 - 5
 - 14
-- pen
+- potion
 
 ---
 
 ## p_items_print
 kind: mcq
-title: Predict — looping with .items()
+title: One line off the menu
 tags: dicts, predict
 difficulty: medium
 answer: 1
@@ -238,24 +238,24 @@ answer: 1
 ### prompt
 What does this print?
 
-    for k, v in {"tea": 3}.items():
-        print(k, v)
+    for item, price in {"pizza": 8}.items():
+        print(item, price)
 
 ### code
-for k, v in {"tea": 3}.items():
-    print(k, v)
+for item, price in {"pizza": 8}.items():
+    print(item, price)
 
 ### choices
-- tea 3
-- tea
-- 3
-- ('tea', 3)
+- pizza 8
+- pizza
+- 8
+- ('pizza', 8)
 
 ---
 
 ## p_values_print
 kind: mcq
-title: Predict — looping over .values()
+title: Just the prices, please
 tags: dicts, predict
 difficulty: medium
 answer: 1
@@ -263,24 +263,24 @@ answer: 1
 ### prompt
 What does this print?
 
-    for v in {"a": 1, "b": 2}.values():
-        print(v)
+    for price in {"tea": 2, "cocoa": 4}.values():
+        print(price)
 
 ### code
-for v in {"a": 1, "b": 2}.values():
-    print(v)
+for price in {"tea": 2, "cocoa": 4}.values():
+    print(price)
 
 ### choices
-- 1\n2
-- a\nb
-- 1 2
-- a 1\nb 2
+- 2\n4
+- tea\ncocoa
+- 2 4
+- tea 2\ncocoa 4
 
 ---
 
 ## p_update_same_key
 kind: mcq
-title: Predict — update a value using itself
+title: Ana earns some XP
 tags: dicts, predict
 difficulty: medium
 answer: 1
@@ -288,14 +288,14 @@ answer: 1
 ### prompt
 What does this print?
 
-    d = {"n": 4}
-    d["n"] = d["n"] + 3
-    print(d["n"])
+    xp = {"ana": 4}
+    xp["ana"] = xp["ana"] + 3
+    print(xp["ana"])
 
 ### code
-d = {"n": 4}
-d["n"] = d["n"] + 3
-print(d["n"])
+xp = {"ana": 4}
+xp["ana"] = xp["ana"] + 3
+print(xp["ana"])
 
 ### choices
 - 7
@@ -307,44 +307,44 @@ print(d["n"])
 
 ## p_tally_build
 kind: mcq
-title: Predict — building a tally
+title: Tallying the votes
 tags: dicts, predict
 difficulty: hard
 answer: 1
 
 ### prompt
-What does this print?
+Each character is a vote. The tally pattern counts them. What does this print?
 
     counts = {}
-    for c in "abba":
-        counts[c] = counts.get(c, 0) + 1
+    for vote in "yynn":
+        counts[vote] = counts.get(vote, 0) + 1
     print(counts)
 
 ### code
 counts = {}
-for c in "abba":
-    counts[c] = counts.get(c, 0) + 1
+for vote in "yynn":
+    counts[vote] = counts.get(vote, 0) + 1
 print(counts)
 
 ### choices
-- {'a': 2, 'b': 2}
-- {'a': 1, 'b': 1}
-- {'a': 4, 'b': 4}
-- {'b': 2, 'a': 2}
+- {'y': 2, 'n': 2}
+- {'y': 1, 'n': 1}
+- {'y': 4, 'n': 4}
+- {'n': 2, 'y': 2}
 
 ---
 
 ## fix_color_lookup
 kind: code_fn
-title: Fix the marble counter
+title: Fix the loot counter
 tags: dicts, bugs
 difficulty: easy
 entry: color_count
 
 ### prompt
-The `bag` dict maps each marble color to how many of that color are in the bag.
-This function should return the count for a given `color`, or 0 if that color
-isn't in the bag. Right now it crashes when the color is missing. Fix it.
+The `bag` dict maps each gem color to how many of that color you've looted. This
+function should return the count for a given `color`, or 0 if you have none of
+that color. Right now it crashes when the color is missing. Fix it.
 
 Examples
 
@@ -380,14 +380,14 @@ color_count({"green": 7}, "green") == 7
 
 ## fix_sum_prices
 kind: code_fn
-title: Fix the price total
+title: Fix the cart total
 tags: dicts, bugs
 difficulty: medium
 entry: total
 
 ### prompt
-The `prices` dict maps each item to its price. This function should add up all
-the prices and return the total. It crashes instead. Fix it.
+The `prices` dict maps each item in your cart to its price. This function should
+add up all the prices and return the total. It crashes instead. Fix it.
 
 Examples
 
@@ -429,7 +429,7 @@ total({"pen": 5, "cup": 4}) == 9
 
 ## fix_seat_map
 kind: code_fn
-title: Fix the guest list
+title: Fix the concert lineup
 tags: dicts, bugs
 difficulty: medium
 entry: guests
@@ -473,7 +473,7 @@ guests({7: "solo"}) == ["solo"]
 
 ## wrong_keyerror_bracket
 kind: mcq
-title: What's wrong — missing key
+title: What's wrong — juice isn't on the menu
 tags: dicts, bugs
 difficulty: easy
 answer: 1
@@ -494,7 +494,7 @@ This code crashes with a KeyError. What is wrong?
 
 ## wrong_in_finds_value
 kind: mcq
-title: What's wrong — in checks the wrong side
+title: What's wrong — hunting for a score
 tags: dicts, bugs
 difficulty: medium
 answer: 1
@@ -517,7 +517,7 @@ but nothing prints. What is wrong?
 
 ## wrong_equals_in_dict
 kind: mcq
-title: What's wrong — equals inside a dict
+title: What's wrong — building a profile
 tags: dicts, bugs
 difficulty: easy
 answer: 1
@@ -537,7 +537,7 @@ This line causes a SyntaxError. What is wrong?
 
 ## wrong_append_missing_list
 kind: mcq
-title: What's wrong — appending to a missing key
+title: What's wrong — adding to team A
 tags: dicts, bugs
 difficulty: medium
 answer: 1
@@ -545,8 +545,8 @@ answer: 1
 ### prompt
 This code crashes with a KeyError on the second line. What is wrong?
 
-    groups = {}
-    groups["A"].append("Ana")
+    teams = {}
+    teams["A"].append("Ana")
 
 ### choices
 - The key "A" doesn't exist yet, so there is no list there to append to
@@ -666,7 +666,7 @@ For a dict `d`, what does `len(d)` give you?
 
 ## phone_lookup
 kind: code_fn
-title: Look up a phone number
+title: Look up a contact
 tags: dicts, functions
 difficulty: easy
 entry: lookup
@@ -674,7 +674,7 @@ entry: lookup
 ### prompt
 Create a function that takes a `book` dict mapping names to phone numbers, plus a
 `name`. Return that person's number, or the string "unknown" if the name isn't in
-the book.
+your contacts.
 
 Examples
 
@@ -710,14 +710,14 @@ lookup({"zed": "999"}, "zed") == "999"
 
 ## names_sorted
 kind: code_fn
-title: List the names in order
+title: Leaderboard in alphabetical order
 tags: dicts, functions
 difficulty: easy
 entry: names_sorted
 
 ### prompt
-Create a function that takes a `scores` dict mapping names to scores, and returns
-a list of just the names, sorted alphabetically.
+Create a function that takes a `scores` dict mapping players to scores, and returns
+a list of just the player names, sorted alphabetically.
 
 Examples
 

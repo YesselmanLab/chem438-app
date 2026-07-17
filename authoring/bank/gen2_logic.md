@@ -7,41 +7,47 @@ with if/elif/else. Heavy on predicting output and spotting the bug.
 
 ## pb_greater
 kind: mcq
-title: Predict — is 3 greater than 5?
+title: Predict — did you clear the jump?
 tags: predict, logic
 difficulty: starter
 answer: 1
 
 ### prompt
-What does this print?
+The ledge needs a jump of 5; yours gives 3. What does this print?
 
-    print(3 > 5)
+    jump = 3
+    print(jump > 5)
 
 ### code
-print(3 > 5)
+jump = 3
+print(jump > 5)
 
 ### choices
 - False
 - True
-- 3 > 5
+- jump > 5
 - 0
 
 ---
 
 ## pb_eq
 kind: mcq
-title: Predict — 2 equals 2
+title: Predict — do the dice match?
 tags: predict, logic
 difficulty: starter
 answer: 1
 
 ### prompt
-What does this print?
+You rolled a 2 and so did your friend. What does this print?
 
-    print(2 == 2)
+    my_roll = 2
+    their_roll = 2
+    print(my_roll == their_roll)
 
 ### code
-print(2 == 2)
+my_roll = 2
+their_roll = 2
+print(my_roll == their_roll)
 
 ### choices
 - True
@@ -53,87 +59,96 @@ print(2 == 2)
 
 ## pb_str_case
 kind: mcq
-title: Predict — is "a" the same as "A"?
+title: Predict — is "yes" the same as "YES"?
 tags: predict, logic
 difficulty: starter
 answer: 1
 
 ### prompt
-What does this print?
+A login checks the typed reply against the saved one. What does this print?
 
-    print("a" == "A")
+    print("yes" == "YES")
 
 ### code
-print("a" == "A")
+print("yes" == "YES")
 
 ### choices
 - False
 - True
-- a
-- A
+- yes
+- YES
 
 ---
 
 ## pb_and_mix
 kind: mcq
-title: Predict — one side of `and` is False
+title: Predict — one side of `and` fails
 tags: predict, logic
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+Cast the spell only if HP is up AND mana is over 50. What does this print?
 
-    print(5 > 3 and 2 > 4)
+    hp = 10
+    mana = 20
+    print(hp > 0 and mana > 50)
 
 ### code
-print(5 > 3 and 2 > 4)
+hp = 10
+mana = 20
+print(hp > 0 and mana > 50)
 
 ### choices
 - False
 - True
-- 5 > 3
+- hp > 0
 - None
 
 ---
 
 ## pb_not_true
 kind: mcq
-title: Predict — not True
+title: Predict — flipping game_over
 tags: predict, logic
 difficulty: starter
 answer: 1
 
 ### prompt
-What does this print?
+`game_over` is True; `not` flips it. What does this print?
 
-    print(not True)
+    game_over = True
+    print(not game_over)
 
 ### code
-print(not True)
+game_over = True
+print(not game_over)
 
 ### choices
 - False
 - True
-- not True
+- not game_over
 - 0
 
 ---
 
 ## pb_or_zero
 kind: mcq
-title: Predict — 0 or 5
+title: Predict — 0 coins or a backup 5
 tags: predict, logic
 difficulty: medium
 answer: 1
 
 ### prompt
-What does this print?
+Watch closely — `or` hands back the first truthy value, not True/False. You have 0
+coins and fall back to 5. What prints?
 
-    print(0 or 5)
+    coins = 0
+    print(coins or 5)
 
 ### code
-print(0 or 5)
+coins = 0
+print(coins or 5)
 
 ### choices
 - 5
@@ -145,41 +160,45 @@ print(0 or 5)
 
 ## pb_or_empty
 kind: mcq
-title: Predict — empty string or "x"
+title: Predict — blank nickname falls back
 tags: predict, logic
 difficulty: medium
 answer: 1
 
 ### prompt
-What does this print?
+If the nickname is blank, fall back to "Guest". Watch what `or` returns.
 
-    print("" or "x")
+    nickname = ""
+    print(nickname or "Guest")
 
 ### code
-print("" or "x")
+nickname = ""
+print(nickname or "Guest")
 
 ### choices
-- x
+- Guest
 - True
 - (nothing — a blank line)
-- "" or "x"
+- nickname or "Guest"
 
 ---
 
 ## pb_num_str
 kind: mcq
-title: Predict — 2 versus the string "2"
+title: Predict — the number 2 versus the typed "2"
 tags: predict, logic
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+A text box hands you the string `"2"`; you compare it to the number 2. What prints?
 
-    print(2 == "2")
+    typed = "2"
+    print(2 == typed)
 
 ### code
-print(2 == "2")
+typed = "2"
+print(2 == typed)
 
 ### choices
 - False
@@ -191,13 +210,13 @@ print(2 == "2")
 
 ## pf_temp_elif
 kind: mcq
-title: Predict — which temperature branch?
+title: Predict — which weather label?
 tags: predict, conditions
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+A weather app labels today's 55°F. What does this print?
 
     temp = 55
     if temp >= 80:
@@ -230,13 +249,13 @@ else:
 
 ## pf_wrong_order
 kind: mcq
-title: Predict — the tiers are in the wrong order
+title: Predict — the reward tiers are in the wrong order
 tags: predict, conditions
 difficulty: medium
 answer: 1
 
 ### prompt
-What does this print?
+A rewards program ranks a $120 spender — but look at the order of the tiers.
 
     spend = 120
     if spend >= 50:
@@ -265,13 +284,13 @@ else:
 
 ## pf_first_wins
 kind: mcq
-title: Predict — does the elif also run?
+title: Predict — 12 hits two tests
 tags: predict, conditions
 difficulty: medium
 answer: 1
 
 ### prompt
-What does this print?
+12 is divisible by both 2 and 3. Does the elif also run?
 
     n = 12
     if n % 2 == 0:
@@ -300,30 +319,30 @@ else:
 
 ## pf_empty_falsy
 kind: mcq
-title: Predict — an empty string in an if
+title: Predict — a blank username in an if
 tags: predict, conditions
 difficulty: medium
 answer: 1
 
 ### prompt
-What does this print?
+A new player left the username blank. What does this print?
 
-    name = ""
-    if name:
-        print("has name")
+    username = ""
+    if username:
+        print("saved")
     else:
-        print("no name")
+        print("empty")
 
 ### code
-name = ""
-if name:
-    print("has name")
+username = ""
+if username:
+    print("saved")
 else:
-    print("no name")
+    print("empty")
 
 ### choices
-- no name
-- has name
+- empty
+- saved
 - (nothing — a blank line)
 - The code crashes
 
@@ -331,22 +350,22 @@ else:
 
 ## pf_ternary
 kind: mcq
-title: Predict — the one-line conditional
+title: Predict — the one-line ticket label
 tags: predict, conditions
 difficulty: easy
 answer: 1
 
 ### prompt
-What does this print?
+A kiosk labels a 20-year-old in one line. What does this print?
 
     age = 20
-    label = "adult" if age >= 18 else "minor"
-    print(label)
+    rating = "adult" if age >= 18 else "minor"
+    print(rating)
 
 ### code
 age = 20
-label = "adult" if age >= 18 else "minor"
-print(label)
+rating = "adult" if age >= 18 else "minor"
+print(rating)
 
 ### choices
 - adult
@@ -358,25 +377,25 @@ print(label)
 
 ## pf_two_separate_ifs
 kind: mcq
-title: Predict — two separate ifs
+title: Predict — two separate score checks
 tags: predict, conditions
 difficulty: medium
 answer: 1
 
 ### prompt
-What does this print?
+Your score is 10 and two separate ifs each award a badge. What prints?
 
-    x = 10
-    if x > 5:
+    score = 10
+    if score > 5:
         print("big")
-    if x > 8:
+    if score > 8:
         print("huge")
 
 ### code
-x = 10
-if x > 5:
+score = 10
+if score > 5:
     print("big")
-if x > 8:
+if score > 8:
     print("huge")
 
 ### choices
@@ -397,8 +416,8 @@ answer: 1
 ### prompt
 This code won't run. What is wrong with it?
 
-    if age = 18:
-        print("adult")
+    if level = 5:
+        print("boss fight")
 
 ### choices
 - It uses `=` (which stores a value) where it needs `==` (which compares)
@@ -410,20 +429,20 @@ This code won't run. What is wrong with it?
 
 ## wb_or_split
 kind: mcq
-title: What's wrong — `or "blue"`
+title: What's wrong — `or "quit"`
 tags: bugs, logic
 difficulty: medium
 answer: 1
 
 ### prompt
-This is meant to be True only when `color` is `"red"` or `"blue"`, but it is True
-for every color. What is wrong?
+This is meant to be True only when `cmd` is `"go"` or `"quit"`, but it is True for
+every command. What is wrong?
 
-    if color == "red" or "blue":
-        print("primary-ish")
+    if cmd == "go" or "quit":
+        print("valid command")
 
 ### choices
-- `"blue"` on its own is always truthy, so the whole condition is always True — it should be `color == "red" or color == "blue"`
+- `"quit"` on its own is always truthy, so the whole condition is always True — it should be `cmd == "go" or cmd == "quit"`
 - `or` should be `and`
 - You cannot compare strings with `==`
 - The `if` needs an `else` to work
@@ -432,25 +451,26 @@ for every color. What is wrong?
 
 ## wb_wrap_comparison
 kind: mcq
-title: What's wrong — the pointless if/else
+title: What's wrong — the long-way height check
 tags: bugs, logic
 difficulty: easy
 answer: 1
 
 ### prompt
-This function works, but it does something the long way. What is the real problem?
+This ride-height check works, but it does something the long way. What is the real
+problem?
 
-    def is_adult(age):
-        if age >= 18:
+    def can_ride(height):
+        if height >= 48:
             return True
         else:
             return False
 
 ### choices
-- The if/else is unnecessary — `return age >= 18` gives the exact same answer
+- The if/else is unnecessary — `return height >= 48` gives the exact same answer
 - It should use `==` instead of `>=`
-- It crashes when `age` is exactly 18
-- It returns the wrong answer for adults
+- It crashes when `height` is exactly 48
+- It returns the wrong answer for tall riders
 
 ---
 
@@ -498,14 +518,14 @@ both_on(False, False) is False
 
 ## fix_matches_secret
 kind: code_fn
-title: Fix — the secret word check won't run
+title: Fix — the door password won't even run
 tags: bugs, logic, functions
 difficulty: easy
 entry: matches_secret
 
 ### prompt
-`matches_secret(word)` should return True when `word` is exactly `"open"`. Right
-now Python refuses to even run the file. Fix it.
+`matches_secret(word)` should return True when `word` is exactly `"open"` (the magic
+word for the door). Right now Python refuses to even run the file. Fix it.
 
 Examples
 
@@ -549,12 +569,12 @@ answer: 1
 ### prompt
 This code won't run. What is wrong with it?
 
-    if points > 90
-        print("A")
+    if score > 90
+        print("high score!")
 
 ### choices
 - The `if` line is missing its colon (`:`) at the end
-- `points` needs to be written in quotes
+- `score` needs to be written in quotes
 - `print` should not be indented
 - It needs an `else` branch to be valid
 
@@ -562,7 +582,7 @@ This code won't run. What is wrong with it?
 
 ## wf_order_unreachable
 kind: mcq
-title: What's wrong — a branch that never runs
+title: What's wrong — a 5-star review that never happens
 tags: bugs, conditions
 difficulty: medium
 answer: 1
@@ -589,15 +609,15 @@ wrong?
 
 ## fix_size_label
 kind: code_fn
-title: Fix — the size labels come out wrong
+title: Fix — the download-size labels come out wrong
 tags: bugs, conditions, functions
 difficulty: medium
 entry: size_label
 
 ### prompt
-`size_label(n)` should return `"negative"` when `n` is below 0, `"small"` for 0
-through 99, and `"large"` for 100 or more. The branches are in an order that makes
-`"large"` impossible — fix it.
+`size_label(n)` labels a download in megabytes: `"negative"` when `n` is below 0,
+`"small"` for 0 through 99, and `"large"` for 100 or more. The branches are in an
+order that makes `"large"` impossible — fix it.
 
 Examples
 
@@ -643,14 +663,14 @@ size_label(0) == "small"
 
 ## fix_ticket_price
 kind: code_fn
-title: Fix — the price never comes back
+title: Fix — the movie price never comes back
 tags: bugs, conditions, functions
 difficulty: medium
 entry: ticket_price
 
 ### prompt
-`ticket_price(age)` should give the price: 0 for under 5, 10 for 5 through 64, and
-7 for 65 and up. It picks the right price but hands back `None` every time. Fix it.
+`ticket_price(age)` gives the movie ticket price: 0 for under 5, 10 for 5 through 64,
+and 7 for 65 and up. It picks the right price but hands back `None` every time. Fix it.
 
 Examples
 
@@ -697,13 +717,14 @@ ticket_price(65) == 7
 
 ## cb_and_both
 kind: mcq
-title: Concept — what `and` needs
+title: Concept — what a co-op door needs
 tags: concept, logic
 difficulty: starter
 answer: 1
 
 ### prompt
-For the expression `a and b` to be True, how many of `a` and `b` must be True?
+A co-op door opens on `player1_ready and player2_ready`. For `a and b` to be True,
+how many of `a` and `b` must be True?
 
 ### choices
 - Both `a` and `b` must be True
@@ -739,11 +760,11 @@ difficulty: easy
 answer: 1
 
 ### prompt
-Why can you write `return age >= 18` instead of an if/else that returns True or
+Why can you write `return score >= 60` instead of an if/else that returns True or
 False?
 
 ### choices
-- Because `age >= 18` already evaluates to True or False on its own
+- Because `score >= 60` already evaluates to True or False on its own
 - Because `return` always turns its value into True
 - Because `>=` only works inside a `return`
 - You can't — an if/else is always required
@@ -844,14 +865,14 @@ otherwise?
 
 ## wa_is_teenager
 kind: code_fn
-title: Write — is this a teenager?
+title: Write — is this player a teenager?
 tags: logic, functions
 difficulty: easy
 entry: is_teenager
 
 ### prompt
-Write `is_teenager(age)` that returns True when `age` is between 13 and 19,
-inclusive, and False otherwise.
+A game asks for the player's age band. Write `is_teenager(age)` that returns True
+when `age` is between 13 and 19, inclusive, and False otherwise.
 
 Examples
 
@@ -888,7 +909,7 @@ is_teenager(0) is False
 
 ## wa_is_weekend_day
 kind: code_fn
-title: Write — is it a weekend day?
+title: Write — can we sleep in today?
 tags: validation, functions
 difficulty: easy
 entry: is_weekend_day
@@ -931,13 +952,13 @@ is_weekend_day("") is False
 
 ## va_is_positive
 kind: code_var
-title: Store — is 5 positive?
+title: Store — is the score above zero?
 tags: logic
 difficulty: starter
 entry: answer
 
 ### prompt
-Store in a variable named `answer` whether the number 5 is greater than 0. Don't
+Store in a variable named `answer` whether the score 5 is greater than 0. Don't
 type `True` yourself — let a comparison produce the value.
 
 Notes
@@ -962,14 +983,14 @@ answer is True
 
 ## wa_sign_label
 kind: code_fn
-title: Write — label the sign of a number
+title: Write — label a temperature's sign
 tags: conditions, functions
 difficulty: easy
 entry: sign_label
 
 ### prompt
-Write `sign_label(n)` that returns `"positive"` when `n` is greater than 0,
-`"zero"` when `n` is exactly 0, and `"negative"` when `n` is below 0.
+Write `sign_label(n)` for a thermometer that returns `"positive"` when `n` is above
+0, `"zero"` when `n` is exactly 0, and `"negative"` when `n` is below 0.
 
 Examples
 
@@ -1010,7 +1031,7 @@ sign_label(-1) == "negative"
 
 ## wa_pass_or_fail
 kind: code_fn
-title: Write — pass or fail
+title: Write — did the quiz pass?
 tags: conditions, functions
 difficulty: starter
 entry: pass_or_fail
@@ -1055,13 +1076,13 @@ pass_or_fail(100) == "pass"
 
 ## wa_bigger
 kind: code_fn
-title: Write — the larger of two numbers
+title: Write — whose high score wins?
 tags: conditions, functions
 difficulty: easy
 entry: bigger
 
 ### prompt
-Write `bigger(a, b)` that returns the larger of the two numbers. If they are equal,
+Write `bigger(a, b)` that returns the larger of two high scores. If they are tied,
 returning either one is fine (they're the same value).
 
 Examples
