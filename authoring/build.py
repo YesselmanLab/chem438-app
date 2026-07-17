@@ -218,9 +218,16 @@ UNITS = [
     (9, "Planning your code", set()),      # a way of working, not a syntax tag
     (10, "Modules & imports", {"modules"}),
     (11, "Files", {"files"}),
-    # The scientific stack. These run in Colab, not the browser (rdkit and friends
-    # aren't in Pyodide), so their homework is a notebook and the app hands off.
-    (12, "Working with molecules", {"molecules", "rdkit"}),
+    # The scientific stack, in the order the 2025 course teaches it. These run in
+    # Colab (rdkit/pandas/etc. — the heavy libs), so their homework is a notebook
+    # and the app hands off. Order follows the real syllabus: data → plots →
+    # numbers → fitting → molecules → structures.
+    (12, "Data with pandas", {"pandas", "dataframes"}),
+    (13, "Plotting", {"plotting", "matplotlib", "seaborn"}),
+    (14, "NumPy", {"numpy"}),
+    (15, "Fitting data", {"regression", "fitting"}),
+    (16, "Working with molecules", {"molecules", "rdkit"}),
+    (17, "Protein structures", {"structures", "pdb"}),
 ]
 UNIT_NAMES = {n: name for n, name, _ in UNITS}
 # These describe a problem's SHAPE, not the skill it needs, so they say nothing

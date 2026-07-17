@@ -84,7 +84,7 @@ ASSIGNMENTS = {
     # ── After you upload the notebook to Colab, paste its share link into `url`. ──
     "hw_molecules": dict(
         title="Homework 7 — Working with molecules",
-        unit=12,
+        unit=16,
         open=False,               # release once the earlier units are done
         mode="notebook",
         url="https://colab.research.google.com/",   # <-- replace with your notebook's Colab link
