@@ -45,6 +45,22 @@ def expected_for_code_var(p, qid):
     return norm.normalize(ns[p["entry"]])
 
 
+def _checkin_grade(aid, ci):
+    """A check-in is graded like a tiny quiz: an MCQ (answer index), a typed number
+    (with tolerance), or typed text (case-insensitive)."""
+    if ci.get("choices"):
+        ans = int(ci["answer"]) - 1
+        if not (0 <= ans < len(ci["choices"])):
+            raise SystemExit(f"[{aid}] check-in answer out of range")
+        return {"kind": "mcq", "answer": ans}
+    if "expected" not in ci:
+        raise SystemExit(f"[{aid}] check-in needs expected=<value> or choices=[...]+answer=")
+    exp = ci["expected"]
+    if isinstance(exp, (int, float)):
+        return {"kind": "value", "expected": float(exp), "tol": float(ci.get("tol", 0.05))}
+    return {"kind": "text", "expected": str(exp)}
+
+
 def check_unit(assignment_id, a):
     """An assignment cannot cover less material than its own problems need — that
     would unlock practice for a unit whose homework hasn't been released."""
@@ -62,6 +78,28 @@ def build(assignment_id):
         raise SystemExit(f"unknown assignment {assignment_id!r}; have {sorted(ASSIGNMENTS)}")
     a = ASSIGNMENTS[assignment_id]
     public_qs, keys = [], {}
+
+    # mode="notebook": the homework IS a Colab notebook (the science units can't run
+    # in the browser). The app teaches the concept, hands off to the notebook, and
+    # records a check-in keyed to a value the notebook prints. No bank problems.
+    if a.get("mode") == "notebook":
+        ci = a.get("checkin") or {}
+        if not a.get("url"):
+            raise SystemExit(f"[{assignment_id}] notebook homework needs a 'url=' (Colab link)")
+        if not ci.get("question"):
+            raise SystemExit(f"[{assignment_id}] notebook homework needs checkin=dict(question=..., ...)")
+        grade = _checkin_grade(assignment_id, ci)
+        public = {"id": assignment_id, "title": a["title"], "intro": a.get("intro", ""),
+                  "unit": a.get("unit", 1), "mode": "notebook", "url": a["url"],
+                  "preview": a.get("preview", ""), "question": ci["question"],
+                  "checkinUnit": ci.get("unit", ""), "grade": grade}
+        if grade["kind"] == "mcq":
+            public["choices"] = ci["choices"]
+        PUBLIC_DIR.mkdir(exist_ok=True)
+        (PUBLIC_DIR / f"{assignment_id}.json").write_text(json.dumps(public, indent=2))
+        update_manifest(assignment_id, a["title"])
+        print(f"built {assignment_id}: Colab notebook homework (check-in: {grade['kind']})")
+        return assignment_id, {}
 
     for pid in a["problems"]:
         if pid not in BANK:
@@ -135,6 +173,8 @@ def update_manifest(assignment_id, title):
         # ship the list so the app can show progress without fetching the lesson
         entry["mode"] = "challenges"
         entry["challenges"] = list(a["problems"])
+    elif a.get("mode") == "notebook":
+        entry["mode"] = "notebook"
     lessons.append(entry)
     lessons.sort(key=lambda l: (l.get("unit", 1), l["id"]))
     # The gate: the furthest unit any OPEN assignment reaches. Everything up to
@@ -178,6 +218,9 @@ UNITS = [
     (9, "Planning your code", set()),      # a way of working, not a syntax tag
     (10, "Modules & imports", {"modules"}),
     (11, "Files", {"files"}),
+    # The scientific stack. These run in Colab, not the browser (rdkit and friends
+    # aren't in Pyodide), so their homework is a notebook and the app hands off.
+    (12, "Working with molecules", {"molecules", "rdkit"}),
 ]
 UNIT_NAMES = {n: name for n, name, _ in UNITS}
 # These describe a problem's SHAPE, not the skill it needs, so they say nothing

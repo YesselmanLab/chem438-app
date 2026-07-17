@@ -77,4 +77,29 @@ ASSIGNMENTS = {
             "mcq_len_cat", "mcq_concat_abcd", "written_plus_vs_star",
         ],
     ),
+
+    # A Colab-notebook homework, for material that can't run in the browser.
+    # The notebook (notebooks/hw_molecules_rdkit.ipynb) is the homework; the app
+    # teaches the concept, hands off, and records the check-in.
+    # ── After you upload the notebook to Colab, paste its share link into `url`. ──
+    "hw_molecules": dict(
+        title="Homework 7 — Working with molecules",
+        unit=12,
+        open=False,               # release once the earlier units are done
+        mode="notebook",
+        url="https://colab.research.google.com/",   # <-- replace with your notebook's Colab link
+        intro="Your first computational-chemistry homework. You'll use RDKit — a real "
+              "cheminformatics toolkit — to turn text descriptions of molecules into "
+              "objects you can measure. It runs in Google Colab (free, nothing to install). "
+              "Open it, work through the problems, then come back and check in.",
+        preview="from rdkit import Chem\n"
+                "from rdkit.Chem import Descriptors\n\n"
+                "caffeine = Chem.MolFromSmiles(\"CN1C=NC2=C1C(=O)N(C(=O)N2C)C\")\n"
+                "print(round(Descriptors.MolWt(caffeine), 1))   # 194.2",
+        checkin=dict(
+            question="Run the check-in cell at the end of the notebook. What molecular "
+                     "weight did it print for caffeine (to 1 decimal)?",
+            expected=194.2, tol=0.1, unit="g/mol",
+        ),
+    ),
 }

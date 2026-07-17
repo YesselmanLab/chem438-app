@@ -1,0 +1,16 @@
+{
+  "id": "hw_molecules",
+  "title": "Homework 7 \u2014 Working with molecules",
+  "intro": "Your first computational-chemistry homework. You'll use RDKit \u2014 a real cheminformatics toolkit \u2014 to turn text descriptions of molecules into objects you can measure. It runs in Google Colab (free, nothing to install). Open it, work through the problems, then come back and check in.",
+  "unit": 12,
+  "mode": "notebook",
+  "url": "https://colab.research.google.com/",
+  "preview": "from rdkit import Chem\nfrom rdkit.Chem import Descriptors\n\ncaffeine = Chem.MolFromSmiles(\"CN1C=NC2=C1C(=O)N(C(=O)N2C)C\")\nprint(round(Descriptors.MolWt(caffeine), 1))   # 194.2",
+  "question": "Run the check-in cell at the end of the notebook. What molecular weight did it print for caffeine (to 1 decimal)?",
+  "checkinUnit": "g/mol",
+  "grade": {
+    "kind": "value",
+    "expected": 194.2,
+    "tol": 0.1
+  }
+}

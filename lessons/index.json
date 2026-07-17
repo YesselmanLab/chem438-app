@@ -30,6 +30,13 @@
         "mcq_four_vs_string_four",
         "mcq_floor_div"
       ]
+    },
+    {
+      "id": "hw_molecules",
+      "title": "Homework 7 \u2014 Working with molecules",
+      "unit": 12,
+      "open": false,
+      "mode": "notebook"
     }
   ],
   "units": [
@@ -67,37 +74,43 @@
       "n": 6,
       "name": "Lists",
       "open": false,
-      "opens_with": null
+      "opens_with": "Homework 7 \u2014 Working with molecules"
     },
     {
       "n": 7,
       "name": "Loops",
       "open": false,
-      "opens_with": null
+      "opens_with": "Homework 7 \u2014 Working with molecules"
     },
     {
       "n": 8,
       "name": "Dictionaries",
       "open": false,
-      "opens_with": null
+      "opens_with": "Homework 7 \u2014 Working with molecules"
     },
     {
       "n": 9,
       "name": "Planning your code",
       "open": false,
-      "opens_with": null
+      "opens_with": "Homework 7 \u2014 Working with molecules"
     },
     {
       "n": 10,
       "name": "Modules & imports",
       "open": false,
-      "opens_with": null
+      "opens_with": "Homework 7 \u2014 Working with molecules"
     },
     {
       "n": 11,
       "name": "Files",
       "open": false,
-      "opens_with": null
+      "opens_with": "Homework 7 \u2014 Working with molecules"
+    },
+    {
+      "n": 12,
+      "name": "Working with molecules",
+      "open": false,
+      "opens_with": "Homework 7 \u2014 Working with molecules"
     }
   ],
   "max_open_unit": 5

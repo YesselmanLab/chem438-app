@@ -219,6 +219,41 @@
   .refc:hover{transform:translateY(-2px);border-color:var(--accent)}
   .refc h4{margin:0 0 4px;font-size:0.8438rem}
   .refc .rc-n{font-family:var(--mono);font-size:0.6562rem;color:var(--faint)}
+  /* Colab-handoff: amber semantic colour, distinct from the indigo accent */
+  :root{--hand:#a15c00;--hand-soft:#fbedd0;--hand-line:#eccf95}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--hand:#e6a83a;--hand-soft:#2a2113;--hand-line:#4a3a1c}}
+  :root[data-theme="dark"]{--hand:#e6a83a;--hand-soft:#2a2113;--hand-line:#4a3a1c}
+  .hwc.hand{position:relative;border-color:var(--hand-line)}
+  .hwc.hand::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--hand)}
+  .ribbon{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:.6rem;
+          font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--hand);
+          background:var(--hand-soft);border:1px solid var(--hand-line);padding:2px 7px;border-radius:20px;margin-bottom:9px}
+  .badge.hand{color:var(--hand);background:var(--hand-soft);border:1px solid var(--hand-line);
+              font-family:var(--mono);font-size:.62rem;text-transform:uppercase;font-weight:700;
+              padding:3px 9px;border-radius:6px;letter-spacing:.05em}
+  .hd-row{display:flex;gap:8px;flex-wrap:wrap}
+  .nb-div{border:none;border-top:1px solid var(--line2);margin:22px 0}
+  #nbPreview{margin:0}
+  .stepL{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);font-weight:700;margin:18px 0 8px}
+  .why{display:flex;gap:10px;margin:16px 0 0;padding:12px 14px;border-radius:11px;background:var(--hand-soft);border:1px solid var(--hand-line);font-size:.85rem}
+  .why .ic{color:var(--hand);font-size:1rem;line-height:1.3}
+  .why b{color:var(--hand)}
+  .colabBtn{display:inline-flex;align-items:center;gap:9px;margin:18px 0 0;font-family:var(--sans);
+            font-weight:700;font-size:.875rem;padding:12px 18px;border-radius:11px;border:none;cursor:pointer;
+            color:#3d2c00;background:linear-gradient(180deg,#ffd257,#f9ab00)}
+  .colabBtn.dim{opacity:.5}
+  .colabBtn .g{width:18px;height:18px;border-radius:4px;background:#fff;display:grid;place-items:center;font-weight:800;font-size:.7rem;color:#f9ab00}
+  .checkin{border:1px solid var(--line2);border-radius:12px;padding:16px 18px;background:var(--bg);margin-top:22px}
+  .ci-hd{font-weight:700;font-size:.875rem;margin:0 0 3px}
+  .ci-d{color:var(--soft);font-size:.8rem;margin:0 0 13px}
+  .ci-q{font-size:.9rem;margin:0 0 12px}
+  .ansrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .ansrow input{font-family:var(--mono);font-size:.875rem;padding:9px 12px;border-radius:9px;width:150px;
+                border:1.5px solid var(--line2);background:var(--card);color:var(--ink);outline:none}
+  .ansrow input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .ansrow .unit{color:var(--faint);font-size:.8rem}
+  .verified{display:flex;align-items:center;gap:8px;padding:11px 14px;border-radius:10px;background:var(--good-soft);color:var(--good);font-weight:700;font-size:.85rem}
+  .ci-bad{padding:9px 13px;border-radius:9px;background:var(--bad-soft);color:var(--bad);font-size:.82rem;font-weight:600;margin-top:10px}
   /* course units: the challenge list doubles as the syllabus */
   .unithd{display:flex;align-items:baseline;gap:10px;margin:22px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--line2)}
   .unithd:first-child{margin-top:4px}
@@ -531,6 +566,28 @@
     </div>
   </div>
 
+  <!-- COLAB NOTEBOOK HOMEWORK (handoff) -->
+  <div class="hidden" id="nbCard">
+    <div class="card">
+      <div class="hd-row">
+        <span class="badge hand">↗ Runs in Colab, not here</span>
+      </div>
+      <h1 id="nbTitle" style="margin:6px 0 8px"></h1>
+      <p class="intro" id="nbIntro"></p>
+      <div id="nbPreviewWrap"><div class="stepL">A taste of what you'll do</div>
+        <pre class="ref-code" id="nbPreview"></pre></div>
+      <div class="why"><span class="ic">↗</span><div><b>Why not here?</b> This uses RDKit, which
+        can't run in your browser. You'll do it in Google Colab — free, nothing to install — then
+        come back and check in.</div></div>
+      <button class="colabBtn" id="nbOpen"><span class="g">▸</span> Open the homework in Colab</button>
+      <hr class="nb-div">
+      <div class="checkin"><div class="ci-hd">Check in</div>
+        <p class="ci-d">Work through the notebook, then answer to record it as done.</p>
+        <div id="nbCheckin"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- HOMEWORK AS A CHALLENGE SERIES -->
   <div class="hidden" id="setCard">
     <div class="card">
@@ -588,7 +645,7 @@ let previewUnit = null;
 let challenges = [], mySubs = [], allSubs = [];      // practice challenges + submission rows
 let lastList = "dash", chFilter = null, tagFilter = null, chScope = null, curSet = null, curChal = null, chalState = {};
 let adminEmail = null, viewingAsStudent = false;
-const VIEWS = ["#startCard","#dashCard","#homeCard","#refCard","#refPage","#chCard","#setCard","#chalCard","#qCards","#submitCard","#resultsCard","#instructorCard"];
+const VIEWS = ["#startCard","#dashCard","#homeCard","#refCard","#refPage","#chCard","#setCard","#nbCard","#chalCard","#qCards","#submitCard","#resultsCard","#instructorCard"];
 function hideAll(){ VIEWS.forEach(s=>{ const e=$(s); if(e) e.classList.add("hidden"); }); }
 // ---------------- light / dark ----------------
 // No stored choice = follow the OS. Once the user picks, data-theme wins and sticks.
@@ -1031,6 +1088,84 @@ function wireExamples(){
   });
 }
 
+// ---------------- Colab-notebook homework (handoff) ----------------
+// The science units can't run in the browser. The homework is a Colab notebook;
+// the app teaches the concept, opens the notebook, and records a keyed check-in.
+async function showNotebookHomework(l){
+  hideAll(); setWidth("mid"); curSet=null; $("#nbCard").classList.remove("hidden");
+  setNav("hw"); backToFn("← Homework", ()=>showHomework());
+  $("#lessonTitle").textContent=l.title;
+  let nb;
+  try{ nb = await fetch(`lessons/${l.id}.json`).then(r=>r.json()); }
+  catch(e){ return showErr("Couldn't load "+l.id+"."); }
+  const sub = hwSubs().find(r=>r.lesson===l.id), done = sub && sub.score>0;
+
+  $("#nbTitle").textContent = nb.title;
+  $("#nbIntro").textContent = nb.intro || "";
+  $("#nbPreviewWrap").classList.toggle("hidden", !nb.preview);
+  if(nb.preview){
+    const pre=$("#nbPreview"); pre.textContent=nb.preview; pre.className="ref-code";
+    if(window.CodeMirror && CodeMirror.runMode){
+      pre.className="ref-code "+(isDark()?"cm-s-material-darker":"cm-s-default");
+      const src=pre.textContent; pre.textContent=""; CodeMirror.runMode(src,"python",pre);
+    }
+  }
+  const valid = nb.url && /^https?:\/\//.test(nb.url) && !/colab\.research\.google\.com\/?$/.test(nb.url.replace(/\/$/,"")+"/");
+  $("#nbOpen").onclick = ()=>{
+    if(!valid) return toast("Your instructor hasn't linked the notebook yet.");
+    window.open(nb.url, "_blank", "noopener");
+  };
+  $("#nbOpen").classList.toggle("dim", !valid);
+
+  // the check-in
+  const ci=$("#nbCheckin"); ciState={};
+  if(done){
+    ci.innerHTML = '<div class="verified">🎉 Checked in — this homework is done.</div>';
+  } else if(nb.grade.kind==="mcq"){
+    ci.innerHTML = '<p class="ci-q">'+esc(nb.question)+'</p><div class="choices" id="nbChoices"></div>'+
+      '<button class="btn btn-primary btn-sm" id="nbSubmit" style="margin-top:12px">Check in →</button>'+
+      '<div id="nbRes"></div>';
+    const box=$("#nbChoices"), L=["A","B","C","D","E"];
+    nb.choices.forEach((ch,i)=>{ const b=document.createElement("button"); b.className="choice";
+      b.innerHTML='<span class="mk">'+L[i]+'</span><span>'+esc(ch)+'</span>';
+      b.onclick=()=>{ box.querySelectorAll(".choice").forEach(x=>x.classList.remove("sel")); b.classList.add("sel"); ciState.choice=i; };
+      box.appendChild(b); });
+  } else {
+    ci.innerHTML = '<p class="ci-q">'+esc(nb.question)+'</p><div class="ansrow">'+
+      '<input type="text" id="nbVal" placeholder="type the value" aria-label="your answer">'+
+      (nb.checkinUnit?'<span class="unit">'+esc(nb.checkinUnit)+'</span>':'')+
+      '<button class="btn btn-primary btn-sm" id="nbSubmit">Check in →</button></div><div id="nbRes"></div>';
+  }
+  if(!done) $("#nbSubmit").onclick = ()=>submitCheckin(l, nb);
+}
+let ciState={};
+async function submitCheckin(l, nb){
+  const res=$("#nbRes"); const a={};
+  if(nb.grade.kind==="mcq"){
+    if(ciState.choice==null){ res.innerHTML='<div class="ci-bad">Pick an answer first.</div>'; return; }
+    a.choice=ciState.choice;
+  } else {
+    a.value=($("#nbVal").value||"").trim();
+    if(!a.value){ res.innerHTML='<div class="ci-bad">Type your answer first.</div>'; return; }
+  }
+  if(gradeWithKey(a, nb.grade)===true){
+    res.innerHTML='<div class="verified">🎉 That\'s right — homework checked in.</div>';
+    await recordCheckin(l);
+    confetti(true); updateChips();
+  } else {
+    res.innerHTML='<div class="ci-bad">Not quite — run the notebook and read the value it prints, then try again.</div>';
+  }
+}
+async function recordCheckin(l){
+  if(!SUPA || !student.id.startsWith("email:")) { mySubs.push({lesson:l.id,score:1,out_of:1,updated_at:new Date().toISOString()}); return; }
+  try{
+    await SUPA.from("submissions").upsert(
+      {email:student.id.slice(6), lesson:l.id, score:1, out_of:1, results:{mode:"notebook",checkin:true}},
+      {onConflict:"email,lesson"});
+    await loadMySubs();
+  }catch(e){}
+}
+
 // ---------------- homework as a challenge series ----------------
 // mode="challenges": no single submit. Each challenge checks itself and ticks off.
 function setItems(l){ return (l.challenges||[]).map(id=>challenges.find(c=>c.id===id)).filter(Boolean); }
@@ -1056,6 +1191,15 @@ function showChallengeSet(l){
 // ---------------- dashboard ----------------
 function stat(n,l,c){ return '<div class="st"><div class="n '+c+'">'+n+'</div><div class="l">'+l+'</div></div>'; }
 function hwCardHtml(l,hw){
+  // A Colab-notebook homework: done when the check-in has been recorded.
+  if(l.mode === "notebook"){
+    const sub = hw.find(r=>r.lesson===l.id), done = sub && sub.score>0;
+    const ft = done ? '<span>checked in</span><span class="scored">✓</span>'
+                    : '<span>runs in Colab ↗</span><span>—</span>';
+    return '<div class="hwc hand" data-open="'+l.id+'"><span class="ribbon">↗ Colab notebook</span>'+
+      '<h4>'+esc(l.title)+'</h4><div class="trk"><span style="width:'+(done?100:0)+'%"></span></div>'+
+      '<div class="ft">'+ft+'</div></div>';
+  }
   // A challenge-series homework has no single submit — progress IS how many of
   // its challenges are solved, so read that straight off the solved set.
   if(l.mode === "challenges"){
@@ -1336,6 +1480,8 @@ async function openChallenge(id){
 function gradeWithKey(a,k){
   if(!k) return null;
   if(k.kind==="mcq") return a.choice===k.answer;
+  if(k.kind==="value"){ const v=parseFloat(String(a.value).replace(/[, ]/g,"")); return isFinite(v) && Math.abs(v-k.expected)<=(k.tol||0.05); }
+  if(k.kind==="text"){ return String(a.value||"").trim().toLowerCase()===String(k.expected).trim().toLowerCase(); }
   if(a.error || !a.outputs) return false;
   if(k.kind==="code_var") return !!cmp(k.expected, a.outputs[0], k.tol);
   if(k.kind==="code_fn") return !!cmp(k.expected, a.outputs, k.tol);
@@ -1560,6 +1706,7 @@ async function openLesson(id){
   if(meta && !meta.open && !viewingAsStudent && !adminEmail){
     toast("That assignment hasn't been released yet."); return showHomework();
   }
+  if(meta && meta.mode === "notebook") return showNotebookHomework(meta);
   if(meta && meta.mode === "challenges") return showChallengeSet(meta);
   hideAll(); setWidth("mid");
   $("#errBanner").classList.remove("show");
