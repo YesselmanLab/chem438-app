@@ -8,6 +8,7 @@ Reaching into lists from the end, and using the list methods that add, remove, c
 kind: written
 title: Why did my sorted list vanish?
 tags: arrays, sorting, written
+see: 06_lists#sorting-sort-vs-sorted
 difficulty: easy
 
 ### prompt
@@ -33,6 +34,7 @@ Notes
 kind: code_fn
 title: Squeeze in a guest
 tags: arrays, bugs, functions
+see: 06_lists#insert-put-an-item-at-a-position
 difficulty: medium
 entry: seat_guest
 
@@ -98,6 +100,7 @@ seat_guest(["a", "b", "c", "d"], "x") == ["a", "b", "x", "c", "d"]
 kind: code_fn
 title: What place did they finish?
 tags: arrays, indexing, functions
+see: 06_lists#index-where-is-it
 difficulty: easy
 entry: placement
 
@@ -143,6 +146,7 @@ placement(["w", "x", "y", "z"], "z") == 4
 kind: code_fn
 title: Send them to the back
 tags: arrays, functions, indexing
+see: 06_lists#pop-by-position-and-hand-it-back
 difficulty: medium
 entry: send_to_back
 
@@ -188,6 +192,7 @@ send_to_back(["w", "x", "y", "z"]) == ["x", "y", "z", "w"]
 kind: code_fn
 title: The middle score
 tags: arrays, sorting, algorithms
+see: 06_lists#sorting-sort-vs-sorted
 difficulty: hard
 entry: middle_score
 
@@ -264,6 +269,7 @@ middle_score([5, 100, 7, 6, 8]) == 7
 kind: code_fn
 title: Purge every copy
 tags: arrays, loops, functions
+see: 07_loops#while
 difficulty: hard
 entry: purge
 

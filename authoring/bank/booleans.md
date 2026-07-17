@@ -9,6 +9,7 @@ and returning the answer directly instead of dressing it up in an if/else.
 kind: code_fn
 title: Flip the game-over flag
 tags: logic, language_fundamentals, functions
+see: 04_booleans#combining-conditions-and-or-not
 difficulty: starter
 entry: keep_playing
 
@@ -48,6 +49,7 @@ keep_playing(False) is True
 kind: code_fn
 title: Do they get free shipping?
 tags: logic, validation, functions
+see: 04_booleans#a-comparison-is-already-a-value
 difficulty: starter
 entry: free_shipping
 
@@ -135,6 +137,7 @@ What does this code print?
 kind: code_fn
 title: Can they ride the coaster?
 tags: logic, conditions, functions
+see: 04_booleans#combining-conditions-and-or-not
 difficulty: easy
 entry: can_ride
 
@@ -180,6 +183,7 @@ can_ride(121, True) is True
 kind: code_fn
 title: One light, two switches
 tags: logic, conditions, functions
+see: 04_booleans#comparison-operators
 difficulty: easy
 entry: light_on
 
@@ -248,6 +252,7 @@ light_on(False, False) is False
 kind: code_fn
 title: One equals sign too few
 tags: bugs, conditions, logic
+see: 04_booleans#assignment-vs-question-and
 difficulty: easy
 entry: door_unlocks
 
@@ -318,6 +323,7 @@ door_unlocks(1235) is False
 kind: code_fn
 title: Is that username allowed?
 tags: strings, validation, logic
+see: 04_booleans#chained-comparisons
 difficulty: medium
 entry: valid_username
 
@@ -391,6 +397,7 @@ valid_username("administrator") is False
 kind: code_fn
 title: Front-loaded playlist?
 tags: arrays, indexing, logic
+see: 06_lists#negative-indexes
 difficulty: medium
 entry: front_loaded
 

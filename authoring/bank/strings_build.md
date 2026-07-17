@@ -8,6 +8,7 @@ Build strings with `*`, `+`, and f-strings, and clean them up with the string me
 kind: code_fn
 title: Draw a loading bar
 tags: strings, functions, language_fundamentals
+see: 02_strings#repeating-strings-with
 difficulty: starter
 entry: loading_bar
 
@@ -52,6 +53,7 @@ loading_bar(30) == "=============================="
 kind: code_fn
 title: Tidy up the username
 tags: strings, functions, validation
+see: 02_strings#cleaning-up-user-input
 difficulty: starter
 entry: clean_username
 
@@ -126,6 +128,7 @@ clean_username("  Ada Lovelace  ") == "ada lovelace"
 kind: code_fn
 title: Fix the playlist title
 tags: strings, functions, formatting
+see: 02_strings#changing-case
 difficulty: starter
 entry: fix_title
 
@@ -170,6 +173,7 @@ fix_title("a b c") == "A B C"
 kind: code_fn
 title: Start the chant
 tags: strings, functions, language_fundamentals
+see: 02_strings#repeating-strings-with
 difficulty: easy
 entry: chant
 
@@ -234,6 +238,7 @@ chant("go", 0) == ""
 kind: code_fn
 title: Print a cart line
 tags: strings, formatting, functions
+see: 02_strings#f-strings-building-strings-with-variables
 difficulty: easy
 entry: cart_line
 
@@ -299,6 +304,7 @@ cart_line("sticker", 0, 4) == "0 x sticker = $0"
 kind: code_fn
 title: The dashes won't go away
 tags: strings, bugs, functions
+see: 02_strings#strings-are-immutable
 difficulty: easy
 entry: strip_dashes
 
@@ -366,6 +372,7 @@ strip_dashes("-") == ""
 kind: mcq
 title: Predict — "banana".count("ana")
 tags: strings, predict, concept
+see: 02_strings#finding-and-counting
 difficulty: easy
 answer: 2
 
@@ -400,6 +407,7 @@ the same way. Whenever the thing you're counting can overlap itself ("aa" in
 kind: code_fn
 title: Bleep out the word
 tags: strings, functions, algorithms
+see: 02_strings#finding-and-counting
 difficulty: medium
 entry: censor
 
@@ -463,6 +471,7 @@ censor("a", "a") == "*"
 kind: code_fn
 title: Is that the same person?
 tags: strings, logic, validation
+see: 04_booleans#a-comparison-is-already-a-value
 difficulty: medium
 entry: same_person
 

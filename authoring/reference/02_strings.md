@@ -490,3 +490,91 @@ print(f"You bought {qty} {item}(s) for ${total}")
 7. Given `email = "  Jane.Doe@EXAMPLE.com  "`, produce a cleaned-up, all-lowercase version with no extra spaces, in one line using chained methods.
 8. Given `word = "level"`, write code that checks whether the string reversed is equal to the string itself (a palindrome check), using slicing.
 9. Given `data = "name:Alice,age:30,city:Boston"`, split it into three separate `key:value` pairs, then split each pair on `:` to print just the three values (`Alice`, `30`, `Boston`).
+
+## Quick reference — what's available
+
+### Making and measuring
+
+- `"text"` or `'text'` — a string; both quote styles mean the same thing
+- `"She said \"stop\""` — a backslash lets a quote sit inside matching quotes
+- `len(s)` — how many characters, spaces included
+- `a + b` — glue two strings together (no space added for you)
+- `s * 3` — repeat the string three times
+
+### Getting characters out
+
+- `s[0]` — the first character; `s[-1]` — the last character
+- `s[1:4]` — a new string, positions 1 to 3 (stop is excluded)
+- `s[:3]` / `s[3:]` — from the start / to the end
+- `s[::-1]` — a reversed copy
+
+### Cleaning and changing case
+
+- `s.upper()` — a shouted copy
+- `s.lower()` — an all-lowercase copy
+- `s.title()` — a copy with the first letter of each word capitalized
+- `s.strip()` — a copy with leading and trailing whitespace gone
+- `s.replace(old, new)` — a copy with **every** `old` swapped for `new`
+- `s.strip().lower()` — chain them; each hands a string to the next
+
+### Searching (all case-sensitive)
+
+- `x in s` / `x not in s` — is `x` somewhere inside? `True` or `False`
+- `s.find(x)` — position of the first `x`, or `-1` if it isn't there
+- `s.count(x)` — how many times `x` appears (`0` if never)
+- `s.startswith(x)` — does it begin with `x`? `True` or `False`
+- `s.endswith(x)` — does it end with `x`? `True` or `False`
+
+### Breaking apart and gluing back
+
+- `s.split()` — split on spaces into a list of pieces
+- `s.split(",")` — split on a separator you choose
+- `", ".join(pieces)` — glue a list of strings into one string (the glue goes first)
+
+### Text and numbers
+
+- `str(n)` — turn a number into a string so `+` will accept it
+- `int(t)` — turn a whole-number-looking string into a number (`ValueError` if it isn't one)
+- `f"{name} is {age}"` — drop variables straight in, no `str()` needed
+- `f"{a + b}"` — any expression works inside the braces
+- `f"{price:.2f}"` — show two digits after the decimal point
+
+### The two rules worth memorizing
+
+- No method ever changes the original string — every one returns a **new** string. To keep a change, save it: `name = name.upper()`.
+- `"5"` and `5` are never equal, and `"5" + 5` is a `TypeError`. Convert first.
+
+Most of them together:
+
+```python
+raw = "   grace hopper,GRACE@EMAIL.COM   "
+entry = raw.strip()
+print(entry)                      # grace hopper,GRACE@EMAIL.COM
+print(len(entry))                 # 28
+
+name, email = entry.split(",")
+print(name.title())               # Grace Hopper
+print(email.lower())              # grace@email.com
+print(name.upper())               # GRACE HOPPER
+print(name.replace("grace", "amazing"))    # amazing hopper
+
+print(name[0])                    # g
+print(name[-1])                   # r
+print(name[:5])                   # grace
+print(name[::-1])                 # reppoh ecarg
+
+print(name.count("r"))            # 2
+print(name.find("hopper"))        # 6
+print(name.find("zebra"))         # -1   <- not found
+print("grace" in name)            # True
+print(email.startswith("GRACE"))  # True
+print(email.endswith(".COM"))     # True
+
+parts = name.split()
+print(parts)                      # ['grace', 'hopper']
+print("-".join(parts))            # grace-hopper
+
+print("Parts: " + str(len(parts)))    # Parts: 2
+print(int("2") + 3)                   # 5
+print(f"{name.title()} <{email.lower()}> has {len(parts)} parts")    # Grace Hopper <grace@email.com> has 2 parts
+```

@@ -9,6 +9,7 @@ counting, adding, and sorting for you.
 kind: code_var
 title: Build a playlist
 tags: arrays, language_fundamentals, types
+see: 06_lists#making-a-list
 difficulty: starter
 entry: playlist
 
@@ -46,6 +47,7 @@ playlist == ["Blue Sky", "Rewind", "Nightbus"]
 kind: code_fn
 title: Count the toppings
 tags: arrays, functions, language_fundamentals
+see: 06_lists#length-len
 difficulty: starter
 entry: topping_count
 
@@ -89,6 +91,7 @@ topping_count(["a", "b", "c"]) == 3
 kind: code_fn
 title: Last in line
 tags: arrays, indexing, functions
+see: 06_lists#negative-indexes
 difficulty: starter
 entry: last_in_line
 
@@ -150,6 +153,7 @@ last_in_line(["p", "q", "r", "s"]) == "s"
 kind: code_fn
 title: Blew the budget?
 tags: arrays, logic, conditions
+see: 06_lists#whole-list-math-sum-min-max
 difficulty: easy
 entry: over_budget
 
@@ -210,6 +214,7 @@ over_budget([100, 1], 50) is True
 kind: code_fn
 title: Count the votes
 tags: arrays, functions, algorithms
+see: 06_lists#count-how-many
 difficulty: easy
 entry: vote_tally
 
@@ -271,6 +276,7 @@ vote_tally(["c", "c", "c", "c"], "c") == 4
 kind: code_fn
 title: Alphabetical seating
 tags: arrays, sorting, functions
+see: 06_lists#sorting-sort-vs-sorted
 difficulty: easy
 entry: seating_order
 
@@ -334,6 +340,7 @@ seating_order(["c", "a", "b", "a"]) == ["a", "a", "b", "c"]
 kind: code_fn
 title: Fix the username checker
 tags: bugs, arrays, logic
+see: 06_lists#in-is-it-there
 difficulty: easy
 entry: is_taken
 
@@ -398,6 +405,7 @@ is_taken("a", ["b", "c", "a"]) is True
 kind: code_fn
 title: The priciest item is free
 tags: arrays, math, algorithms
+see: 06_lists#whole-list-math-sum-min-max
 difficulty: medium
 entry: basket_total
 
@@ -457,6 +465,7 @@ basket_total([10, 1, 1]) == 2
 kind: mcq
 title: Which spot is which?
 tags: indexing, arrays, predict
+see: 06_lists#negative-indexes
 difficulty: medium
 answer: 1
 

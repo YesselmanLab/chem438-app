@@ -8,6 +8,7 @@ Turning text into numbers, numbers into text, and knowing what kind of value you
 kind: code_fn
 title: The total came in as text
 tags: types, numbers, language_fundamentals
+see: 01_variables_math#number-built-ins
 difficulty: starter
 entry: cart_total_from_text
 
@@ -50,6 +51,7 @@ cart_total_from_text("0.05") == 0.05
 kind: code_fn
 title: Did they pick a nickname?
 tags: types, strings, logic
+see: 04_booleans#truthiness-what-counts-as-true-or-false
 difficulty: starter
 entry: nickname_filled
 
@@ -92,6 +94,7 @@ nickname_filled("x") is True
 kind: code_fn
 title: Ignore the cents
 tags: types, numbers, math
+see: 01_variables_math#int-truncates-round-rounds
 difficulty: starter
 entry: whole_dollars_only
 
@@ -147,6 +150,7 @@ whole_dollars_only(5.0) == 5
 kind: mcq
 title: What kind of number is 10 / 5?
 tags: types, numbers, predict
+see: 01_variables_math#division-always-gives-a-float
 difficulty: easy
 answer: 3
 
@@ -183,6 +187,7 @@ If you want the int, that is a different operator: `10 // 5` is floor division a
 kind: code_fn
 title: How long is that ticket number?
 tags: types, strings, numbers
+see: 02_strings#converting-between-strings-and-numbers
 difficulty: easy
 entry: count_digits
 
@@ -250,6 +255,7 @@ Notes
 kind: code_fn
 title: Same kind of thing?
 tags: types, logic, conditions
+see: 01_variables_math#two-kinds-of-numbers-int-and-float
 difficulty: easy
 entry: same_type_check
 
@@ -293,6 +299,7 @@ same_type_check(3.5, 0.0) is True
 kind: code_fn
 title: The tip that made the bill huge
 tags: bugs, types, numbers
+see: 01_variables_math#number-built-ins
 difficulty: medium
 entry: total_paid
 
@@ -348,6 +355,7 @@ total_paid("5.25", "0.75") == 6.0
 kind: code_fn
 title: Some judges left it blank
 tags: types, arrays, loops
+see: 07_loops#building-a-list-in-a-loop
 difficulty: medium
 entry: scores_with_blanks
 

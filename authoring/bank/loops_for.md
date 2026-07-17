@@ -8,6 +8,7 @@ Walking through strings and lists with `for`, and counting with `range`.
 kind: code_fn
 title: Count the vowels
 tags: loops, strings, functions
+see: 07_loops#counting-with-a-condition
 difficulty: easy
 entry: count_vowels
 
@@ -80,6 +81,7 @@ count_vowels("hello world") == 3
 kind: code_fn
 title: Sum the page numbers
 tags: loops, math, functions
+see: 07_loops#range-stops-before-the-end
 difficulty: easy
 entry: sum_pages
 
@@ -149,6 +151,7 @@ sum_pages(2, 4) == 9
 kind: mcq
 title: Predict the backwards countdown
 tags: loops, predict, concept
+see: 07_loops#range-a-b-step
 difficulty: easy
 answer: 1
 
@@ -170,6 +173,7 @@ What does this print, one number per line?
 kind: code_fn
 title: Number the playlist
 tags: loops, strings, formatting
+see: 07_loops#enumerate
 difficulty: medium
 entry: number_playlist
 
@@ -235,6 +239,7 @@ number_playlist(["a", "b", "c"]) == ["1. a", "2. b", "3. c"]
 kind: code_fn
 title: Hide all but the last four
 tags: loops, strings, indexing
+see: 07_loops#enumerate
 difficulty: medium
 entry: mask_code
 
@@ -310,6 +315,7 @@ mask_code("abcdefgh") == "****efgh"
 kind: code_fn
 title: The last locker is missing
 tags: loops, bugs, arrays
+see: 07_loops#range-stops-before-the-end
 difficulty: easy
 entry: locker_numbers
 
@@ -357,6 +363,7 @@ locker_numbers(5) == [1, 2, 3, 4, 5]
 kind: code_fn
 title: The tip jar keeps emptying
 tags: loops, bugs, functions
+see: 07_loops#where-the-starting-value-goes
 difficulty: medium
 entry: total_tips
 
@@ -425,6 +432,7 @@ total_tips([10, 0, 5]) == 15
 kind: code_fn
 title: Longest streak of the same letter
 tags: loops, strings, algorithms
+see: 07_loops#finding-the-max-by-hand
 difficulty: hard
 entry: longest_run
 
@@ -505,6 +513,7 @@ longest_run("xxxxx") == 5
 kind: code_fn
 title: Every other digit, from the right
 tags: loops, indexing, strings
+see: 07_loops#range-a-b-step
 difficulty: hard
 entry: alt_sum
 

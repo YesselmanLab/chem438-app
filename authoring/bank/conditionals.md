@@ -8,6 +8,7 @@ Choosing between paths: if/elif/else, the ternary expression, and the order your
 kind: code_fn
 title: Free shipping at fifty
 tags: conditions, logic, numbers
+see: 05_if_else#one-line-conditional-expression
 difficulty: easy
 entry: free_shipping_cost
 
@@ -70,6 +71,7 @@ free_shipping_cost(0) == 5.99
 kind: code_fn
 title: Shorten the long names
 tags: strings, conditions, indexing
+see: 05_if_else#else-the-catch-all
 difficulty: easy
 entry: nickname_or_name
 
@@ -116,6 +118,7 @@ nickname_or_name("") == ""
 kind: code_fn
 title: Is it the weekend?
 tags: bugs, conditions, logic
+see: 04_booleans#the-and-or-trap-write-a-complete-comparison-on-both-sides
 difficulty: easy
 entry: weekend_or_not
 
@@ -181,6 +184,7 @@ weekend_or_not("") is False
 kind: code_fn
 title: Which way does the elevator go?
 tags: conditions, logic, numbers
+see: 05_if_else#elif-choosing-one-of-many
 difficulty: easy
 entry: elevator_direction
 
@@ -230,6 +234,7 @@ elevator_direction(0, -3) == "down"
 kind: code_fn
 title: Everyone got a D
 tags: bugs, conditions, logic
+see: 05_if_else#order-matters-a-classic-bug
 difficulty: medium
 entry: grade_letter_order
 
@@ -323,6 +328,7 @@ grade_letter_order(0) == "F"
 kind: code_fn
 title: First price over the limit
 tags: loops, conditions, arrays
+see: 07_loops#break
 difficulty: medium
 entry: first_over_budget
 
@@ -396,6 +402,7 @@ first_over_budget([10, 11], 10) == 11
 kind: code_fn
 title: Bleep the banned words
 tags: strings, arrays, conditions, loops
+see: 07_loops#building-a-list-in-a-loop
 difficulty: medium
 entry: censor_words
 
@@ -478,6 +485,7 @@ censor_words(["a", "b", "c"], ["a", "c"]) == ["***", "b", "***"]
 kind: mcq
 title: Predict — if/elif with n = 12
 tags: conditions, predict, concept
+see: 05_if_else#tracing-an-elif-chain
 difficulty: medium
 answer: 1
 

@@ -9,6 +9,7 @@ built-ins do the searching for you.
 kind: code_fn
 title: Return the first element in a list
 tags: arrays, language_fundamentals, week2
+see: 06_lists#indexing-getting-one-item-out
 difficulty: easy
 entry: get_first_value
 
@@ -62,6 +63,7 @@ get_first_value([7, 7, 7]) == 7
 kind: code_fn
 title: Find the largest number in a list
 tags: arrays, numbers, sorting, week2
+see: 06_lists#whole-list-math-sum-min-max
 difficulty: easy
 entry: find_largest_num
 
@@ -115,6 +117,7 @@ find_largest_num([9]) == 9
 kind: code_fn
 title: Find the smallest number in a list
 tags: arrays, numbers, sorting, week2
+see: 06_lists#whole-list-math-sum-min-max
 difficulty: easy
 entry: find_smallest_num
 

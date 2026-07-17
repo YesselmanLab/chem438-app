@@ -7,6 +7,7 @@ Parameters, arguments, defaults, return vs print, and calling one function from 
 kind: code_fn
 title: Write the coffee ticket
 tags: functions, strings, language_fundamentals
+see: 03_functions#multiple-parameters-and-argument-order
 difficulty: starter
 entry: order_ticket
 
@@ -49,6 +50,7 @@ order_ticket("extra large", "cold brew") == "extra large cold brew"
 kind: code_fn
 title: The seat counter returns nothing
 tags: functions, bugs, language_fundamentals
+see: 03_functions#return-vs-print-the-most-important-distinction-in-this-course
 difficulty: starter
 entry: seats_left
 
@@ -115,6 +117,7 @@ thumb: a function that computes a value should return it and print nothing.
 kind: code_fn
 title: Mask the password
 tags: functions, strings, language_fundamentals
+see: 03_functions#default-arguments
 difficulty: easy
 entry: mask
 
@@ -176,6 +179,7 @@ And check the empty password — len("") is 0, and char * 0 is "", which is exac
 kind: code_fn
 title: Cut the deck
 tags: functions, arrays, indexing
+see: 06_lists#slicing
 difficulty: easy
 entry: cut
 
@@ -238,6 +242,7 @@ side. The comma alone is what hands back two things — no brackets needed.
 kind: mcq
 title: What does the cheer print?
 tags: functions, predict, concept
+see: 03_functions#a-function-that-returns-nothing-gives-you-none
 difficulty: easy
 answer: 3
 
@@ -270,6 +275,7 @@ Notes
 kind: code_fn
 title: Can you afford the cart?
 tags: functions, logic, conditions
+see: 03_functions#calling-one-function-from-another
 difficulty: medium
 entry: can_afford
 
@@ -349,6 +355,7 @@ Watch the boundary too: with a total of 13 and a wallet of 13 the answer is True
 kind: code_fn
 title: The topping never sticks
 tags: functions, bugs, strings
+see: 03_functions#local-variables-why-names-don-t-leak-out
 difficulty: hard
 entry: build
 
@@ -435,6 +442,7 @@ and the only way it lands anywhere is if the caller stores it.
 kind: code_fn
 title: Score the word
 tags: functions, loops, strings
+see: 07_loops#the-accumulator-inside-a-function
 difficulty: medium
 entry: word_value
 

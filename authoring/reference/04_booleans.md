@@ -369,3 +369,57 @@ print(can_sit(15, occupied, 10))            # False -- past the last row
 - `and`, `or`, `not` combine booleans. Every side of `and` / `or` needs its own complete comparison — `a or b == 10` is not "a or b is 10."
 - `in` / `not in` test membership: an element in a list, or a substring in a string.
 - Chained comparisons like `0 < x < 10` read naturally and mean exactly what they look like.
+
+## Quick reference — what's available
+
+### The six comparisons
+
+- `a == b` — True if the two values are equal
+- `a != b` — True if the two values are not equal
+- `a < b` — True if `a` is less than `b`
+- `a > b` — True if `a` is greater than `b`
+- `a <= b` — True if `a` is less than or equal to `b`
+- `a >= b` — True if `a` is greater than or equal to `b`
+- Each one produces a real `True`/`False` value you can store, print, or `return`.
+- `==` and `!=` work across any two types. `<`, `>`, `<=`, `>=` raise `TypeError` across incompatible types.
+
+### Building bigger questions
+
+- `a and b` — True only when both sides are True
+- `a or b` — True when at least one side is True
+- `not a` — flips True to False and False to True
+- Every side of `and` / `or` needs its own complete comparison — `a == 10 or b == 10`, never `a or b == 10`.
+
+### Membership tests
+
+- `value in list` — True if `value` is one of the elements
+- `value not in list` — True if it is not
+- `"text" in "some text"` — True if the substring appears anywhere in the string
+- `"text" not in "some text"` — the opposite
+
+### Truthiness and `bool()`
+
+- `bool(value)` — the True/False version of any value
+- Falsy: `""`, `0`, `0.0`, `[]`, `None`
+- Truthy: everything else — non-empty strings, nonzero numbers (including negatives), non-empty lists
+- `len(x) == 0` and `not x` ask the same question for a string or a list.
+
+### Chaining
+
+- `0 < x < 10` — same as `0 < x and x < 10`, but written the way you'd write it on paper
+- `65 <= temp <= 80` — an inclusive range check
+- Any comparison operators can be chained, and Python only evaluates `x` once.
+
+```python
+name = "banana bread"
+scores = [88, 92, 61]
+
+print(88 in scores)                     # True
+print("pie" not in name)                # True
+print(bool(scores) and bool(name))      # True
+print(not scores)                       # False
+print(0 < len(scores) <= 5)             # True
+print(min(scores) >= 60 and max(scores) <= 100)     # True
+print(bool([]) == (len(name) == 0))     # True   <- both are False
+```
+

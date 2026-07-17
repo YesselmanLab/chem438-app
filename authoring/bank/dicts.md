@@ -9,6 +9,7 @@ safely with `.get()`, and looping over keys and values with `.items()`.
 kind: mcq
 title: Stock the vending machine
 tags: dicts, language_fundamentals, types
+see: 08_dicts#making-a-dict
 difficulty: easy
 answer: 3
 
@@ -33,6 +34,7 @@ Which line creates `slots` correctly?
 kind: code_fn
 title: What does it cost?
 tags: dicts, functions, validation
+see: 08_dicts#get-a-safe-lookup-with-a-default
 difficulty: easy
 entry: price
 
@@ -96,6 +98,7 @@ price({"bagel": 1.5}, "bagel") == 1.5
 kind: code_fn
 title: Is that username taken?
 tags: dicts, logic, validation
+see: 08_dicts#in-tests-keys-not-values
 difficulty: easy
 entry: is_available
 
@@ -142,6 +145,7 @@ is_available({"ana": 1, "bo": 2}, "Ana") is True
 kind: mcq
 title: Two prices for tea
 tags: dicts, predict, concept
+see: 08_dicts#keys-must-be-unique
 difficulty: medium
 answer: 2
 
@@ -181,6 +185,7 @@ one quietly erased the first.
 kind: code_fn
 title: Tally the dice
 tags: dicts, loops, arrays
+see: 08_dicts#counting-with-a-dict-the-tally-pattern
 difficulty: medium
 entry: tally
 
@@ -230,6 +235,7 @@ tally([4, 1, 4, 1, 4]) == [[1, 2], [4, 3]]
 kind: code_fn
 title: Fix the high score list
 tags: dicts, bugs, loops
+see: 08_dicts#looping-with-items
 difficulty: medium
 entry: high_scores
 
@@ -303,6 +309,7 @@ high_scores({"cy": 100, "di": 12, "ed": 91}) == ["cy", "ed"]
 kind: code_fn
 title: Expand the text-speak
 tags: dicts, strings, loops
+see: 08_dicts#get-a-safe-lookup-with-a-default
 difficulty: medium
 entry: expand
 
@@ -351,6 +358,7 @@ expand(["omw", "omw"], {"omw": "on my way"}) == "on my way on my way"
 kind: code_fn
 title: Who won the vote?
 tags: dicts, loops, algorithms
+see: 07_loops#finding-the-max-by-hand
 difficulty: hard
 entry: winner
 
@@ -458,6 +466,7 @@ winner({"bo": 3, "ana": 5}) == ["ana", 2]
 kind: code_fn
 title: Group the guests by initial
 tags: dicts, strings, algorithms
+see: 08_dicts#counting-with-a-dict-the-tally-pattern
 difficulty: hard
 entry: group_by_initial
 

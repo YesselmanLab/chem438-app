@@ -12,6 +12,7 @@ toggle, so it helps a stuck student without spoiling the answer up front.
 kind: code_fn
 title: Convert minutes into seconds
 tags: language_fundamentals, math, numbers, week1
+see: 01_variables_math#the-basic-math-operators
 difficulty: easy
 entry: convert
 
@@ -66,6 +67,7 @@ convert(1) == 60
 kind: code_fn
 title: Convert hours into seconds
 tags: language_fundamentals, math, numbers, week1
+see: 01_variables_math#the-basic-math-operators
 difficulty: easy
 entry: how_many_seconds
 
@@ -108,6 +110,7 @@ how_many_seconds(1) == 3600
 kind: code_fn
 title: Return the remainder from two numbers
 tags: math, numbers, week1
+see: 01_variables_math#floor-division-and-remainder-and
 difficulty: easy
 entry: remainder
 
@@ -155,6 +158,7 @@ remainder(9, 4) == 1
 kind: code_fn
 title: Convert age to days
 tags: math, numbers, week1
+see: 01_variables_math#the-basic-math-operators
 difficulty: easy
 entry: calc_age
 
@@ -198,6 +202,7 @@ calc_age(100) == 36500
 kind: code_fn
 title: Return a string as an integer
 tags: language_fundamentals, numbers, strings, week1
+see: 02_strings#converting-between-strings-and-numbers
 difficulty: easy
 entry: string_int
 
@@ -251,6 +256,7 @@ string_int("42") == 42
 kind: code_fn
 title: Area of a triangle
 tags: geometry, math, numbers, week1
+see: 01_variables_math#order-of-operations
 difficulty: easy
 entry: tri_area
 
@@ -293,6 +299,7 @@ tri_area(5, 6) == 15
 kind: code_fn
 title: Find the perimeter of a rectangle
 tags: geometry, language_fundamentals, math, numbers, week1
+see: 01_variables_math#order-of-operations
 difficulty: easy
 entry: find_perimeter
 
@@ -335,6 +342,7 @@ find_perimeter(5, 3) == 16
 kind: code_fn
 title: Sum of polygon angles
 tags: math, numbers, geometry, week1
+see: 01_variables_math#order-of-operations
 difficulty: easy
 entry: sum_polygon
 
@@ -390,6 +398,7 @@ sum_polygon(10) == 1440
 kind: code_fn
 title: To the power of ____
 tags: logic, math, numbers, week1
+see: 01_variables_math#exponents
 difficulty: easy
 entry: calculate_exponent
 
@@ -444,6 +453,7 @@ calculate_exponent(7, 1) == 7
 kind: code_fn
 title: Football points
 tags: algebra, math, numbers, week1
+see: 01_variables_math#the-basic-math-operators
 difficulty: easy
 entry: football_points
 
@@ -490,6 +500,7 @@ football_points(10, 10, 10) == 40
 kind: code_fn
 title: The farm problem
 tags: algorithms, language_fundamentals, math, week1
+see: 01_variables_math#the-basic-math-operators
 difficulty: easy
 entry: animals
 
@@ -542,6 +553,7 @@ animals(1, 0, 0) == 2
 kind: code_fn
 title: Maximum edge of a triangle
 tags: algorithms, math, numbers, week1
+see: 01_variables_math#the-basic-math-operators
 difficulty: medium
 entry: next_edge
 

@@ -9,6 +9,7 @@ built-ins `abs()`, `round()`, `min()` and `max()`.
 kind: code_fn
 title: How far off is the thermostat
 tags: functions, math, numbers
+see: 01_variables_math#handy-math-functions-abs-round-min-max
 difficulty: starter
 entry: gap
 
@@ -76,6 +77,7 @@ gap(0, 12) == 12
 kind: code_var
 title: Slices each
 tags: math, numbers, types
+see: 01_variables_math#division-always-gives-a-float
 difficulty: starter
 entry: each
 
@@ -107,6 +109,7 @@ each == 2.0 and type(each) is float
 kind: code_fn
 title: How spread out are three scores
 tags: functions, math, numbers
+see: 01_variables_math#handy-math-functions-abs-round-min-max
 difficulty: easy
 entry: score_range
 
@@ -171,6 +174,7 @@ score_range(10, 2, 60) == 58
 kind: mcq
 title: What does this print?
 tags: predict, concept, math
+see: 01_variables_math#order-of-operations
 difficulty: starter
 answer: 1
 
@@ -191,6 +195,7 @@ What does this print?
 kind: code_fn
 title: Score as a percent
 tags: functions, math, numbers
+see: 01_variables_math#int-truncates-round-rounds
 difficulty: easy
 entry: quiz_percent
 
@@ -257,6 +262,7 @@ quiz_percent(4, 4) == 100
 kind: code_fn
 title: The average is way too big
 tags: bugs, math, functions
+see: 01_variables_math#order-of-operations
 difficulty: easy
 entry: average
 
@@ -320,6 +326,7 @@ average(-3, 0, 3) == 0.0
 kind: code_fn
 title: Quarters, dimes and leftover
 tags: functions, math, numbers
+see: 01_variables_math#floor-division-and-remainder-and
 difficulty: medium
 entry: split_change
 
@@ -397,6 +404,7 @@ split_change(49) == [1, 2, 4]
 kind: code_fn
 title: Keep the volume in range
 tags: functions, math, numbers
+see: 01_variables_math#handy-math-functions-abs-round-min-max
 difficulty: easy
 entry: clamp_volume
 

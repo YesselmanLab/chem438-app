@@ -467,3 +467,91 @@ print(shipping_cost(1))
 print(shipping_cost(5))
 print(shipping_cost(6))
 ```
+
+## Quick reference — what's available
+
+### The shape
+
+- `if condition:` — run the indented body only when `condition` is `True`
+- `elif condition:` — checked only if every branch above it was `False`; use as many as you need
+- `else:` — takes no condition of its own; runs when nothing above it matched
+- `if` on its own is fine — `elif` and `else` are optional extras
+- A chain stops at the **first** `True` branch; separate `if` statements are independent and can all run
+- Order the branches narrowest-first, broadest-last, or an early one steals a later one's cases
+
+### The colon and indentation rule
+
+- Every `if` / `elif` / `else` line **must end in a colon** — no colon, `SyntaxError: expected ':'`
+- The body is the **indented** lines under that colon — 4 spaces, the same amount on every line
+- Un-indented lines below are outside the block and always run
+- `elif` / `else` line up at the same indentation as their `if`
+- No indented body at all — `IndentationError: expected an indented block after 'if' statement`
+- Tabs mixed with spaces — `TabError: inconsistent use of tabs and spaces in indentation`; use spaces only
+- `if x = 5:` — `SyntaxError`; `=` assigns, `==` compares
+- `else if` — `SyntaxError`; Python's word is `elif`
+
+### Early return
+
+- `return value` inside a function exits it **immediately** — nothing below it in that function runs
+- Handle the special cases with `if` + `return` at the top, then `return` the normal case last
+- No `else` needed: if the `if` returned, the lines below were never reached
+- Reach for it (or `and`/`or`) instead of stacking three levels of nested `if`
+
+### Combining conditions
+
+- `A and B` — `True` only when both are `True`
+- `A or B` — `True` when at least one is `True`
+- `not A` — flips `True` to `False` and back
+- `==` `!=` `<` `<=` `>` `>=` — the comparisons that produce the `True`/`False` in the first place
+- `if a and b:` often replaces an `if` nested inside an `if`
+
+### The one-liner
+
+- `a if condition else b` — a **value**, not a statement: it evaluates to `a` when the condition is `True`, otherwise `b`
+- Assign it (`x = a if cond else b`) or drop it straight into a `print`
+- Both branches must be single short expressions — anything longer belongs in a full `if`/`else`
+
+### All together
+
+```python
+def entry_fee(age, member):
+    if age < 0:
+        return "invalid age"
+    if member:
+        return 0
+    if age < 5 or age >= 65:
+        return 4
+    if age < 18:
+        return 8
+    return 12
+
+print(entry_fee(-2, False))
+print(entry_fee(40, True))
+print(entry_fee(70, False))
+print(entry_fee(15, False))
+print(entry_fee(40, False))
+# invalid age
+# 0
+# 4
+# 8
+# 12
+```
+
+```python
+visitor_age = 15
+is_member = False
+
+if is_member and visitor_age >= 18:
+    kind = "adult member"
+elif is_member:
+    kind = "young member"
+elif visitor_age >= 18:
+    kind = "adult guest"
+else:
+    kind = "young guest"
+
+print(kind)
+print("pays" if entry_fee(visitor_age, is_member) > 0 else "free")
+# young guest
+# pays
+```

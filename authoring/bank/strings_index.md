@@ -8,6 +8,7 @@ Reaching into strings by position: single characters, slices, reversing, splitti
 kind: code_fn
 title: Ticket check characters
 tags: strings, indexing, language_fundamentals
+see: 02_strings#slicing-grabbing-a-chunk
 difficulty: easy
 entry: last_two
 
@@ -80,6 +81,7 @@ last_two("42") == "42"
 kind: mcq
 title: Where does a slice stop?
 tags: strings, indexing, predict
+see: 02_strings#slicing-grabbing-a-chunk
 difficulty: easy
 answer: 1
 
@@ -106,6 +108,7 @@ Notes
 kind: written
 title: Why "cat" is in "concatenate"
 tags: strings, concept, written
+see: 02_strings#checking-membership-with-in
 difficulty: easy
 
 ### prompt
@@ -129,6 +132,7 @@ Notes
 kind: code_fn
 title: Reversible license plate
 tags: strings, indexing, logic
+see: 02_strings#slicing-grabbing-a-chunk
 difficulty: medium
 entry: is_reversible
 
@@ -211,6 +215,7 @@ is_reversible("AB") is False
 kind: code_fn
 title: How many words in the message
 tags: strings, arrays, language_fundamentals
+see: 02_strings#splitting-and-joining
 difficulty: easy
 entry: word_count
 
@@ -286,6 +291,7 @@ word_count("") == 0
 kind: code_fn
 title: The broken decaf detector
 tags: strings, bugs, conditions
+see: 04_booleans#truthiness-what-counts-as-true-or-false
 difficulty: medium
 entry: has_decaf
 
@@ -357,6 +363,7 @@ has_decaf("two decafs please") is True
 kind: code_fn
 title: Build the route string
 tags: strings, arrays, formatting
+see: 02_strings#splitting-and-joining
 difficulty: easy
 entry: route_label
 
@@ -403,6 +410,7 @@ route_label([]) == ""
 kind: code_fn
 title: Acronym for the club name
 tags: strings, loops, indexing
+see: 07_loops#building-a-list-in-a-loop
 difficulty: hard
 entry: acronym
 
@@ -480,6 +488,7 @@ acronym("in a of") == ""
 kind: code_fn
 title: The middle of the password
 tags: strings, indexing, math
+see: 02_strings#slicing-grabbing-a-chunk
 difficulty: hard
 entry: middle
 

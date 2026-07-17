@@ -89,6 +89,7 @@ hello() == "hello chem 438"
 kind: code_fn
 title: Return the sum of two numbers
 tags: math, numbers, algebra, functions, week1
+see: 03_functions#anatomy-of-a-function
 difficulty: easy
 entry: addition
 
@@ -130,6 +131,7 @@ addition(100, -1) == 99
 kind: code_fn
 title: Return the next number from the integer passed
 tags: math, numbers, algebra, functions, week1
+see: 03_functions#anatomy-of-a-function
 difficulty: easy
 entry: next_num
 
@@ -172,6 +174,7 @@ next_num(-1) == 0
 kind: code_var
 title: Sum two variables
 tags: math, language_fundamentals, week1
+see: 01_variables_math#putting-a-value-in-a-box-variables-and
 entry: total
 
 ### prompt
@@ -200,6 +203,7 @@ total == 12
 kind: code_var
 title: Remainder with %
 tags: math, week1
+see: 01_variables_math#floor-division-and-remainder-and
 entry: rem
 
 ### prompt
@@ -224,6 +228,7 @@ rem == 2
 kind: code_fn
 title: Fix the double function
 tags: functions, bugs, week1
+see: 01_variables_math#the-basic-math-operators
 entry: double
 
 ### prompt
@@ -254,6 +259,7 @@ double(25) == 50
 kind: code_fn
 title: Rectangle area
 tags: functions, math, week1
+see: 03_functions#multiple-parameters-and-argument-order
 entry: area
 
 ### prompt
@@ -284,6 +290,7 @@ area(1, 9) == 9
 kind: code_fn
 title: is_even
 tags: functions, logic, week1
+see: 04_booleans#a-comparison-is-already-a-value
 entry: is_even
 
 ### prompt
@@ -315,6 +322,7 @@ is_even(1) is False
 kind: mcq
 title: What's wrong — text + number
 tags: concept, bugs, types, week1
+see: 09_errors#a-string-plus-a-number
 answer: 2
 
 ### prompt
@@ -334,6 +342,7 @@ What is wrong with this code?
 kind: mcq
 title: Predict — 7 // 2
 tags: concept, predict, math, week1
+see: 01_variables_math#floor-division-and-remainder-and
 answer: 2
 
 ### prompt
@@ -353,6 +362,7 @@ What does this print?
 kind: written
 title: Explain — hello + 2 vs hello * 2
 tags: concept, written, types, week1
+see: 09_errors#a-string-plus-a-number
 
 ### prompt
 Why does  "hello" + 2  cause an error, but  "hello" * 2  works fine? (One or two sentences.)

@@ -9,6 +9,7 @@ Problems whose answer is a boolean. The recurring lesson: a comparison like
 kind: code_fn
 title: Check if an integer is divisible by five
 tags: math, numbers, validation, week1
+see: 01_variables_math#floor-division-and-remainder-and
 difficulty: easy
 entry: divisible_by_five
 
@@ -70,6 +71,7 @@ divisible_by_five(100) is True
 kind: code_fn
 title: Is the number less than or equal to zero?
 tags: conditions, language_fundamentals, validation, week1
+see: 04_booleans#a-comparison-is-already-a-value
 difficulty: easy
 entry: less_than_or_equal_to_zero
 
@@ -112,6 +114,7 @@ less_than_or_equal_to_zero(-100) is True
 kind: code_fn
 title: Are the numbers equal?
 tags: conditions, language_fundamentals, numbers, validation, week1
+see: 04_booleans#comparing-different-types
 difficulty: easy
 entry: is_same_num
 
@@ -169,6 +172,7 @@ is_same_num(-5, 5) is False
 kind: code_fn
 title: Less than 100?
 tags: language_fundamentals, math, validation, week1
+see: 04_booleans#comparison-operators
 difficulty: easy
 entry: less_than_100
 
@@ -211,6 +215,7 @@ less_than_100(0, 0) is True
 kind: code_fn
 title: Two makes ten
 tags: algorithms, conditions, validation, week1
+see: 04_booleans#combining-conditions-and-or-not
 difficulty: medium
 entry: makes10
 
@@ -267,6 +272,7 @@ makes10(5, 5) is True
 kind: code_fn
 title: Profitable gamble
 tags: conditions, math, validation, week1
+see: 04_booleans#comparison-operators
 difficulty: medium
 entry: profitable_gamble
 

@@ -393,3 +393,75 @@ print(minutes, "minutes and", seconds, "seconds")
 ```
 
 `//` gives the whole minutes, `%` gives the seconds left over once those minutes are removed — the same pattern as splitting pizza slices, just with 60 instead of a group of people. This pairing, `//` for "how many whole groups" and `%` for "what's left over," shows up constantly once you start writing real programs.
+
+## Quick reference — what's available
+
+### Arithmetic operators
+
+- `a + b` — add
+- `a - b` — subtract
+- `a * b` — multiply
+- `a / b` — divide; **always** gives a float, even when it comes out even
+- `a // b` — floor division: divide and keep only the whole part
+- `a % b` — remainder left over after floor division
+- `a ** b` — a to the power of b (`**`, never `^`)
+- order: `**` first, then `* / // %`, then `+ -`, left to right; parentheses override everything
+
+### int vs float
+
+- `3` is an int — a whole number, no decimal point
+- `3.0` is a float — has a decimal point, even when the part after it is zero
+- int `+ - * // % **` int gives an int; `/` gives a float
+- mix an int and a float in any operation and the result is a float
+- `3 == 3.0` is `True` — same value, different type
+
+### Number built-ins
+
+- `abs(x)` — distance from zero; strips the sign
+- `round(x)` — round to a whole number (exact `.5` goes to the nearest *even*)
+- `round(x, n)` — round to `n` decimal places
+- `min(a, b, ...)` — smallest of the values you give it
+- `max(a, b, ...)` — largest of the values you give it
+- `int(x)` — convert to an int by truncating *toward zero* (does not round)
+- `float(x)` — convert to a float
+- `str(x)` — convert to text, so `+` can glue it onto other text
+- `type(x)` — tells you which kind of value you have
+- `print(x)` — show a value on screen; without it, nothing is displayed
+
+### Augmented assignment
+
+- `x += 5` — same as `x = x + 5`
+- `x -= 5`, `x *= 5`, `x /= 5`, `x //= 5`, `x %= 5`, `x **= 5` — same idea for the other operators
+- `x /= 5` makes `x` a float, because `/` always does
+
+Several of them together:
+
+```python
+n = -7.6
+print(abs(n))
+print(round(n))
+print(round(n, 1))
+print(int(n))
+print(float(3))
+print(type(3))
+print(type(3.0))
+print(min(4, 9, 1), max(4, 9, 1))
+# 7.6
+# -8
+# -7.6
+# -7
+# 3.0
+# <class 'int'>
+# <class 'float'>
+# 1 9
+```
+
+And the shortcuts, one after another:
+
+```python
+total = 0
+total += 10
+total //= 3
+print(total)      # 3   <- 10 // 3 keeps only the whole part
+print(3 == 3.0)   # True <- same value, even though one is int and one is float
+```

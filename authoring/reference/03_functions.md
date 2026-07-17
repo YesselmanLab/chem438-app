@@ -578,3 +578,74 @@ answer. When `passing_only` is `True` and the grade is an `F`, it returns `None`
 purpose, to signal "nothing to report" — rather than building a string. Every idea from this
 page shows up here: parameters, a default argument, calling one function from another, an
 early return, and a plain `return` handing the final answer back to whoever called `report`.
+
+## Quick reference — what's available
+
+### Writing a function
+
+- `def name(...):` — starts the definition. The body is the indented block under it.
+- `def name():` — no parameters at all; still needs the parentheses, both here and when calling.
+- `name()` — calls the function and runs its body. The `def` line alone never runs anything.
+- `return value` — hands `value` back to the caller and ends the function immediately.
+- `return` with nothing after it — ends the function early, hands back `None`.
+- no `return` at all — the function still hands back `None` when it finishes.
+- `result = name(...)` — catches whatever the function returned.
+- `"""..."""` on the first line of the body — a docstring, a one-line description of what the
+  function returns.
+- `name.__doc__` — reads that docstring back out.
+
+### Arguments and defaults
+
+- `def f(a, b):` — two required parameters, filled **by position**: first argument to `a`.
+- `f(1, 2)` — positional arguments; order decides which is which.
+- `f(b=2, a=1)` — keyword arguments; you name the parameter, so order stops mattering.
+- `def f(a, b=10):` — `b` has a default. Call `f(1)` and `b` is `10`; call `f(1, 3)` and it's `3`.
+- defaults must come **after** all required parameters, or you get a `SyntaxError`.
+- forgetting an argument gives `TypeError: f() missing 1 required positional argument: 'b'`.
+
+### Building with functions
+
+- a function body can call any other function you've defined — that's how small pieces become
+  big programs.
+- variables made inside a function are **local**: they vanish when it returns, and never clash
+  with names in other functions.
+
+### Built-in functions you already have
+
+These come with Python. You never define them — just call them.
+
+- `print(x)` — displays `x` on the screen. Returns `None`.
+- `len(x)` — how many items are in a list or characters in a string.
+- `int(x)` — converts to a whole number (`int("7")` is `7`, `int(3.9)` is `3` — it chops, it
+  does not round).
+- `str(x)` — converts to a string, so you can glue it onto other text with `+`.
+- `abs(x)` — the size of a number, ignoring its sign (`abs(-4)` is `4`).
+- `round(x)` or `round(x, digits)` — rounds a number, optionally to that many decimal places.
+- `min(items)` / `max(items)` — the smallest / largest item.
+- `sum(items)` — adds up all the numbers in a list.
+- `type(x)` — what kind of thing `x` is, useful when an error mentions a type you didn't expect.
+
+Most of the useful ones together:
+
+```python
+def average(numbers, digits=1):
+    """Return the mean of a list of numbers, rounded to digits places."""
+    if len(numbers) == 0:
+        return None
+    return round(sum(numbers) / len(numbers), digits)
+
+def distance_from(numbers, target=90):
+    return abs(average(numbers) - target)
+
+def describe(label, numbers):
+    return label + ": avg " + str(average(numbers)) + ", spread " + str(max(numbers) - min(numbers))
+
+scores = [88, 92, 79, 95]
+print(average(scores))                    # 88.5
+print(average([]))                        # None
+print(distance_from(scores))              # 1.5
+print(distance_from(scores, target=80))   # 8.5
+print(describe("Quiz", scores))           # Quiz: avg 88.5, spread 16
+print(type(average(scores)))              # <class 'float'>
+print(average.__doc__)                    # Return the mean of a list of numbers, rounded to digits places.
+```

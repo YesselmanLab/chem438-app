@@ -9,6 +9,7 @@ accumulators, and trackers that remember the best thing seen so far.
 kind: code_fn
 title: Add up the scores
 tags: loops, arrays, numbers
+see: 07_loops#the-accumulator-pattern
 difficulty: easy
 entry: sum_scores
 
@@ -80,6 +81,7 @@ sum_scores([0, 0]) == 0
 kind: code_fn
 title: Count the high scores
 tags: loops, arrays, conditions
+see: 07_loops#counting-with-a-condition
 difficulty: medium
 entry: count_above
 
@@ -128,6 +130,7 @@ count_above([-1, 0, 1], 0) == 1
 kind: code_fn
 title: Fix the dice multiplier
 tags: bugs, loops, numbers
+see: 07_loops#the-starting-value-must-match-the-type
 difficulty: medium
 entry: dice_score
 
@@ -198,6 +201,7 @@ dice_score([1, 5, 2]) == 10
 kind: mcq
 title: The loop that only ran once
 tags: loops, predict, functions
+see: 07_loops#the-accumulator-inside-a-function
 difficulty: medium
 answer: 2
 
@@ -224,6 +228,7 @@ What does this code print?
 kind: written
 title: Why not start the max at zero?
 tags: written, loops, concept
+see: 07_loops#finding-the-max-by-hand
 difficulty: medium
 
 ### prompt
@@ -250,6 +255,7 @@ from the list.
 kind: code_fn
 title: Running token balance
 tags: loops, arrays, algorithms
+see: 07_loops#building-a-list-in-a-loop
 difficulty: medium
 entry: running_balance
 
@@ -326,6 +332,7 @@ running_balance([]) == []
 kind: code_fn
 title: Every longest song title
 tags: loops, strings, algorithms
+see: 07_loops#finding-the-max-by-hand
 difficulty: hard
 entry: longest_song_titles
 
@@ -414,6 +421,7 @@ longest_song_titles(["Help", "Help!"]) == ["Help!"]
 kind: code_fn
 title: How many hours until everyone knows?
 tags: loops, numbers, algorithms
+see: 07_loops#while
 difficulty: hard
 entry: rumor_hours
 
@@ -511,6 +519,7 @@ rumor_hours(8) == 3
 kind: code_fn
 title: Trim the repeat plays
 tags: loops, arrays, conditions
+see: 07_loops#building-a-list-in-a-loop
 difficulty: hard
 entry: dedupe_playlist
 

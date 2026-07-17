@@ -6,6 +6,7 @@
 kind: code_fn
 title: Name greeting
 tags: formatting, language_fundamentals, strings, week2
+see: 02_strings#joining-strings-with
 difficulty: easy
 entry: hello_name
 
@@ -58,6 +59,7 @@ hello_name("Ana") == "Hello Ana!"
 kind: code_fn
 title: Return something to me!
 tags: language_fundamentals, strings, week2
+see: 02_strings#joining-strings-with
 difficulty: easy
 entry: give_me_something
 
@@ -99,6 +101,7 @@ give_me_something("else") == "something else"
 kind: code_fn
 title: Basic variable assignment (fix the code)
 tags: bugs, language_fundamentals, strings, week2
+see: 09_errors#forgetting-the-quotes-around-text
 difficulty: easy
 entry: name_string
 
@@ -157,6 +160,7 @@ name_string("") == "Chem438"
 kind: code_fn
 title: Return an integer as a string
 tags: language_fundamentals, strings, week2
+see: 02_strings#converting-between-strings-and-numbers
 difficulty: easy
 entry: to_str
 
@@ -200,6 +204,7 @@ to_str(12) == "12"
 kind: code_fn
 title: Boolean to string conversion
 tags: conditions, logic, strings, week2
+see: 02_strings#converting-between-strings-and-numbers
 difficulty: easy
 entry: bool_to_string
 
@@ -237,6 +242,7 @@ bool_to_string(False) == "False"
 kind: code_fn
 title: shout(word)
 tags: strings, functions, week2
+see: 02_strings#changing-case
 entry: shout
 
 ### prompt
@@ -267,6 +273,7 @@ shout("bond") == "BOND!"
 kind: code_fn
 title: first_letter(word)
 tags: strings, functions, indexing, week2
+see: 02_strings#indexing-grabbing-one-character
 entry: first_letter
 
 ### prompt
@@ -296,6 +303,7 @@ first_letter("salt") == "s"
 kind: code_var
 title: Uppercase a string
 tags: strings, week2
+see: 02_strings#changing-case
 entry: caps
 
 ### prompt
@@ -320,6 +328,7 @@ caps == "PYTHON"
 kind: code_var
 title: Length of a string
 tags: strings, week2
+see: 02_strings#length-len
 entry: n
 
 ### prompt
@@ -344,6 +353,7 @@ n == 9
 kind: mcq
 title: Predict — len('cat')
 tags: concept, predict, strings, week2
+see: 02_strings#length-len
 answer: 2
 
 ### prompt
@@ -363,6 +373,7 @@ What does this print?
 kind: mcq
 title: Predict — 'ab' + 'cd'
 tags: concept, predict, strings, week2
+see: 02_strings#joining-strings-with
 answer: 1
 
 ### prompt
@@ -382,6 +393,7 @@ What does this print?
 kind: written
 title: Explain — + vs * on strings
 tags: concept, written, strings, week2
+see: 02_strings#joining-strings-with
 
 ### prompt
 With strings, what does  +  do, and what does  *  do? Give a short example of each.
