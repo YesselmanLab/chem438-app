@@ -8,7 +8,6 @@ Extra drills on `for`, `range`, `enumerate`, accumulators, `break`/`continue`, `
 kind: mcq
 title: Predict — range(3)
 tags: predict, loops
-see: 07_loops#range-n
 difficulty: easy
 answer: 1
 
@@ -34,7 +33,6 @@ for i in range(3):
 kind: mcq
 title: Predict — range(1, 4)
 tags: predict, loops
-see: 07_loops#range-a-b
 difficulty: easy
 answer: 1
 
@@ -60,7 +58,6 @@ for i in range(1, 4):
 kind: mcq
 title: Predict — range with a step
 tags: predict, loops
-see: 07_loops#range-a-b-step
 difficulty: easy
 answer: 1
 
@@ -86,7 +83,6 @@ for i in range(0, 10, 2):
 kind: mcq
 title: Predict — looping a string
 tags: predict, loops
-see: 07_loops#looping-over-a-string
 difficulty: easy
 answer: 1
 
@@ -112,7 +108,6 @@ for c in "hi":
 kind: mcq
 title: Predict — range(len(word))
 tags: predict, loops
-see: 07_loops#range-n
 difficulty: easy
 answer: 1
 
@@ -140,7 +135,6 @@ for i in range(len(word)):
 kind: mcq
 title: Predict — summing with +=
 tags: predict, loops
-see: 07_loops#the-accumulator-pattern
 difficulty: easy
 answer: 1
 
@@ -170,7 +164,6 @@ print(total)
 kind: mcq
 title: Predict — sum over a range
 tags: predict, loops
-see: 07_loops#the-accumulator-pattern
 difficulty: easy
 answer: 1
 
@@ -200,7 +193,6 @@ print(total)
 kind: mcq
 title: Predict — counting with a condition
 tags: predict, loops
-see: 07_loops#counting-with-a-condition
 difficulty: easy
 answer: 1
 
@@ -234,7 +226,6 @@ print(count)
 kind: mcq
 title: Predict — print with end=""
 tags: predict, loops
-see: 07_loops#range-n
 difficulty: easy
 answer: 1
 
@@ -260,7 +251,6 @@ for i in range(4):
 kind: mcq
 title: Predict — building a list
 tags: predict, loops
-see: 07_loops#building-a-list-in-a-loop
 difficulty: easy
 answer: 1
 
@@ -290,7 +280,6 @@ print(result)
 kind: mcq
 title: Predict — building a string backwards
 tags: predict, loops
-see: 07_loops#looping-over-a-string
 difficulty: medium
 answer: 1
 
@@ -320,7 +309,6 @@ print(result)
 kind: mcq
 title: Predict — counting down
 tags: predict, loops
-see: 07_loops#range-a-b-step
 difficulty: easy
 answer: 1
 
@@ -346,7 +334,6 @@ for n in range(5, 0, -1):
 kind: mcq
 title: Predict — enumerate
 tags: predict, loops
-see: 07_loops#enumerate
 difficulty: easy
 answer: 1
 
@@ -372,7 +359,6 @@ for i, c in enumerate("ab"):
 kind: mcq
 title: Predict — break stops the loop
 tags: predict, loops
-see: 07_loops#break
 difficulty: easy
 answer: 1
 
@@ -402,7 +388,6 @@ for n in [1, 2, 3, 4, 5]:
 kind: mcq
 title: Predict — continue skips one
 tags: predict, loops
-see: 07_loops#continue
 difficulty: easy
 answer: 1
 
@@ -432,7 +417,6 @@ for n in [1, 2, 3, 4]:
 kind: mcq
 title: Predict — a while countdown
 tags: predict, loops
-see: 07_loops#while
 difficulty: easy
 answer: 1
 
@@ -462,7 +446,6 @@ while n > 0:
 kind: mcq
 title: Predict — a nested loop
 tags: predict, loops
-see: 07_loops#nested-loops
 difficulty: medium
 answer: 1
 
@@ -490,7 +473,6 @@ for i in range(2):
 kind: mcq
 title: Predict — a triangle of stars
 tags: predict, loops
-see: 07_loops#nested-loops
 difficulty: medium
 answer: 1
 
@@ -520,7 +502,6 @@ for i in range(3):
 kind: code_fn
 title: The step counter keeps resetting
 tags: loops, bugs, functions
-see: 07_loops#where-the-starting-value-goes
 difficulty: medium
 entry: total_steps
 
@@ -582,7 +563,6 @@ total_steps([10, 10]) == 20
 kind: code_fn
 title: The total stops after one item
 tags: loops, bugs, functions
-see: 07_loops#the-accumulator-pattern
 difficulty: medium
 entry: total_price
 
@@ -644,7 +624,6 @@ total_price([10, 20]) == 30
 kind: code_fn
 title: The last parking spot is missing
 tags: loops, bugs, arrays
-see: 07_loops#range-stops-before-the-end
 difficulty: easy
 entry: spot_numbers
 
@@ -701,7 +680,6 @@ spot_numbers(5) == [1, 2, 3, 4, 5]
 kind: code_fn
 title: The pass count is one too high
 tags: loops, bugs, functions
-see: 07_loops#counting-with-a-condition
 difficulty: medium
 entry: count_passes
 
@@ -764,7 +742,6 @@ count_passes([100]) == 1
 kind: code_fn
 title: The even list keeps forgetting itself
 tags: loops, bugs, arrays
-see: 07_loops#building-a-list-in-a-loop
 difficulty: medium
 entry: collect_evens
 
@@ -829,7 +806,6 @@ collect_evens([2, 4, 6]) == [2, 4, 6]
 kind: mcq
 title: What's wrong — the loop never ends
 tags: loops, bugs
-see: 07_loops#the-infinite-loop
 difficulty: easy
 answer: 1
 
@@ -852,7 +828,6 @@ This code is supposed to count down and stop, but it runs forever. What's wrong?
 kind: mcq
 title: What's wrong — 10 never prints
 tags: loops, bugs
-see: 07_loops#range-stops-before-the-end
 difficulty: easy
 answer: 1
 
@@ -874,7 +849,6 @@ You want to print the numbers 1 through 10, but 10 is missing. What's wrong?
 kind: mcq
 title: What's wrong — it adds only one number
 tags: loops, bugs
-see: 07_loops#the-accumulator-pattern
 difficulty: medium
 answer: 1
 
@@ -899,7 +873,6 @@ answer: 1
 kind: mcq
 title: What's wrong — only the last number survives
 tags: loops, bugs
-see: 07_loops#where-the-starting-value-goes
 difficulty: medium
 answer: 1
 
@@ -924,7 +897,6 @@ This is meant to add 1, 2 and 3 to get 6, but it prints 3. What's happening?
 kind: mcq
 title: Concept — what does range(5) give?
 tags: loops, concept
-see: 07_loops#range-n
 difficulty: easy
 answer: 1
 
@@ -943,7 +915,6 @@ How many numbers does `range(5)` produce, and what are they?
 kind: mcq
 title: Concept — where does total = 0 go?
 tags: loops, concept
-see: 07_loops#the-accumulator-pattern
 difficulty: easy
 answer: 1
 
@@ -962,7 +933,6 @@ You're summing a list with an accumulator. Where must `total = 0` be written?
 kind: mcq
 title: Concept — what enumerate gives you
 tags: loops, concept
-see: 07_loops#enumerate
 difficulty: easy
 answer: 1
 
@@ -981,7 +951,6 @@ In `for i, x in enumerate(["a", "b", "c"])`, what are `i` and `x` on the first p
 kind: mcq
 title: Concept — break vs continue
 tags: loops, concept
-see: 07_loops#continue
 difficulty: easy
 answer: 1
 
@@ -1000,7 +969,6 @@ What is the difference between `break` and `continue` inside a loop?
 kind: mcq
 title: Concept — what the loop variable holds
 tags: loops, concept
-see: 07_loops#for-over-a-list
 difficulty: easy
 answer: 1
 
@@ -1019,7 +987,6 @@ In `for song in playlist:`, what does `song` hold on each pass?
 kind: mcq
 title: Concept — when a while loop keeps going
 tags: loops, concept
-see: 07_loops#while
 difficulty: easy
 answer: 1
 
@@ -1038,7 +1005,6 @@ A `while` loop keeps repeating for as long as its condition is...?
 kind: code_fn
 title: Count the negative numbers
 tags: loops, functions
-see: 07_loops#counting-with-a-condition
 difficulty: easy
 entry: count_negatives
 
@@ -1097,7 +1063,6 @@ count_negatives([0, -1, 0]) == 1
 kind: code_fn
 title: Sum only the even numbers
 tags: loops, functions
-see: 07_loops#counting-with-a-condition
 difficulty: easy
 entry: sum_evens
 
@@ -1156,7 +1121,6 @@ sum_evens([0, 2]) == 2
 kind: code_fn
 title: List the length of each word
 tags: loops, functions, arrays
-see: 07_loops#building-a-list-in-a-loop
 difficulty: easy
 entry: word_lengths
 
@@ -1212,7 +1176,6 @@ word_lengths(["cat", "dogs", "x"]) == [3, 4, 1]
 kind: code_fn
 title: Repeat a string n times
 tags: loops, functions, strings
-see: 07_loops#range-n
 difficulty: easy
 entry: repeat_string
 
@@ -1268,7 +1231,6 @@ repeat_string("z", 4) == "zzzz"
 kind: code_fn
 title: Count how many times a value appears
 tags: loops, functions
-see: 07_loops#counting-with-a-condition
 difficulty: medium
 entry: count_target
 
@@ -1327,7 +1289,6 @@ count_target([1, 2, 3], 2) == 1
 kind: code_fn
 title: Sum 1 to n with a while loop
 tags: loops, functions
-see: 07_loops#while
 difficulty: medium
 entry: sum_1_to_n
 

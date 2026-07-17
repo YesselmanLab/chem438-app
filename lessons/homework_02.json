@@ -1,0 +1,31 @@
+{
+  "id": "homework_02",
+  "title": "Homework 2 \u2014 more Python basics",
+  "intro": "Another 22 challenges across variables, strings, functions and logic \u2014 more predict-the-output, spot-the-bug and write-it-yourself. Solve in any order; each checks itself.",
+  "unit": 5,
+  "mode": "challenges",
+  "challenges": [
+    "playlist_title",
+    "pizza_slices_each",
+    "coffee_order_ticket",
+    "g2_make_greeting",
+    "free_shipping",
+    "wa_pass_or_fail",
+    "loading_bar",
+    "calculate_exponent",
+    "fix_both_on",
+    "g2_default_two_ways",
+    "g2_concept_local_variable",
+    "p_len_with_space",
+    "g2_concept_def_runs",
+    "g2_print_f3f4",
+    "concept_first_index",
+    "fix_matches_secret",
+    "mcq_slice_end",
+    "g2_multiple_returns",
+    "cf_elif_only_first",
+    "mcq_floor_div",
+    "p_true_div_seven_two",
+    "wf_missing_colon"
+  ]
+}

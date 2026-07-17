@@ -80,6 +80,7 @@
   .choice{display:flex;gap:11px;align-items:flex-start;text-align:left;width:100%;background:var(--card);border:1.5px solid var(--line2);border-radius:11px;padding:12px 14px;cursor:pointer;font-size:0.9375rem;color:var(--ink);font-family:var(--sans)}
   .choice:hover{border-color:var(--accent);background:var(--accent-soft)}
   .choice.sel{border-color:var(--accent);background:var(--accent-soft)}
+  .choice code.multiline{font-family:var(--mono);font-size:.85em;background:none;border:none;padding:0;line-height:1.5}
   .choice .mk{flex:none;width:22px;height:22px;border-radius:6px;border:1.5px solid var(--line2);display:grid;place-items:center;font-family:var(--mono);font-size:0.75rem;font-weight:700;color:var(--faint)}
   .choice.sel .mk{border-color:var(--accent);background:var(--accent);color:#fff}
   .res{display:none;margin-top:10px;font-size:0.875rem;font-weight:600}
@@ -1127,7 +1128,7 @@ async function showNotebookHomework(l){
       '<div id="nbRes"></div>';
     const box=$("#nbChoices"), L=["A","B","C","D","E"];
     nb.choices.forEach((ch,i)=>{ const b=document.createElement("button"); b.className="choice";
-      b.innerHTML='<span class="mk">'+L[i]+'</span><span>'+esc(ch)+'</span>';
+      b.innerHTML='<span class="mk">'+L[i]+'</span><span>'+choiceHtml(ch)+'</span>';
       b.onclick=()=>{ box.querySelectorAll(".choice").forEach(x=>x.classList.remove("sel")); b.classList.add("sel"); ciState.choice=i; };
       box.appendChild(b); });
   } else {
@@ -1454,7 +1455,7 @@ async function openChallenge(id){
     const L=["A","B","C","D","E"];
     c.choices.forEach((ch,i)=>{
       const b=document.createElement("button"); b.className="choice";
-      b.innerHTML='<span class="mk">'+L[i]+'</span><span>'+esc(ch)+'</span>';
+      b.innerHTML='<span class="mk">'+L[i]+'</span><span>'+choiceHtml(ch)+'</span>';
       b.onclick=()=>{ box.querySelectorAll(".choice").forEach(x=>x.classList.remove("sel")); b.classList.add("sel"); chalState.choice=i; };
       box.appendChild(b);
     });
@@ -1726,6 +1727,10 @@ async function openLesson(id){
 }
 
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function choiceHtml(ch){
+  const s = esc(ch);
+  return /\\n/.test(ch) ? '<code class="multiline">'+s.replace(/\\n/g,"<br>")+'</code>' : s;
+}
 function promptHtml(t){ return esc(t).replace(/`([^`]+)`/g,'<span class="prompt-inline">$1</span>'); }
 
 function renderQuestions(){
@@ -1754,7 +1759,7 @@ function renderQuestions(){
       const L=["A","B","C","D","E"];
       q.choices.forEach((c,ci)=>{
         const b=document.createElement("button"); b.className="choice";
-        b.innerHTML=`<span class="mk">${L[ci]}</span><span>${esc(c)}</span>`;
+        b.innerHTML=`<span class="mk">${L[ci]}</span><span>${choiceHtml(c)}</span>`;
         if(state[q.id].choice===ci) b.classList.add("sel");
         b.onclick=()=>{ box.querySelectorAll(".choice").forEach(x=>x.classList.remove("sel")); b.classList.add("sel"); state[q.id].choice=ci; save(); };
         box.appendChild(b);

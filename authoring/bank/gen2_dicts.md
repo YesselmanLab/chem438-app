@@ -9,7 +9,6 @@ between keys and values, and counting with the tally pattern.
 kind: mcq
 title: Predict — look up by key
 tags: dicts, predict
-see: 08_dicts#looking-up-a-value-with-dkey
 difficulty: easy
 answer: 1
 
@@ -35,7 +34,6 @@ print(ages["bo"])
 kind: mcq
 title: Predict — how many pairs
 tags: dicts, predict
-see: 08_dicts#len-how-many-pairs
 difficulty: easy
 answer: 1
 
@@ -61,7 +59,6 @@ print(len(inventory))
 kind: mcq
 title: Predict — .get() with a missing key
 tags: dicts, predict
-see: 08_dicts#get-a-safe-lookup-with-a-default
 difficulty: easy
 answer: 1
 
@@ -87,7 +84,6 @@ print(d.get("y", 0))
 kind: mcq
 title: Predict — .get() when the key is there
 tags: dicts, predict
-see: 08_dicts#get-a-safe-lookup-with-a-default
 difficulty: easy
 answer: 1
 
@@ -113,7 +109,6 @@ print(points.get("ana", 0))
 kind: mcq
 title: Predict — in finds a key
 tags: dicts, predict
-see: 08_dicts#in-tests-keys-not-values
 difficulty: easy
 answer: 1
 
@@ -137,7 +132,6 @@ print("apple" in {"apple": 3, "pear": 5})
 kind: mcq
 title: Predict — in does NOT find a value
 tags: dicts, predict
-see: 08_dicts#in-tests-keys-not-values
 difficulty: medium
 answer: 1
 
@@ -161,7 +155,6 @@ print(3 in {"apple": 3, "pear": 5})
 kind: mcq
 title: Predict — add a key then print the dict
 tags: dicts, predict
-see: 08_dicts#adding-and-changing-keys
 difficulty: medium
 answer: 1
 
@@ -189,7 +182,6 @@ print(d)
 kind: mcq
 title: Predict — looping over a dict
 tags: dicts, predict
-see: 08_dicts#looping-with-items
 difficulty: medium
 answer: 1
 
@@ -215,7 +207,6 @@ for k in {"x": 1, "y": 2}:
 kind: mcq
 title: Predict — the same key written twice
 tags: dicts, predict
-see: 08_dicts#keys-must-be-unique
 difficulty: medium
 answer: 1
 
@@ -241,7 +232,6 @@ print(stock["pen"])
 kind: mcq
 title: Predict — looping with .items()
 tags: dicts, predict
-see: 08_dicts#looping-with-items
 difficulty: medium
 answer: 1
 
@@ -267,7 +257,6 @@ for k, v in {"tea": 3}.items():
 kind: mcq
 title: Predict — looping over .values()
 tags: dicts, predict
-see: 08_dicts#keys-values-items
 difficulty: medium
 answer: 1
 
@@ -293,7 +282,6 @@ for v in {"a": 1, "b": 2}.values():
 kind: mcq
 title: Predict — update a value using itself
 tags: dicts, predict
-see: 08_dicts#adding-and-changing-keys
 difficulty: medium
 answer: 1
 
@@ -321,7 +309,6 @@ print(d["n"])
 kind: mcq
 title: Predict — building a tally
 tags: dicts, predict
-see: 08_dicts#counting-with-a-dict-the-tally-pattern
 difficulty: hard
 answer: 1
 
@@ -351,7 +338,6 @@ print(counts)
 kind: code_fn
 title: Fix the marble counter
 tags: dicts, bugs
-see: 08_dicts#get-a-safe-lookup-with-a-default
 difficulty: easy
 entry: color_count
 
@@ -396,7 +382,6 @@ color_count({"green": 7}, "green") == 7
 kind: code_fn
 title: Fix the price total
 tags: dicts, bugs
-see: 08_dicts#keys-values-items
 difficulty: medium
 entry: total
 
@@ -442,62 +427,10 @@ total({"pen": 5, "cup": 4}) == 9
 
 ---
 
-## fix_tally_init
-kind: code_fn
-title: Fix the word counter
-tags: dicts, bugs
-see: 08_dicts#counting-with-a-dict-the-tally-pattern
-difficulty: medium
-entry: word_count
-
-### prompt
-This function should count how many times each word appears in a list and return
-a dict mapping each word to its count. It crashes on the very first word. Fix it.
-
-Examples
-
-    word_count(["a", "b", "a"]) → {"a": 2, "b": 1}
-    word_count([]) → {}
-    word_count(["hi", "hi", "hi"]) → {"hi": 3}
-
-Notes
-
-- The first time you see a word, `counts[w]` doesn't exist yet, so reading it
-  raises a KeyError.
-- `counts.get(w, 0)` gives you 0 for a word you haven't seen before.
-
-### starter
-```python
-def word_count(words):
-    counts = {}
-    for w in words:
-        counts[w] = counts[w] + 1
-    return counts
-```
-
-### solution
-```python
-def word_count(words):
-    counts = {}
-    for w in words:
-        counts[w] = counts.get(w, 0) + 1
-    return counts
-```
-
-### check
-word_count(["a", "b", "a"]) == {"a": 2, "b": 1}
-word_count([]) == {}
-word_count(["x"]) == {"x": 1}
-word_count(["hi", "hi", "hi"]) == {"hi": 3}
-word_count(["a", "b", "c"]) == {"a": 1, "b": 1, "c": 1}
-
----
-
 ## fix_seat_map
 kind: code_fn
 title: Fix the guest list
 tags: dicts, bugs
-see: 08_dicts#keys-values-items
 difficulty: medium
 entry: guests
 
@@ -542,7 +475,6 @@ guests({7: "solo"}) == ["solo"]
 kind: mcq
 title: What's wrong — missing key
 tags: dicts, bugs
-see: 08_dicts#keyerror-asking-for-a-key-that-isnt-there
 difficulty: easy
 answer: 1
 
@@ -564,7 +496,6 @@ This code crashes with a KeyError. What is wrong?
 kind: mcq
 title: What's wrong — in checks the wrong side
 tags: dicts, bugs
-see: 08_dicts#in-tests-keys-not-values
 difficulty: medium
 answer: 1
 
@@ -588,7 +519,6 @@ but nothing prints. What is wrong?
 kind: mcq
 title: What's wrong — equals inside a dict
 tags: dicts, bugs
-see: 08_dicts#making-a-dict
 difficulty: easy
 answer: 1
 
@@ -609,7 +539,6 @@ This line causes a SyntaxError. What is wrong?
 kind: mcq
 title: What's wrong — appending to a missing key
 tags: dicts, bugs
-see: 08_dicts#keyerror-asking-for-a-key-that-isnt-there
 difficulty: medium
 answer: 1
 
@@ -631,7 +560,6 @@ This code crashes with a KeyError on the second line. What is wrong?
 kind: mcq
 title: What does `in` check on a dict?
 tags: dicts, concept
-see: 08_dicts#in-tests-keys-not-values
 difficulty: easy
 answer: 1
 
@@ -650,7 +578,6 @@ When you write `key in my_dict`, what does Python check?
 kind: mcq
 title: d[k] versus d.get(k)
 tags: dicts, concept
-see: 08_dicts#get-a-safe-lookup-with-a-default
 difficulty: medium
 answer: 1
 
@@ -669,7 +596,6 @@ When `k` is NOT a key in the dict, how do `d[k]` and `d.get(k)` differ?
 kind: mcq
 title: Can a key appear twice?
 tags: dicts, concept
-see: 08_dicts#keys-must-be-unique
 difficulty: medium
 answer: 1
 
@@ -688,7 +614,6 @@ A dict is written with the same key twice: `{"a": 1, "a": 2}`. What happens?
 kind: mcq
 title: Can you change a dict?
 tags: dicts, concept
-see: 08_dicts#adding-and-changing-keys
 difficulty: easy
 answer: 1
 
@@ -707,7 +632,6 @@ After you create a dict, what can you do to it?
 kind: mcq
 title: Which one is a dict?
 tags: dicts, concept
-see: 08_dicts#making-a-dict
 difficulty: easy
 answer: 1
 
@@ -726,7 +650,6 @@ Which of these is a dict?
 kind: mcq
 title: What does len(d) count?
 tags: dicts, concept
-see: 08_dicts#len-how-many-pairs
 difficulty: easy
 answer: 1
 
@@ -741,47 +664,10 @@ For a dict `d`, what does `len(d)` give you?
 
 ---
 
-## make_capitals
-kind: code_var
-title: Build a capitals lookup
-tags: dicts
-see: 08_dicts#making-a-dict
-difficulty: easy
-entry: capitals
-
-### prompt
-Store, in a variable named `capitals`, a dict that maps each country to its
-capital city:
-
-- "France" → "Paris"
-- "Japan" → "Tokyo"
-- "Egypt" → "Cairo"
-
-Notes
-
-- A dict pair is written `key: value`, with a colon.
-- Separate the pairs with commas, all inside curly braces.
-
-### starter
-```python
-capitals =
-```
-
-### solution
-```python
-capitals = {"France": "Paris", "Japan": "Tokyo", "Egypt": "Cairo"}
-```
-
-### check
-capitals == {"France": "Paris", "Japan": "Tokyo", "Egypt": "Cairo"}
-
----
-
 ## phone_lookup
 kind: code_fn
 title: Look up a phone number
 tags: dicts, functions
-see: 08_dicts#get-a-safe-lookup-with-a-default
 difficulty: easy
 entry: lookup
 
@@ -822,105 +708,10 @@ lookup({"zed": "999"}, "zed") == "999"
 
 ---
 
-## count_letters
-kind: code_fn
-title: Count each letter
-tags: dicts, strings
-see: 08_dicts#counting-with-a-dict-the-tally-pattern
-difficulty: medium
-entry: count_letters
-
-### prompt
-Create a function that takes a string and returns a dict mapping each letter to
-how many times it appears.
-
-Examples
-
-    count_letters("aba") → {"a": 2, "b": 1}
-    count_letters("") → {}
-    count_letters("x") → {"x": 1}
-
-Notes
-
-- Start with an empty dict and loop over the characters.
-- `counts[c] = counts.get(c, 0) + 1` adds one, even the first time you see `c`.
-
-### starter
-```python
-def count_letters(text):
-    counts = {}
-    
-```
-
-### solution
-```python
-def count_letters(text):
-    counts = {}
-    for c in text:
-        counts[c] = counts.get(c, 0) + 1
-    return counts
-```
-
-### check
-count_letters("aba") == {"a": 2, "b": 1}
-count_letters("") == {}
-count_letters("x") == {"x": 1}
-count_letters("mississippi") == {"m": 1, "i": 4, "s": 4, "p": 2}
-count_letters("aaa") == {"a": 3}
-
----
-
-## add_item
-kind: code_fn
-title: Add an item to the cart
-tags: dicts, functions
-see: 08_dicts#adding-and-changing-keys
-difficulty: easy
-entry: add_item
-
-### prompt
-Create a function that takes a `cart` dict mapping item names to quantities, plus
-an `item` and a `qty`. Set that item's quantity to `qty` (adding the key if it's
-new, replacing it if it already exists) and return the updated dict.
-
-Examples
-
-    add_item({}, "pen", 3) → {"pen": 3}
-    add_item({"pen": 3}, "cup", 2) → {"pen": 3, "cup": 2}
-    add_item({"pen": 3}, "pen", 5) → {"pen": 5}
-
-Notes
-
-- `cart[item] = qty` both adds a new key and overwrites an existing one.
-- Don't forget to return the dict.
-
-### starter
-```python
-def add_item(cart, item, qty):
-    
-```
-
-### solution
-```python
-def add_item(cart, item, qty):
-    cart[item] = qty
-    return cart
-```
-
-### check
-add_item({}, "pen", 3) == {"pen": 3}
-add_item({"pen": 3}, "cup", 2) == {"pen": 3, "cup": 2}
-add_item({"pen": 3}, "pen", 5) == {"pen": 5}
-add_item({"a": 1, "b": 2}, "c", 9) == {"a": 1, "b": 2, "c": 9}
-add_item({}, "x", 0) == {"x": 0}
-
----
-
 ## names_sorted
 kind: code_fn
 title: List the names in order
 tags: dicts, functions
-see: 08_dicts#keys-values-items
 difficulty: easy
 entry: names_sorted
 
@@ -964,7 +755,6 @@ names_sorted({"m": 9, "a": 1}) == ["a", "m"]
 kind: code_fn
 title: Is that seat taken?
 tags: dicts, functions
-see: 08_dicts#in-tests-keys-not-values
 difficulty: easy
 entry: is_taken
 

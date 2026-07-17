@@ -659,17 +659,6 @@
       "prompt": "The `prices` dict maps each item to its price. This function should add up all\nthe prices and return the total. It crashes instead. Fix it.\n\nExamples\n\n    total({\"a\": 2, \"b\": 3}) \u2192 5\n    total({\"a\": 10}) \u2192 10\n    total({}) \u2192 0\n\nNotes\n\n- Looping over a dict directly gives you its KEYS, which here are strings.\n- To loop over the numbers, you need `.values()`."
     },
     {
-      "id": "fix_tally_init",
-      "title": "Fix the word counter",
-      "kind": "code_fn",
-      "tags": [
-        "dicts",
-        "bugs"
-      ],
-      "difficulty": "medium",
-      "prompt": "This function should count how many times each word appears in a list and return\na dict mapping each word to its count. It crashes on the very first word. Fix it.\n\nExamples\n\n    word_count([\"a\", \"b\", \"a\"]) \u2192 {\"a\": 2, \"b\": 1}\n    word_count([]) \u2192 {}\n    word_count([\"hi\", \"hi\", \"hi\"]) \u2192 {\"hi\": 3}\n\nNotes\n\n- The first time you see a word, `counts[w]` doesn't exist yet, so reading it\n  raises a KeyError.\n- `counts.get(w, 0)` gives you 0 for a word you haven't seen before."
-    },
-    {
       "id": "fix_seat_map",
       "title": "Fix the guest list",
       "kind": "code_fn",
@@ -791,16 +780,6 @@
       "prompt": "For a dict `d`, what does `len(d)` give you?"
     },
     {
-      "id": "make_capitals",
-      "title": "Build a capitals lookup",
-      "kind": "code_var",
-      "tags": [
-        "dicts"
-      ],
-      "difficulty": "easy",
-      "prompt": "Store, in a variable named `capitals`, a dict that maps each country to its\ncapital city:\n\n- \"France\" \u2192 \"Paris\"\n- \"Japan\" \u2192 \"Tokyo\"\n- \"Egypt\" \u2192 \"Cairo\"\n\nNotes\n\n- A dict pair is written `key: value`, with a colon.\n- Separate the pairs with commas, all inside curly braces."
-    },
-    {
       "id": "phone_lookup",
       "title": "Look up a phone number",
       "kind": "code_fn",
@@ -810,28 +789,6 @@
       ],
       "difficulty": "easy",
       "prompt": "Create a function that takes a `book` dict mapping names to phone numbers, plus a\n`name`. Return that person's number, or the string \"unknown\" if the name isn't in\nthe book.\n\nExamples\n\n    lookup({\"ana\": \"123\", \"bo\": \"456\"}, \"ana\") \u2192 \"123\"\n    lookup({\"ana\": \"123\"}, \"cy\") \u2192 \"unknown\"\n    lookup({}, \"ana\") \u2192 \"unknown\"\n\nNotes\n\n- `book[name]` crashes on a missing name. Use the safe lookup instead.\n- The fallback value is the string \"unknown\"."
-    },
-    {
-      "id": "count_letters",
-      "title": "Count each letter",
-      "kind": "code_fn",
-      "tags": [
-        "dicts",
-        "strings"
-      ],
-      "difficulty": "medium",
-      "prompt": "Create a function that takes a string and returns a dict mapping each letter to\nhow many times it appears.\n\nExamples\n\n    count_letters(\"aba\") \u2192 {\"a\": 2, \"b\": 1}\n    count_letters(\"\") \u2192 {}\n    count_letters(\"x\") \u2192 {\"x\": 1}\n\nNotes\n\n- Start with an empty dict and loop over the characters.\n- `counts[c] = counts.get(c, 0) + 1` adds one, even the first time you see `c`."
-    },
-    {
-      "id": "add_item",
-      "title": "Add an item to the cart",
-      "kind": "code_fn",
-      "tags": [
-        "dicts",
-        "functions"
-      ],
-      "difficulty": "easy",
-      "prompt": "Create a function that takes a `cart` dict mapping item names to quantities, plus\nan `item` and a `qty`. Set that item's quantity to `qty` (adding the key if it's\nnew, replacing it if it already exists) and return the updated dict.\n\nExamples\n\n    add_item({}, \"pen\", 3) \u2192 {\"pen\": 3}\n    add_item({\"pen\": 3}, \"cup\", 2) \u2192 {\"pen\": 3, \"cup\": 2}\n    add_item({\"pen\": 3}, \"pen\", 5) \u2192 {\"pen\": 5}\n\nNotes\n\n- `cart[item] = qty` both adds a new key and overwrites an existing one.\n- Don't forget to return the dict."
     },
     {
       "id": "names_sorted",

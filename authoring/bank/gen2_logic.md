@@ -9,7 +9,6 @@ with if/elif/else. Heavy on predicting output and spotting the bug.
 kind: mcq
 title: Predict — is 3 greater than 5?
 tags: predict, logic
-see: 04_booleans#comparison-operators
 difficulty: starter
 answer: 1
 
@@ -33,7 +32,6 @@ print(3 > 5)
 kind: mcq
 title: Predict — 2 equals 2
 tags: predict, logic
-see: 04_booleans#comparison-operators
 difficulty: starter
 answer: 1
 
@@ -57,7 +55,6 @@ print(2 == 2)
 kind: mcq
 title: Predict — is "a" the same as "A"?
 tags: predict, logic
-see: 04_booleans#comparison-operators
 difficulty: starter
 answer: 1
 
@@ -81,7 +78,6 @@ print("a" == "A")
 kind: mcq
 title: Predict — one side of `and` is False
 tags: predict, logic
-see: 04_booleans#combining-conditions-and-or-not
 difficulty: easy
 answer: 1
 
@@ -105,7 +101,6 @@ print(5 > 3 and 2 > 4)
 kind: mcq
 title: Predict — not True
 tags: predict, logic
-see: 04_booleans#combining-conditions-and-or-not
 difficulty: starter
 answer: 1
 
@@ -129,7 +124,6 @@ print(not True)
 kind: mcq
 title: Predict — 0 or 5
 tags: predict, logic
-see: 04_booleans#combining-conditions-and-or-not
 difficulty: medium
 answer: 1
 
@@ -153,7 +147,6 @@ print(0 or 5)
 kind: mcq
 title: Predict — empty string or "x"
 tags: predict, logic
-see: 04_booleans#combining-conditions-and-or-not
 difficulty: medium
 answer: 1
 
@@ -177,7 +170,6 @@ print("" or "x")
 kind: mcq
 title: Predict — 2 versus the string "2"
 tags: predict, logic
-see: 04_booleans#comparing-different-types
 difficulty: easy
 answer: 1
 
@@ -201,7 +193,6 @@ print(2 == "2")
 kind: mcq
 title: Predict — which temperature branch?
 tags: predict, conditions
-see: 05_if_else#elif-choosing-one-of-many
 difficulty: easy
 answer: 1
 
@@ -241,7 +232,6 @@ else:
 kind: mcq
 title: Predict — the tiers are in the wrong order
 tags: predict, conditions
-see: 05_if_else#order-matters-a-classic-bug
 difficulty: medium
 answer: 1
 
@@ -277,7 +267,6 @@ else:
 kind: mcq
 title: Predict — does the elif also run?
 tags: predict, conditions
-see: 05_if_else#tracing-an-elif-chain
 difficulty: medium
 answer: 1
 
@@ -313,7 +302,6 @@ else:
 kind: mcq
 title: Predict — an empty string in an if
 tags: predict, conditions
-see: 05_if_else#the-if-statement-condition-colon-indented-body
 difficulty: medium
 answer: 1
 
@@ -345,7 +333,6 @@ else:
 kind: mcq
 title: Predict — the one-line conditional
 tags: predict, conditions
-see: 05_if_else#one-line-conditional-expression
 difficulty: easy
 answer: 1
 
@@ -373,7 +360,6 @@ print(label)
 kind: mcq
 title: Predict — two separate ifs
 tags: predict, conditions
-see: 05_if_else#elif-choosing-one-of-many
 difficulty: medium
 answer: 1
 
@@ -405,7 +391,6 @@ if x > 8:
 kind: mcq
 title: What's wrong — one equals sign
 tags: bugs, logic
-see: 04_booleans#assignment-vs-question-and
 difficulty: easy
 answer: 1
 
@@ -427,7 +412,6 @@ This code won't run. What is wrong with it?
 kind: mcq
 title: What's wrong — `or "blue"`
 tags: bugs, logic
-see: 04_booleans#the-and-or-trap-write-a-complete-comparison-on-both-sides
 difficulty: medium
 answer: 1
 
@@ -450,7 +434,6 @@ for every color. What is wrong?
 kind: mcq
 title: What's wrong — the pointless if/else
 tags: bugs, logic
-see: 04_booleans#you-almost-never-need-if-else-for-this
 difficulty: easy
 answer: 1
 
@@ -475,7 +458,6 @@ This function works, but it does something the long way. What is the real proble
 kind: code_fn
 title: Fix — both keys must be turned
 tags: bugs, logic, functions
-see: 04_booleans#combining-conditions-and-or-not
 difficulty: easy
 entry: both_on
 
@@ -518,7 +500,6 @@ both_on(False, False) is False
 kind: code_fn
 title: Fix — the secret word check won't run
 tags: bugs, logic, functions
-see: 04_booleans#assignment-vs-question-and
 difficulty: easy
 entry: matches_secret
 
@@ -562,7 +543,6 @@ matches_secret("Open") is False
 kind: mcq
 title: What's wrong — no colon
 tags: bugs, conditions
-see: 05_if_else#the-if-statement-condition-colon-indented-body
 difficulty: easy
 answer: 1
 
@@ -584,7 +564,6 @@ This code won't run. What is wrong with it?
 kind: mcq
 title: What's wrong — a branch that never runs
 tags: bugs, conditions
-see: 05_if_else#order-matters-a-classic-bug
 difficulty: medium
 answer: 1
 
@@ -612,7 +591,6 @@ wrong?
 kind: code_fn
 title: Fix — the size labels come out wrong
 tags: bugs, conditions, functions
-see: 05_if_else#order-matters-a-classic-bug
 difficulty: medium
 entry: size_label
 
@@ -667,7 +645,6 @@ size_label(0) == "small"
 kind: code_fn
 title: Fix — the price never comes back
 tags: bugs, conditions, functions
-see: 05_if_else#early-return-from-a-function
 difficulty: medium
 entry: ticket_price
 
@@ -722,7 +699,6 @@ ticket_price(65) == 7
 kind: mcq
 title: Concept — what `and` needs
 tags: concept, logic
-see: 04_booleans#combining-conditions-and-or-not
 difficulty: starter
 answer: 1
 
@@ -741,7 +717,6 @@ For the expression `a and b` to be True, how many of `a` and `b` must be True?
 kind: mcq
 title: Concept — which value is falsy?
 tags: concept, logic
-see: 04_booleans#truthiness-what-counts-as-true-or-false
 difficulty: medium
 answer: 3
 
@@ -760,7 +735,6 @@ Which of these values is *falsy* (Python treats it like False in an `if`)?
 kind: mcq
 title: Concept — return the comparison directly
 tags: concept, logic
-see: 04_booleans#you-almost-never-need-if-else-for-this
 difficulty: easy
 answer: 1
 
@@ -780,7 +754,6 @@ False?
 kind: mcq
 title: Concept — `=` versus `==`
 tags: concept, logic
-see: 04_booleans#assignment-vs-question-and
 difficulty: starter
 answer: 1
 
@@ -799,7 +772,6 @@ What is the difference between `=` and `==` in Python?
 kind: mcq
 title: Concept — how many elif branches run
 tags: concept, conditions
-see: 05_if_else#tracing-an-elif-chain
 difficulty: easy
 answer: 1
 
@@ -819,7 +791,6 @@ many branches actually run?
 kind: mcq
 title: Concept — when does `else` run?
 tags: concept, conditions
-see: 05_if_else#else-the-catch-all
 difficulty: starter
 answer: 1
 
@@ -838,7 +809,6 @@ When does the `else` block run?
 kind: mcq
 title: Concept — what marks the block
 tags: concept, conditions
-see: 05_if_else#indentation-defines-the-block
 difficulty: starter
 answer: 1
 
@@ -857,7 +827,6 @@ What decides which lines belong to an `if` block in Python?
 kind: mcq
 title: Concept — the one-line conditional shape
 tags: concept, conditions
-see: 05_if_else#one-line-conditional-expression
 difficulty: medium
 answer: 1
 
@@ -877,7 +846,6 @@ otherwise?
 kind: code_fn
 title: Write — is this a teenager?
 tags: logic, functions
-see: 04_booleans#chained-comparisons
 difficulty: easy
 entry: is_teenager
 
@@ -922,7 +890,6 @@ is_teenager(0) is False
 kind: code_fn
 title: Write — is it a weekend day?
 tags: validation, functions
-see: 04_booleans#membership-in-and-not-in
 difficulty: easy
 entry: is_weekend_day
 
@@ -966,7 +933,6 @@ is_weekend_day("") is False
 kind: code_var
 title: Store — is 5 positive?
 tags: logic
-see: 04_booleans#a-comparison-is-already-a-value
 difficulty: starter
 entry: answer
 
@@ -998,7 +964,6 @@ answer is True
 kind: code_fn
 title: Write — label the sign of a number
 tags: conditions, functions
-see: 05_if_else#elif-choosing-one-of-many
 difficulty: easy
 entry: sign_label
 
@@ -1047,7 +1012,6 @@ sign_label(-1) == "negative"
 kind: code_fn
 title: Write — pass or fail
 tags: conditions, functions
-see: 05_if_else#else-the-catch-all
 difficulty: starter
 entry: pass_or_fail
 
@@ -1093,7 +1057,6 @@ pass_or_fail(100) == "pass"
 kind: code_fn
 title: Write — the larger of two numbers
 tags: conditions, functions
-see: 05_if_else#the-if-statement-condition-colon-indented-body
 difficulty: easy
 entry: bigger
 

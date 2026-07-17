@@ -6,7 +6,6 @@
 kind: mcq
 title: Predict — 7 // 2
 tags: predict, math
-see: 01_variables_math#the-basic-math-operators
 difficulty: easy
 answer: 1
 
@@ -32,7 +31,6 @@ print(7 // 2)
 kind: mcq
 title: Predict — 7 / 2
 tags: predict, math
-see: 01_variables_math#division-always-gives-a-float
 difficulty: easy
 answer: 1
 
@@ -108,7 +106,6 @@ print(10 % 3)
 kind: mcq
 title: Predict — order of operations
 tags: predict, math
-see: 01_variables_math#order-of-operations
 difficulty: easy
 answer: 1
 
@@ -134,7 +131,6 @@ print(2 + 3 * 4)
 kind: mcq
 title: Predict — int(3.9)
 tags: predict, numbers
-see: 01_variables_math#int-truncates-round-rounds
 difficulty: easy
 answer: 1
 
@@ -160,7 +156,6 @@ print(int(3.9))
 kind: mcq
 title: Predict — round(2.5)
 tags: predict, numbers
-see: 01_variables_math#int-truncates-round-rounds
 difficulty: medium
 answer: 1
 
@@ -248,7 +243,6 @@ print(5 + 5)
 kind: mcq
 title: Predict — type(10 / 2)
 tags: predict, types
-see: 01_variables_math#division-always-gives-a-float
 difficulty: medium
 answer: 1
 
@@ -278,7 +272,6 @@ print(type(10 / 2))
 kind: mcq
 title: Predict — 2 * 3 ** 2
 tags: predict, math
-see: 01_variables_math#order-of-operations
 difficulty: medium
 answer: 1
 
@@ -337,7 +330,6 @@ print(-7 // 2)
 kind: mcq
 title: Predict — round to 2 places
 tags: predict, numbers
-see: 01_variables_math#int-truncates-round-rounds
 difficulty: medium
 answer: 1
 
@@ -363,7 +355,6 @@ print(round(3.14159, 2))
 kind: mcq
 title: Predict — parentheses first
 tags: predict, math
-see: 01_variables_math#order-of-operations
 difficulty: easy
 answer: 1
 
@@ -430,7 +421,6 @@ power(10, 2) == 100
 kind: code_fn
 title: The halfway point that lost its decimal
 tags: bugs, math, numbers
-see: 01_variables_math#division-always-gives-a-float
 difficulty: medium
 entry: midpoint
 
@@ -472,7 +462,6 @@ midpoint(10, 15) == 12.5
 kind: code_fn
 title: Counting full boxes
 tags: bugs, math, numbers
-see: 01_variables_math#the-basic-math-operators
 difficulty: medium
 entry: whole_groups
 
@@ -515,7 +504,6 @@ whole_groups(10, 3) == 3
 kind: code_fn
 title: Two counts typed as text
 tags: bugs, types, numbers
-see: 01_variables_math#two-kinds-of-numbers-int-and-float
 difficulty: medium
 entry: add_boxes
 
@@ -620,7 +608,6 @@ Running this raises `NameError: name 'Maria' is not defined`. Why?
 kind: mcq
 title: What's wrong — int() on decimal text
 tags: bugs, types, numbers
-see: 01_variables_math#int-truncates-round-rounds
 difficulty: medium
 answer: 1
 
@@ -641,7 +628,6 @@ This line raises a `ValueError`. What is the problem?
 kind: mcq
 title: Which value is a float?
 tags: concept, types, numbers
-see: 01_variables_math#two-kinds-of-numbers-int-and-float
 difficulty: easy
 answer: 3
 
@@ -696,7 +682,6 @@ What does the `//` operator do in Python?
 kind: mcq
 title: Which operator always gives a float?
 tags: concept, numbers, types
-see: 01_variables_math#division-always-gives-a-float
 difficulty: medium
 answer: 1
 
@@ -864,7 +849,6 @@ leftover_items(20, 6) == 2
 kind: code_fn
 title: Round a price to cents
 tags: numbers, math
-see: 01_variables_math#number-built-ins
 difficulty: easy
 entry: round_to_cents
 
@@ -906,7 +890,6 @@ round_to_cents(0.0) == 0.0
 kind: code_fn
 title: The higher of two scores
 tags: numbers, math
-see: 01_variables_math#number-built-ins
 difficulty: easy
 entry: higher_score
 
@@ -948,7 +931,6 @@ higher_score(0, 5) == 5
 kind: code_fn
 title: How far apart
 tags: numbers, math
-see: 01_variables_math#number-built-ins
 difficulty: medium
 entry: points_apart
 

@@ -1,0 +1,31 @@
+{
+  "id": "homework_03",
+  "title": "Homework 3 \u2014 even more practice",
+  "intro": "A third set of 22. If you can breeze through these, you've got the basics cold. Predict, fix, and write.",
+  "unit": 5,
+  "mode": "challenges",
+  "challenges": [
+    "g2_wrong_arg_count",
+    "tri_area",
+    "shout",
+    "g2_code_after_return",
+    "g2_final_price",
+    "crowd_chant",
+    "sum_total",
+    "p_floor_div_seven_two",
+    "wrong_index_range",
+    "elevator_direction",
+    "pf_temp_elif",
+    "letters_in_banana",
+    "football_points",
+    "g2_wrong_missing_colon",
+    "p_last_char_neg",
+    "concept_augmented_meaning",
+    "g2_print_vs_return_none",
+    "p_mod_ten_three",
+    "mcq_function_with_no_return",
+    "g2_concept_which_is_call",
+    "concept_float_value",
+    "p_in_word"
+  ]
+}

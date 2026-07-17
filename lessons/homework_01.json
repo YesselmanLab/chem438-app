@@ -6,14 +6,26 @@
   "mode": "challenges",
   "challenges": [
     "hello_438",
-    "pizza_slices_each",
-    "sum_total",
-    "addition",
-    "next_num",
-    "convert_minutes",
+    "cb_eq_vs_assign",
+    "nickname_filled",
+    "pb_not_true",
+    "trim_username",
     "seats_left_print_bug",
-    "double_fix",
+    "cf_else",
+    "whole_dollars_only",
+    "pb_greater",
+    "thermostat_gap",
+    "cf_indent",
+    "keep_playing_flag",
     "mcq_four_vs_string_four",
-    "mcq_floor_div"
+    "cart_total_from_text",
+    "g2_fix_print_not_return",
+    "pb_str_case",
+    "g2_fix_missing_return",
+    "pb_eq",
+    "va_is_positive",
+    "cb_and_both",
+    "mcq_precedence_power",
+    "fix_remove_dashes"
   ]
 }
