@@ -159,6 +159,35 @@
   /* runmode paints with the CodeMirror theme classes; give it the matching canvas */
   .refbody pre.cm-s-default{background:var(--bg);color:var(--ink)}
   .refbody pre.cm-s-material-darker{background:#212121;color:#eeffff;border-color:#2a2a2a}
+  /* a live example: code, a Run button, and its real output */
+  .refbody .ex{margin:0 0 16px}
+  .refbody .ex pre.ref-code{margin:0;border-radius:10px 10px 0 0;border-bottom:none}
+  .refbody .ex .CodeMirror{border-radius:10px 10px 0 0;border-bottom:none;min-height:0}
+  .refbody .exbar{display:flex;align-items:center;gap:9px;padding:6px 8px;border:1px solid var(--line2);
+                  border-top:none;border-radius:0 0 10px 10px;background:var(--bg)}
+  .refbody .exrun{font-family:var(--sans);font-size:11.5px;font-weight:600;padding:4px 11px;border-radius:7px;
+                  border:1px solid var(--line2);background:var(--card);color:var(--ink);cursor:pointer}
+  .refbody .exrun:hover:not(:disabled){border-color:var(--accent);color:var(--accent-ink)}
+  .refbody .exrun:disabled{opacity:.6;cursor:default}
+  .refbody .exhint{font-size:11px;color:var(--faint)}
+  .refbody .exout{display:none;font-family:var(--mono);font-size:12.5px;line-height:1.5;
+                  white-space:pre-wrap;margin:8px 0 0;padding:10px 13px;border-radius:9px;
+                  background:var(--code-bg);color:var(--code-ink)}
+  .refbody .exout.show{display:block}
+  .refbody .exout.err{background:var(--bad-soft);color:var(--bad)}
+  /* display-only text: expected output or a traceback the page is quoting */
+  .refbody pre.ref-out{font-family:var(--mono);font-size:12.5px;line-height:1.55;padding:11px 14px;
+                       border-radius:9px;margin:0 0 14px;overflow-x:auto;white-space:pre-wrap;
+                       background:var(--code-bg);color:var(--code-ink);border:none}
+  /* the "read up on this" link from a problem */
+  .seelink{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:12.5px;
+           font-weight:600;padding:7px 12px;border-radius:9px;border:1px solid var(--line2);
+           background:var(--bg);color:var(--accent-ink);cursor:pointer;margin:0 0 14px}
+  .seelink:hover{border-color:var(--accent);background:var(--accent-soft)}
+  /* flash the section a problem sent you to, so you land on the right paragraph */
+  .refbody h2.jumped,.refbody h3.jumped{animation:flash 1.6s ease-out}
+  @keyframes flash{0%,55%{background:var(--accent-soft)}100%{background:transparent}}
+  @media (prefers-reduced-motion: reduce){.refbody h2.jumped,.refbody h3.jumped{animation:none}}
   /* course units: the challenge list doubles as the syllabus */
   .unithd{display:flex;align-items:baseline;gap:10px;margin:22px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--line2)}
   .unithd:first-child{margin-top:4px}
@@ -404,6 +433,7 @@
       </div>
       <h1 id="chalTitle" style="margin:8px 0 6px"></h1>
       <div class="prompt" id="chalPrompt" style="white-space:pre-wrap;color:var(--soft)"></div>
+      <div id="chalSee"></div>
       <details class="howto hidden" id="chalHow">
         <summary>Show me how</summary>
         <div class="prompt" id="chalHowBody"></div>
@@ -582,7 +612,30 @@ def run_fn(code, entry, inputs):
     fn = ns[entry]
     return [_normalize(fn(*list(a))) for a in inputs]
 
-import io, contextlib
+import io, contextlib, traceback as _tb
+def run_example(prior, code):
+    """Run one reference example, after replaying the ones above it on the page.
+
+    The page reads top to bottom, so example 9 may use a variable example 2 made.
+    Prior blocks run silently and are allowed to blow up (some demonstrate errors
+    on purpose) — only THIS block's output and error are reported.
+    """
+    ns = {}
+    for p in list(prior):
+        try:
+            with contextlib.redirect_stdout(io.StringIO()):
+                exec(p, ns)
+        except Exception:
+            pass
+    buf = io.StringIO()
+    try:
+        with contextlib.redirect_stdout(buf):
+            exec(code, ns)
+    except Exception as e:
+        # Show students the real traceback text — reading it is the skill.
+        return {"out": buf.getvalue(), "err": type(e).__name__ + ": " + str(e)}
+    return {"out": buf.getvalue(), "err": None}
+
 def preview(code, kind, entry, inputs):
     ns = {}; buf = io.StringIO()
     try:
@@ -747,6 +800,11 @@ function backToFn(label, fn){
 // One explainer per course section, gated the same way practice is: a page stays
 // hidden until the homework covering its section is released.
 function openRefPages(){ return reference.filter(p=>p.unit <= gateUnit()); }
+// anchors are slugs of headings; read the real heading text back out of the page
+function anchorLabel(page, anchor){
+  const m = page.html.match(new RegExp('<h[23] id="'+anchor.replace(/[^a-z0-9-]/g,"")+'">(.*?)</h[23]>'));
+  return m ? m[1].replace(/<[^>]+>/g, "") : anchor.replace(/-/g, " ");
+}
 
 function showReference(){
   hideAll(); setWidth(true); curSet=null; $("#refCard").classList.remove("hidden");
@@ -767,7 +825,7 @@ function showReference(){
   $$("#refList [data-ref]").forEach(el=>el.onclick=()=>openRefPage(el.dataset.ref));
 }
 
-function openRefPage(id){
+function openRefPage(id, anchor){
   const p = reference.find(x=>x.id===id);
   if(!p) return;
   if(p.unit > gateUnit()){ toast("That section hasn't been released yet."); return showReference(); }
@@ -778,6 +836,11 @@ function openRefPage(id){
   $("#refUnit").textContent = "Section " + p.unit;
   $("#refBody").innerHTML = p.html;
   highlightRefCode();
+  wireExamples();
+  if(anchor){
+    const t = document.getElementById(anchor);
+    if(t){ requestAnimationFrame(()=>{ t.scrollIntoView({block:"start"}); t.classList.add("jumped"); }); }
+  }
   // Reading is not learning — send them straight into the matching practice.
   const s = solvedIds(), mine = challenges.filter(c=>(c.unit||1)===p.unit && unlocked(c));
   const done = mine.filter(c=>s.has(c.id)).length;
@@ -802,6 +865,63 @@ function highlightRefCode(){
     pre.className = "ref-code " + theme;
     CodeMirror.runMode(src, "python", pre);
     pre.dataset.hl = "1";
+  });
+}
+
+// ---------------- runnable reference examples ----------------
+// Every example on a Learn page is live: read it, change it, run it. That is the
+// whole point of shipping Pyodide — the reference is a lab bench, not a listing.
+function exSource(ex){
+  // the editor's text once upgraded, otherwise the highlighted <pre>'s text
+  return ex._cm ? ex._cm.getValue() : ex.querySelector(".ref-code").textContent;
+}
+function wireExamples(){
+  // $$ hands back a NodeList: it has forEach but not slice/indexOf, which this needs
+  const boxes = Array.from($$("#refBody .ex"));
+  boxes.forEach(ex=>{
+    if(ex.dataset.wired) return;
+    ex.dataset.wired = "1";
+    const pre = ex.querySelector(".ref-code");
+    const out = ex.querySelector(".exout");
+    const btn = ex.querySelector(".exrun");
+    const hint = ex.querySelector(".exhint");
+    hint.textContent = "change it and run it again";
+
+    // Upgrade to a real editor only when they actually touch it — 40 CodeMirror
+    // instances per page would make the page crawl for no benefit.
+    const toEditor = ()=>{
+      if(ex._cm || !window.CodeMirror) return;
+      const src = pre.textContent;
+      const ta = document.createElement("textarea");
+      ta.value = src; pre.replaceWith(ta);
+      const cm = CodeMirror.fromTextArea(ta, {
+        mode:"python", theme:isDark()?"material-darker":"default",
+        lineNumbers:false, indentUnit:4, tabSize:4, viewportMargin:Infinity, lineWrapping:true,
+      });
+      cm.setSize(null,"auto"); cmEditors.add(cm); ex._cm = cm;
+      requestAnimationFrame(()=>cm.refresh());
+    };
+    pre.style.cursor = "text";
+    pre.onclick = ()=>{ toEditor(); if(ex._cm) ex._cm.focus(); };
+
+    btn.onclick = async ()=>{
+      if(pyFailed){ out.className="exout show err"; out.textContent="Python isn't available on this device."; return; }
+      btn.disabled = true; const label = btn.textContent;
+      btn.textContent = pyodide ? "running…" : "starting Python…";
+      out.className = "exout show"; out.textContent = "";
+      try{
+        await loadPy();
+        // replay every earlier example on this page, so a later one can use what
+        // an earlier one defined — including any edits the student just made
+        const prior = boxes.slice(0, boxes.indexOf(ex)).map(exSource);
+        const r = jsify(pyodide.globals.get("run_example")(prior, exSource(ex)));
+        const o = (r && r.out) || "", err = r && r.err;
+        out.className = "exout show" + (err ? " err" : "");
+        out.textContent = (o ? o.replace(/\n$/,"") : "") + (err ? (o ? "\n" : "") + err : "")
+                          || "(ran with no output)";
+      }catch(e){ out.className="exout show err"; out.textContent = trimErr(e); }
+      btn.disabled = false; btn.textContent = label;
+    };
   });
 }
 
@@ -1033,6 +1153,14 @@ async function openChallenge(id){
   $("#chalTitle").textContent=c.title;
   $("#chalDiff").textContent=c.difficulty;
   $("#chalXp").textContent="◆ "+c.xp+" XP";
+  // "I want to read about this again" — every problem points at the section that
+  // teaches it, so being stuck has an exit that isn't guessing.
+  const see = c.see, sp = see && reference.find(p=>p.id===see.page && p.unit<=gateUnit());
+  $("#chalSee").innerHTML = sp
+    ? '<button class="seelink" id="seeBtn">📖 Read up: '+esc(see.title)+
+      (see.anchor ? ' › '+esc(anchorLabel(sp, see.anchor)) : '')+' →</button>'
+    : '';
+  if(sp) $("#seeBtn").onclick=()=>openRefPage(see.page, see.anchor);
   // tags double as navigation: click one to see every other challenge that shares it
   $("#chalTags").innerHTML = tagsOf(c).map(t=>'<button class="tag" data-t="'+esc(t)+'">'+esc(t)+'</button>').join("");
   $$("#chalTags .tag").forEach(b=>b.onclick=()=>{ tagFilter=b.dataset.t; chFilter=null; showChallenges(); });

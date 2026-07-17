@@ -194,6 +194,7 @@ def unit_of(p):
 
 def emit_challenges():
     """Publish every gradeable bank problem as a standalone practice challenge."""
+    pages = refmd.load()
     items = []
     for pid, p in BANK.items():
         if p["kind"] == "written":
@@ -202,6 +203,9 @@ def emit_challenges():
         item = {"id": pid, "title": p.get("title", pid), "kind": p["kind"],
                 "tags": p.get("tags", []), "difficulty": diff, "unit": unit_of(p),
                 "xp": p.get("xp", XP_BY_DIFF.get(diff, 10)), "prompt": p["prompt"]}
+        see = resolve_see(p, pid, pages)
+        if see:
+            item["see"] = see
         if p.get("walkthrough"):
             item["walkthrough"] = p["walkthrough"]
         if p["kind"] == "code_var":
@@ -219,6 +223,32 @@ def emit_challenges():
     PUBLIC_DIR.mkdir(exist_ok=True)
     (PUBLIC_DIR / "challenges.json").write_text(json.dumps({"challenges": items}, indent=2))
     print(f"wrote lessons/challenges.json  ({len(items)} practice challenges)")
+
+
+def resolve_see(p, pid, pages):
+    """Where a problem sends a student who wants to read up on it.
+
+    An explicit `see:` wins and must resolve; otherwise fall back to the page for
+    the problem's unit. Returns None if that unit has no page yet.
+    """
+    by_unit = {pg["unit"]: pg for pg in pages}
+    want = p.get("see")
+    if want:
+        page_id, _, anchor = want.partition("#")
+        page = next((pg for pg in pages if pg["id"] == page_id), None)
+        if not page:
+            raise SystemExit(f"[{pid}] see: {want!r} — no reference page {page_id!r}. "
+                             f"Run `python refmd.py --anchors` for the real targets.")
+        if anchor and anchor not in page["anchors"]:
+            raise SystemExit(f"[{pid}] see: {want!r} — {page_id!r} has no section {anchor!r}. "
+                             f"Run `python refmd.py --anchors` for the real targets.")
+        if page["unit"] > unit_of(p):
+            raise SystemExit(f"[{pid}] see: {want!r} points at unit {page['unit']} material, "
+                             f"but the problem is unit {unit_of(p)} — a student would be sent "
+                             f"to a page they can't open yet.")
+        return {"page": page_id, "anchor": anchor or None, "title": page["title"]}
+    page = by_unit.get(unit_of(p))
+    return {"page": page["id"], "anchor": None, "title": page["title"]} if page else None
 
 
 def emit_reference():

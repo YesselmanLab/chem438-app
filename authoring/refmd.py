@@ -38,9 +38,17 @@ def _inline(t):
     return t
 
 
-def md_to_html(md):
+def slug(text):
+    """Heading -> stable anchor id. A problem's `see:` points at one of these, so
+    changing a heading breaks a link — the build checks, it won't drift silently."""
+    s = text.replace("`", "").replace("**", "").lower()
+    return re.sub(r"[^a-z0-9]+", "-", s).strip("-")
+
+
+def md_to_html(md, anchors=None):
     out, lines, i = [], md.split("\n"), 0
     para, bullets, nums, quote = [], [], [], []
+    n_ex = [0]
 
     def flush():
         # close whichever block we were accumulating
@@ -59,17 +67,37 @@ def md_to_html(md):
         ln = lines[i]
         if ln.strip().startswith("```"):
             flush()
+            lang = ln.strip()[3:].strip().lower()
             i += 1
             code = []
             while i < len(lines) and not lines[i].strip().startswith("```"):
                 code.append(lines[i]); i += 1
             i += 1
-            out.append('<pre class="ref-code" data-lang="python">' + html.escape("\n".join(code)) + "</pre>")
+            body = html.escape("\n".join(code))
+            if lang in ("python", "py"):
+                # A live example: the student can edit it and run it right here.
+                # data-i orders it on the page, so running one example can reuse the
+                # variables defined by the ones above it, like reading top to bottom.
+                out.append(f'<div class="ex" data-i="{n_ex[0]}">'
+                           f'<pre class="ref-code">{body}</pre>'
+                           f'<div class="exbar"><button class="exrun">▸ Run</button>'
+                           f'<span class="exhint"></span></div>'
+                           f'<pre class="exout"></pre></div>')
+                n_ex[0] += 1
+            else:
+                # a bare fence is display-only: expected output or a traceback, as text
+                out.append(f'<pre class="ref-out">{body}</pre>')
             continue
         if ln.startswith("### "):
-            flush(); out.append("<h3>" + _inline(ln[4:].strip()) + "</h3>")
+            flush()
+            t = ln[4:].strip()
+            if anchors is not None: anchors.append(slug(t))
+            out.append(f'<h3 id="{slug(t)}">' + _inline(t) + "</h3>")
         elif ln.startswith("## "):
-            flush(); out.append("<h2>" + _inline(ln[3:].strip()) + "</h2>")
+            flush()
+            t = ln[3:].strip()
+            if anchors is not None: anchors.append(slug(t))
+            out.append(f'<h2 id="{slug(t)}">' + _inline(t) + "</h2>")
         elif ln.startswith(">"):
             if para or bullets or nums: flush()
             body = ln[1:].strip()
@@ -116,11 +144,18 @@ def load():
         m = re.match(r"^unit:\s*(\d+)\s*$", lines[1].strip() if len(lines) > 1 else "")
         if not m:
             raise SystemExit(f"[{path.name}] line 2 must be 'unit: N'")
+        anchors = []
+        html_body = md_to_html("\n".join(lines[2:]), anchors)
+        dupes = {a for a in anchors if anchors.count(a) > 1}
+        if dupes:
+            raise SystemExit(f"[{path.name}] two headings make the same anchor {sorted(dupes)} — "
+                             f"a `see:` link couldn't tell them apart; reword one")
         pages.append({
             "id": path.stem,
             "title": lines[0][2:].strip(),
             "unit": int(m.group(1)),
-            "html": md_to_html("\n".join(lines[2:])),
+            "html": html_body,
+            "anchors": anchors,
         })
     ids = [p["id"] for p in pages]
     if len(set(ids)) != len(ids):
@@ -128,7 +163,25 @@ def load():
     return pages
 
 
-if __name__ == "__main__":
+def anchor_index():
+    """{'02_strings#slicing': 'Slicing', ...} — every target a `see:` may point at."""
+    idx = {}
     for p in load():
-        n = p["html"].count('<pre class="ref-code"')
-        print(f"OK {p['id']}: unit {p['unit']} · {p['title']!r} · {n} code examples")
+        for a in p["anchors"]:
+            idx[f"{p['id']}#{a}"] = p["title"]
+    return idx
+
+
+if __name__ == "__main__":
+    import sys
+    if "--anchors" in sys.argv:
+        # ground truth for anyone writing a `see:` line in the bank
+        for p in load():
+            print(f"\n# {p['title']}  (unit {p['unit']}) — page id: {p['id']}")
+            for a in p["anchors"]:
+                print(f"  see: {p['id']}#{a}")
+        raise SystemExit(0)
+    for p in load():
+        n = p["html"].count('<div class="ex"')
+        print(f"OK {p['id']}: unit {p['unit']} · {p['title']!r} · "
+              f"{n} runnable examples · {len(p['anchors'])} anchors")

@@ -140,6 +140,10 @@ def _problem(pid, meta, sec, where):
         # optional: pin this problem to a curriculum unit, overriding the unit
         # its tags imply (build.py derives one when this is absent)
         "unit": int(meta["unit"]) if meta.get("unit") else None,
+        # optional: the reference section that teaches this, e.g. 02_strings#slicing.
+        # build.py checks the target exists. Without it a problem still links to its
+        # unit's page — this just aims the student at the right paragraph.
+        "see": meta.get("see", "").strip() or None,
     }
     if kind in ("code_var", "code_fn"):
         prob["entry"] = meta["entry"]
