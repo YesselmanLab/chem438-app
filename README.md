@@ -107,7 +107,8 @@ The **`### check` lines must pass against the `### solution`** — if they don't
 the build stops with an error, so a broken problem never ships. The checks also
 *define the grading*: write them as `entry(args) == expected` (or `is True/False`),
 several varied ones so hard-coding fails. `code_var` uses `variable == expected`;
-`mcq` uses an `answer:` line (1-based) + `### choices`; `written` needs only a
+`mcq` uses an `answer:` line (1-based) + `### choices`; a **predict-output** `mcq` may add a `### code` block — the build
+runs it and rejects the problem unless the marked answer is exactly what it prints; `written` needs only a
 prompt. Autograded outputs must be int/float/str/bool/list.
 
 ### Hotfix a problem

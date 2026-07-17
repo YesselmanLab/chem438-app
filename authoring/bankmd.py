@@ -191,7 +191,36 @@ def _problem(pid, meta, sec, where):
     elif kind == "mcq":
         prob["choices"] = [ln[1:].strip() for ln in sec.get("choices", "").split("\n")
                            if ln.strip().startswith("-")]
+        if len(prob["choices"]) < 2:
+            raise SystemExit(f"[{pid}] mcq needs at least 2 '### choices' ({where})")
         prob["answer"] = int(meta["answer"]) - 1      # 1-based md -> 0-based
+        if not (0 <= prob["answer"] < len(prob["choices"])):
+            raise SystemExit(f"[{pid}] answer {meta['answer']} is out of range for "
+                             f"{len(prob['choices'])} choices ({where})")
+        # A "predict the output" MCQ can carry a `### code` block. If it does, we
+        # RUN it and prove the marked answer is exactly what Python prints — a
+        # predict question with the wrong answer teaches a wrong fact. Write a
+        # multi-line expected output in the choice with literal \n between lines.
+        code = _code(sec.get("code", ""))
+        if code.strip():
+            import io, contextlib
+            buf, ns = io.StringIO(), {}
+            try:
+                with contextlib.redirect_stdout(buf):
+                    exec(code, ns)  # noqa: S102 -- author-trusted predict snippet
+            except Exception as e:  # noqa: BLE001
+                raise SystemExit(f"[{pid}] ### code errored: {e} — if the answer IS the "
+                                 f"error, drop ### code and mark it by hand ({where})")
+            out = buf.getvalue().rstrip("\n")
+            unesc = lambda c: c.replace("\\n", "\n").strip()
+            marked = unesc(prob["choices"][prob["answer"]])
+            if marked != out.strip():
+                raise SystemExit(f"[{pid}] PREDICT MISMATCH: marked answer {marked!r} but the "
+                                 f"code actually prints {out.strip()!r} ({where})")
+            for i, c in enumerate(prob["choices"]):
+                if i != prob["answer"] and unesc(c) == out.strip():
+                    raise SystemExit(f"[{pid}] choice {i+1} {c!r} ALSO equals the real output — "
+                                     f"the question has two right answers ({where})")
     elif kind == "written":
         pass
     else:
