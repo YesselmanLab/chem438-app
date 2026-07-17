@@ -172,6 +172,12 @@ UNITS = [
     (6, "Lists", {"arrays", "sorting"}),
     (7, "Loops", {"loops"}),
     (8, "Dictionaries", {"dicts"}),
+    # The rest of what the 2025 course actually taught before it moved to the
+    # scientific stack. Planning is lectures 5-6; modules is lecture 7, which every
+    # later lecture depends on; files is lecture 18.
+    (9, "Planning your code", set()),      # a way of working, not a syntax tag
+    (10, "Modules & imports", {"modules"}),
+    (11, "Files", {"files"}),
 ]
 UNIT_NAMES = {n: name for n, name, _ in UNITS}
 # These describe a problem's SHAPE, not the skill it needs, so they say nothing

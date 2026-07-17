@@ -819,7 +819,7 @@ When red text appears, do this — in this order — instead of anything else:
 
 Only after those four do you change any code.
 
-## Worked example: a receipt with three bugs
+## Worked example: a receipt with two bugs
 
 Here's a program with a real bug. Read the error before you read the explanation.
 
@@ -979,7 +979,8 @@ print(score_report("Ben", 74))
 - `except SomeError as e:` — `e` holds the message Python would have printed
 - Use it for **expected** situations (bad input), never to hide your own bug
 
-Everything above, working together — a function that survives whatever you throw at it:
+Everything above, working together — a function that guards against every error this
+page showed you:
 
 ```python
 stock = {"pen": 4, "cup": 0}
@@ -994,16 +995,31 @@ def report(item, order_size):
         size = int(order_size)
     except ValueError:
         return item + ": " + repr(order_size) + " is not a number"
+    if size == 0:
+        return item + ": order size can't be zero"
     return item + ": " + str(on_hand // size) + " orders available"
 
 print(report("pen", "2"))
 print(report("cup", "2"))
 print(report("hat", "2"))
 print(report("pen", "lots"))
+print(report("pen", "0"))
 # pen: 2 orders available
 # cup: out of stock
 # hat: not stocked
 # pen: 'lots' is not a number
+# pen: order size can't be zero
 ```
 
-Four different disasters — a missing key, a division by zero, a bad conversion — and not one traceback. Every guard came straight from an error message this page showed you.
+Five different disasters — a missing key, an empty shelf, a bad conversion, a divide
+by zero — and not one traceback. Every guard came straight from an error message this
+page showed you.
+
+And here is the honest part. The first draft of this example was missing the
+`if size == 0` guard, and the text under it still bragged that the function "survives
+whatever you throw at it". It didn't: `report("pen", "0")` crashed with
+`ZeroDivisionError`. Nobody noticed, because the four examples printed underneath all
+worked — the one input that broke it was the one nobody thought to try.
+
+That is the real lesson of this page. Code that works on the inputs you happened to try
+is not code that works. When you write a guard, ask what input would get past it.

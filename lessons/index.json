@@ -80,6 +80,24 @@
       "name": "Dictionaries",
       "open": false,
       "opens_with": null
+    },
+    {
+      "n": 9,
+      "name": "Planning your code",
+      "open": false,
+      "opens_with": null
+    },
+    {
+      "n": 10,
+      "name": "Modules & imports",
+      "open": false,
+      "opens_with": null
+    },
+    {
+      "n": 11,
+      "name": "Files",
+      "open": false,
+      "opens_with": null
     }
   ],
   "max_open_unit": 5
