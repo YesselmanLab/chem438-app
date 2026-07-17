@@ -494,6 +494,2666 @@
       "prompt": "You are given letter_value(ch), which returns 1 for a vowel and 2 for any other letter. Write word_value(word) that returns the total value of every letter in the word.\n\nExamples\n\n    word_value(\"cab\") \u2192 5\n    word_value(\"aei\") \u2192 3\n    word_value(\"xyz\") \u2192 6\n\nNotes\n\n- Start a running total at 0, add each letter's value to it inside the loop, and return the total only after the loop has finished.\n- Use letter_value instead of deciding what a vowel is yourself.\n- An empty word scores 0."
     },
     {
+      "id": "p_ages_lookup",
+      "title": "Predict \u2014 look up by key",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "predict"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    ages = {\"ana\": 20, \"bo\": 22}\n    print(ages[\"bo\"])"
+    },
+    {
+      "id": "p_dict_len_three",
+      "title": "Predict \u2014 how many pairs",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "predict"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    inventory = {\"pen\": 5, \"cup\": 2, \"hat\": 9}\n    print(len(inventory))"
+    },
+    {
+      "id": "p_get_missing_zero",
+      "title": "Predict \u2014 .get() with a missing key",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "predict"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    d = {\"x\": 5}\n    print(d.get(\"y\", 0))"
+    },
+    {
+      "id": "p_get_present_value",
+      "title": "Predict \u2014 .get() when the key is there",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "predict"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    points = {\"ana\": 7}\n    print(points.get(\"ana\", 0))"
+    },
+    {
+      "id": "p_in_key_true",
+      "title": "Predict \u2014 in finds a key",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "predict"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(\"apple\" in {\"apple\": 3, \"pear\": 5})"
+    },
+    {
+      "id": "p_in_value_false",
+      "title": "Predict \u2014 in does NOT find a value",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "predict"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    print(3 in {\"apple\": 3, \"pear\": 5})"
+    },
+    {
+      "id": "p_add_key_show",
+      "title": "Predict \u2014 add a key then print the dict",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "predict"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    d = {\"a\": 1}\n    d[\"b\"] = 2\n    print(d)"
+    },
+    {
+      "id": "p_loop_over_keys",
+      "title": "Predict \u2014 looping over a dict",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "predict"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    for k in {\"x\": 1, \"y\": 2}:\n        print(k)"
+    },
+    {
+      "id": "p_dup_key_wins",
+      "title": "Predict \u2014 the same key written twice",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "predict"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    stock = {\"pen\": 5, \"pen\": 9}\n    print(stock[\"pen\"])"
+    },
+    {
+      "id": "p_items_print",
+      "title": "Predict \u2014 looping with .items()",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "predict"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    for k, v in {\"tea\": 3}.items():\n        print(k, v)"
+    },
+    {
+      "id": "p_values_print",
+      "title": "Predict \u2014 looping over .values()",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "predict"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    for v in {\"a\": 1, \"b\": 2}.values():\n        print(v)"
+    },
+    {
+      "id": "p_update_same_key",
+      "title": "Predict \u2014 update a value using itself",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "predict"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    d = {\"n\": 4}\n    d[\"n\"] = d[\"n\"] + 3\n    print(d[\"n\"])"
+    },
+    {
+      "id": "p_tally_build",
+      "title": "Predict \u2014 building a tally",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "predict"
+      ],
+      "difficulty": "hard",
+      "prompt": "What does this print?\n\n    counts = {}\n    for c in \"abba\":\n        counts[c] = counts.get(c, 0) + 1\n    print(counts)"
+    },
+    {
+      "id": "fix_color_lookup",
+      "title": "Fix the marble counter",
+      "kind": "code_fn",
+      "tags": [
+        "dicts",
+        "bugs"
+      ],
+      "difficulty": "easy",
+      "prompt": "The `bag` dict maps each marble color to how many of that color are in the bag.\nThis function should return the count for a given `color`, or 0 if that color\nisn't in the bag. Right now it crashes when the color is missing. Fix it.\n\nExamples\n\n    color_count({\"red\": 2, \"blue\": 1}, \"red\") \u2192 2\n    color_count({\"red\": 2}, \"blue\") \u2192 0\n    color_count({}, \"red\") \u2192 0\n\nNotes\n\n- Square brackets on a missing key raise a KeyError.\n- There is a dict method that lets you name a fallback value."
+    },
+    {
+      "id": "fix_sum_prices",
+      "title": "Fix the price total",
+      "kind": "code_fn",
+      "tags": [
+        "dicts",
+        "bugs"
+      ],
+      "difficulty": "medium",
+      "prompt": "The `prices` dict maps each item to its price. This function should add up all\nthe prices and return the total. It crashes instead. Fix it.\n\nExamples\n\n    total({\"a\": 2, \"b\": 3}) \u2192 5\n    total({\"a\": 10}) \u2192 10\n    total({}) \u2192 0\n\nNotes\n\n- Looping over a dict directly gives you its KEYS, which here are strings.\n- To loop over the numbers, you need `.values()`."
+    },
+    {
+      "id": "fix_tally_init",
+      "title": "Fix the word counter",
+      "kind": "code_fn",
+      "tags": [
+        "dicts",
+        "bugs"
+      ],
+      "difficulty": "medium",
+      "prompt": "This function should count how many times each word appears in a list and return\na dict mapping each word to its count. It crashes on the very first word. Fix it.\n\nExamples\n\n    word_count([\"a\", \"b\", \"a\"]) \u2192 {\"a\": 2, \"b\": 1}\n    word_count([]) \u2192 {}\n    word_count([\"hi\", \"hi\", \"hi\"]) \u2192 {\"hi\": 3}\n\nNotes\n\n- The first time you see a word, `counts[w]` doesn't exist yet, so reading it\n  raises a KeyError.\n- `counts.get(w, 0)` gives you 0 for a word you haven't seen before."
+    },
+    {
+      "id": "fix_seat_map",
+      "title": "Fix the guest list",
+      "kind": "code_fn",
+      "tags": [
+        "dicts",
+        "bugs"
+      ],
+      "difficulty": "medium",
+      "prompt": "The `seats` dict maps each seat number to the guest sitting there. This function\nshould return the list of guest NAMES, in order. Instead it returns the seat\nnumbers. Fix it.\n\nExamples\n\n    guests({1: \"ana\", 2: \"bo\"}) \u2192 [\"ana\", \"bo\"]\n    guests({5: \"cy\"}) \u2192 [\"cy\"]\n    guests({}) \u2192 []\n\nNotes\n\n- `.keys()` gives the seat numbers; you want the names.\n- The names are the dict's values."
+    },
+    {
+      "id": "wrong_keyerror_bracket",
+      "title": "What's wrong \u2014 missing key",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "bugs"
+      ],
+      "difficulty": "easy",
+      "prompt": "This code crashes with a KeyError. What is wrong?\n\n    prices = {\"tea\": 2, \"coffee\": 3}\n    print(prices[\"juice\"])"
+    },
+    {
+      "id": "wrong_in_finds_value",
+      "title": "What's wrong \u2014 in checks the wrong side",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "bugs"
+      ],
+      "difficulty": "medium",
+      "prompt": "The programmer expected this to print `found` because 90 is one of the scores,\nbut nothing prints. What is wrong?\n\n    scores = {\"ana\": 90, \"bo\": 85}\n    if 90 in scores:\n        print(\"found\")"
+    },
+    {
+      "id": "wrong_equals_in_dict",
+      "title": "What's wrong \u2014 equals inside a dict",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "bugs"
+      ],
+      "difficulty": "easy",
+      "prompt": "This line causes a SyntaxError. What is wrong?\n\n    person = {\"name\" = \"Ana\", \"age\" = 20}"
+    },
+    {
+      "id": "wrong_append_missing_list",
+      "title": "What's wrong \u2014 appending to a missing key",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "bugs"
+      ],
+      "difficulty": "medium",
+      "prompt": "This code crashes with a KeyError on the second line. What is wrong?\n\n    groups = {}\n    groups[\"A\"].append(\"Ana\")"
+    },
+    {
+      "id": "concept_in_keys",
+      "title": "What does `in` check on a dict?",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "concept"
+      ],
+      "difficulty": "easy",
+      "prompt": "When you write `key in my_dict`, what does Python check?"
+    },
+    {
+      "id": "concept_get_vs_bracket",
+      "title": "d[k] versus d.get(k)",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "concept"
+      ],
+      "difficulty": "medium",
+      "prompt": "When `k` is NOT a key in the dict, how do `d[k]` and `d.get(k)` differ?"
+    },
+    {
+      "id": "concept_key_repeat",
+      "title": "Can a key appear twice?",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "concept"
+      ],
+      "difficulty": "medium",
+      "prompt": "A dict is written with the same key twice: `{\"a\": 1, \"a\": 2}`. What happens?"
+    },
+    {
+      "id": "concept_dict_changeable",
+      "title": "Can you change a dict?",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "concept"
+      ],
+      "difficulty": "easy",
+      "prompt": "After you create a dict, what can you do to it?"
+    },
+    {
+      "id": "concept_which_is_dict",
+      "title": "Which one is a dict?",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "concept"
+      ],
+      "difficulty": "easy",
+      "prompt": "Which of these is a dict?"
+    },
+    {
+      "id": "concept_len_counts_dict",
+      "title": "What does len(d) count?",
+      "kind": "mcq",
+      "tags": [
+        "dicts",
+        "concept"
+      ],
+      "difficulty": "easy",
+      "prompt": "For a dict `d`, what does `len(d)` give you?"
+    },
+    {
+      "id": "make_capitals",
+      "title": "Build a capitals lookup",
+      "kind": "code_var",
+      "tags": [
+        "dicts"
+      ],
+      "difficulty": "easy",
+      "prompt": "Store, in a variable named `capitals`, a dict that maps each country to its\ncapital city:\n\n- \"France\" \u2192 \"Paris\"\n- \"Japan\" \u2192 \"Tokyo\"\n- \"Egypt\" \u2192 \"Cairo\"\n\nNotes\n\n- A dict pair is written `key: value`, with a colon.\n- Separate the pairs with commas, all inside curly braces."
+    },
+    {
+      "id": "phone_lookup",
+      "title": "Look up a phone number",
+      "kind": "code_fn",
+      "tags": [
+        "dicts",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that takes a `book` dict mapping names to phone numbers, plus a\n`name`. Return that person's number, or the string \"unknown\" if the name isn't in\nthe book.\n\nExamples\n\n    lookup({\"ana\": \"123\", \"bo\": \"456\"}, \"ana\") \u2192 \"123\"\n    lookup({\"ana\": \"123\"}, \"cy\") \u2192 \"unknown\"\n    lookup({}, \"ana\") \u2192 \"unknown\"\n\nNotes\n\n- `book[name]` crashes on a missing name. Use the safe lookup instead.\n- The fallback value is the string \"unknown\"."
+    },
+    {
+      "id": "count_letters",
+      "title": "Count each letter",
+      "kind": "code_fn",
+      "tags": [
+        "dicts",
+        "strings"
+      ],
+      "difficulty": "medium",
+      "prompt": "Create a function that takes a string and returns a dict mapping each letter to\nhow many times it appears.\n\nExamples\n\n    count_letters(\"aba\") \u2192 {\"a\": 2, \"b\": 1}\n    count_letters(\"\") \u2192 {}\n    count_letters(\"x\") \u2192 {\"x\": 1}\n\nNotes\n\n- Start with an empty dict and loop over the characters.\n- `counts[c] = counts.get(c, 0) + 1` adds one, even the first time you see `c`."
+    },
+    {
+      "id": "add_item",
+      "title": "Add an item to the cart",
+      "kind": "code_fn",
+      "tags": [
+        "dicts",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that takes a `cart` dict mapping item names to quantities, plus\nan `item` and a `qty`. Set that item's quantity to `qty` (adding the key if it's\nnew, replacing it if it already exists) and return the updated dict.\n\nExamples\n\n    add_item({}, \"pen\", 3) \u2192 {\"pen\": 3}\n    add_item({\"pen\": 3}, \"cup\", 2) \u2192 {\"pen\": 3, \"cup\": 2}\n    add_item({\"pen\": 3}, \"pen\", 5) \u2192 {\"pen\": 5}\n\nNotes\n\n- `cart[item] = qty` both adds a new key and overwrites an existing one.\n- Don't forget to return the dict."
+    },
+    {
+      "id": "names_sorted",
+      "title": "List the names in order",
+      "kind": "code_fn",
+      "tags": [
+        "dicts",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that takes a `scores` dict mapping names to scores, and returns\na list of just the names, sorted alphabetically.\n\nExamples\n\n    names_sorted({\"bo\": 1, \"ana\": 2}) \u2192 [\"ana\", \"bo\"]\n    names_sorted({}) \u2192 []\n    names_sorted({\"cy\": 5}) \u2192 [\"cy\"]\n\nNotes\n\n- The keys of the dict are the names.\n- `sorted(...)` returns a new list in order."
+    },
+    {
+      "id": "seat_taken",
+      "title": "Is that seat taken?",
+      "kind": "code_fn",
+      "tags": [
+        "dicts",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "A `seats` dict maps each seat number to the guest sitting there. Create a function\nthat returns True if a given `seat` is taken \u2014 that is, if it's a key in the dict \u2014\nand False otherwise.\n\nExamples\n\n    is_taken({1: \"ana\", 2: \"bo\"}, 1) \u2192 True\n    is_taken({1: \"ana\"}, 5) \u2192 False\n    is_taken({}, 1) \u2192 False\n\nNotes\n\n- `seat in seats` checks the KEYS of the dict.\n- A comparison is already True or False, so you can return it directly."
+    },
+    {
+      "id": "g2_print_f3f4",
+      "title": "Predict \u2014 adding two calls",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    def f(x):\n        return x * 2\n\n    print(f(3) + f(4))"
+    },
+    {
+      "id": "g2_print_vs_return_none",
+      "title": "Predict \u2014 it prints, then returns",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    def f(x):\n        print(x * 2)\n\n    print(f(3))"
+    },
+    {
+      "id": "g2_g_prints_hi_none",
+      "title": "Predict \u2014 hi then what?",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    def g():\n        print(\"hi\")\n\n    x = g()\n    print(x)"
+    },
+    {
+      "id": "g2_default_two_ways",
+      "title": "Predict \u2014 a default called two ways",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    def greet(name, greeting=\"Hi\"):\n        return greeting + \", \" + name\n\n    print(greet(\"Sam\"))\n    print(greet(\"Sam\", \"Yo\"))"
+    },
+    {
+      "id": "g2_code_after_return",
+      "title": "Predict \u2014 code after return",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    def f(x):\n        return x\n        print(\"done\")\n\n    print(f(5))"
+    },
+    {
+      "id": "g2_multiple_returns",
+      "title": "Predict \u2014 which return fires?",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    def describe(n):\n        if n > 10:\n            return \"big\"\n        if n > 5:\n            return \"medium\"\n        return \"small\"\n\n    print(describe(8))"
+    },
+    {
+      "id": "g2_call_from_call",
+      "title": "Predict \u2014 one function calls another",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    def area(w, h):\n        return w * h\n\n    def label(w, h):\n        return \"area=\" + str(area(w, h))\n\n    print(label(2, 3))"
+    },
+    {
+      "id": "g2_nested_calls",
+      "title": "Predict \u2014 a function calling itself's helper",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "functions"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    def add1(x):\n        return x + 1\n\n    def add3(x):\n        return add1(add1(add1(x)))\n\n    print(add3(0))"
+    },
+    {
+      "id": "g2_reassign_param",
+      "title": "Predict \u2014 does the caller's number change?",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "functions"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    def f(x):\n        x = x + 1\n        return x\n\n    n = 10\n    print(f(n))\n    print(n)"
+    },
+    {
+      "id": "g2_return_stops_loop",
+      "title": "Predict \u2014 return inside a loop",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "functions"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    def first_even(nums):\n        for n in nums:\n            if n % 2 == 0:\n                return n\n        return -1\n\n    print(first_even([1, 3, 4, 7, 8]))"
+    },
+    {
+      "id": "g2_return_two_values",
+      "title": "Predict \u2014 returning two things",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "functions"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    def stats(a, b):\n        return a + b, a * b\n\n    print(stats(2, 3))"
+    },
+    {
+      "id": "g2_print_then_return",
+      "title": "Predict \u2014 print inside, print outside",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    def f(x):\n        print(\"in\")\n        return x\n\n    print(f(9))"
+    },
+    {
+      "id": "g2_fix_print_not_return",
+      "title": "It prints the answer instead of returning it",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "bugs"
+      ],
+      "difficulty": "starter",
+      "prompt": "This function is supposed to hand back three times its input, but callers keep getting None. Fix it.\n\n    n = triple(2)\n    print(n + 1)     # crashes: None + 1\n\nExamples\n\n    triple(2) \u2192 6\n    triple(0) \u2192 0\n    triple(5) \u2192 15\n\nNotes\n\n- print shows a value on the screen; it does not hand the value back to the caller.\n- Only one word needs to change."
+    },
+    {
+      "id": "g2_fix_missing_return",
+      "title": "The sum never comes back",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "bugs"
+      ],
+      "difficulty": "starter",
+      "prompt": "This function computes the total but forgets to hand it back, so every call gives None. Fix it.\n\nExamples\n\n    add(2, 3) \u2192 5\n    add(10, 0) \u2192 10\n    add(-1, 1) \u2192 0\n\nNotes\n\n- Computing a value into a local variable is not the same as returning it.\n- Add one line so the function returns total."
+    },
+    {
+      "id": "g2_fix_return_in_loop",
+      "title": "The counter quits after the first item",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "bugs"
+      ],
+      "difficulty": "medium",
+      "prompt": "This function should count how many numbers in the list are greater than zero, but it keeps returning too early. Fix it.\n\nExamples\n\n    count_positives([1, 2, 3]) \u2192 3\n    count_positives([-1, 2, -3]) \u2192 1\n    count_positives([]) \u2192 0\n\nNotes\n\n- A return inside the loop stops the whole function the first time it runs.\n- The return that hands back the count belongs after the loop, not inside it."
+    },
+    {
+      "id": "g2_fix_default_order",
+      "title": "The default is in the wrong place",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "bugs"
+      ],
+      "difficulty": "medium",
+      "prompt": "This function will not even define \u2014 Python rejects the header. Fix the parameter order so the greeting is optional and defaults to \"Hi\".\n\nExamples\n\n    greet(\"Sam\") \u2192 \"Hi, Sam\"\n    greet(\"Sam\", \"Yo\") \u2192 \"Yo, Sam\"\n\nNotes\n\n- Once a parameter has a default, every parameter after it must also have one.\n- Put the required parameter first and the one with a default last."
+    },
+    {
+      "id": "g2_wrong_missing_colon",
+      "title": "What is wrong \u2014 the def line",
+      "kind": "mcq",
+      "tags": [
+        "bugs",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "This code will not run. What is wrong?\n\n    def f(x)\n        return x * 2"
+    },
+    {
+      "id": "g2_wrong_print_then_use",
+      "title": "What is wrong \u2014 result * 2 crashes",
+      "kind": "mcq",
+      "tags": [
+        "bugs",
+        "functions"
+      ],
+      "difficulty": "medium",
+      "prompt": "This program crashes on the last line. What is the real cause?\n\n    def area(w, h):\n        print(w * h)\n\n    result = area(3, 4)\n    print(result * 2)"
+    },
+    {
+      "id": "g2_wrong_arg_count",
+      "title": "What is wrong \u2014 one argument",
+      "kind": "mcq",
+      "tags": [
+        "bugs",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "This code raises an error. What is wrong?\n\n    def add(a, b):\n        return a + b\n\n    print(add(5))"
+    },
+    {
+      "id": "g2_wrong_call_before_def",
+      "title": "What is wrong \u2014 call comes first",
+      "kind": "mcq",
+      "tags": [
+        "bugs",
+        "functions"
+      ],
+      "difficulty": "medium",
+      "prompt": "This program raises a NameError. What is wrong?\n\n    print(greet(\"Sam\"))\n\n    def greet(name):\n        return \"Hi, \" + name"
+    },
+    {
+      "id": "g2_concept_return_vs_print",
+      "title": "Concept \u2014 return vs print",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "What is the real difference between return and print inside a function?"
+    },
+    {
+      "id": "g2_concept_param_vs_arg",
+      "title": "Concept \u2014 parameter vs argument",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "Given this definition and call, which statement is correct?\n\n    def f(x):\n        return x + 1\n\n    f(5)"
+    },
+    {
+      "id": "g2_concept_what_is_none",
+      "title": "Concept \u2014 what a function with no return gives back",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "A function runs to the end without ever hitting a return statement. What value does the call hand back?"
+    },
+    {
+      "id": "g2_concept_def_runs",
+      "title": "Concept \u2014 does defining run it?",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "When Python reads a `def` statement, what happens?"
+    },
+    {
+      "id": "g2_concept_local_variable",
+      "title": "Concept \u2014 a variable made inside a function",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "A variable is created inside a function's body. Which statement is true?"
+    },
+    {
+      "id": "g2_concept_which_is_call",
+      "title": "Concept \u2014 which one actually calls it?",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "You have a function named `double`. Which of these actually calls it with the value 5?"
+    },
+    {
+      "id": "g2_make_greeting",
+      "title": "Write a greeting",
+      "kind": "code_fn",
+      "tags": [
+        "functions"
+      ],
+      "difficulty": "starter",
+      "prompt": "Write a function that takes a name and returns a greeting: the word \"Hello\", a comma and a space, the name, then an exclamation mark.\n\nExamples\n\n    make_greeting(\"Sam\") \u2192 \"Hello, Sam!\"\n    make_greeting(\"Ada\") \u2192 \"Hello, Ada!\"\n\nNotes\n\n- Return the string; do not print it.\n- Join the pieces with + , and do not forget the \"!\" at the end."
+    },
+    {
+      "id": "g2_final_price",
+      "title": "Price after a coupon",
+      "kind": "code_fn",
+      "tags": [
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "Write a function that returns the price after subtracting a coupon amount. The coupon should be optional: if the caller does not pass one, no discount is applied.\n\nExamples\n\n    final_price(10) \u2192 10\n    final_price(10, 3) \u2192 7\n    final_price(20, 20) \u2192 0\n\nNotes\n\n- Give the coupon parameter a default value so it is optional.\n- With no coupon, the price comes back unchanged."
+    },
+    {
+      "id": "g2_is_adult",
+      "title": "Is this person an adult?",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "logic"
+      ],
+      "difficulty": "easy",
+      "prompt": "Write a function that returns True when an age is 18 or more, and False otherwise.\n\nExamples\n\n    is_adult(18) \u2192 True\n    is_adult(17) \u2192 False\n    is_adult(21) \u2192 True\n\nNotes\n\n- A comparison already produces True or False, so you do not need an if statement.\n- \"18 or more\" includes exactly 18."
+    },
+    {
+      "id": "g2_bigger",
+      "title": "Return the bigger of two",
+      "kind": "code_fn",
+      "tags": [
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "Write a function that returns the larger of two numbers. If they are equal, return that value.\n\nExamples\n\n    bigger(3, 5) \u2192 5\n    bigger(9, 2) \u2192 9\n    bigger(4, 4) \u2192 4\n\nNotes\n\n- Use an if to return one value, and a plain return for the other case.\n- Do not print \u2014 return the number."
+    },
+    {
+      "id": "g2_total_area",
+      "title": "Total area of two rectangles",
+      "kind": "code_fn",
+      "tags": [
+        "functions"
+      ],
+      "difficulty": "medium",
+      "prompt": "You are given area(w, h), which returns the area of one rectangle. Write total_area(w1, h1, w2, h2) that returns the combined area of two rectangles by calling area twice.\n\nExamples\n\n    total_area(2, 3, 4, 5) \u2192 26\n    total_area(1, 1, 1, 1) \u2192 2\n    total_area(0, 5, 2, 2) \u2192 4\n\nNotes\n\n- Call area for each rectangle instead of multiplying by hand.\n- Add the two results together and return the sum."
+    },
+    {
+      "id": "g2_initials",
+      "title": "Build the initials",
+      "kind": "code_fn",
+      "tags": [
+        "functions",
+        "strings"
+      ],
+      "difficulty": "easy",
+      "prompt": "Write a function that takes a first name and a last name and returns their two initials joined together: the first letter of each name.\n\nExamples\n\n    initials(\"Ada\", \"Lovelace\") \u2192 \"AL\"\n    initials(\"Sam\", \"Ray\") \u2192 \"SR\"\n\nNotes\n\n- The first character of a string s is s[0].\n- Join the two letters with + and return the result."
+    },
+    {
+      "id": "p_first_item",
+      "title": "Predict \u2014 first item",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "arrays"
+      ],
+      "difficulty": "starter",
+      "prompt": "What does this print?\n\n    print([10, 20, 30][0])"
+    },
+    {
+      "id": "p_last_neg",
+      "title": "Predict \u2014 the last item",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "arrays",
+        "indexing"
+      ],
+      "difficulty": "starter",
+      "prompt": "What does this print?\n\n    print([\"a\", \"b\", \"c\"][-1])"
+    },
+    {
+      "id": "p_slice_mid",
+      "title": "Predict \u2014 a slice",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "arrays"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print([5, 6, 7, 8][1:3])"
+    },
+    {
+      "id": "p_append_end",
+      "title": "Predict \u2014 after append",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "arrays"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    nums = [3, 1, 2]\n    nums.append(4)\n    print(nums)"
+    },
+    {
+      "id": "p_len_list",
+      "title": "Predict \u2014 how long",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "arrays"
+      ],
+      "difficulty": "starter",
+      "prompt": "What does this print?\n\n    print(len([4, 5, 6, 7]))"
+    },
+    {
+      "id": "p_sum_list",
+      "title": "Predict \u2014 add them up",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "arrays"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(sum([10, 20, 30]))"
+    },
+    {
+      "id": "p_max_list",
+      "title": "Predict \u2014 the biggest",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "arrays"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(max([4, 7, 9, 2]))"
+    },
+    {
+      "id": "p_sort_returns_none",
+      "title": "Predict \u2014 the sort() trap",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "sorting"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    x = [3, 1, 2].sort()\n    print(x)"
+    },
+    {
+      "id": "p_sorted_new",
+      "title": "Predict \u2014 sorted()",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "sorting"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(sorted([30, 10, 20]))"
+    },
+    {
+      "id": "p_alias_append",
+      "title": "Predict \u2014 aliasing",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "arrays"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    a = [1, 2]\n    b = a\n    a.append(3)\n    print(b)"
+    },
+    {
+      "id": "p_pop_last",
+      "title": "Predict \u2014 after pop",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "arrays"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    nums = [10, 20, 30]\n    nums.pop()\n    print(nums)"
+    },
+    {
+      "id": "bug_append_returns_list",
+      "title": "Fix the cart adder",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "arrays"
+      ],
+      "difficulty": "easy",
+      "prompt": "`add_item` should add `item` to the end of the `cart` list and return the updated\ncart. Instead every call returns `None`. Fix it.\n\nExamples\n\n    add_item([\"milk\"], \"eggs\") \u2192 [\"milk\", \"eggs\"]\n    add_item([], \"bread\")      \u2192 [\"bread\"]\n\nNotes\n\n- `.append()` changes the list in place and hands back `None`.\n- Do the append on one line, then return the list on the next."
+    },
+    {
+      "id": "bug_sort_returns_none",
+      "title": "Fix the score ranker",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "sorting"
+      ],
+      "difficulty": "easy",
+      "prompt": "`rank_scores` should return a new list of the scores sorted from lowest to highest.\nRight now it returns `None`. Fix it.\n\nExamples\n\n    rank_scores([3, 1, 2]) \u2192 [1, 2, 3]\n    rank_scores([5, 4])    \u2192 [4, 5]\n\nNotes\n\n- `.sort()` rearranges a list in place and returns `None`.\n- `sorted(list)` hands back a brand-new sorted list."
+    },
+    {
+      "id": "bug_second_item_index",
+      "title": "Fix the second-item grabber",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "arrays",
+        "indexing"
+      ],
+      "difficulty": "easy",
+      "prompt": "`second_item` should return the SECOND item in the list. It grabs the wrong spot\n(and crashes on a two-item list). Fix it.\n\nExamples\n\n    second_item([\"a\", \"b\", \"c\"]) \u2192 \"b\"\n    second_item([10, 20, 30])    \u2192 20\n\nNotes\n\n- The first item is at index 0, so the second item is at index 1.\n- The list always has at least two items."
+    },
+    {
+      "id": "bug_last_two_slice",
+      "title": "Fix the last-two grabber",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "arrays"
+      ],
+      "difficulty": "medium",
+      "prompt": "`last_two` should return a list of the last TWO items. Right now it returns just one\nitem, not a list. Fix it.\n\nExamples\n\n    last_two([1, 2, 3])           \u2192 [2, 3]\n    last_two([\"a\", \"b\", \"c\", \"d\"]) \u2192 [\"c\", \"d\"]\n\nNotes\n\n- A single negative index like `items[-2]` gives one item, not a list.\n- A slice like `items[-2:]` gives a list of the last two items."
+    },
+    {
+      "id": "wrong_sort_then_index",
+      "title": "What's wrong \u2014 sort then index",
+      "kind": "mcq",
+      "tags": [
+        "bugs",
+        "sorting"
+      ],
+      "difficulty": "medium",
+      "prompt": "A student wants the lowest score, so they write:\n\n    scores = [88, 72, 95]\n    ranked = scores.sort()\n    print(ranked[0])\n\nThis crashes with a TypeError. What is wrong?"
+    },
+    {
+      "id": "wrong_append_reassign",
+      "title": "What's wrong \u2014 reassigning append",
+      "kind": "mcq",
+      "tags": [
+        "bugs",
+        "arrays"
+      ],
+      "difficulty": "medium",
+      "prompt": "A student writes:\n\n    cart = [\"milk\"]\n    cart = cart.append(\"eggs\")\n    print(cart)\n\nThey expected `['milk', 'eggs']` but got `None`. What went wrong?"
+    },
+    {
+      "id": "wrong_index_off_end",
+      "title": "What's wrong \u2014 off the end",
+      "kind": "mcq",
+      "tags": [
+        "bugs",
+        "arrays",
+        "indexing"
+      ],
+      "difficulty": "easy",
+      "prompt": "A student writes:\n\n    names = [\"ana\", \"ben\", \"cal\"]\n    print(names[3])\n\nIt raises an `IndexError`. Why?"
+    },
+    {
+      "id": "wrong_alias_backup",
+      "title": "What's wrong \u2014 the backup changed",
+      "kind": "mcq",
+      "tags": [
+        "bugs",
+        "arrays"
+      ],
+      "difficulty": "medium",
+      "prompt": "A student wanted `backup` to keep the original, unchanged list:\n\n    original = [1, 2, 3]\n    backup = original\n    original.append(4)\n\nThey were surprised that `backup` is now `[1, 2, 3, 4]`. What went wrong?"
+    },
+    {
+      "id": "concept_sort_vs_sorted",
+      "title": "Concept \u2014 sort() vs sorted()",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "sorting"
+      ],
+      "difficulty": "medium",
+      "prompt": "What is the difference between `nums.sort()` and `sorted(nums)`?"
+    },
+    {
+      "id": "concept_lists_mutable",
+      "title": "Concept \u2014 can you change a list?",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "arrays"
+      ],
+      "difficulty": "easy",
+      "prompt": "Which statement about Python lists is true?"
+    },
+    {
+      "id": "concept_append_returns",
+      "title": "Concept \u2014 what append returns",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "arrays"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does `my_list.append(x)` return?"
+    },
+    {
+      "id": "concept_first_index_zero",
+      "title": "Concept \u2014 index of the first item",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "arrays",
+        "indexing"
+      ],
+      "difficulty": "starter",
+      "prompt": "In the list `[\"a\", \"b\", \"c\"]`, what index does the first item `\"a\"` sit at?"
+    },
+    {
+      "id": "concept_which_is_list",
+      "title": "Concept \u2014 which one is a list?",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "arrays"
+      ],
+      "difficulty": "easy",
+      "prompt": "Which of these creates a list?"
+    },
+    {
+      "id": "concept_aliasing",
+      "title": "Concept \u2014 two names, one list",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "arrays"
+      ],
+      "difficulty": "medium",
+      "prompt": "You run `b = a`, where `a` is a list. Then you run `a.append(5)`. What happens to `b`?"
+    },
+    {
+      "id": "dice_list",
+      "title": "Store the dice rolls",
+      "kind": "code_var",
+      "tags": [
+        "arrays"
+      ],
+      "difficulty": "starter",
+      "prompt": "Store these three dice rolls in a list called `dice`, in this exact order: 7, 3, 9.\n\nExamples\n\n    dice[0] \u2192 7\n    dice[2] \u2192 9\n\nNotes\n\n- A list is written with square brackets and commas between the items.\n- These are numbers, so they do not need quotes."
+    },
+    {
+      "id": "list_average",
+      "title": "Average of a list",
+      "kind": "code_fn",
+      "tags": [
+        "arrays"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that takes a non-empty list of numbers and returns their average\n(the sum divided by how many there are).\n\nExamples\n\n    list_average([2, 4])    \u2192 3\n    list_average([10])      \u2192 10\n    list_average([1, 2, 3]) \u2192 2\n\nNotes\n\n- `sum()` adds up the list and `len()` counts it \u2014 no loop needed.\n- The list always has at least one number, so you never divide by zero."
+    },
+    {
+      "id": "first_and_last",
+      "title": "First and last",
+      "kind": "code_fn",
+      "tags": [
+        "arrays",
+        "indexing"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that takes a list and returns a NEW two-item list holding just the\nfirst item and the last item, in that order.\n\nExamples\n\n    first_and_last([1, 2, 3])           \u2192 [1, 3]\n    first_and_last([\"a\", \"b\", \"c\", \"d\"]) \u2192 [\"a\", \"d\"]\n    first_and_last([5])                 \u2192 [5, 5]\n\nNotes\n\n- Index `0` is the first item and index `-1` is the last item.\n- If the list has one item, the first and last are the same item."
+    },
+    {
+      "id": "sort_desc",
+      "title": "Highest to lowest",
+      "kind": "code_fn",
+      "tags": [
+        "sorting"
+      ],
+      "difficulty": "medium",
+      "prompt": "Create a function that takes a list of numbers and returns a NEW list with them\nordered from largest to smallest.\n\nExamples\n\n    sort_desc([1, 3, 2])    \u2192 [3, 2, 1]\n    sort_desc([5, 4])       \u2192 [5, 4]\n    sort_desc([2, 9, 1, 5]) \u2192 [9, 5, 2, 1]\n\nNotes\n\n- `sorted(nums)` gives smallest-first; add `reverse=True` to flip it.\n- Return the new list `sorted()` hands you."
+    },
+    {
+      "id": "make_sentence",
+      "title": "Words into a sentence",
+      "kind": "code_fn",
+      "tags": [
+        "arrays"
+      ],
+      "difficulty": "medium",
+      "prompt": "Create a function that takes a list of words and returns them joined into one string\nwith a single space between each word.\n\nExamples\n\n    make_sentence([\"hello\", \"there\"]) \u2192 \"hello there\"\n    make_sentence([\"a\", \"b\", \"c\"])    \u2192 \"a b c\"\n    make_sentence([\"solo\"])           \u2192 \"solo\"\n\nNotes\n\n- `\" \".join(words)` glues the words together with a space between them.\n- You do not need a loop for this."
+    },
+    {
+      "id": "roll_count",
+      "title": "How many of that face?",
+      "kind": "code_fn",
+      "tags": [
+        "arrays"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that takes a list of dice rolls and one face value, and returns how\nmany times that face was rolled.\n\nExamples\n\n    roll_count([1, 6, 6, 3], 6) \u2192 2\n    roll_count([1, 2, 3], 5)    \u2192 0\n    roll_count([4, 4, 4], 4)    \u2192 3\n\nNotes\n\n- Lists have a `.count()` method: `rolls.count(face)` does the counting for you.\n- A face that never came up should give 0, not an error."
+    },
+    {
+      "id": "pb_greater",
+      "title": "Predict \u2014 is 3 greater than 5?",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "logic"
+      ],
+      "difficulty": "starter",
+      "prompt": "What does this print?\n\n    print(3 > 5)"
+    },
+    {
+      "id": "pb_eq",
+      "title": "Predict \u2014 2 equals 2",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "logic"
+      ],
+      "difficulty": "starter",
+      "prompt": "What does this print?\n\n    print(2 == 2)"
+    },
+    {
+      "id": "pb_str_case",
+      "title": "Predict \u2014 is \"a\" the same as \"A\"?",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "logic"
+      ],
+      "difficulty": "starter",
+      "prompt": "What does this print?\n\n    print(\"a\" == \"A\")"
+    },
+    {
+      "id": "pb_and_mix",
+      "title": "Predict \u2014 one side of `and` is False",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "logic"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(5 > 3 and 2 > 4)"
+    },
+    {
+      "id": "pb_not_true",
+      "title": "Predict \u2014 not True",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "logic"
+      ],
+      "difficulty": "starter",
+      "prompt": "What does this print?\n\n    print(not True)"
+    },
+    {
+      "id": "pb_or_zero",
+      "title": "Predict \u2014 0 or 5",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "logic"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    print(0 or 5)"
+    },
+    {
+      "id": "pb_or_empty",
+      "title": "Predict \u2014 empty string or \"x\"",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "logic"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    print(\"\" or \"x\")"
+    },
+    {
+      "id": "pb_num_str",
+      "title": "Predict \u2014 2 versus the string \"2\"",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "logic"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(2 == \"2\")"
+    },
+    {
+      "id": "pf_temp_elif",
+      "title": "Predict \u2014 which temperature branch?",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "conditions"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    temp = 55\n    if temp >= 80:\n        print(\"hot\")\n    elif temp >= 60:\n        print(\"warm\")\n    elif temp >= 40:\n        print(\"cool\")\n    else:\n        print(\"cold\")"
+    },
+    {
+      "id": "pf_wrong_order",
+      "title": "Predict \u2014 the tiers are in the wrong order",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "conditions"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    spend = 120\n    if spend >= 50:\n        print(\"silver\")\n    elif spend >= 100:\n        print(\"gold\")\n    else:\n        print(\"none\")"
+    },
+    {
+      "id": "pf_first_wins",
+      "title": "Predict \u2014 does the elif also run?",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "conditions"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    n = 12\n    if n % 2 == 0:\n        print(\"even\")\n    elif n % 3 == 0:\n        print(\"three\")\n    else:\n        print(\"other\")"
+    },
+    {
+      "id": "pf_empty_falsy",
+      "title": "Predict \u2014 an empty string in an if",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "conditions"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    name = \"\"\n    if name:\n        print(\"has name\")\n    else:\n        print(\"no name\")"
+    },
+    {
+      "id": "pf_ternary",
+      "title": "Predict \u2014 the one-line conditional",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "conditions"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    age = 20\n    label = \"adult\" if age >= 18 else \"minor\"\n    print(label)"
+    },
+    {
+      "id": "pf_two_separate_ifs",
+      "title": "Predict \u2014 two separate ifs",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "conditions"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    x = 10\n    if x > 5:\n        print(\"big\")\n    if x > 8:\n        print(\"huge\")"
+    },
+    {
+      "id": "wb_assign_if",
+      "title": "What's wrong \u2014 one equals sign",
+      "kind": "mcq",
+      "tags": [
+        "bugs",
+        "logic"
+      ],
+      "difficulty": "easy",
+      "prompt": "This code won't run. What is wrong with it?\n\n    if age = 18:\n        print(\"adult\")"
+    },
+    {
+      "id": "wb_or_split",
+      "title": "What's wrong \u2014 `or \"blue\"`",
+      "kind": "mcq",
+      "tags": [
+        "bugs",
+        "logic"
+      ],
+      "difficulty": "medium",
+      "prompt": "This is meant to be True only when `color` is `\"red\"` or `\"blue\"`, but it is True\nfor every color. What is wrong?\n\n    if color == \"red\" or \"blue\":\n        print(\"primary-ish\")"
+    },
+    {
+      "id": "wb_wrap_comparison",
+      "title": "What's wrong \u2014 the pointless if/else",
+      "kind": "mcq",
+      "tags": [
+        "bugs",
+        "logic"
+      ],
+      "difficulty": "easy",
+      "prompt": "This function works, but it does something the long way. What is the real problem?\n\n    def is_adult(age):\n        if age >= 18:\n            return True\n        else:\n            return False"
+    },
+    {
+      "id": "fix_both_on",
+      "title": "Fix \u2014 both keys must be turned",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "logic",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "A rocket launches only when *both* safety keys are turned. `both_on(a, b)` takes\ntwo True/False values and should return True only when both are True. It returns\nTrue too often \u2014 fix it.\n\nExamples\n\n    both_on(True, True) \u2192 True\n    both_on(True, False) \u2192 False\n\nNotes\n\n- `and` is True only when the value on each side is True.\n- `or` is True when *either* side is True \u2014 that's the bug here."
+    },
+    {
+      "id": "fix_matches_secret",
+      "title": "Fix \u2014 the secret word check won't run",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "logic",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "`matches_secret(word)` should return True when `word` is exactly `\"open\"`. Right\nnow Python refuses to even run the file. Fix it.\n\nExamples\n\n    matches_secret(\"open\") \u2192 True\n    matches_secret(\"nope\") \u2192 False\n\nNotes\n\n- `=` stores a value into a variable. `==` asks whether two values are equal.\n- Once it runs, notice the comparison is already True or False."
+    },
+    {
+      "id": "wf_missing_colon",
+      "title": "What's wrong \u2014 no colon",
+      "kind": "mcq",
+      "tags": [
+        "bugs",
+        "conditions"
+      ],
+      "difficulty": "easy",
+      "prompt": "This code won't run. What is wrong with it?\n\n    if points > 90\n        print(\"A\")"
+    },
+    {
+      "id": "wf_order_unreachable",
+      "title": "What's wrong \u2014 a branch that never runs",
+      "kind": "mcq",
+      "tags": [
+        "bugs",
+        "conditions"
+      ],
+      "difficulty": "medium",
+      "prompt": "This is supposed to return `\"great\"` for 4 or 5 stars, but it never does. What is\nwrong?\n\n    def rate(stars):\n        if stars >= 1:\n            return \"ok\"\n        elif stars >= 4:\n            return \"great\"\n        else:\n            return \"none\""
+    },
+    {
+      "id": "fix_size_label",
+      "title": "Fix \u2014 the size labels come out wrong",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "conditions",
+        "functions"
+      ],
+      "difficulty": "medium",
+      "prompt": "`size_label(n)` should return `\"negative\"` when `n` is below 0, `\"small\"` for 0\nthrough 99, and `\"large\"` for 100 or more. The branches are in an order that makes\n`\"large\"` impossible \u2014 fix it.\n\nExamples\n\n    size_label(150) \u2192 \"large\"\n    size_label(50) \u2192 \"small\"\n    size_label(-3) \u2192 \"negative\"\n\nNotes\n\n- The first branch whose test is True wins; the rest are skipped.\n- Order your tests from the most specific to the most general."
+    },
+    {
+      "id": "fix_ticket_price",
+      "title": "Fix \u2014 the price never comes back",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "conditions",
+        "functions"
+      ],
+      "difficulty": "medium",
+      "prompt": "`ticket_price(age)` should give the price: 0 for under 5, 10 for 5 through 64, and\n7 for 65 and up. It picks the right price but hands back `None` every time. Fix it.\n\nExamples\n\n    ticket_price(3) \u2192 0\n    ticket_price(30) \u2192 10\n    ticket_price(70) \u2192 7\n\nNotes\n\n- Setting `price = ...` inside the branches is not the same as returning it.\n- A function gives back a value only when you `return` it."
+    },
+    {
+      "id": "cb_and_both",
+      "title": "Concept \u2014 what `and` needs",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "logic"
+      ],
+      "difficulty": "starter",
+      "prompt": "For the expression `a and b` to be True, how many of `a` and `b` must be True?"
+    },
+    {
+      "id": "cb_truthy",
+      "title": "Concept \u2014 which value is falsy?",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "logic"
+      ],
+      "difficulty": "medium",
+      "prompt": "Which of these values is *falsy* (Python treats it like False in an `if`)?"
+    },
+    {
+      "id": "cb_return_comparison",
+      "title": "Concept \u2014 return the comparison directly",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "logic"
+      ],
+      "difficulty": "easy",
+      "prompt": "Why can you write `return age >= 18` instead of an if/else that returns True or\nFalse?"
+    },
+    {
+      "id": "cb_eq_vs_assign",
+      "title": "Concept \u2014 `=` versus `==`",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "logic"
+      ],
+      "difficulty": "starter",
+      "prompt": "What is the difference between `=` and `==` in Python?"
+    },
+    {
+      "id": "cf_elif_only_first",
+      "title": "Concept \u2014 how many elif branches run",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "conditions"
+      ],
+      "difficulty": "easy",
+      "prompt": "In an `if`/`elif`/`elif` chain where two of the conditions happen to be True, how\nmany branches actually run?"
+    },
+    {
+      "id": "cf_else",
+      "title": "Concept \u2014 when does `else` run?",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "conditions"
+      ],
+      "difficulty": "starter",
+      "prompt": "When does the `else` block run?"
+    },
+    {
+      "id": "cf_indent",
+      "title": "Concept \u2014 what marks the block",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "conditions"
+      ],
+      "difficulty": "starter",
+      "prompt": "What decides which lines belong to an `if` block in Python?"
+    },
+    {
+      "id": "cf_ternary_form",
+      "title": "Concept \u2014 the one-line conditional shape",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "conditions"
+      ],
+      "difficulty": "medium",
+      "prompt": "Which line correctly gives `x` the value `\"yes\"` when `ok` is True, and `\"no\"`\notherwise?"
+    },
+    {
+      "id": "wa_is_teenager",
+      "title": "Write \u2014 is this a teenager?",
+      "kind": "code_fn",
+      "tags": [
+        "logic",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "Write `is_teenager(age)` that returns True when `age` is between 13 and 19,\ninclusive, and False otherwise.\n\nExamples\n\n    is_teenager(15) \u2192 True\n    is_teenager(13) \u2192 True\n    is_teenager(20) \u2192 False\n\nNotes\n\n- \"Between 13 and 19 inclusive\" means 13 and 19 both count.\n- You can chain the comparison: `13 <= age <= 19` \u2014 and return it directly."
+    },
+    {
+      "id": "wa_is_weekend_day",
+      "title": "Write \u2014 is it a weekend day?",
+      "kind": "code_fn",
+      "tags": [
+        "validation",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "Write `is_weekend_day(day)` that returns True when `day` is `\"Sat\"` or `\"Sun\"`,\nand False for any other day.\n\nExamples\n\n    is_weekend_day(\"Sat\") \u2192 True\n    is_weekend_day(\"Sun\") \u2192 True\n    is_weekend_day(\"Mon\") \u2192 False\n\nNotes\n\n- `day in [\"Sat\", \"Sun\"]` asks whether `day` is one of the items in the list.\n- That membership test is already True or False \u2014 return it directly."
+    },
+    {
+      "id": "va_is_positive",
+      "title": "Store \u2014 is 5 positive?",
+      "kind": "code_var",
+      "tags": [
+        "logic"
+      ],
+      "difficulty": "starter",
+      "prompt": "Store in a variable named `answer` whether the number 5 is greater than 0. Don't\ntype `True` yourself \u2014 let a comparison produce the value.\n\nNotes\n\n- `5 > 0` evaluates to a True/False value all on its own.\n- Assign that comparison straight into `answer`."
+    },
+    {
+      "id": "wa_sign_label",
+      "title": "Write \u2014 label the sign of a number",
+      "kind": "code_fn",
+      "tags": [
+        "conditions",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "Write `sign_label(n)` that returns `\"positive\"` when `n` is greater than 0,\n`\"zero\"` when `n` is exactly 0, and `\"negative\"` when `n` is below 0.\n\nExamples\n\n    sign_label(4) \u2192 \"positive\"\n    sign_label(0) \u2192 \"zero\"\n    sign_label(-2) \u2192 \"negative\"\n\nNotes\n\n- Three outcomes means an `if` / `elif` / `else`.\n- Make sure exactly one branch fires for `0`."
+    },
+    {
+      "id": "wa_pass_or_fail",
+      "title": "Write \u2014 pass or fail",
+      "kind": "code_fn",
+      "tags": [
+        "conditions",
+        "functions"
+      ],
+      "difficulty": "starter",
+      "prompt": "A quiz needs 60 points or more to pass. Write `pass_or_fail(points)` that returns\n`\"pass\"` when `points` is 60 or more, and `\"fail\"` otherwise.\n\nExamples\n\n    pass_or_fail(75) \u2192 \"pass\"\n    pass_or_fail(60) \u2192 \"pass\"\n    pass_or_fail(59) \u2192 \"fail\"\n\nNotes\n\n- \"60 or more\" includes exactly 60, so use `>=`."
+    },
+    {
+      "id": "wa_bigger",
+      "title": "Write \u2014 the larger of two numbers",
+      "kind": "code_fn",
+      "tags": [
+        "conditions",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "Write `bigger(a, b)` that returns the larger of the two numbers. If they are equal,\nreturning either one is fine (they're the same value).\n\nExamples\n\n    bigger(3, 9) \u2192 9\n    bigger(10, 4) \u2192 10\n    bigger(5, 5) \u2192 5\n\nNotes\n\n- Compare the two with `>` and return the one that wins."
+    },
+    {
+      "id": "p2_range3",
+      "title": "Predict \u2014 range(3)",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "loops"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print, one value per line?\n\n    for i in range(3):\n        print(i)"
+    },
+    {
+      "id": "p2_range_1_4",
+      "title": "Predict \u2014 range(1, 4)",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "loops"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print, one value per line?\n\n    for i in range(1, 4):\n        print(i)"
+    },
+    {
+      "id": "p2_range_step",
+      "title": "Predict \u2014 range with a step",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "loops"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print, one value per line?\n\n    for i in range(0, 10, 2):\n        print(i)"
+    },
+    {
+      "id": "p2_for_string",
+      "title": "Predict \u2014 looping a string",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "loops"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    for c in \"hi\":\n        print(c)"
+    },
+    {
+      "id": "p2_range_len",
+      "title": "Predict \u2014 range(len(word))",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "loops"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print, one value per line?\n\n    word = \"cat\"\n    for i in range(len(word)):\n        print(i)"
+    },
+    {
+      "id": "p2_accum_sum",
+      "title": "Predict \u2014 summing with +=",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "loops"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    total = 0\n    for n in [4, 5, 6]:\n        total += n\n    print(total)"
+    },
+    {
+      "id": "p2_sum_range",
+      "title": "Predict \u2014 sum over a range",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "loops"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    total = 0\n    for i in range(1, 5):\n        total += i\n    print(total)"
+    },
+    {
+      "id": "p2_count_condition",
+      "title": "Predict \u2014 counting with a condition",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "loops"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    scores = [8, 3, 9, 2, 7]\n    count = 0\n    for s in scores:\n        if s >= 5:\n            count += 1\n    print(count)"
+    },
+    {
+      "id": "p2_star_end",
+      "title": "Predict \u2014 print with end=\"\"",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "loops"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    for i in range(4):\n        print(\"*\", end=\"\")"
+    },
+    {
+      "id": "p2_build_list",
+      "title": "Predict \u2014 building a list",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "loops"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    result = []\n    for n in [1, 2, 3]:\n        result.append(n * 10)\n    print(result)"
+    },
+    {
+      "id": "p2_string_concat",
+      "title": "Predict \u2014 building a string backwards",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "loops"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    result = \"\"\n    for c in \"abc\":\n        result = c + result\n    print(result)"
+    },
+    {
+      "id": "p2_countdown_range",
+      "title": "Predict \u2014 counting down",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "loops"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print, one value per line?\n\n    for n in range(5, 0, -1):\n        print(n)"
+    },
+    {
+      "id": "p2_enumerate",
+      "title": "Predict \u2014 enumerate",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "loops"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print, one line per pass?\n\n    for i, c in enumerate(\"ab\"):\n        print(i, c)"
+    },
+    {
+      "id": "p2_break_early",
+      "title": "Predict \u2014 break stops the loop",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "loops"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print, one value per line?\n\n    for n in [1, 2, 3, 4, 5]:\n        if n == 3:\n            break\n        print(n)"
+    },
+    {
+      "id": "p2_continue_skip",
+      "title": "Predict \u2014 continue skips one",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "loops"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print, one value per line?\n\n    for n in [1, 2, 3, 4]:\n        if n == 2:\n            continue\n        print(n)"
+    },
+    {
+      "id": "p2_while_countdown",
+      "title": "Predict \u2014 a while countdown",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "loops"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print, one value per line?\n\n    n = 3\n    while n > 0:\n        print(n)\n        n -= 1"
+    },
+    {
+      "id": "p2_nested_pairs",
+      "title": "Predict \u2014 a nested loop",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "loops"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print, one pair per line?\n\n    for i in range(2):\n        for j in range(2):\n            print(i, j)"
+    },
+    {
+      "id": "p2_nested_stars",
+      "title": "Predict \u2014 a triangle of stars",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "loops"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    for i in range(3):\n        for j in range(i + 1):\n            print(\"*\", end=\"\")\n        print()"
+    },
+    {
+      "id": "g2_fix_accum_inside",
+      "title": "The step counter keeps resetting",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "bugs",
+        "functions"
+      ],
+      "difficulty": "medium",
+      "prompt": "`total_steps(days)` should add up every day's step count. Instead it always reports just the last day. Find out why and fix it.\n\nExamples\n\n    total_steps([100, 200, 300]) \u2192 600\n    total_steps([50]) \u2192 50\n    total_steps([]) \u2192 0\n\nNotes\n\n- The bug is about *where* a line sits, not what it says.\n- An empty list should give 0."
+    },
+    {
+      "id": "g2_loop_return_stops_total",
+      "title": "The total stops after one item",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "bugs",
+        "functions"
+      ],
+      "difficulty": "medium",
+      "prompt": "`total_price(prices)` should add up every price in the cart. Right now it returns after looking at only the first one. Fix it.\n\nExamples\n\n    total_price([2, 3, 4]) \u2192 9\n    total_price([5]) \u2192 5\n    total_price([]) \u2192 0\n\nNotes\n\n- The bug is about *where* the `return` sits.\n- An empty cart costs 0."
+    },
+    {
+      "id": "g2_fix_range_end",
+      "title": "The last parking spot is missing",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "bugs",
+        "arrays"
+      ],
+      "difficulty": "easy",
+      "prompt": "`spot_numbers(n)` should return the list of parking-spot numbers from 1 to `n`. Right now the very last spot never shows up. Fix it.\n\nExamples\n\n    spot_numbers(3) \u2192 [1, 2, 3]\n    spot_numbers(1) \u2192 [1]\n    spot_numbers(0) \u2192 []\n\nNotes\n\n- Spots are numbered starting at 1.\n- A lot with 0 spots is an empty list, not an error."
+    },
+    {
+      "id": "g2_fix_count_start",
+      "title": "The pass count is one too high",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "bugs",
+        "functions"
+      ],
+      "difficulty": "medium",
+      "prompt": "`count_passes(scores)` should count how many scores are 60 or higher. Every answer comes out one too big. Fix it.\n\nExamples\n\n    count_passes([70, 50, 80]) \u2192 2\n    count_passes([40, 30]) \u2192 0\n    count_passes([]) \u2192 0\n\nNotes\n\n- A score of exactly 60 counts as a pass.\n- No scores at all means 0 passes."
+    },
+    {
+      "id": "g2_fix_build_list",
+      "title": "The even list keeps forgetting itself",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "bugs",
+        "arrays"
+      ],
+      "difficulty": "medium",
+      "prompt": "`collect_evens(nums)` should return a new list containing only the even numbers. Right now it never keeps more than the last one. Fix it.\n\nExamples\n\n    collect_evens([1, 2, 3, 4]) \u2192 [2, 4]\n    collect_evens([2]) \u2192 [2]\n    collect_evens([1, 3]) \u2192 []\n\nNotes\n\n- The bug is about *where* the empty list is created.\n- A list with no evens gives `[]`."
+    },
+    {
+      "id": "g2_wrong_infinite_while",
+      "title": "What's wrong \u2014 the loop never ends",
+      "kind": "mcq",
+      "tags": [
+        "loops",
+        "bugs"
+      ],
+      "difficulty": "easy",
+      "prompt": "This code is supposed to count down and stop, but it runs forever. What's wrong?\n\n    n = 5\n    while n > 0:\n        print(n)"
+    },
+    {
+      "id": "g2_wrong_range_end",
+      "title": "What's wrong \u2014 10 never prints",
+      "kind": "mcq",
+      "tags": [
+        "loops",
+        "bugs"
+      ],
+      "difficulty": "easy",
+      "prompt": "You want to print the numbers 1 through 10, but 10 is missing. What's wrong?\n\n    for i in range(1, 10):\n        print(i)"
+    },
+    {
+      "id": "g2_wrong_return_in_loop",
+      "title": "What's wrong \u2014 it adds only one number",
+      "kind": "mcq",
+      "tags": [
+        "loops",
+        "bugs"
+      ],
+      "difficulty": "medium",
+      "prompt": "`add_up` is supposed to sum a whole list, but it always returns just the first number. What's wrong?\n\n    def add_up(nums):\n        total = 0\n        for n in nums:\n            total += n\n            return total"
+    },
+    {
+      "id": "g2_wrong_reset_inside",
+      "title": "What's wrong \u2014 only the last number survives",
+      "kind": "mcq",
+      "tags": [
+        "loops",
+        "bugs"
+      ],
+      "difficulty": "medium",
+      "prompt": "This is meant to add 1, 2 and 3 to get 6, but it prints 3. What's happening?\n\n    total = 0\n    for n in [1, 2, 3]:\n        total = 0\n        total += n\n    print(total)"
+    },
+    {
+      "id": "g2_concept_range5",
+      "title": "Concept \u2014 what does range(5) give?",
+      "kind": "mcq",
+      "tags": [
+        "loops",
+        "concept"
+      ],
+      "difficulty": "easy",
+      "prompt": "How many numbers does `range(5)` produce, and what are they?"
+    },
+    {
+      "id": "g2_concept_total_location",
+      "title": "Concept \u2014 where does total = 0 go?",
+      "kind": "mcq",
+      "tags": [
+        "loops",
+        "concept"
+      ],
+      "difficulty": "easy",
+      "prompt": "You're summing a list with an accumulator. Where must `total = 0` be written?"
+    },
+    {
+      "id": "g2_concept_enumerate",
+      "title": "Concept \u2014 what enumerate gives you",
+      "kind": "mcq",
+      "tags": [
+        "loops",
+        "concept"
+      ],
+      "difficulty": "easy",
+      "prompt": "In `for i, x in enumerate([\"a\", \"b\", \"c\"])`, what are `i` and `x` on the first pass?"
+    },
+    {
+      "id": "g2_concept_break_continue",
+      "title": "Concept \u2014 break vs continue",
+      "kind": "mcq",
+      "tags": [
+        "loops",
+        "concept"
+      ],
+      "difficulty": "easy",
+      "prompt": "What is the difference between `break` and `continue` inside a loop?"
+    },
+    {
+      "id": "g2_concept_for_item",
+      "title": "Concept \u2014 what the loop variable holds",
+      "kind": "mcq",
+      "tags": [
+        "loops",
+        "concept"
+      ],
+      "difficulty": "easy",
+      "prompt": "In `for song in playlist:`, what does `song` hold on each pass?"
+    },
+    {
+      "id": "g2_concept_while_true",
+      "title": "Concept \u2014 when a while loop keeps going",
+      "kind": "mcq",
+      "tags": [
+        "loops",
+        "concept"
+      ],
+      "difficulty": "easy",
+      "prompt": "A `while` loop keeps repeating for as long as its condition is...?"
+    },
+    {
+      "id": "g2_count_negatives",
+      "title": "Count the negative numbers",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that counts how many numbers in a list are negative (less than 0).\n\nExamples\n\n    count_negatives([-1, 2, -3]) \u2192 2\n    count_negatives([1, 2, 3]) \u2192 0\n    count_negatives([]) \u2192 0\n\nNotes\n\n- 0 itself is not negative.\n- An empty list has 0 negatives."
+    },
+    {
+      "id": "g2_sum_evens",
+      "title": "Sum only the even numbers",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "functions"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that adds up only the even numbers in a list and returns the total.\n\nExamples\n\n    sum_evens([1, 2, 3, 4]) \u2192 6\n    sum_evens([2, 4, 6]) \u2192 12\n    sum_evens([1, 3, 5]) \u2192 0\n\nNotes\n\n- A number is even when `n % 2 == 0`.\n- With no even numbers the total is 0."
+    },
+    {
+      "id": "g2_word_lengths",
+      "title": "List the length of each word",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "functions",
+        "arrays"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that takes a list of words and returns a new list with the length of each word, in order.\n\nExamples\n\n    word_lengths([\"hi\", \"bye\"]) \u2192 [2, 3]\n    word_lengths([\"a\"]) \u2192 [1]\n    word_lengths([]) \u2192 []\n\nNotes\n\n- Return a new list; don't print anything.\n- An empty list of words gives an empty list."
+    },
+    {
+      "id": "g2_repeat_string",
+      "title": "Repeat a string n times",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "functions",
+        "strings"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that builds a new string by repeating `text` `n` times, using a loop.\n\nExamples\n\n    repeat_string(\"ab\", 3) \u2192 \"ababab\"\n    repeat_string(\"x\", 1) \u2192 \"x\"\n    repeat_string(\"hi\", 0) \u2192 \"\"\n\nNotes\n\n- Repeating 0 times gives the empty string `\"\"`.\n- Build it with a loop (even though `text * n` also works)."
+    },
+    {
+      "id": "g2_count_target",
+      "title": "Count how many times a value appears",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "functions"
+      ],
+      "difficulty": "medium",
+      "prompt": "Create a function that counts how many times `target` appears in a list.\n\nExamples\n\n    count_target([1, 2, 1, 3, 1], 1) \u2192 3\n    count_target([\"a\", \"b\"], \"c\") \u2192 0\n    count_target([], 5) \u2192 0\n\nNotes\n\n- Compare each item to `target` with `==`.\n- If it never appears, the count is 0."
+    },
+    {
+      "id": "g2_sum_1_to_n",
+      "title": "Sum 1 to n with a while loop",
+      "kind": "code_fn",
+      "tags": [
+        "loops",
+        "functions"
+      ],
+      "difficulty": "medium",
+      "prompt": "Create a function that adds up every whole number from 1 to `n` (both included), using a `while` loop.\n\nExamples\n\n    sum_1_to_n(5) \u2192 15\n    sum_1_to_n(1) \u2192 1\n    sum_1_to_n(0) \u2192 0\n\nNotes\n\n- 1 + 2 + 3 + 4 + 5 is 15.\n- `sum_1_to_n(0)` is 0, since there is nothing to add."
+    },
+    {
+      "id": "p_repeat_ab",
+      "title": "Predict \u2014 repeating a string",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "predict",
+        "formatting"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(\"ab\" * 3)"
+    },
+    {
+      "id": "p_index_first_char",
+      "title": "Predict \u2014 grabbing one character",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "predict",
+        "indexing"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    word = \"hello\"\n    print(word[1])"
+    },
+    {
+      "id": "p_last_char_neg",
+      "title": "Predict \u2014 the last character",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "predict",
+        "indexing"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(\"hello\"[-1])"
+    },
+    {
+      "id": "p_slice_1_4",
+      "title": "Predict \u2014 a slice in the middle",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "predict",
+        "indexing"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(\"python\"[1:4])"
+    },
+    {
+      "id": "p_reverse_python",
+      "title": "Predict \u2014 reversing with a step",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "predict",
+        "indexing"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    print(\"python\"[::-1])"
+    },
+    {
+      "id": "p_len_with_space",
+      "title": "Predict \u2014 length with a space",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "predict"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(len(\"hello world\"))"
+    },
+    {
+      "id": "p_split_comma",
+      "title": "Predict \u2014 splitting on commas",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "predict",
+        "formatting"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    print(\"a,b,c\".split(\",\"))"
+    },
+    {
+      "id": "p_join_dash",
+      "title": "Predict \u2014 joining a list",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "predict",
+        "formatting"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    print(\"-\".join([\"a\", \"b\", \"c\"]))"
+    },
+    {
+      "id": "p_count_a",
+      "title": "Predict \u2014 counting a letter",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "predict"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(\"banana\".count(\"a\"))"
+    },
+    {
+      "id": "p_in_word",
+      "title": "Predict \u2014 is it inside?",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "predict"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(\"cat\" in \"category\")"
+    },
+    {
+      "id": "p_concat_5",
+      "title": "Predict \u2014 adding two strings",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "predict"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(\"5\" + \"5\")"
+    },
+    {
+      "id": "p_step_two",
+      "title": "Predict \u2014 every other letter",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "predict",
+        "indexing"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    print(\"abcdef\"[::2])"
+    },
+    {
+      "id": "p_fstring_name",
+      "title": "Predict \u2014 an f-string",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "predict",
+        "formatting"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    name = \"Sam\"\n    print(f\"Hi {name}!\")"
+    },
+    {
+      "id": "bug_greet_space",
+      "title": "The missing space",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "bugs",
+        "formatting"
+      ],
+      "difficulty": "easy",
+      "prompt": "This function should join a first and last name into one string with a single\nspace between them. It runs, but the result is wrong. Fix it.\n\nExamples\n\n    greet(\"Sam\", \"Lee\") \u2192 \"Sam Lee\"\n    greet(\"Ann\", \"Kim\") \u2192 \"Ann Kim\"\n\nNotes\n\n- Gluing two strings with + puts them directly next to each other with nothing\n  in between.\n- You have to add the space yourself."
+    },
+    {
+      "id": "bug_price_label",
+      "title": "Dollars and text won't add",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "bugs",
+        "formatting"
+      ],
+      "difficulty": "easy",
+      "prompt": "This function should build a price label like \"$5\" from a whole-dollar amount.\nThe amount comes in as an integer, and the code crashes. Fix it.\n\nExamples\n\n    price_label(5) \u2192 \"$5\"\n    price_label(10) \u2192 \"$10\"\n\nNotes\n\n- You cannot add a string and an integer with +.\n- str(n) turns a number into its text form so it can be glued to other text."
+    },
+    {
+      "id": "bug_shout_upper",
+      "title": ".upper() hands back a new string",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "bugs"
+      ],
+      "difficulty": "medium",
+      "prompt": "This function should return the word in all capital letters. It runs without\nerror but returns the word unchanged. Fix it.\n\nExamples\n\n    shout_it(\"hi\") \u2192 \"HI\"\n    shout_it(\"go\") \u2192 \"GO\"\n\nNotes\n\n- word.upper() does not change word. It builds and returns a brand-new\n  uppercase string.\n- If you never use what it returns, the work is thrown away."
+    },
+    {
+      "id": "bug_cap_first",
+      "title": "You can't rewrite one letter",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "bugs",
+        "indexing"
+      ],
+      "difficulty": "medium",
+      "prompt": "This function should return the word with its first letter capitalized. It tries\nto change the first character in place and crashes. Fix it.\n\nExamples\n\n    cap_first(\"cat\") \u2192 \"Cat\"\n    cap_first(\"dog\") \u2192 \"Dog\"\n\nNotes\n\n- Strings are immutable: word[0] = \"X\" is not allowed and raises an error.\n- Instead, build a new string from the uppercased first letter plus the rest,\n  which you can get with word[1:]."
+    },
+    {
+      "id": "bug_last_char",
+      "title": "One step past the end",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "bugs",
+        "indexing"
+      ],
+      "difficulty": "medium",
+      "prompt": "This function should return the last character of a word. It uses the length as\nthe index and crashes. Fix it.\n\nExamples\n\n    last_char(\"cat\") \u2192 \"t\"\n    last_char(\"hi\") \u2192 \"i\"\n\nNotes\n\n- Indexing starts at 0, so a 3-letter word has its last character at index 2,\n  not 3.\n- word[len(word)] is always one step too far."
+    },
+    {
+      "id": "wrong_score_concat",
+      "title": "What's wrong \u2014 text plus a number",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "bugs",
+        "formatting"
+      ],
+      "difficulty": "easy",
+      "prompt": "What is wrong with this code?\n\n    score = 10\n    print(\"Score: \" + score)"
+    },
+    {
+      "id": "wrong_upper_lost",
+      "title": "What's wrong \u2014 the result vanished",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "bugs"
+      ],
+      "difficulty": "medium",
+      "prompt": "This code prints \"sam\", not \"SAM\". Why?\n\n    name = \"sam\"\n    name.upper()\n    print(name)"
+    },
+    {
+      "id": "wrong_index_range",
+      "title": "What's wrong \u2014 reaching too far",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "bugs",
+        "indexing"
+      ],
+      "difficulty": "easy",
+      "prompt": "What happens when this code runs?\n\n    word = \"cat\"\n    print(word[3])"
+    },
+    {
+      "id": "concept_first_index",
+      "title": "Where does counting start?",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "concept",
+        "indexing"
+      ],
+      "difficulty": "easy",
+      "prompt": "In Python, what is the index of the first character of a string?"
+    },
+    {
+      "id": "concept_slice_excludes",
+      "title": "What a slice includes",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "concept",
+        "indexing"
+      ],
+      "difficulty": "medium",
+      "prompt": "The slice word[1:4] gives you the characters at which index positions?"
+    },
+    {
+      "id": "concept_str_vs_int",
+      "title": "\"5\" versus 5",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "concept"
+      ],
+      "difficulty": "easy",
+      "prompt": "What is the difference between \"5\" and 5 in Python?"
+    },
+    {
+      "id": "concept_replace_new",
+      "title": "Does .replace() edit the original?",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "concept"
+      ],
+      "difficulty": "medium",
+      "prompt": "After you run word.replace(\"a\", \"o\"), is the original string stored in word\nchanged?"
+    },
+    {
+      "id": "concept_immutable",
+      "title": "What \"immutable\" means",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "concept",
+        "indexing"
+      ],
+      "difficulty": "medium",
+      "prompt": "Which statement about Python strings is true?"
+    },
+    {
+      "id": "concept_len_counts",
+      "title": "What does len() count?",
+      "kind": "mcq",
+      "tags": [
+        "strings",
+        "concept"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does len(\"hi there\") count?"
+    },
+    {
+      "id": "ends",
+      "title": "First and last character",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "indexing"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that takes a word and returns a two-character string made of\nits first and last character.\n\nExamples\n\n    ends(\"cat\") \u2192 \"ct\"\n    ends(\"hello\") \u2192 \"ho\"\n    ends(\"a\") \u2192 \"aa\"\n\nNotes\n\n- word[0] is the first character; word[-1] is the last.\n- For a one-letter word the first and last character are the same.\n- Return the string, do not print it."
+    },
+    {
+      "id": "yell",
+      "title": "Shout it with a bang",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "formatting"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that takes a word and returns it in all capital letters with a\nsingle \"!\" added to the end.\n\nExamples\n\n    yell(\"go\") \u2192 \"GO!\"\n    yell(\"wow\") \u2192 \"WOW!\"\n\nNotes\n\n- word.upper() returns an uppercase copy of the word.\n- You can glue the \"!\" on with +.\n- Return the result."
+    },
+    {
+      "id": "chant",
+      "title": "Repeat the word",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "formatting"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that takes a word and a whole number n, and returns the word\nrepeated n times with nothing in between.\n\nExamples\n\n    chant(\"go\", 3) \u2192 \"gogogo\"\n    chant(\"ab\", 2) \u2192 \"abab\"\n    chant(\"hi\", 0) \u2192 \"\"\n\nNotes\n\n- Multiplying a string by a number repeats it.\n- Repeating 0 times gives an empty string.\n- Return the result."
+    },
+    {
+      "id": "tag_line",
+      "title": "Label and number together",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "formatting"
+      ],
+      "difficulty": "easy",
+      "prompt": "Create a function that takes a label (a string) and a score (a whole number) and\nreturns a string in the form \"label: score\".\n\nExamples\n\n    tag_line(\"score\", 10) \u2192 \"score: 10\"\n    tag_line(\"age\", 5) \u2192 \"age: 5\"\n\nNotes\n\n- An f-string lets you drop a number straight into text: f\"{label}: {score}\".\n- You do not have to convert the number by hand inside an f-string.\n- Return the result."
+    },
+    {
+      "id": "slugify",
+      "title": "Make a web slug",
+      "kind": "code_fn",
+      "tags": [
+        "strings",
+        "formatting"
+      ],
+      "difficulty": "medium",
+      "prompt": "Create a function that turns a title into a \"slug\": all lowercase, with every\nspace replaced by a dash \"-\".\n\nExamples\n\n    slugify(\"Hello World\") \u2192 \"hello-world\"\n    slugify(\"Two Words\") \u2192 \"two-words\"\n\nNotes\n\n- text.lower() gives a lowercase copy.\n- text.replace(\" \", \"-\") swaps every space for a dash.\n- You can do one after the other on the same line."
+    },
+    {
+      "id": "letters_in_banana",
+      "title": "Store a length in a variable",
+      "kind": "code_var",
+      "tags": [
+        "strings"
+      ],
+      "difficulty": "easy",
+      "prompt": "Store the number of letters in the word \"banana\" in a variable called n.\n\nNotes\n\n- len(\"banana\") counts the characters for you.\n- Save that number into n; you do not need to type the number yourself."
+    },
+    {
+      "id": "p_floor_div_seven_two",
+      "title": "Predict \u2014 7 // 2",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "math"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(7 // 2)"
+    },
+    {
+      "id": "p_true_div_seven_two",
+      "title": "Predict \u2014 7 / 2",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "math"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(7 / 2)"
+    },
+    {
+      "id": "p_two_to_third",
+      "title": "Predict \u2014 2 ** 3",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "math"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(2 ** 3)"
+    },
+    {
+      "id": "p_mod_ten_three",
+      "title": "Predict \u2014 10 % 3",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "math"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(10 % 3)"
+    },
+    {
+      "id": "p_add_then_mul",
+      "title": "Predict \u2014 order of operations",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "math"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(2 + 3 * 4)"
+    },
+    {
+      "id": "p_int_truncate",
+      "title": "Predict \u2014 int(3.9)",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "numbers"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(int(3.9))"
+    },
+    {
+      "id": "p_round_banker",
+      "title": "Predict \u2014 round(2.5)",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "numbers"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    print(round(2.5))\n\nNotes\n\n- Python rounds a value that lands exactly halfway toward the nearest *even* whole number. This is called banker's rounding, and it surprises almost everyone."
+    },
+    {
+      "id": "p_augmented_add",
+      "title": "Predict \u2014 x += 3",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "math"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    x = 5\n    x += 3\n    print(x)"
+    },
+    {
+      "id": "p_int_plus_int",
+      "title": "Predict \u2014 5 + 5",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "types"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print(5 + 5)\n\nNotes\n\n- These `5`s have no quotes around them, so they are numbers."
+    },
+    {
+      "id": "p_type_div",
+      "title": "Predict \u2014 type(10 / 2)",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "types"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    print(type(10 / 2))\n\nNotes\n\n- `10 / 2` is exactly 5, with nothing left over."
+    },
+    {
+      "id": "p_power_before_mult",
+      "title": "Predict \u2014 2 * 3 ** 2",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "math"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    print(2 * 3 ** 2)\n\nNotes\n\n- `**` runs before `*`."
+    },
+    {
+      "id": "p_neg_floor_div",
+      "title": "Predict \u2014 -7 // 2",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "math"
+      ],
+      "difficulty": "hard",
+      "prompt": "What does this print?\n\n    print(-7 // 2)\n\nNotes\n\n- `//` always rounds *down* \u2014 toward the smaller number \u2014 not toward zero."
+    },
+    {
+      "id": "p_round_two_dp",
+      "title": "Predict \u2014 round to 2 places",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "numbers"
+      ],
+      "difficulty": "medium",
+      "prompt": "What does this print?\n\n    print(round(3.14159, 2))"
+    },
+    {
+      "id": "p_paren_first",
+      "title": "Predict \u2014 parentheses first",
+      "kind": "mcq",
+      "tags": [
+        "predict",
+        "math"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does this print?\n\n    print((2 + 3) * 4)"
+    },
+    {
+      "id": "bug_power_caret",
+      "title": "The wrong power symbol",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "math",
+        "numbers"
+      ],
+      "difficulty": "easy",
+      "prompt": "`power` should return `base` raised to the power `exp` \u2014 so `power(2, 3)` is `8` (2 \u00d7 2 \u00d7 2). Instead it returns strange small numbers. Fix it.\n\nExamples\n\n    power(2, 3) \u2192 8\n    power(5, 2) \u2192 25\n    power(3, 3) \u2192 27\n\nNotes\n\n- In Python, `^` does *not* mean \"to the power of\" \u2014 it is a different operator entirely.\n- The power operator is `**`."
+    },
+    {
+      "id": "bug_avg_floor",
+      "title": "The halfway point that lost its decimal",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "math",
+        "numbers"
+      ],
+      "difficulty": "medium",
+      "prompt": "`midpoint` should return the value exactly halfway between two mile markers. For markers 3 and 4 that is `3.5`, but the code returns `3`. Fix it.\n\nExamples\n\n    midpoint(3, 4) \u2192 3.5\n    midpoint(2, 4) \u2192 3.0\n    midpoint(10, 15) \u2192 12.5\n\nNotes\n\n- `//` throws away the fractional part, so it can never return `3.5`.\n- Which division operator keeps the decimal?"
+    },
+    {
+      "id": "bug_whole_groups",
+      "title": "Counting full boxes",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "math",
+        "numbers"
+      ],
+      "difficulty": "medium",
+      "prompt": "`whole_groups` should return how many *completely full* boxes you can fill \u2014 so 7 items with 2 per box makes `3` full boxes (with one left over). Instead it returns things like `3.5`. Fix it.\n\nExamples\n\n    whole_groups(7, 2) \u2192 3\n    whole_groups(9, 4) \u2192 2\n    whole_groups(5, 5) \u2192 1\n\nNotes\n\n- A count of boxes should be a whole number, never `3.5`.\n- `/` always gives a decimal; you want the operator that divides and drops the remainder."
+    },
+    {
+      "id": "bug_add_boxes",
+      "title": "Two counts typed as text",
+      "kind": "code_fn",
+      "tags": [
+        "bugs",
+        "types",
+        "numbers"
+      ],
+      "difficulty": "medium",
+      "prompt": "`add_boxes` receives two counts as text (like `\"12\"` and `\"3\"`) and should return their sum as a number. Instead, `add_boxes(\"12\", \"3\")` comes back as `\"123\"`. Fix it.\n\nExamples\n\n    add_boxes(\"12\", \"3\") \u2192 15\n    add_boxes(\"4\", \"5\") \u2192 9\n    add_boxes(\"11\", \"9\") \u2192 20\n\nNotes\n\n- `+` between two strings glues them together instead of adding.\n- Convert each piece with `int()` before you add."
+    },
+    {
+      "id": "wrong_equals_sign",
+      "title": "What's wrong \u2014 = vs ==",
+      "kind": "mcq",
+      "tags": [
+        "bugs",
+        "language_fundamentals"
+      ],
+      "difficulty": "medium",
+      "prompt": "This code crashes with a `SyntaxError`. What is wrong?\n\n    temperature = 70\n    if temperature = 100:\n        print(\"hot\")"
+    },
+    {
+      "id": "wrong_caret_power",
+      "title": "What's wrong \u2014 using ^ for a power",
+      "kind": "mcq",
+      "tags": [
+        "bugs",
+        "math"
+      ],
+      "difficulty": "medium",
+      "prompt": "This is meant to print `8` (which is 2 to the power of 3), but it prints `1` instead. Why?\n\n    print(2 ^ 3)"
+    },
+    {
+      "id": "wrong_missing_quotes",
+      "title": "What's wrong \u2014 a missing pair of quotes",
+      "kind": "mcq",
+      "tags": [
+        "bugs",
+        "types"
+      ],
+      "difficulty": "medium",
+      "prompt": "Running this raises `NameError: name 'Maria' is not defined`. Why?\n\n    first_name = Maria\n    print(first_name)"
+    },
+    {
+      "id": "wrong_int_of_decimal_text",
+      "title": "What's wrong \u2014 int() on decimal text",
+      "kind": "mcq",
+      "tags": [
+        "bugs",
+        "types",
+        "numbers"
+      ],
+      "difficulty": "medium",
+      "prompt": "This line raises a `ValueError`. What is the problem?\n\n    age = int(\"42.5\")"
+    },
+    {
+      "id": "concept_float_value",
+      "title": "Which value is a float?",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "types",
+        "numbers"
+      ],
+      "difficulty": "easy",
+      "prompt": "Which of these values is a float?"
+    },
+    {
+      "id": "concept_equals_does",
+      "title": "What does x = 5 do?",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "language_fundamentals"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does the line `count = 5` do?"
+    },
+    {
+      "id": "concept_floor_div",
+      "title": "What does // do?",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "math",
+        "numbers"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does the `//` operator do in Python?"
+    },
+    {
+      "id": "concept_which_float_op",
+      "title": "Which operator always gives a float?",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "numbers",
+        "types"
+      ],
+      "difficulty": "medium",
+      "prompt": "Which operator always produces a float, even when the two numbers divide evenly (like `10` and `2`)?"
+    },
+    {
+      "id": "concept_mod_meaning",
+      "title": "What does 17 % 5 give you?",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "math",
+        "numbers"
+      ],
+      "difficulty": "easy",
+      "prompt": "What does `17 % 5` give you?"
+    },
+    {
+      "id": "concept_augmented_meaning",
+      "title": "What is score += 10 shorthand for?",
+      "kind": "mcq",
+      "tags": [
+        "concept",
+        "language_fundamentals",
+        "math"
+      ],
+      "difficulty": "easy",
+      "prompt": "The line `score += 10` is shorthand for which line?"
+    },
+    {
+      "id": "store_remainder",
+      "title": "Store a remainder",
+      "kind": "code_var",
+      "tags": [
+        "math",
+        "numbers"
+      ],
+      "difficulty": "easy",
+      "prompt": "In a variable named `remainder`, store the remainder left over when 17 is divided by 5.\n\nNotes\n\n- The `%` operator gives you the remainder.\n- Do not print it \u2014 just store it in the variable."
+    },
+    {
+      "id": "to_the_power",
+      "title": "Raise a number to a power",
+      "kind": "code_fn",
+      "tags": [
+        "math",
+        "numbers"
+      ],
+      "difficulty": "easy",
+      "prompt": "Return `base` raised to the power `exp`.\n\nExamples\n\n    to_the_power(2, 4) \u2192 16\n    to_the_power(5, 3) \u2192 125\n    to_the_power(10, 0) \u2192 1\n\nNotes\n\n- The power operator is `**`.\n- Don't forget to return the result."
+    },
+    {
+      "id": "leftover_items",
+      "title": "What's left over",
+      "kind": "code_fn",
+      "tags": [
+        "math",
+        "numbers"
+      ],
+      "difficulty": "easy",
+      "prompt": "You are packing `items` into boxes that each hold `per_box`. Return how many items are left over after filling as many full boxes as you can.\n\nExamples\n\n    leftover_items(17, 5) \u2192 2\n    leftover_items(10, 2) \u2192 0\n    leftover_items(9, 4) \u2192 1\n\nNotes\n\n- The `%` operator gives you exactly this leftover amount.\n- Don't forget to return the result."
+    },
+    {
+      "id": "round_to_cents",
+      "title": "Round a price to cents",
+      "kind": "code_fn",
+      "tags": [
+        "numbers",
+        "math"
+      ],
+      "difficulty": "easy",
+      "prompt": "Return the price rounded to 2 decimal places (the nearest cent).\n\nExamples\n\n    round_to_cents(3.14159) \u2192 3.14\n    round_to_cents(9.999) \u2192 10.0\n    round_to_cents(2.5) \u2192 2.5\n\nNotes\n\n- `round(value, 2)` rounds to 2 decimal places.\n- Don't forget to return the result."
+    },
+    {
+      "id": "higher_score",
+      "title": "The higher of two scores",
+      "kind": "code_fn",
+      "tags": [
+        "numbers",
+        "math"
+      ],
+      "difficulty": "easy",
+      "prompt": "Two players finished a round. Return the higher of their two scores.\n\nExamples\n\n    higher_score(4, 9) \u2192 9\n    higher_score(12, 3) \u2192 12\n    higher_score(7, 7) \u2192 7\n\nNotes\n\n- `max(a, b)` gives you the larger of two values.\n- Don't forget to return the result."
+    },
+    {
+      "id": "points_apart",
+      "title": "How far apart",
+      "kind": "code_fn",
+      "tags": [
+        "numbers",
+        "math"
+      ],
+      "difficulty": "medium",
+      "prompt": "Return how many points separate two scores. The answer is always zero or positive, no matter which score is bigger.\n\nExamples\n\n    points_apart(3, 10) \u2192 7\n    points_apart(10, 3) \u2192 7\n    points_apart(5, 5) \u2192 0\n\nNotes\n\n- `abs()` turns a negative number positive and leaves a positive number alone.\n- Don't forget to return the result."
+    },
+    {
       "id": "get_first_value",
       "title": "Return the first element in a list",
       "kind": "code_fn",
