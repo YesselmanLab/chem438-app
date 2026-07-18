@@ -666,6 +666,11 @@ const ALLOWED_EMAILS = ["jyesselm@unl.edu"];   // dummy roster until the CSV arr
 // Supabase (see README "Restrict who can register") — then each email is also checked
 // against that private list, with the Before-User-Created hook enforcing it server-side.
 const ROSTER_ENFORCED = false;
+
+// Block paste/drop in the GRADED answer boxes (homework + challenges). A speed bump,
+// not a wall — it stops the reflexive Cmd-V of an AI answer, and it's off for the
+// Learn pages so students can still paste while exploring. Set false to allow paste.
+const BLOCK_PASTE = true;
 // ================================================================
 
 const $ = s => document.querySelector(s);
@@ -1519,11 +1524,12 @@ async function openChallenge(id){
     ta.value=c.starter||""; chalState.code=ta.value;
     ta.addEventListener("keydown",tabKey);
     ta.addEventListener("input",()=>{ chalState.code=ta.value; });
+    noPaste(ta);
     body.appendChild(ta);
     if(window.CodeMirror){
       const cm=CodeMirror.fromTextArea(ta,{mode:"python",theme:isDark()?"material-darker":"default",
         lineNumbers:false,indentUnit:4,tabSize:4,viewportMargin:Infinity,lineWrapping:true});
-      cmEditors.add(cm);
+      cmEditors.add(cm); noPaste(cm);
       cm.setSize(null,"auto");
       cm.on("change",()=>{ chalState.code=cm.getValue(); });
       requestAnimationFrame(()=>cm.refresh());
@@ -1666,6 +1672,17 @@ function exportGradebook(){
   const stamp = (subs[0].updated_at||"").slice(0,10) || "export";
   downloadText("chem438-gradebook-"+stamp+".csv", lines.join("\r\n"));
   toast("Exported "+students.length+" students.");
+}
+// Turn off paste/drop in a graded answer box (a CodeMirror instance or a textarea).
+function noPaste(target){
+  if(!BLOCK_PASTE) return;
+  const warn = ()=>toast("Type your answer — pasting is off for graded work.");
+  if(target && target.on){                 // CodeMirror
+    target.on("beforeChange", (cm, ch)=>{ if(ch.origin==="paste"){ ch.cancel(); warn(); } });
+  } else if(target){                        // plain textarea (CodeMirror not loaded)
+    target.addEventListener("paste", e=>{ e.preventDefault(); warn(); });
+    target.addEventListener("drop",  e=>{ e.preventDefault(); warn(); });
+  }
 }
 function downloadText(name, text){
   const blob = new Blob([text], {type:"text/csv;charset=utf-8"});
@@ -1920,6 +1937,7 @@ function renderQuestions(){
       state[q.id].code=ta.value;
       ta.addEventListener("keydown",tabKey);
       ta.addEventListener("input",()=>{ state[q.id].code=ta.value; save(); });
+      noPaste(ta);
       const out=document.createElement("pre"); out.className="out";
       const run=document.createElement("button"); run.className="btn btn-ghost btn-sm"; run.textContent="▶ Run";
       run.onclick=()=>runCode(q, state[q.id].code, out);
@@ -1954,7 +1972,7 @@ function upgradeCM(q, ta){
     mode:"python", theme: isDark() ? "material-darker" : "default",
     lineNumbers:false, indentUnit:4, tabSize:4, viewportMargin:Infinity, lineWrapping:true,
   });
-  cmEditors.add(cm);
+  cmEditors.add(cm); noPaste(cm);
   cm.setSize(null, "auto");
   cm.on("change", ()=>{ state[q.id].code = cm.getValue(); save(); });
   requestAnimationFrame(()=>cm.refresh());     // re-measure once laid out (fixes blank/broken render)
