@@ -648,6 +648,16 @@ const SUPABASE_URL = "https://fiuqojsaiauihhmygwxp.supabase.co";
 const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpdXFvanNhaWF1aWhobXlnd3hwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5Mzc0NDQsImV4cCI6MjA5OTUxMzQ0NH0.clUu_TUridmdecKVPPPWsIRsWC-KzMuCWVRDWwwp-Xw";
 // Instructor accounts: these emails see the gradebook instead of the student view.
 const ADMIN_EMAILS = ["jyesselm@unl.edu"];
+
+// Who may register. This is safe to commit (a domain isn't sensitive). An empty
+// list allows any domain.
+const ALLOWED_EMAIL_DOMAINS = ["huskers.unl.edu", "unl.edu"];
+// The precise per-student roster (your CSV) lives PRIVATELY in Supabase, not here —
+// never commit student emails. Flip this to true once you've created the
+// allowed_emails table + is_email_allowed() function (see README "Restrict who can
+// register"); the app will then also check each email against that private list,
+// and the Before-User-Created hook enforces it server-side.
+const ROSTER_ENFORCED = false;
 // ================================================================
 
 const $ = s => document.querySelector(s);
@@ -1728,15 +1738,36 @@ async function pwSignIn(){
   onSignedIn(data.user);
 }
 
+// May this email create an account? A friendly front-line check — the real
+// enforcement is the Supabase Before-User-Created hook (a client check can be
+// bypassed by calling the API directly).
+async function emailAllowed(e){
+  const domain = e.split("@")[1] || "";
+  if(ALLOWED_EMAIL_DOMAINS.length && !ALLOWED_EMAIL_DOMAINS.includes(domain)){
+    return { ok:false, msg:"Registration is limited to " + ALLOWED_EMAIL_DOMAINS.map(d=>"@"+d).join(" or ") + " addresses." };
+  }
+  if(ROSTER_ENFORCED && SUPA){
+    try{
+      const { data, error } = await SUPA.rpc("is_email_allowed", { addr: e });
+      if(!error && data === false)
+        return { ok:false, msg:"That email isn't on the class list — check it, or ask your instructor to add you." };
+    }catch(_){}   // if the check is unreachable, let the server hook be the gate
+  }
+  return { ok:true };
+}
+
 async function doSignUp(){
   const e = $("#emailInput").value.trim().toLowerCase(), p = $("#pwInput").value;
   authMsg(""); const btn = $("#pwSignInBtn"); btn.disabled = true; btn.textContent = "Creating…";
+  const gate = await emailAllowed(e);
+  if(!gate.ok){ authMsg(gate.msg); btn.disabled = false; btn.textContent = "Create account →"; return; }
   const { data, error } = await SUPA.auth.signUp({ email: e, password: p });
   btn.textContent = "Create account →";
   if(error){
-    const msg = /already registered/i.test(error.message||"")
-      ? "That email already has an account — switch to “Sign in”."
-      : (error.message || "Couldn't create the account.");
+    const m = error.message || "";
+    const msg = /already registered/i.test(m) ? "That email already has an account — switch to “Sign in”."
+      : /not.allowed|not.on.the|roster|allowed_emails/i.test(m) ? "That email isn't on the class list — ask your instructor to add you."
+      : (m || "Couldn't create the account.");
     authMsg(msg); btn.disabled = false; return;
   }
   if(data && data.session){ onSignedIn(data.session.user); }   // email confirmation off → straight in
@@ -1765,6 +1796,9 @@ async function doRecover(){
 async function sendCode(){
   const e = $("#emailInput").value.trim().toLowerCase();
   authMsg(""); const btn = $("#sendCodeBtn"); btn.disabled = true; btn.textContent = "Sending…";
+  // the code path also creates accounts, so it's gated the same way
+  const gate = await emailAllowed(e);
+  if(!gate.ok){ authMsg(gate.msg); btn.disabled = false; btn.textContent = "Email me a code →"; return; }
   const { error } = await SUPA.auth.signInWithOtp({ email: e, options: { shouldCreateUser: true } });
   btn.textContent = "Email me a code →";
   if(error){ authMsg(error.message || "Couldn't send the code."); btn.disabled = false; return; }

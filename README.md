@@ -193,7 +193,48 @@ to a free tier (Resend / SendGrid / Amazon SES) or your university server. For a
 15-person class you can also reset a password by hand in the Supabase dashboard
 (Authentication → Users → ⋯ → "Send recovery" or set a new password).
 
-You can restrict sign-ups to your `@huskers.unl.edu` domain in the Auth settings.
+### Restrict who can register
+
+Two layers, because a browser-side check alone can be bypassed by calling the API
+directly.
+
+**Layer 1 — domain (already on).** `ALLOWED_EMAIL_DOMAINS` at the top of `index.html`
+is set to `huskers.unl.edu` / `unl.edu`. Anyone whose email isn't one of those is
+turned away before sign-up. Safe to commit — a domain isn't sensitive. Set it to
+`[]` to allow any domain.
+
+**Layer 2 — your exact class roster (the CSV).** This is the real lock, and the
+student emails live **only in Supabase, never in this repo** (a public repo must
+never hold the roster). One-time:
+
+1. **SQL Editor**, run:
+   ```sql
+   create table allowed_emails (email text primary key);
+   alter table allowed_emails enable row level security;   -- no policy = private
+
+   -- lets the app ask "is THIS email allowed?" without exposing the whole list
+   create or replace function is_email_allowed(addr text)
+   returns boolean language sql security definer stable as $$
+     select exists (select 1 from allowed_emails where email = lower(addr));
+   $$;
+   grant execute on function is_email_allowed(text) to anon;
+   ```
+2. **Import your CSV**: Table Editor → `allowed_emails` → Insert → *Import data from
+   CSV*. Give the CSV a single `email` column (one address per row, lowercase).
+3. In `index.html` set `const ROSTER_ENFORCED = true;` and push. The app now tells a
+   non-rostered student "that email isn't on the class list" *before* it tries to
+   register them.
+4. **Enforce it server-side** (so it can't be bypassed) — pick one:
+   - *Simplest:* turn OFF self-signup (Authentication → Sign-ups) and pre-create the
+     accounts from your CSV (Authentication → Users → Add user, or a one-off admin
+     script). Only rostered emails then exist, and students just sign in / reset.
+   - *Self-service + enforced:* add a **Before-User-Created** auth hook (Authentication
+     → Hooks) that rejects an email not in `allowed_emails`. The hook function's exact
+     signature changes between Supabase versions — follow their current "Before User
+     Created hook" doc, checking `allowed_emails` the same way `is_email_allowed` does.
+
+Layer 1 is instant. Layer 2 step 3 gives the friendly message; step 4 is what makes
+it unbypassable.
 
 **If the sign-in service can't load** (a blocked CDN, no connection), the app now
 says so and asks the student to refresh — it no longer quietly drops to name-entry
