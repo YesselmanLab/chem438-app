@@ -649,14 +649,17 @@ const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 // Instructor accounts: these emails see the gradebook instead of the student view.
 const ADMIN_EMAILS = ["jyesselm@unl.edu"];
 
-// Who may register. This is safe to commit (a domain isn't sensitive). An empty
-// list allows any domain.
+// Who may register. A domain isn't sensitive, so this is safe to commit. Empty
+// list = allow any domain.
 const ALLOWED_EMAIL_DOMAINS = ["huskers.unl.edu", "unl.edu"];
-// The precise per-student roster (your CSV) lives PRIVATELY in Supabase, not here —
-// never commit student emails. Flip this to true once you've created the
-// allowed_emails table + is_email_allowed() function (see README "Restrict who can
-// register"); the app will then also check each email against that private list,
-// and the Before-User-Created hook enforces it server-side.
+// A small explicit allowlist, checked in-browser. Fine for a handful of NON-sensitive
+// addresses (e.g. your own, for testing) — do NOT paste your real class roster here,
+// it's a public file. For the real roster use the private Supabase table below.
+// Empty = no explicit list. (Instructors in ADMIN_EMAILS may always register.)
+const ALLOWED_EMAILS = ["jyesselm@unl.edu"];   // dummy roster until the CSV arrives
+// Flip to true once the private allowed_emails table + is_email_allowed() exist in
+// Supabase (see README "Restrict who can register") — then each email is also checked
+// against that private list, with the Before-User-Created hook enforcing it server-side.
 const ROSTER_ENFORCED = false;
 // ================================================================
 
@@ -1745,6 +1748,11 @@ async function emailAllowed(e){
   const domain = e.split("@")[1] || "";
   if(ALLOWED_EMAIL_DOMAINS.length && !ALLOWED_EMAIL_DOMAINS.includes(domain)){
     return { ok:false, msg:"Registration is limited to " + ALLOWED_EMAIL_DOMAINS.map(d=>"@"+d).join(" or ") + " addresses." };
+  }
+  // explicit in-browser allowlist (instructors always allowed)
+  const list = ALLOWED_EMAILS.concat(ADMIN_EMAILS).map(x=>x.toLowerCase());
+  if(ALLOWED_EMAILS.length && !list.includes(e)){
+    return { ok:false, msg:"That email isn't on the class list — check it, or ask your instructor to add you." };
   }
   if(ROSTER_ENFORCED && SUPA){
     try{
