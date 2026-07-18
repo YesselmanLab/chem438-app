@@ -261,9 +261,14 @@ create table submissions (
 );
 alter table submissions enable row level security;
 
--- students can read/write ONLY their own rows
-create policy "own rows" on submissions
-  for all
+-- students may READ, INSERT, and UPDATE only their own rows — but NOT DELETE.
+-- (Separate policies, not one "for all", so there is no delete path: a student
+--  can't wipe their own scores, and the row survives to be exported.)
+create policy "read own"   on submissions for select
+  using  (auth.jwt()->>'email' = email);
+create policy "insert own" on submissions for insert
+  with check (auth.jwt()->>'email' = email);
+create policy "update own" on submissions for update
   using  (auth.jwt()->>'email' = email)
   with check (auth.jwt()->>'email' = email);
 
@@ -273,9 +278,23 @@ create policy "admin read all" on submissions
   using (auth.jwt()->>'email' = any (array['jyesselm@unl.edu']));
 ```
 
+If you already ran the earlier `"own rows"` version, replace it:
+`drop policy "own rows" on submissions;` then run the three policies above.
+
 Now each student submit records a row (their email, assignment, score), and your
 admin login shows the live gradebook. Row-Level Security guarantees a student can
-only ever see their own row — never the keys or another student's work.
+only ever see their own row — never the keys or another student's work — and with
+no DELETE policy, can't erase their scores.
+
+**Export + back up.** The gradebook tab has an **Export CSV** button (one row per
+student, one column per assignment, with totals). Grades live in one free-tier
+table, so export periodically — that CSV is your off-Supabase backup.
+
+**Honest limit:** grading is still client-side (viability mode ships the answer
+keys to the browser), so a determined student could submit an inflated score for
+their own row. The no-DELETE lockdown stops erasure, not fabrication; making scores
+tamper-proof needs the server-side grader (a separate project). For formative
+homework against in-class quizzes, deterrence — not integrity — is the bar.
 
 ## Course sections (what students can see)
 

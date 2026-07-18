@@ -480,6 +480,11 @@
     </div>
 
     <div id="itab-grades" class="hidden">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+        <span class="foot" id="gbCount"></span>
+        <button class="btn btn-ghost btn-sm" id="gbExport" style="margin-left:auto">⭳ Export CSV</button>
+        <button class="btn btn-ghost btn-sm" id="gbRefresh">↻ Refresh</button>
+      </div>
       <div style="overflow-x:auto;border:1px solid var(--line);border-radius:10px">
         <table style="width:100%;border-collapse:collapse;font-size:14px;min-width:460px">
           <thead><tr>
@@ -1627,13 +1632,47 @@ function renderOverview(){
 }
 function renderGradebook(){
   const body=$("#gbBody");
-  if(allSubs===null){ body.innerHTML='<tr><td colspan="4" style="padding:12px;color:var(--bad)">Couldn\'t load the gradebook — check the submissions table + policies.</td></tr>'; return; }
+  $("#gbExport").onclick = exportGradebook;
+  $("#gbRefresh").onclick = async ()=>{ if(!viewingAsStudent){ allSubs = await loadAllSubs(); renderOverview(); renderGradebook(); renderAssignments(); } };
+  if(allSubs===null){ body.innerHTML='<tr><td colspan="4" style="padding:12px;color:var(--bad)">Couldn\'t load the gradebook — check the submissions table + policies.</td></tr>'; $("#gbCount").textContent=""; return; }
   const subs = allSubs.filter(r=>!r.lesson.startsWith("ch:"));
+  const students = new Set(allSubs.map(r=>r.email));
+  $("#gbCount").textContent = students.size+" student"+(students.size===1?"":"s")+" · "+subs.length+" submission"+(subs.length===1?"":"s");
   if(!subs.length){ body.innerHTML='<tr><td colspan="4" style="padding:12px;color:var(--faint)">No submissions yet.</td></tr>'; return; }
   const cell="padding:10px 12px;border-bottom:1px solid var(--line)";
   body.innerHTML = subs.map(r=>'<tr><td style="'+cell+'">'+esc(r.email)+'</td><td style="'+cell+'">'+esc(r.lesson)+'</td>'+
     '<td style="'+cell+';font-weight:600">'+r.score+' / '+r.out_of+'</td>'+
     '<td style="'+cell+';color:var(--faint)">'+esc((r.updated_at||"").slice(0,10))+'</td></tr>').join("");
+}
+
+// One row per student, one column per assignment (score/out_of), plus a total —
+// the shape that drops straight into a spreadsheet gradebook.
+function exportGradebook(){
+  const subs = (allSubs||[]).filter(r=>!r.lesson.startsWith("ch:"));
+  const students = [...new Set(subs.map(r=>r.email))].sort();
+  if(!students.length){ toast("No submissions to export yet."); return; }
+  const cols = manifest.slice().sort((a,b)=>(a.unit||1)-(b.unit||1) || a.id.localeCompare(b.id));
+  const q = s => '"'+String(s==null?"":s).replace(/"/g,'""')+'"';
+  const lines = [["email", ...cols.map(l=>l.title), "total_score", "total_possible"].map(q).join(",")];
+  for(const email of students){
+    let got=0, out=0;
+    const cells = cols.map(l=>{
+      const r = subs.find(s=>s.email===email && s.lesson===l.id);
+      if(!r) return "";
+      got += r.score||0; out += r.out_of||0; return r.score+"/"+r.out_of;
+    });
+    lines.push([email, ...cells, got, out].map(q).join(","));
+  }
+  const stamp = (subs[0].updated_at||"").slice(0,10) || "export";
+  downloadText("chem438-gradebook-"+stamp+".csv", lines.join("\r\n"));
+  toast("Exported "+students.length+" students.");
+}
+function downloadText(name, text){
+  const blob = new Blob([text], {type:"text/csv;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ a.remove(); URL.revokeObjectURL(a.href); }, 0);
 }
 function renderAssignments(){
   const rows = allSubs || [];
