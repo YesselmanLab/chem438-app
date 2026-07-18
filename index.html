@@ -220,6 +220,11 @@
   .refc:hover{transform:translateY(-2px);border-color:var(--accent)}
   .refc h4{margin:0 0 4px;font-size:0.8438rem}
   .refc .rc-n{font-family:var(--mono);font-size:0.6562rem;color:var(--faint)}
+  /* sign-in / sign-up links */
+  .authlinks{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:11px}
+  .authlinks a{color:var(--accent);font-size:.82rem}
+  .authlinks a.hidden{display:none}
+  #pwHint{color:var(--faint)}
   /* Colab-handoff: amber semantic colour, distinct from the indigo accent */
   :root{--hand:#a15c00;--hand-soft:#fbedd0;--hand-line:#eccf95}
   @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--hand:#e6a83a;--hand-soft:#2a2113;--hand-line:#4a3a1c}}
@@ -411,14 +416,19 @@
       <div id="emailStep">
         <label class="fld" for="emailInput">Your email</label>
         <input type="email" id="emailInput" placeholder="you@huskers.unl.edu" autocomplete="email">
-        <div id="pwWrap" class="hidden">
+        <div id="pwWrap">
           <label class="fld" for="pwInput" style="margin-top:12px">Password</label>
           <input type="password" id="pwInput" placeholder="••••••••" autocomplete="current-password">
+          <p class="foot" id="pwHint" style="text-align:left;margin:6px 0 0"></p>
         </div>
         <div style="height:16px"></div>
-        <button class="btn btn-primary" id="sendCodeBtn" style="width:100%" disabled>Email me a code →</button>
-        <button class="btn btn-primary hidden" id="pwSignInBtn" style="width:100%" disabled>Sign in →</button>
-        <p class="foot" style="text-align:left;margin-top:10px"><a href="#" id="togglePw" style="color:var(--accent)">Use a password instead</a></p>
+        <button class="btn btn-primary" id="pwSignInBtn" style="width:100%" disabled>Sign in →</button>
+        <button class="btn btn-primary hidden" id="sendCodeBtn" style="width:100%" disabled>Email me a code →</button>
+        <div class="authlinks">
+          <a href="#" id="toggleSignup">New here? Create an account</a>
+          <a href="#" id="forgotLink">Forgot password?</a>
+        </div>
+        <p class="foot" style="text-align:left;margin-top:8px"><a href="#" id="togglePw" style="color:var(--faint)">or email me a one-time code instead</a></p>
       </div>
       <div id="codeStep" class="hidden">
         <label class="fld" for="codeInput">Enter the 6-digit code sent to <b id="emailEcho"></b></label>
@@ -429,6 +439,14 @@
           <a href="#" id="resendLink" style="color:var(--accent)">Resend code</a> ·
           <a href="#" id="changeEmailLink" style="color:var(--accent)">change email</a>
         </p>
+      </div>
+      <!-- shown after clicking a password-reset link -->
+      <div id="recoverStep" class="hidden">
+        <p class="intro" style="margin:0 0 12px">Choose a new password.</p>
+        <label class="fld" for="newPwInput">New password</label>
+        <input type="password" id="newPwInput" placeholder="at least 6 characters" autocomplete="new-password">
+        <div style="height:16px"></div>
+        <button class="btn btn-primary" id="setPwBtn" style="width:100%" disabled>Set password &amp; sign in</button>
       </div>
       <p class="foot" id="authMsg" style="text-align:left;color:var(--bad);margin-top:8px"></p>
       <p class="foot" style="text-align:left;margin-top:14px;border-top:1px solid var(--line);padding-top:12px">
@@ -843,17 +861,34 @@ async function boot(){
   $$("#snav button").forEach(b=>b.onclick=()=>navTo(b.dataset.nav));
   $$(".sechd .more").forEach(el=>el.onclick=()=>navTo(el.dataset.nav));
 
+  // Accounts are configured, but the Supabase library failed to load (a CDN
+  // hiccup, a blocked script). Don't quietly fall back to name-entry — that would
+  // let a student "sign in" and do work that never reaches the gradebook. Say so.
+  if(SUPABASE_URL && SUPABASE_ANON && !window.supabase){
+    $("#nameMode").classList.add("hidden"); $("#emailMode").classList.add("hidden");
+    return showErr("Couldn't reach the sign-in service (your connection may have blocked it). "
+      + "Refresh to try again — your work is only saved once you're signed in.");
+  }
+
   if(SUPA){
-    // ---- email-code login (accounts) ----
+    // ---- email + password accounts ----
     $("#nameMode").classList.add("hidden");
     $("#emailMode").classList.remove("hidden");
-    $("#startIntro").textContent = "Sign in with your email to see your assignments.";
+    $("#startIntro").textContent = "Sign in, or create an account, to see your assignments.";
     $("#switchBtn").onclick = async ()=>{ await SUPA.auth.signOut(); location.reload(); };
     wireEmailAuth();
     $("#previewStudent").onclick = e=>{ e.preventDefault(); student={id:"preview:student",name:"Preview"}; $("#switchBtn").textContent="Exit preview"; $("#switchBtn").classList.remove("hidden"); gotoAfterName(); };
     $("#previewInstructor").onclick = e=>{ e.preventDefault(); previewInstructor(); };
+    // A password-reset link brings the student back here with a recovery session.
+    SUPA.auth.onAuthStateChange((event)=>{
+      if(event === "PASSWORD_RECOVERY"){
+        $("#emailStep").classList.add("hidden"); $("#codeStep").classList.add("hidden");
+        $("#recoverStep").classList.remove("hidden"); $("#newPwInput").focus();
+      }
+    });
     const { data } = await SUPA.auth.getSession();
-    if(data && data.session){ onSignedIn(data.session.user); }   // already logged in → resume
+    // Only auto-resume a normal sign-in — not a recovery session (they must set a password first).
+    if(data && data.session && !/type=recovery/.test(location.hash)){ onSignedIn(data.session.user); }
   } else {
     // ---- name entry (no backend) ----
     $("#startIntro").textContent = "Enter your name to see your assignments.";
@@ -1631,34 +1666,50 @@ function renderAssignments(){
 // ---------------- email-code login (Supabase) ----------------
 function authMsg(m){ $("#authMsg").textContent = m || ""; }
 
-let pwMode = true;                       // email + password is the default sign-in
-function applyPwMode(){
-  $("#pwWrap").classList.toggle("hidden", !pwMode);
-  $("#sendCodeBtn").classList.toggle("hidden", pwMode);
-  $("#pwSignInBtn").classList.toggle("hidden", !pwMode);
-  $("#togglePw").textContent = pwMode ? "Email me a sign-in code instead" : "Use a password instead";
+// signin (existing account) | signup (create one) | code (one-time email code)
+let authMode = "signin";
+function applyAuthMode(){
+  const m = authMode, pwOn = (m === "signin" || m === "signup");
+  $("#pwWrap").classList.toggle("hidden", !pwOn);
+  $("#pwSignInBtn").classList.toggle("hidden", m === "code");
+  $("#sendCodeBtn").classList.toggle("hidden", m !== "code");
+  $("#pwSignInBtn").textContent = m === "signup" ? "Create account →" : "Sign in →";
+  $("#pwInput").setAttribute("autocomplete", m === "signup" ? "new-password" : "current-password");
+  $("#pwHint").textContent = m === "signup" ? "Pick something at least 6 characters — you'll use it every time." : "";
+  $("#toggleSignup").textContent = m === "signup" ? "Have an account? Sign in" : "New here? Create an account";
+  $("#forgotLink").classList.toggle("hidden", m === "signup" || m === "code");
+  $("#togglePw").classList.toggle("hidden", m === "code");
+  $("#togglePw").textContent = m === "code" ? "" : "or email me a one-time code instead";
 }
 function wireEmailAuth(){
-  const email = $("#emailInput"), code = $("#codeInput"), pw = $("#pwInput");
+  const email = $("#emailInput"), code = $("#codeInput"), pw = $("#pwInput"), npw = $("#newPwInput");
   function refresh(){
     const emOk = /.+@.+\..+/.test(email.value.trim());
     $("#sendCodeBtn").disabled = !emOk;
-    $("#pwSignInBtn").disabled = !(emOk && pw.value.length >= 1);
+    // signup needs a 6+ char password; signin needs any; reset (forgot) needs only email
+    const pwOk = authMode === "signup" ? pw.value.length >= 6 : pw.value.length >= 1;
+    $("#pwSignInBtn").disabled = !(emOk && pwOk);
   }
+  const submitPw = ()=>{ if($("#pwSignInBtn").disabled) return;
+    authMode === "signup" ? doSignUp() : pwSignIn(); };
   email.addEventListener("input", refresh);
   pw.addEventListener("input", refresh);
-  email.addEventListener("keydown", e=>{ if(e.key!=="Enter") return;
-    if(pwMode){ if(!$("#pwSignInBtn").disabled) pwSignIn(); } else if(!$("#sendCodeBtn").disabled) sendCode(); });
-  pw.addEventListener("keydown", e=>{ if(e.key==="Enter" && !$("#pwSignInBtn").disabled) pwSignIn(); });
+  email.addEventListener("keydown", e=>{ if(e.key==="Enter"){ authMode==="code" ? (!$("#sendCodeBtn").disabled&&sendCode()) : submitPw(); }});
+  pw.addEventListener("keydown", e=>{ if(e.key==="Enter") submitPw(); });
   code.addEventListener("input", ()=>{ $("#verifyBtn").disabled = code.value.trim().length < 6; });
   code.addEventListener("keydown", e=>{ if(e.key==="Enter" && !$("#verifyBtn").disabled) verifyCode(); });
+  npw.addEventListener("input", ()=>{ $("#setPwBtn").disabled = npw.value.length < 6; });
+  npw.addEventListener("keydown", e=>{ if(e.key==="Enter" && !$("#setPwBtn").disabled) doRecover(); });
   $("#sendCodeBtn").onclick = sendCode;
-  $("#pwSignInBtn").onclick = pwSignIn;
+  $("#pwSignInBtn").onclick = submitPw;
   $("#verifyBtn").onclick = verifyCode;
+  $("#setPwBtn").onclick = doRecover;
   $("#resendLink").onclick = e=>{ e.preventDefault(); sendCode(); };
   $("#changeEmailLink").onclick = e=>{ e.preventDefault(); $("#codeStep").classList.add("hidden"); $("#emailStep").classList.remove("hidden"); authMsg(""); };
-  $("#togglePw").onclick = e=>{ e.preventDefault(); pwMode = !pwMode; applyPwMode(); authMsg(""); };
-  applyPwMode();                          // start in password mode
+  $("#toggleSignup").onclick = e=>{ e.preventDefault(); authMode = authMode==="signup" ? "signin" : "signup"; applyAuthMode(); authMsg(""); refresh(); };
+  $("#togglePw").onclick = e=>{ e.preventDefault(); authMode = authMode==="code" ? "signin" : "code"; applyAuthMode(); authMsg(""); refresh(); };
+  $("#forgotLink").onclick = e=>{ e.preventDefault(); doReset(); };
+  applyAuthMode();
   refresh();
 }
 
@@ -1667,7 +1718,47 @@ async function pwSignIn(){
   authMsg(""); const btn = $("#pwSignInBtn"); btn.disabled = true; btn.textContent = "Signing in…";
   const { data, error } = await SUPA.auth.signInWithPassword({ email: e, password: p });
   btn.textContent = "Sign in →";
-  if(error){ authMsg(error.message || "Sign-in failed — check the email and password."); btn.disabled = false; return; }
+  if(error){
+    // the most common day-one confusion: no account yet
+    const msg = /invalid login/i.test(error.message||"")
+      ? "No account with that email and password. New here? Use “Create an account” below."
+      : (error.message || "Sign-in failed — check the email and password.");
+    authMsg(msg); btn.disabled = false; return;
+  }
+  onSignedIn(data.user);
+}
+
+async function doSignUp(){
+  const e = $("#emailInput").value.trim().toLowerCase(), p = $("#pwInput").value;
+  authMsg(""); const btn = $("#pwSignInBtn"); btn.disabled = true; btn.textContent = "Creating…";
+  const { data, error } = await SUPA.auth.signUp({ email: e, password: p });
+  btn.textContent = "Create account →";
+  if(error){
+    const msg = /already registered/i.test(error.message||"")
+      ? "That email already has an account — switch to “Sign in”."
+      : (error.message || "Couldn't create the account.");
+    authMsg(msg); btn.disabled = false; return;
+  }
+  if(data && data.session){ onSignedIn(data.session.user); }   // email confirmation off → straight in
+  else { authMsg("Account made. Check your email to confirm, then sign in. (Ask your instructor if no email arrives.)"); btn.disabled = false; }
+}
+
+async function doReset(){
+  const e = $("#emailInput").value.trim().toLowerCase();
+  if(!/.+@.+\..+/.test(e)){ authMsg("Type your email first, then click Forgot password."); return; }
+  authMsg("");
+  const { error } = await SUPA.auth.resetPasswordForEmail(e, { redirectTo: location.origin + location.pathname });
+  authMsg(error ? (error.message || "Couldn't send a reset link.")
+                : "If that email has an account, a reset link is on its way. Open it on this device.");
+}
+
+async function doRecover(){
+  const p = $("#newPwInput").value;
+  const btn = $("#setPwBtn"); btn.disabled = true; btn.textContent = "Saving…";
+  const { data, error } = await SUPA.auth.updateUser({ password: p });
+  btn.textContent = "Set password & sign in";
+  if(error){ authMsg(error.message || "Couldn't set the password."); btn.disabled = false; return; }
+  history.replaceState(null, "", location.pathname);           // drop the recovery token from the URL
   onSignedIn(data.user);
 }
 

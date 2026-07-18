@@ -163,28 +163,41 @@ This is the survivor of a 4-strategy bake-off + 2 rounds of adversarial review.
   re-run submitted code server-side (a small executor), reusing this same auth,
   table, and authoring — only the grade endpoint changes.
 
-## Email login (optional accounts)
+## Accounts (email + password)
 
-By default the app uses simple name entry. To turn on real accounts with verified
-identity (students sign in with a code emailed to them — no passwords, no Google),
-do this once:
+Students **create an account** with their email and a password, then sign in with
+it — no Google, and no reliance on emailed codes for everyday login. Their email is
+their identity, so grades follow them across devices.
 
-1. Create a free project at **supabase.com**. Open **Project Settings → API** and
-   copy the **Project URL** and the **anon public** key.
-2. Paste both into the CONFIG block near the top of `index.html`:
-   `const SUPABASE_URL = "...";` and `const SUPABASE_ANON = "...";`
-   (Both are safe to commit — the anon key is designed to live in browsers.)
-3. In Supabase **Authentication → Providers → Email**, confirm **Email OTP** is on
-   (it is by default).
-4. `git push`. The start screen now asks for an email, emails a 6-digit code, and
-   signs the student in. Their email becomes their identity, so grades attribute
-   cleanly across devices.
+**One-time setup:**
 
-**Sending the emails:** Supabase's built-in mailer sends only a few per hour —
-enough for you to test, not a whole class. For real use, set
-**Authentication → Emails → SMTP** to your university mail server or a free tier
-(Resend / SendGrid / Amazon SES) so codes arrive reliably. You can also restrict
-sign-ups to your `@huskers.unl.edu` domain in the Auth settings.
+1. Create a free project at **supabase.com** → **Project Settings → API** → copy the
+   **Project URL** and the **anon public** key.
+2. Paste both into the CONFIG block near the top of `index.html`
+   (`const SUPABASE_URL = "…";` / `const SUPABASE_ANON = "…";`). Both are safe to
+   commit — the anon key is designed to live in browsers. **Never** paste the
+   `service_role` / secret key.
+3. **Turn OFF email confirmation** — Supabase **Authentication → Providers → Email**,
+   uncheck **"Confirm email"**. This is what makes "Create an account" work
+   instantly: sign-up returns a usable session with no email round-trip. (Leave it
+   on and students get stuck at "check your email" — the part that needs SMTP.)
+4. Set **Authentication → URL Configuration → Site URL** to your Pages URL
+   (`https://<org>.github.io/<repo>/`) so password-reset links come back to the app.
+5. `git push`. The start screen now offers **Sign in**, **Create an account**, and
+   **Forgot password?**, plus a one-time email code as a fallback.
+
+**Password reset needs working email.** "Forgot password?" sends a reset link, which
+only arrives if email delivery works. Supabase's built-in mailer sends a few per
+hour (fine for the odd reset); for reliability set **Authentication → Emails → SMTP**
+to a free tier (Resend / SendGrid / Amazon SES) or your university server. For a
+15-person class you can also reset a password by hand in the Supabase dashboard
+(Authentication → Users → ⋯ → "Send recovery" or set a new password).
+
+You can restrict sign-ups to your `@huskers.unl.edu` domain in the Auth settings.
+
+**If the sign-in service can't load** (a blocked CDN, no connection), the app now
+says so and asks the student to refresh — it no longer quietly drops to name-entry
+where their work wouldn't reach the gradebook.
 
 ## Instructor login (admin gradebook)
 
